@@ -70,7 +70,7 @@ read
 
 # update module version for release
 echo "Updating version in ${PROJECT_LOCATION}/pom.xml..."
-sed -i -e "s/${current_version}/${release_version}/" ${PROJECT_LOCATION}/pom.xml
+sed -i -e "s/${current_version}-SNAPSHOT/${release_version}/" ${PROJECT_LOCATION}/pom.xml
 
 # release
 
@@ -99,7 +99,7 @@ fi
 # update module version for next snapshot
 
 echo "Updating version in ${PROJECT_LOCATION}/pom.xml..."
-sed -i -e "s/${release_version}/${next_snapshot_version}/" ${PROJECT_LOCATION}/pom.xml
+sed -i -e "s/${release_version}/${next_snapshot_version}-SNAPSHOT/" ${PROJECT_LOCATION}/pom.xml
 
 show_information_message "You can commit and push changes now, the now version is set in pom.xml"
 show_error_message "Do not forget to update the dependencie version in the concerned projects"

@@ -1,8 +1,9 @@
-package com.simple.ged.connector.plugins;
+package com.simple.ged.connector.plugins.getter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 
 /**

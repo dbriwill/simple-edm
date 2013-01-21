@@ -1,4 +1,4 @@
-package com.simple.ged.connector.plugins;
+package com.simple.ged.connector.plugins.getter;
 
 /**
  * This exception should be throwed by the plugin when something is wrong

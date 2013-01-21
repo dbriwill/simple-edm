@@ -1,4 +1,4 @@
-package com.simple.ged.connector.plugins;
+package com.simple.ged.connector.plugins.getter;
 
 
 /**
