@@ -7,7 +7,7 @@ package com.simple.ged.connector.plugins.dto;
  * @author xavier
  *
  */
-public abstract class GedComponent {
+public abstract class GedComponentDTO {
 	
 	/**
 	 * The relative path to the document root
@@ -15,7 +15,7 @@ public abstract class GedComponent {
 	private String relativePathToRoot;
 
 	
-	protected GedComponent(String relativePathToRoot) {
+	protected GedComponentDTO(String relativePathToRoot) {
 		this.relativePathToRoot = relativePathToRoot;
 	}
 	

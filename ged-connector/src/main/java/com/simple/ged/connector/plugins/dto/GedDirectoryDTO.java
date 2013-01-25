@@ -9,25 +9,25 @@ import java.util.List;
  * @author xavier
  *
  */
-public class GedDirectory extends GedComponent {
+public class GedDirectoryDTO extends GedComponentDTO {
 
 	/**
 	 * Children list
 	 */
-	private List<GedComponent> children;
+	private List<GedComponentDTO> children;
 	
 	
-	public GedDirectory(String relativePathToRoot, List<GedComponent> children) {
+	public GedDirectoryDTO(String relativePathToRoot, List<GedComponentDTO> children) {
 		super(relativePathToRoot);
 		this.children = children;
 	}
 
 	
-	public void addChild(GedComponent child) {
+	public void addChild(GedComponentDTO child) {
 		// TODO implement me !
 	}
 	
-	public void removeChild(GedComponent child) {
+	public void removeChild(GedComponentDTO child) {
 		// TODO implement me !
 	}
 	
@@ -37,7 +37,7 @@ public class GedDirectory extends GedComponent {
 	 *
 	 * @warn The child comparaison is based on relative file path to root
 	 */
-	public void updateChild(GedComponent child) {
+	public void updateChild(GedComponentDTO child) {
 		// TODO implement me !
 	}
 	

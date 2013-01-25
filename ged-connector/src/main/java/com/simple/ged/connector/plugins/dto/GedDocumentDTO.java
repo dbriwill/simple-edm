@@ -9,7 +9,7 @@ import java.io.File;
  * @author xavier
  *
  */
-public class GedFile extends GedComponent {
+public class GedDocumentDTO extends GedComponentDTO {
 
 	/**
 	 * Path to the manipulated file
@@ -17,7 +17,7 @@ public class GedFile extends GedComponent {
 	private File file;
 
 	
-	public GedFile(String relativePathToRoot) {
+	public GedDocumentDTO(String relativePathToRoot) {
 		super(relativePathToRoot);
 		this.file = new File(relativePathToRoot);
 	}
