@@ -22,7 +22,10 @@ public class GedDirectoryDTO extends GedComponentDTO {
 		this.children = children;
 	}
 
-	
+	public List<GedComponentDTO> getChildren() {
+		return children;
+	}
+
 	@Override
 	protected void update() {
 		// TODO implement me !
