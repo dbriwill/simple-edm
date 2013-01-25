@@ -31,7 +31,7 @@ public class GedDocumentDTO extends GedComponentDTO {
 
 
 	@Override
-	public void update() {
+	protected void update() {
 		// TODO implement me !
 	}
 }

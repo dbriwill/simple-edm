@@ -22,7 +22,7 @@ public abstract class GedComponentDTO {
 	/**
 	 * Update this component !
 	 */
-	public abstract void update();
+	protected abstract void update();
 	
 	
 	public String getRelativePathToRoot() {
