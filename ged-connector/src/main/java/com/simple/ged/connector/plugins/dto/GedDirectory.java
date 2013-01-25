@@ -1,4 +1,4 @@
-package com.simple.ged.connector.plugins.data;
+package com.simple.ged.connector.plugins.dto;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class GedDirectory extends GedComponent {
 	 * @warn The child comparaison is based on relative file path to root
 	 */
 	public void updateChild(GedComponent child) {
-		
+		// TODO implement me !
 	}
 	
 	@Override

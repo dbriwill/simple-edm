@@ -1,4 +1,4 @@
-package com.simple.ged.connector.plugins.data;
+package com.simple.ged.connector.plugins.dto;
 
 /**
  * 
