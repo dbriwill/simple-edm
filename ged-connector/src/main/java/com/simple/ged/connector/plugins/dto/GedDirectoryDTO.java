@@ -23,24 +23,6 @@ public class GedDirectoryDTO extends GedComponentDTO {
 	}
 
 	
-	public void addChild(GedComponentDTO child) {
-		// TODO implement me !
-	}
-	
-	public void removeChild(GedComponentDTO child) {
-		// TODO implement me !
-	}
-	
-	/**
-	 * 
-	 * @param child
-	 *
-	 * @warn The child comparaison is based on relative file path to root
-	 */
-	public void updateChild(GedComponentDTO child) {
-		// TODO implement me !
-	}
-	
 	@Override
 	public void update() {
 		// TODO implement me !
