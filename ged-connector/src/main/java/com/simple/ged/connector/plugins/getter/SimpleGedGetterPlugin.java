@@ -7,11 +7,13 @@ import java.util.List;
 
 
 /**
- * This class is the super class of each simple GED plugins
+ * This class is the super class of each simple GED getters plugins
+ * 
+ * A getter is a plugin which action is to retrieve some file from anywhere and add it in the GED. 
  * 
  * @author xavier
  */
-public abstract class SimpleGedPlugin {
+public abstract class SimpleGedGetterPlugin {
 	
 	/**
 	 * The jar file name
@@ -55,8 +57,8 @@ public abstract class SimpleGedPlugin {
 	
 	
 	
-	public SimpleGedPlugin() {
-		properties = new ArrayList<SimpleGedPluginProperty>();
+	public SimpleGedGetterPlugin() {
+		properties = new ArrayList<>();
 	}
 	
 	
@@ -168,7 +170,7 @@ public abstract class SimpleGedPlugin {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		SimpleGedPlugin other = (SimpleGedPlugin) obj;
+		SimpleGedGetterPlugin other = (SimpleGedGetterPlugin) obj;
 		if (jarFileName == null) {
 			if (other.jarFileName != null) {
 				return false;
