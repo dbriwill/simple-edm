@@ -67,8 +67,7 @@ public class ImageFilePreviewer extends AbstractFilePreviewer {
 			getChildren().add(imageView);
 		} 
 		catch (Exception e) {
-			logger.error("Failed to load " + absoluteFilePath + " : " + e.getMessage());
-			logger.error(e.getStackTrace().toString());
+			logger.error("Failed to load " + absoluteFilePath, e);
 			throw new CannotCreatePreviewerException();
 		}
 	}
