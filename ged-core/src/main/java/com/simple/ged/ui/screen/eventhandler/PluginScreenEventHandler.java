@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.ui.screen.GetterPluginScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -13,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.services.PluginService;
-import com.simple.ged.ui.screen.PluginScreen;
 import com.simple.ged.ui.screen.SoftwareScreen.Screen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -53,10 +53,10 @@ public class PluginScreenEventHandler {
 	/**
 	 * The watched screen
 	 */
-	private WeakReference<PluginScreen> pluginScreen;
+	private WeakReference<GetterPluginScreen> pluginScreen;
 	
 	
-	public PluginScreenEventHandler(PluginScreen pluginScreen) {
+	public PluginScreenEventHandler(GetterPluginScreen pluginScreen) {
 		this.pluginScreen = new WeakReference<>(pluginScreen);
 	}
 	
@@ -78,7 +78,7 @@ public class PluginScreenEventHandler {
 		case ACTIVATE :
 		case MODIFY :
 			
-			pluginScreen.get().pushScreen(Screen.PLUGIN_CONFIGURATION_SCREEN);
+			pluginScreen.get().pushScreen(Screen.GETTER_PLUGIN_CONFIGURATION_SCREEN);
 			
 			Map<String, Object> extras = new HashMap<>();
 			extras.put("ged-plugin", pmi);

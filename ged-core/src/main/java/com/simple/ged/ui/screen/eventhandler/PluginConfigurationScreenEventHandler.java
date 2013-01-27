@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -18,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.services.PluginService;
-import com.simple.ged.ui.screen.PluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
@@ -26,7 +26,7 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
 
 /**
  * 
- * This class is the event handler for PluginConfigurationScreen
+ * This class is the event handler for GetterPluginConfigurationScreen
  * 
  * @author xavier
  *
@@ -46,10 +46,10 @@ public class PluginConfigurationScreenEventHandler implements EventHandler<KeyEv
 	/**
 	 * The watched screen
 	 */
-	private WeakReference<PluginConfigurationScreen> pluginConfigurationScreen;
+	private WeakReference<GetterPluginConfigurationScreen> pluginConfigurationScreen;
 	
 	
-	public PluginConfigurationScreenEventHandler(PluginConfigurationScreen pluginConfigurationScreen) {
+	public PluginConfigurationScreenEventHandler(GetterPluginConfigurationScreen pluginConfigurationScreen) {
 		this.pluginConfigurationScreen = new WeakReference<>(pluginConfigurationScreen);
 	}
 	

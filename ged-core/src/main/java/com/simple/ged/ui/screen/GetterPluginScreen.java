@@ -38,12 +38,12 @@ import fr.xmichel.toolbox.tools.DateHelper;
  * @author xavier
  * 
  */
-public class PluginScreen extends SoftwareScreen {
+public class GetterPluginScreen extends SoftwareScreen {
 
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(PluginScreen.class);
+	private static final Logger logger = LoggerFactory.getLogger(GetterPluginScreen.class);
 
 	/**
 	 * The table view contains the list of plugins
@@ -61,7 +61,7 @@ public class PluginScreen extends SoftwareScreen {
 	private PluginScreenEventHandler eventHandler;
 	
 	
-	public PluginScreen(MainWindow mw) {
+	public GetterPluginScreen(MainWindow mw) {
 		super(mw);
 
 		instanciateWidgets();

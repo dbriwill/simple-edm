@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.simple.ged.ui.screen.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,17 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
 import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.ui.screen.AboutScreen;
-import com.simple.ged.ui.screen.DirectoryEditionScreen;
-import com.simple.ged.ui.screen.DocumentConfigurationScreen;
-import com.simple.ged.ui.screen.FakeScreen;
-import com.simple.ged.ui.screen.SoftwareScreen;
-import com.simple.ged.ui.screen.ToolBar;
-import com.simple.ged.ui.screen.LibraryViewScreen;
-import com.simple.ged.ui.screen.MessageScreen;
-import com.simple.ged.ui.screen.PluginConfigurationScreen;
-import com.simple.ged.ui.screen.PluginScreen;
-import com.simple.ged.ui.screen.SettingsScreen;
+import com.simple.ged.ui.screen.GetterPluginScreen;
 
 import fr.xmichel.toolbox.tools.FileHelper;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
@@ -197,11 +188,11 @@ public class MainWindow extends Application {
 		case ABOUT_SCREEN :
 			return new AboutScreen(this);
 
-		case PLUGIN_CONFIGURATION_SCREEN :
-			return new PluginConfigurationScreen(this);
+		case GETTER_PLUGIN_CONFIGURATION_SCREEN:
+			return new GetterPluginConfigurationScreen(this);
 		
-		case PLUGIN_MANAGEMENT_SCREEN :
-			return new PluginScreen(this);
+		case GETTER_PLUGIN_MANAGEMENT_SCREEN:
+			return new GetterPluginScreen(this);
 		
 		case MESSAGE_SCREEN :
 			return new MessageScreen(this);

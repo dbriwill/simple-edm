@@ -37,12 +37,12 @@ import fr.xmichel.toolbox.tools.DateHelper;
  * @author xavier
  *
  */
-public class PluginConfigurationScreen extends SoftwareScreen {
+public class GetterPluginConfigurationScreen extends SoftwareScreen {
 
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(PluginConfigurationScreen.class);
+	private static final Logger logger = LoggerFactory.getLogger(GetterPluginConfigurationScreen.class);
 	
 	/**
 	 * The library view, to chose document target
@@ -120,7 +120,7 @@ public class PluginConfigurationScreen extends SoftwareScreen {
 	private PluginConfigurationScreenEventHandler eventHandler;
 	
 	
-	public PluginConfigurationScreen(MainWindow mw) {
+	public GetterPluginConfigurationScreen(MainWindow mw) {
 		super(mw);
 		
 		instanciateWidgets();
