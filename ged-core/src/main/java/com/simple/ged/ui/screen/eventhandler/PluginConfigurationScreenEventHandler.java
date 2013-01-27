@@ -73,7 +73,7 @@ public class PluginConfigurationScreenEventHandler implements EventHandler<KeyEv
 			}
 			p.setPluginProperties(properties);
 
-			PluginService.addOrUpdateDocument(p);
+			PluginService.addOrUpdatePlugin(p);
 			PluginManager.launchPluginUpdate(pluginConfigurationScreen.get());
 
 			Dialog.showInfo(PluginConfigurationScreenEventHandler.properties.getProperty("information"), PluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());

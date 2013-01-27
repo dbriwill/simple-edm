@@ -26,7 +26,7 @@ public final class PluginService {
 	/**
 	 * Load and returns all plugins
 	 */
-	public static List<GedGetterPlugin> getAllPlugins() {
+	public static List<GedGetterPlugin> getAllGetterPlugins() {
 		return PluginManager.getPluginList();
 	}
 	
@@ -57,7 +57,7 @@ public final class PluginService {
 	/**
 	 * Add or update the given plugin
 	 */
-	public static void addOrUpdateDocument(GedGetterPlugin pmi)
+	public static void addOrUpdatePlugin(GedGetterPlugin pmi)
 	{
 		PluginDAO.saveOrUpdate(pmi);
 	}

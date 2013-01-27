@@ -153,7 +153,7 @@ public final class PluginManager {
 							p.doGet();
 							
 							i.setLastUpdateDate(new GregorianCalendar().getTime());
-							PluginService.addOrUpdateDocument(i);
+							PluginService.addOrUpdatePlugin(i);
 							
 							MessageService.addMessage(new GedMessage("INFO", "Récupération réussie pour le plugin " + p.getJarFileName() + "<br/>Nouveau fichier enregistré : " + p.getDestinationFile()));
 							
