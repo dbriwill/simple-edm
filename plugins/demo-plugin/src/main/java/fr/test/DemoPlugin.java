@@ -10,9 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
-import com.simple.ged.connector.plugins.SimpleGedPluginException;
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 
 /**
  * The demo plugin just copy the file designed by file_to_copy in the selected ged directory
@@ -20,7 +20,7 @@ import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
  * @author xavier
  *
  */
-public class DemoPlugin extends SimpleGedPlugin {
+public class DemoPlugin extends SimpleGedGetterPlugin {
 
 	private static final Logger logger = LoggerFactory.getLogger(DemoPlugin.class);
 	
@@ -61,13 +61,13 @@ public class DemoPlugin extends SimpleGedPlugin {
 	public static void main(String[] arg) {
 		
 		// Instantiate our plugin
-		SimpleGedPlugin p = new DemoPlugin();
+		SimpleGedGetterPlugin p = new DemoPlugin();
 		
 		// create properties list 
-		List<SimpleGedPluginProperty> properties = new ArrayList<SimpleGedPluginProperty>();
+		List<SimpleGedGetterPluginProperty> properties = new ArrayList<>();
 		
 		// create the required properties
-		SimpleGedPluginProperty fileToCopy  = new SimpleGedPluginProperty();
+		SimpleGedGetterPluginProperty fileToCopy  = new SimpleGedGetterPluginProperty();
 		fileToCopy.setPropertyKey("file_to_copy");
 		fileToCopy.setPropertyValue("D:\\foo.txt");
 		
