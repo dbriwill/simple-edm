@@ -18,8 +18,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
 
 
 
@@ -51,13 +51,13 @@ public final class PluginFactory {
 	 * @return
 	 * 		The plugin if loading is successful, null otherwise
 	 */
-	 static SimpleGedPlugin loadPlugin(String pluginFileName) {
+	 static SimpleGedGetterPlugin loadPlugin(String pluginFileName) {
 				
 		try {
 			ClassLoader loader = null;
 			
 			Map<PluginManifestTags, String> pluginInfos = new HashMap<PluginManifestTags, String>(); // <Key, Value>
-			List<SimpleGedPluginProperty> pluginProperties = new ArrayList<SimpleGedPluginProperty>();
+			List<SimpleGedGetterPluginProperty> pluginProperties = new ArrayList<>();
 			
 			/*
 			 * Load plugin properties
@@ -97,7 +97,7 @@ public final class PluginFactory {
 							label = m.group(2);
 						}
 						
-						SimpleGedPluginProperty sgpp = new SimpleGedPluginProperty();
+						SimpleGedGetterPluginProperty sgpp = new SimpleGedGetterPluginProperty();
 						
 						if (key.contains("*")) {
 							key = key.replace("*", "");
@@ -128,7 +128,7 @@ public final class PluginFactory {
 			 */
 
 			// set plugin infos
-			SimpleGedPlugin sgp = (SimpleGedPlugin) Class.forName(pluginInfos.get(PluginManifestTags.main_class_tag), true, loader).newInstance();
+			SimpleGedGetterPlugin sgp = (SimpleGedGetterPlugin) Class.forName(pluginInfos.get(PluginManifestTags.main_class_tag), true, loader).newInstance();
 
 			sgp.setJarFileName(pluginFileName);
 			

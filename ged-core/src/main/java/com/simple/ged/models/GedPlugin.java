@@ -1,21 +1,11 @@
 package com.simple.ged.models;
 
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 
 /**
  * Some ged plugin is a container for SimpleGedPlugin, which add many details about the plugin (for management)
@@ -79,13 +69,13 @@ public class GedPlugin {
      */
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="plugin_id", nullable=false)
-    private List<SimpleGedPluginProperty> pluginProperties;
+    private List<SimpleGedGetterPluginProperty> pluginProperties;
 
     /**
      * The concerned plugin
      */
     @Transient
-    private SimpleGedPlugin plugin;
+    private SimpleGedGetterPlugin plugin;
 
     
 	public Integer getId() {
@@ -136,11 +126,11 @@ public class GedPlugin {
 		this.intervalBetweenUpdates = intervalBetweenUpdates;
 	}
 
-	public List<SimpleGedPluginProperty> getPluginProperties() {
+	public List<SimpleGedGetterPluginProperty> getPluginProperties() {
 		return pluginProperties;
 	}
 
-	public void setPluginProperties(List<SimpleGedPluginProperty> pluginProperties) {
+	public void setPluginProperties(List<SimpleGedGetterPluginProperty> pluginProperties) {
 		this.pluginProperties = pluginProperties;
 	}
 
@@ -152,11 +142,11 @@ public class GedPlugin {
 		this.destinationDirectory = destinationDirectory;
 	}
 
-	public SimpleGedPlugin getPlugin() {
+	public SimpleGedGetterPlugin getPlugin() {
 		return plugin;
 	}
 
-	public void setPlugin(SimpleGedPlugin plugin) {
+	public void setPlugin(SimpleGedGetterPlugin plugin) {
 		this.plugin = plugin;
 	}
 

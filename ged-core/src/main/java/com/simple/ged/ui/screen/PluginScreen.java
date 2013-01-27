@@ -23,7 +23,7 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.models.GedPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.ui.MainWindow;
@@ -89,7 +89,7 @@ public class PluginScreen extends SoftwareScreen {
 			public ObservableValue<VBox> call(CellDataFeatures<GedPlugin, VBox> p) {
 				VBox box = new VBox();
 
-				SimpleGedPlugin plugin = p.getValue().getPlugin();
+				SimpleGedGetterPlugin plugin = p.getValue().getPlugin();
 				
 				Label title = new Label(plugin.getPluginName());
 				title.getStyleClass().add("list-plugin-title");
@@ -115,7 +115,7 @@ public class PluginScreen extends SoftwareScreen {
 				VBox box = new VBox();
 
 				GedPlugin pmi = p.getValue();
-				SimpleGedPlugin plugin = pmi.getPlugin();
+				SimpleGedGetterPlugin plugin = pmi.getPlugin();
 				
 				logger.trace("Contient \\n ? {}", plugin.getPluginDescription().contains("\\n"));
 				logger.trace(plugin.getPluginDescription().replace("\\n", "<br/>"));

@@ -2,7 +2,7 @@ package com.simple.ged.services;
 
 import java.util.List;
 
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.dao.PluginDAO;
 import com.simple.ged.models.GedPlugin;
 import com.simple.ged.plugins.PluginManager;
@@ -35,12 +35,12 @@ public final class PluginService {
 	/**
 	 * Get plugin informations from database
 	 * 
-	 * @param pluginFileName
+	 * @param plugin
 	 *            The plugin file name
 	 *            
 	 * If the plugin is 
 	 */
-	public static synchronized GedPlugin getPluginInformations(SimpleGedPlugin plugin) {
+	public static synchronized GedPlugin getPluginInformations(SimpleGedGetterPlugin plugin) {
 		
 		GedPlugin pmi = PluginDAO.getPluginInformations(plugin.getJarFileName());
 		

@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
-import com.simple.ged.connector.plugins.SimpleGedPlugin;
-import com.simple.ged.connector.plugins.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.models.GedMessage;
 import com.simple.ged.models.GedPlugin;
 import com.simple.ged.services.MessageService;
@@ -76,7 +76,7 @@ public final class PluginManager {
 		
 		for (String pluginFileName : pluginsFiles) {
 			logger.info(pluginFileName);
-			SimpleGedPlugin p = PluginFactory.loadPlugin(pluginFileName);
+			SimpleGedGetterPlugin p = PluginFactory.loadPlugin(pluginFileName);
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
@@ -108,7 +108,7 @@ public final class PluginManager {
 						continue;
 					}
 					
-					SimpleGedPlugin p = plugin.getPlugin();
+					SimpleGedGetterPlugin p = plugin.getPlugin();
 					GedPlugin i = plugin;
 					
 					boolean shouldUpdate = false;
