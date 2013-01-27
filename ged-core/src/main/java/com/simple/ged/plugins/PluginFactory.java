@@ -56,7 +56,7 @@ public final class PluginFactory {
 		try {
 			ClassLoader loader = null;
 			
-			Map<PluginManifestTags, String> pluginInfos = new HashMap<PluginManifestTags, String>(); // <Key, Value>
+			Map<PluginManifestTags, String> pluginInfos = new HashMap<>();
 			List<SimpleGedGetterPluginProperty> pluginProperties = new ArrayList<>();
 			
 			/*

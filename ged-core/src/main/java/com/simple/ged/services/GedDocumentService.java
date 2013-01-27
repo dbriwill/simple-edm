@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,9 +169,7 @@ public final class GedDocumentService {
 		
 		// convert to java list
 		List<String> wordList = new ArrayList<>();
-		for (String w : words) {
-			wordList.add(w);
-		}
+        Collections.addAll(wordList, words);
 		
 		return DocumentDAO.getDocumentWhichContainsEveryWords(wordList);
 	}

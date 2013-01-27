@@ -92,9 +92,6 @@ public class GedDirectory {
 			return false;
 		}
 		GedDirectory other = (GedDirectory) obj;
-		if (id != other.id) {
-			return false;
-		}
-		return true;
-	}
+        return id == other.id;
+    }
 }

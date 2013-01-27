@@ -266,7 +266,7 @@ public class PluginConfigurationScreen extends SoftwareScreen {
 		});
 		
 		comboIntervalBetweenUpdateInMonth = new ComboBox<>();
-		List<Integer> vMonth = new ArrayList<Integer>();
+		List<Integer> vMonth = new ArrayList<>();
 		for (int i = 1; i <= 12; ++i) {
 			vMonth.add(i);
 		}

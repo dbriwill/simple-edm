@@ -496,7 +496,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 		@Override
 		public void cancelEdit() {
 			super.cancelEdit();
-			setText((String) getItem());
+			setText(getItem());
 			setGraphic(getTreeItem().getGraphic());
 		}
 
@@ -573,7 +573,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 		}
 
 		private String getString() {
-			return getItem() == null ? "" : getItem().toString();
+			return getItem() == null ? "" : getItem();
 		}
 	}
 
@@ -614,7 +614,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 				
 				// we create the child if it doesn't exists
 				if (! hasChild(child, item)) {
-					child.getChildren().add(new TreeItem<String>(LibraryView.convertToNodeName(item), libraryView.get().getIconForNode(relativeToAbsolultPath(stack + item))));
+					child.getChildren().add(new TreeItem<>(LibraryView.convertToNodeName(item), libraryView.get().getIconForNode(relativeToAbsolultPath(stack + item))));
 				}
 				
 				// get the child

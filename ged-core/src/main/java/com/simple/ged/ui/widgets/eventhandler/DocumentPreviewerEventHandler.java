@@ -65,7 +65,7 @@ public class DocumentPreviewerEventHandler implements EventHandler<ActionEvent> 
 	 * Return the list of files in the previewer
 	 */
 	public List<File> getFileList() {
-		List<File> l = new ArrayList<File>();
+		List<File> l = new ArrayList<>();
 		for (AbstractFilePreviewer previewer : documentPreviewer.get().getPreviewers()) {
 			l.add(new File(previewer.getAbsoluteFilePath()));
 		}

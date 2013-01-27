@@ -98,7 +98,7 @@ public class GedDocument implements Serializable {
 
 	public GedDocument() {
 		this.id = null;
-		this.documentFiles = new ArrayList<GedDocumentFile>();
+		this.documentFiles = new ArrayList<>();
 		this.name = "";
 		this.date = new Date();
 		this.description = "";

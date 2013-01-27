@@ -116,7 +116,7 @@ public class PdfFilePreviewer extends AbstractFilePreviewer {
 		AnchorPane.setBottomAnchor(next, 4.0);
 
 		// Add buttons to list
-		buttonGroup = new ArrayList<Button>();
+		buttonGroup = new ArrayList<>();
 		buttonGroup.add(next);
 		buttonGroup.add(back);
 
