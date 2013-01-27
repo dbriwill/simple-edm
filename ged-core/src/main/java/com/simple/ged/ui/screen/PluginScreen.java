@@ -2,6 +2,7 @@ package com.simple.ged.ui.screen;
 
 import java.util.List;
 
+import com.simple.ged.models.GedGetterPlugin;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.models.GedPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.PluginScreenEventHandler;
@@ -48,12 +48,12 @@ public class PluginScreen extends SoftwareScreen {
 	/**
 	 * The table view contains the list of plugins
 	 */
-	private TableView<GedPlugin> table;
+	private TableView<GedGetterPlugin> table;
 
 	/**
 	 * The plugin list
 	 */
-	private ObservableList<GedPlugin> pluginsList;
+	private ObservableList<GedGetterPlugin> pluginsList;
 
 	/**
 	 * My event handler
@@ -84,9 +84,9 @@ public class PluginScreen extends SoftwareScreen {
 		pluginsList = FXCollections.observableArrayList();
 		table = new TableView<>();
 	
-		TableColumn<GedPlugin, VBox> colName = new TableColumn<>(properties.getProperty("plugin_name"));
-		colName.setCellValueFactory(new Callback<CellDataFeatures<GedPlugin, VBox>, ObservableValue<VBox>>() {
-			public ObservableValue<VBox> call(CellDataFeatures<GedPlugin, VBox> p) {
+		TableColumn<GedGetterPlugin, VBox> colName = new TableColumn<>(properties.getProperty("plugin_name"));
+		colName.setCellValueFactory(new Callback<CellDataFeatures<GedGetterPlugin, VBox>, ObservableValue<VBox>>() {
+			public ObservableValue<VBox> call(CellDataFeatures<GedGetterPlugin, VBox> p) {
 				VBox box = new VBox();
 
 				SimpleGedGetterPlugin plugin = p.getValue().getPlugin();
@@ -109,12 +109,12 @@ public class PluginScreen extends SoftwareScreen {
 			}
 		});
 
-		TableColumn<GedPlugin, VBox> colDesc = new TableColumn<>(properties.getProperty("plugin_description"));
-		colDesc.setCellValueFactory(new Callback<CellDataFeatures<GedPlugin, VBox>, ObservableValue<VBox>>() {
-			public ObservableValue<VBox> call(CellDataFeatures<GedPlugin, VBox> p) {
+		TableColumn<GedGetterPlugin, VBox> colDesc = new TableColumn<>(properties.getProperty("plugin_description"));
+		colDesc.setCellValueFactory(new Callback<CellDataFeatures<GedGetterPlugin, VBox>, ObservableValue<VBox>>() {
+			public ObservableValue<VBox> call(CellDataFeatures<GedGetterPlugin, VBox> p) {
 				VBox box = new VBox();
 
-				GedPlugin pmi = p.getValue();
+				GedGetterPlugin pmi = p.getValue();
 				SimpleGedGetterPlugin plugin = pmi.getPlugin();
 				
 				logger.trace("Contient \\n ? {}", plugin.getPluginDescription().contains("\\n"));
@@ -141,12 +141,12 @@ public class PluginScreen extends SoftwareScreen {
 			}
 		});
 		
-		TableColumn<GedPlugin, VBox> colMang = new TableColumn<>(properties.getProperty("action"));
-		colMang.setCellValueFactory(new Callback<CellDataFeatures<GedPlugin, VBox>, ObservableValue<VBox>>() {
-			public ObservableValue<VBox> call(CellDataFeatures<GedPlugin, VBox> p) {
+		TableColumn<GedGetterPlugin, VBox> colMang = new TableColumn<>(properties.getProperty("action"));
+		colMang.setCellValueFactory(new Callback<CellDataFeatures<GedGetterPlugin, VBox>, ObservableValue<VBox>>() {
+			public ObservableValue<VBox> call(CellDataFeatures<GedGetterPlugin, VBox> p) {
 				VBox box = new VBox();
 
-				final GedPlugin pmi = p.getValue();
+				final GedGetterPlugin pmi = p.getValue();
 
 				if (pmi.isActivated()) {
 					
@@ -205,19 +205,19 @@ public class PluginScreen extends SoftwareScreen {
 
 		pluginsList.clear();
 		
-		List<GedPlugin> plugins = PluginManager.getPluginList();
+		List<GedGetterPlugin> plugins = PluginManager.getPluginList();
 
 		logger.info("Plugin count : " + plugins.size());
 
 		// show only activated plugins
-		for (GedPlugin p : plugins) {
+		for (GedGetterPlugin p : plugins) {
 			if (p.isActivated()) {
 				pluginsList.add(p);
 			}
 		}
 
 		// show non activated plugins
-		for (GedPlugin p : plugins) {
+		for (GedGetterPlugin p : plugins) {
 			if (!p.isActivated()) {
 				pluginsList.add(p);
 			}

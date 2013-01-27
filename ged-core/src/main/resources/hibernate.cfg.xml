@@ -27,7 +27,7 @@
 		<mapping class="com.simple.ged.models.GedDocumentFile" />
 		<mapping class="com.simple.ged.models.GedDocumentPhysicalLocation" />
 		<mapping class="com.simple.ged.models.GedMessage" />
-		<mapping class="com.simple.ged.models.GedPlugin" />
+		<mapping class="com.simple.ged.models.GedGetterPlugin" />
 		<mapping class="com.simple.ged.models.GedDirectory" />
 
 		<mapping resource="mapping/ged_plugin_property.hbm.xml"/>

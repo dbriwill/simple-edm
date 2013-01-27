@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import com.simple.ged.models.GedGetterPlugin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -15,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
-import com.simple.ged.models.GedPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.PluginConfigurationScreen;
@@ -57,7 +57,7 @@ public class PluginConfigurationScreenEventHandler implements EventHandler<KeyEv
 		
 		if (e.getSource() == pluginConfigurationScreen.get().getSave()) {
 			
-			GedPlugin p = pluginConfigurationScreen.get().getPlugin();
+			GedGetterPlugin p = pluginConfigurationScreen.get().getPlugin();
 		
 			p.setDayOfMonthForUpdate((Integer) pluginConfigurationScreen.get().getComboDayOfMonthForUpdate().getSelectionModel().getSelectedItem());
 			p.setDestinationDirectory(pluginConfigurationScreen.get().getLibraryView().getEventHandler().getCurrentItemRelativePath());

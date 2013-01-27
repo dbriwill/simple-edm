@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.simple.ged.models.GedGetterPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,6 @@ import com.simple.ged.Profile;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.models.GedMessage;
-import com.simple.ged.models.GedPlugin;
 import com.simple.ged.services.MessageService;
 import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.SoftwareScreen;
@@ -59,11 +59,11 @@ public final class PluginManager {
     /**
      * Get the plugin list
      */
-    public static List<GedPlugin> getPluginList() {
+    public static List<GedGetterPlugin> getPluginList() {
     	
     	FileHelper.createDirectoryIfNecessary(PLUGINS_DIRECTORY);
     	
-    	List<GedPlugin> pluginList = new ArrayList<>();
+    	List<GedGetterPlugin> pluginList = new ArrayList<>();
 
 		FilenameFilter jarFilter = new FilenameFilter() {
 			public boolean accept(File arg0, String arg1) {
@@ -100,16 +100,16 @@ public final class PluginManager {
 			@Override
 			public void run() {
 				
-				List<GedPlugin> plugins = getPluginList();
+				List<GedGetterPlugin> plugins = getPluginList();
 				
-				for (GedPlugin plugin : plugins) {
+				for (GedGetterPlugin plugin : plugins) {
 					
 					if ( ! plugin.isActivated() ) {
 						continue;
 					}
 					
 					SimpleGedGetterPlugin p = plugin.getPlugin();
-					GedPlugin i = plugin;
+					GedGetterPlugin i = plugin;
 					
 					boolean shouldUpdate = false;
 

@@ -2,13 +2,12 @@ package com.simple.ged.dao;
 
 import java.util.List;
 
+import com.simple.ged.models.GedGetterPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-
-import com.simple.ged.models.GedPlugin;
 
 import fr.xmichel.toolbox.hibernate.sqlite.HibernateUtil;
 
@@ -37,17 +36,17 @@ public final class PluginDAO {
 	 * @param pluginFileName
 	 *            The plugin file name
 	 */
-	public static synchronized GedPlugin getPluginInformations(String pluginFileName) {
+	public static synchronized GedGetterPlugin getPluginInformations(String pluginFileName) {
 
 		// first step, found the appropriated plugin
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Criteria criteria = session.createCriteria(GedPlugin.class).add(Restrictions.eq("fileName", pluginFileName));  
+		Criteria criteria = session.createCriteria(GedGetterPlugin.class).add(Restrictions.eq("fileName", pluginFileName));
 		
 		@SuppressWarnings("unchecked")
-		List<GedPlugin> results = criteria.list();  
+		List<GedGetterPlugin> results = criteria.list();
 
 		// second step, return the appropriated document
-		GedPlugin p = null;
+		GedGetterPlugin p = null;
 
 		if ( ! results.isEmpty() ) {
 			p = results.get(0);
@@ -62,7 +61,7 @@ public final class PluginDAO {
 	/**
 	 * Delete some plugin informations from database, the plugin is considered as deactivated.
 	 */
-	public static synchronized void delete(GedPlugin pmi) {
+	public static synchronized void delete(GedGetterPlugin pmi) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(pmi);
@@ -76,7 +75,7 @@ public final class PluginDAO {
 	 * @param document
 	 * 				The document to save or to update
 	 */
-	public static synchronized void saveOrUpdate(GedPlugin pmi)
+	public static synchronized void saveOrUpdate(GedGetterPlugin pmi)
 	{
 		logger.debug("save plugin");
 		Session session = HibernateUtil.getSessionFactory().openSession();

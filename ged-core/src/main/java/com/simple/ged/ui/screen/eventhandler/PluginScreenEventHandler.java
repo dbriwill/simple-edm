@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.simple.ged.models.GedGetterPlugin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.models.GedPlugin;
 import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.PluginScreen;
 import com.simple.ged.ui.screen.SoftwareScreen.Screen;
@@ -71,7 +71,7 @@ public class PluginScreenEventHandler {
 	 * @param pmi
 	 * 			The concerned plugin
 	 */
-	public void pluginActionRequired(Action a, final GedPlugin pmi) {
+	public void pluginActionRequired(Action a, final GedGetterPlugin pmi) {
 		
 		switch (a) {
 		

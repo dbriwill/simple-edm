@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="plugin")
-public class GedPlugin {
+public class GedGetterPlugin {
 
     /**
      * Plugin ID

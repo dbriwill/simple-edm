@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.simple.ged.models.GedGetterPlugin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -23,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
-import com.simple.ged.models.GedPlugin;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.PluginConfigurationScreenEventHandler;
 import com.simple.ged.ui.widgets.LibraryView;
@@ -52,7 +52,7 @@ public class PluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * The concerned plugin
 	 */
-	private GedPlugin plugin; 
+	private GedGetterPlugin plugin;
 	
 	/**
 	 * The plugin name
@@ -156,7 +156,7 @@ public class PluginConfigurationScreen extends SoftwareScreen {
 	
 	@Override
 	public void pullExtraValues(Map<String, Object> extras) {
-		plugin = (GedPlugin) extras.get("ged-plugin");
+		plugin = (GedGetterPlugin) extras.get("ged-plugin");
 		
 		title.setText(plugin.getPlugin().getPluginName());
 		version.setText(properties.getProperty("Version") + " " + plugin.getPlugin().getPluginVersion() + " " + properties.getProperty("released_the") + " " + DateHelper.calendarToString(plugin.getPlugin().getPluginDate()));
@@ -290,7 +290,7 @@ public class PluginConfigurationScreen extends SoftwareScreen {
 	}
 
 
-	public GedPlugin getPlugin() {
+	public GedGetterPlugin getPlugin() {
 		return plugin;
 	}
 
