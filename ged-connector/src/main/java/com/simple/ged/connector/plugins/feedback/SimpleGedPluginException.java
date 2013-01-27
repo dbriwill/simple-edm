@@ -1,7 +1,7 @@
-package com.simple.ged.connector.plugins.getter;
+package com.simple.ged.connector.plugins.feedback;
 
 /**
- * This exception should be throwed by the plugin when something is wrong
+ * This exception should be thrown by the plugin when something is wrong
  * 
  * @author xavier
  */

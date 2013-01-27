@@ -1,5 +1,7 @@
 package com.simple.ged.connector.plugins.getter;
 
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +55,7 @@ public abstract class SimpleGedGetterPlugin {
 	/**
 	 * The properties list
 	 */
-	private List<SimpleGedPluginProperty> properties;
+	private List<SimpleGedGetterPluginProperty> properties;
 	
 	
 	
@@ -66,7 +68,7 @@ public abstract class SimpleGedGetterPlugin {
 	 * Get the value of some property
 	 */
 	public String getPropertyValue(String key) {
-		for (SimpleGedPluginProperty p : properties) {
+		for (SimpleGedGetterPluginProperty p : properties) {
 			if (p.getPropertyKey().equals(key)) {
 				return p.getPropertyValue();
 			}
@@ -132,11 +134,11 @@ public abstract class SimpleGedGetterPlugin {
 		this.pluginDescription = pluginDescription;
 	}
 
-	public List<SimpleGedPluginProperty> getProperties() {
+	public List<SimpleGedGetterPluginProperty> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<SimpleGedPluginProperty> properties) {
+	public void setProperties(List<SimpleGedGetterPluginProperty> properties) {
 		this.properties = properties;
 	}
 

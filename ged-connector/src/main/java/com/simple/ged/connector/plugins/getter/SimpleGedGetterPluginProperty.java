@@ -10,7 +10,7 @@ package com.simple.ged.connector.plugins.getter;
  * 
  * @author xavier
  */
-public class SimpleGedPluginProperty {
+public class SimpleGedGetterPluginProperty {
 	
     /**
      * ID (for mapping)
@@ -38,7 +38,7 @@ public class SimpleGedPluginProperty {
 	private boolean hidden;
 	
 	
-	public SimpleGedPluginProperty() {
+	public SimpleGedGetterPluginProperty() {
 		hidden = false;
 	}
 	
