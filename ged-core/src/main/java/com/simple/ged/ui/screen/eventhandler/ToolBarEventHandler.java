@@ -52,7 +52,7 @@ public class ToolBarEventHandler implements EventHandler<Event> {
 		else if (action.getSource() == toolBar.get().getBtnMessages()) {
 			toolBar.get().pushScreen(Screen.MESSAGE_SCREEN);
 		}
-		else if (action.getSource() == toolBar.get().getBtnPluginManagement()) {
+		else if (action.getSource() == toolBar.get().getBtnGetterPluginManagement()) {
 			toolBar.get().gotoScreen(Screen.GETTER_PLUGIN_MANAGEMENT_SCREEN);
 		}
 		else if (action.getSource() == toolBar.get().getBtnHome()) {

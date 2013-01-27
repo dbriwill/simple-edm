@@ -99,10 +99,15 @@ public class ToolBar extends SoftwareScreen {
 	private ToolBarButton btnSettings;
 	
 	/**
-	 * Plugin management
+	 * Plugin getter management
 	 */
-	private ToolBarButton btnPluginManagement;
-	
+	private ToolBarButton btnGetterPluginManagement;
+
+    /**
+     * Plugin worker management
+     */
+    private ToolBarButton btnWorkerPluginManagement;
+
 	/**
 	 * Messages
 	 */
@@ -138,8 +143,9 @@ public class ToolBar extends SoftwareScreen {
 		
 		// fill the bar
 		
-	    addElement(btnPluginManagement);
-	    
+	    addElement(btnGetterPluginManagement);
+	    addElement(btnWorkerPluginManagement);
+
 	    addElement(btnMessages);
 	    
 	    addElement(btnSettings);
@@ -188,17 +194,20 @@ public class ToolBar extends SoftwareScreen {
 		btnBack  			= new ToolBarButton(properties.getProperty("back"), eventHandler);
 		btnSettings			= new ToolBarButton(properties.getProperty("info_settings"), eventHandler);
 		btnAbout			= new ToolBarButton(properties.getProperty("info_about") + properties.getProperty("APPLICATION_NAME"), eventHandler);
-		btnPluginManagement	= new ToolBarButton(properties.getProperty("info_plugin_management"), eventHandler);
+		btnGetterPluginManagement = new ToolBarButton(properties.getProperty("info_plugin_management"), eventHandler);
 		btnMessages			= new ToolBarButton(properties.getProperty("info_messages"), eventHandler);
 		btnHome				= new ToolBarButton(properties.getProperty("home"), eventHandler);
-		
+        btnWorkerPluginManagement = new ToolBarButton("NOT SPECIFIED", eventHandler);
+
+
 		// define associated pictures
 		Map<ToolBarButton, String> associatedImages = new HashMap<>();
 		associatedImages.put(btnBack, 				properties.getProperty("ico_toolbar_back_button"));
 		associatedImages.put(btnSettings, 			properties.getProperty("ico_toolbar_pref"));
 		associatedImages.put(btnAbout,				properties.getProperty("ico_toolbar_about"));
-		associatedImages.put(btnPluginManagement,	properties.getProperty("ico_toolbar_plugins"));
-		associatedImages.put(btnMessages,			properties.getProperty("ico_toolbar_message_off"));
+		associatedImages.put(btnGetterPluginManagement,	properties.getProperty("ico_getter_plugins"));
+        associatedImages.put(btnWorkerPluginManagement,	properties.getProperty("ico_worker_plugins"));
+        associatedImages.put(btnMessages,			properties.getProperty("ico_toolbar_message_off"));
 		associatedImages.put(btnHome,				properties.getProperty("ico_library_root"));
 		
 		// set pictures
@@ -231,8 +240,8 @@ public class ToolBar extends SoftwareScreen {
 	}
 
 
-	public ToolBarButton getBtnPluginManagement() {
-		return btnPluginManagement;
+	public ToolBarButton getBtnGetterPluginManagement() {
+		return btnGetterPluginManagement;
 	}
 
 
