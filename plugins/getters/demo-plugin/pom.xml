@@ -11,8 +11,8 @@
 
 	<groupId>fr.simple.ged.plugin</groupId>
 	<artifactId>demo-getter-plugin</artifactId>
-	<name>Demo Plugin</name>
-	<version>1.1</version>
+	<name>Demo getter plugin</name>
+	<version>1.2</version>
 
 	<build>
 		<plugins>

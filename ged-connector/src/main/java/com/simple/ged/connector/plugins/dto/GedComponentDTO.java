@@ -20,9 +20,9 @@ public abstract class GedComponentDTO {
 	}
 	
 	/**
-	 * Update this component !
+	 * Update (save) this component !
 	 */
-	protected abstract void update();
+	protected abstract void persist();
 	
 	
 	public String getRelativePathToRoot() {

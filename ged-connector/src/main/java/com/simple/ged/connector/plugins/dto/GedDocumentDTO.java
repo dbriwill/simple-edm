@@ -1,6 +1,7 @@
 package com.simple.ged.connector.plugins.dto;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * 
@@ -16,7 +17,22 @@ public class GedDocumentDTO extends GedComponentDTO {
 	 */
 	private File file;
 
-	
+    /**
+     * The document name
+     */
+	private String documentName;
+
+    /**
+     * The document description
+     */
+    private String documentDescription;
+
+    /**
+     * The document date
+     */
+    private Date documentDate;
+
+
 	public GedDocumentDTO(String relativePathToRoot) {
 		super(relativePathToRoot);
 		this.file = new File(relativePathToRoot);
@@ -31,7 +47,32 @@ public class GedDocumentDTO extends GedComponentDTO {
 
 
 	@Override
-	protected void update() {
+	protected void persist() {
 		// TODO implement me !
 	}
+
+
+    public String getDocumentName() {
+        return documentName;
+    }
+
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
+    }
+
+    public String getDocumentDescription() {
+        return documentDescription;
+    }
+
+    public void setDocumentDescription(String documentDescription) {
+        this.documentDescription = documentDescription;
+    }
+
+    public Date getDocumentDate() {
+        return documentDate;
+    }
+
+    public void setDocumentDate(Date documentDate) {
+        this.documentDate = documentDate;
+    }
 }

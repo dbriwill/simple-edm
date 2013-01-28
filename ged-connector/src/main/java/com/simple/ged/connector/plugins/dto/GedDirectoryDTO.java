@@ -27,7 +27,7 @@ public class GedDirectoryDTO extends GedComponentDTO {
 	}
 
 	@Override
-	protected void update() {
+	protected void persist() {
 		// TODO implement me !
 	}
 }

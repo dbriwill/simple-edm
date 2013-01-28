@@ -9,7 +9,10 @@ import com.simple.ged.connector.plugins.dto.GedDirectoryDTO;
  * 
  * @author xavier
  */
-public interface SimpleGedWorkerPlugin {
+public abstract class SimpleGedWorkerPlugin {
+
+    // TODO : may we have some properties ?
+
 
 	/**
 	 * Make your works !
@@ -17,6 +20,6 @@ public interface SimpleGedWorkerPlugin {
 	 * @param gedRoot
 	 * 				The library root as an entry point
 	 */
-	public void doWork(GedDirectoryDTO gedRoot);
+	public abstract void doWork(GedDirectoryDTO gedRoot);
 	
 }
