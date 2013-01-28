@@ -9,23 +9,23 @@
 	<description>A simple GED</description>
 	<packaging>pom</packaging>
 
-	
+
 	<developers>
         <developer>
             <id>xaviermichel</id>
             <name>Xavier MICHEL</name>
         </developer>
     </developers>
-	
-	
+
+
     <licenses>
         <license>
             <name>zlib License</name>
             <url>http://en.wikipedia.org/wiki/Zlib_License</url>
         </license>
     </licenses>
-	
-	
+
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ged.core.version>4.0</ged.core.version>
@@ -33,7 +33,7 @@
 		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
 	</properties>
 
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -47,7 +47,7 @@
 		</plugins>
 	</build>
 
-	
+
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -69,8 +69,10 @@
 		<module>ged-update</module>
 		<module>ged-connector</module>
 
-		<module>plugins/demo-plugin</module>
-		<module>plugins/orange-plugin</module>
+		<module>plugins/getters/demo-plugin</module>
+		<module>plugins/getters/orange-plugin</module>
+
+		<module>plugins/workers/demo-plugin</module>
 	</modules>
 
 
