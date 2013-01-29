@@ -31,7 +31,7 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  * @author xavier
  *
  */
-public class PluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
+public class GetterPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
 
 	/**
 	 * My logger
@@ -49,7 +49,7 @@ public class PluginConfigurationScreenEventHandler implements EventHandler<KeyEv
 	private WeakReference<GetterPluginConfigurationScreen> pluginConfigurationScreen;
 	
 	
-	public PluginConfigurationScreenEventHandler(GetterPluginConfigurationScreen pluginConfigurationScreen) {
+	public GetterPluginConfigurationScreenEventHandler(GetterPluginConfigurationScreen pluginConfigurationScreen) {
 		this.pluginConfigurationScreen = new WeakReference<>(pluginConfigurationScreen);
 	}
 	

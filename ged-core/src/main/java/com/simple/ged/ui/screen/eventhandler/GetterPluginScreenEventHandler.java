@@ -26,7 +26,7 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  * @author xavier
  *
  */
-public class PluginScreenEventHandler {
+public class GetterPluginScreenEventHandler {
 
 	/**
 	 * Action type
@@ -43,7 +43,7 @@ public class PluginScreenEventHandler {
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(PluginScreenEventHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(GetterPluginScreenEventHandler.class);
 	
 	/**
 	 * Properties
@@ -56,7 +56,7 @@ public class PluginScreenEventHandler {
 	private WeakReference<GetterPluginScreen> pluginScreen;
 	
 	
-	public PluginScreenEventHandler(GetterPluginScreen pluginScreen) {
+	public GetterPluginScreenEventHandler(GetterPluginScreen pluginScreen) {
 		this.pluginScreen = new WeakReference<>(pluginScreen);
 	}
 	
