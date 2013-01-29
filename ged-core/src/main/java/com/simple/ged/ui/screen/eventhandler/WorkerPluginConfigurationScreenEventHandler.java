@@ -1,55 +1,52 @@
 package com.simple.ged.ui.screen.eventhandler;
 
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.plugins.PluginManager;
+import com.simple.ged.services.PluginService;
+import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
+import fr.xmichel.javafx.dialog.Dialog;
+import fr.xmichel.toolbox.tools.PropertiesHelper;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import com.simple.ged.models.GedGetterPlugin;
-import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
-import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.services.PluginService;
-
-import fr.xmichel.javafx.dialog.Dialog;
-import fr.xmichel.toolbox.tools.PropertiesHelper;
-
 
 /**
  * 
- * This class is the event handler for GetterPluginConfigurationScreen
+ * This class is the event handler for WorkerPluginConfigurationScreen
  * 
  * @author xavier
  *
  */
-public class GetterPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
+public class WorkerPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
 
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(GetterPluginConfigurationScreenEventHandler.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreenEventHandler.class);
+
 	/**
 	 * Properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
-	
+
 	/**
 	 * The watched screen
 	 */
 	private WeakReference<GetterPluginConfigurationScreen> pluginConfigurationScreen;
-	
-	
-	public GetterPluginConfigurationScreenEventHandler(GetterPluginConfigurationScreen pluginConfigurationScreen) {
+
+
+	public WorkerPluginConfigurationScreenEventHandler(GetterPluginConfigurationScreen pluginConfigurationScreen) {
 		this.pluginConfigurationScreen = new WeakReference<>(pluginConfigurationScreen);
 	}
 	
@@ -76,7 +73,7 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			PluginService.addOrUpdatePlugin(p);
 			PluginManager.launchPluginUpdate(pluginConfigurationScreen.get());
 
-			Dialog.showInfo(GetterPluginConfigurationScreenEventHandler.properties.getProperty("information"), GetterPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());
+			Dialog.showInfo(WorkerPluginConfigurationScreenEventHandler.properties.getProperty("information"), WorkerPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());
 			
 			pluginConfigurationScreen.get().refreshScreens();
 			pluginConfigurationScreen.get().finish();
@@ -90,35 +87,6 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 	
 	@Override
 	public void handle(KeyEvent arg0) {
-		checkValidity();
 	}
-	
 
-	/**
-	 * Check if currents values are valid, if true, the save button is available
-	 */
-	public void checkValidity() {
-		boolean valid = true;
-		
-		if ( pluginConfigurationScreen.get().getFieldNamePattern().getText().trim().isEmpty() ) {
-			valid = false;
-		}
-		
-		if (pluginConfigurationScreen.get().getComboDayOfMonthForUpdate().getSelectionModel().getSelectedItem() == null) {
-			valid = false;
-		}
-
-		if (pluginConfigurationScreen.get().getComboIntervalBetweenUpdateInMonth().getSelectionModel().getSelectedItem() == null) {
-			valid = false;
-		}
-		
-		for (Entry<SimpleGedGetterPluginProperty, TextField> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
-			if (e.getValue().getText().isEmpty()) {
-				valid = false;
-				break;
-			}
-		}
-		
-		pluginConfigurationScreen.get().getSave().setDisable(!valid);
-	}
 }

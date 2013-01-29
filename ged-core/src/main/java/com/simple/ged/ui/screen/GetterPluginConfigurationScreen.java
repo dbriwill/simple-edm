@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
 import com.simple.ged.ui.MainWindow;
-import com.simple.ged.ui.screen.eventhandler.PluginConfigurationScreenEventHandler;
+import com.simple.ged.ui.screen.eventhandler.GetterPluginConfigurationScreenEventHandler;
 import com.simple.ged.ui.widgets.LibraryView;
 
 import fr.xmichel.toolbox.tools.DateHelper;

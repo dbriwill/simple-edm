@@ -3,6 +3,7 @@ package com.simple.ged.ui.screen;
 import java.util.List;
 
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.ui.screen.eventhandler.GetterPluginScreenEventHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.ui.MainWindow;
-import com.simple.ged.ui.screen.eventhandler.PluginScreenEventHandler;
 
 import fr.xmichel.toolbox.tools.DateHelper;
 
@@ -58,7 +58,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 	/**
 	 * My event handler
 	 */
-	private PluginScreenEventHandler eventHandler;
+	private GetterPluginScreenEventHandler eventHandler;
 	
 	
 	public GetterPluginScreen(MainWindow mw) {
@@ -79,7 +79,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 	 */
 	private void instanciateWidgets() {
 
-		eventHandler = new PluginScreenEventHandler(this);
+		eventHandler = new GetterPluginScreenEventHandler(this);
 		
 		pluginsList = FXCollections.observableArrayList();
 		table = new TableView<>();
@@ -154,7 +154,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 					btnDesactivate.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent arg0) {
-							eventHandler.pluginActionRequired(PluginScreenEventHandler.Action.DESACTIVATE, pmi);
+							eventHandler.pluginActionRequired(GetterPluginScreenEventHandler.Action.DESACTIVATE, pmi);
 						}
 					});
 					
@@ -162,7 +162,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 					btnModify.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent arg0) {
-							eventHandler.pluginActionRequired(PluginScreenEventHandler.Action.MODIFY, pmi);
+							eventHandler.pluginActionRequired(GetterPluginScreenEventHandler.Action.MODIFY, pmi);
 						}
 					});
 					
@@ -175,7 +175,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 					btnActivate.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent arg0) {
-							eventHandler.pluginActionRequired(PluginScreenEventHandler.Action.ACTIVATE, pmi);
+							eventHandler.pluginActionRequired(GetterPluginScreenEventHandler.Action.ACTIVATE, pmi);
 						}
 					});
 					
