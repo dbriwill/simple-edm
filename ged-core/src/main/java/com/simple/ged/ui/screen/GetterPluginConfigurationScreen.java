@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.simple.ged.models.GedGetterPlugin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -24,11 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.GetterPluginConfigurationScreenEventHandler;
 import com.simple.ged.ui.widgets.LibraryView;
 
 import fr.xmichel.toolbox.tools.DateHelper;
+
 
 /**
  * 
@@ -117,7 +118,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * My event handler
 	 */
-	private PluginConfigurationScreenEventHandler eventHandler;
+	private GetterPluginConfigurationScreenEventHandler eventHandler;
 	
 	
 	public GetterPluginConfigurationScreen(MainWindow mw) {
@@ -205,7 +206,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 
 	private void instanciateWidgets() {
 		
-		eventHandler = new PluginConfigurationScreenEventHandler(this);
+		eventHandler = new GetterPluginConfigurationScreenEventHandler(this);
 		
 		
 		libraryView = new LibraryView(this, true);
