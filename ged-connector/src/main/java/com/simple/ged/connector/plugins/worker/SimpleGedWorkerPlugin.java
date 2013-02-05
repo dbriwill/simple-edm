@@ -1,6 +1,6 @@
 package com.simple.ged.connector.plugins.worker;
 
-import com.simple.ged.connector.plugins.dto.GedDirectoryDTO;
+import com.simple.ged.connector.plugins.dto.GedFolderDTO;
 
 /**
  * This class is the super class of each simple GED worker plugins
@@ -20,6 +20,6 @@ public abstract class SimpleGedWorkerPlugin {
 	 * @param gedRoot
 	 * 				The library root as an entry point
 	 */
-	public abstract void doWork(GedDirectoryDTO gedRoot);
+	public abstract void doWork(GedFolderDTO gedRoot);
 	
 }

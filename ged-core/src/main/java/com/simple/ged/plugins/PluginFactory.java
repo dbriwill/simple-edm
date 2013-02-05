@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.xmichel.javafx.dialog.Dialog;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import org.slf4j.Logger;
@@ -155,6 +156,7 @@ public final class PluginFactory {
 			
 		} catch (Exception e) {
 			logger.error("Failed to load plugin " + pluginFileName, e);
+            Dialog.showThrowable("Erreur", "Le chargement du plugin " + pluginFileName + "a échoué", e);
 		}
 		
 		return null;
