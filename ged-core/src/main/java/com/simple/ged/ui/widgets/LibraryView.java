@@ -269,43 +269,6 @@ public class LibraryView extends TreeView<String> {
 		}
 	}
  	
- 	
-	
-	/**
-	 * List files in given directory, and add them in tree
-	 */
-	@Deprecated
-	private TreeItem<String> listFile(File file, TreeItem<String> node) {
-
-		logger.trace(file.getName());
-		
-		if (file.isFile()) {
-			return new TreeItem<>(convertToNodeName(file.getName()), getIconForNode(file.getPath()));
-		}
-
-		for (File f : file.listFiles()) {
-
-			TreeItem<String> subNode;
-			if (f.isDirectory()) {
-				
-				subNode = new TreeItem<>(convertToNodeName(f.getName()), getIconForNode(f.getPath()));
-				listFile(f, subNode);
-				
-			} else {
-				
-				if (showDirectoryOnly) {
-					continue;
-				}
-				
-				subNode = new TreeItem<>(convertToNodeName(f.getName()), getIconForNode(f.getPath()));
-			}
-						
-			node.getChildren().add(subNode);
-		}
-		return node;
-	}
-
-
 
 	public LibraryViewEventHandler getEventHandler() {
 		return eventHandler;
