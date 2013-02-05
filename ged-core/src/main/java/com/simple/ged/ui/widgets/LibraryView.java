@@ -128,6 +128,7 @@ public class LibraryView extends TreeView<String> {
 			setRoot(newRoot);
 			
 			newRoot.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() { // object is string...
+				@SuppressWarnings("unchecked")
 				@Override
 				public void handle(TreeModificationEvent<Object> arg0) { // object is string...
 					logger.trace("Want to expand {}", arg0);
