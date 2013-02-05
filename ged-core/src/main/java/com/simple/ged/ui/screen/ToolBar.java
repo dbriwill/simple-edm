@@ -259,4 +259,13 @@ public class ToolBar extends SoftwareScreen {
 		return btnHome;
 	}
 
+
+	public ToolBarButton getBtnWorkerPluginManagement() {
+		return btnWorkerPluginManagement;
+	}
+
+	public void setBtnWorkerPluginManagement(ToolBarButton btnWorkerPluginManagement) {
+		this.btnWorkerPluginManagement = btnWorkerPluginManagement;
+	}
+
 }

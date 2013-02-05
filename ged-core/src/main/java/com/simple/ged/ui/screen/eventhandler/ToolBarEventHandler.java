@@ -55,6 +55,9 @@ public class ToolBarEventHandler implements EventHandler<Event> {
 		else if (action.getSource() == toolBar.get().getBtnGetterPluginManagement()) {
 			toolBar.get().gotoScreen(Screen.GETTER_PLUGIN_MANAGEMENT_SCREEN);
 		}
+		else if (action.getSource() == toolBar.get().getBtnWorkerPluginManagement()) {
+			toolBar.get().gotoScreen(Screen.WORKER_PLUGIN_CONFIGURATION_SCREEN);
+		}
 		else if (action.getSource() == toolBar.get().getBtnHome()) {
 			toolBar.get().gotoScreen(Screen.BROWSING_SCREEN);
 		}

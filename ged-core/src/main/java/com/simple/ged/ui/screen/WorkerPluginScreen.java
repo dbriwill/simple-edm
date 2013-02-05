@@ -1,29 +1,16 @@
 package com.simple.ged.ui.screen;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.models.GedGetterPlugin;
-import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.ui.MainWindow;
-import com.simple.ged.ui.screen.eventhandler.GetterPluginScreenEventHandler;
-import com.simple.ged.ui.screen.eventhandler.WorkerPluginScreenEventHandler;
-import fr.xmichel.toolbox.tools.DateHelper;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.*;
-import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.ui.MainWindow;
+import com.simple.ged.ui.screen.eventhandler.WorkerPluginScreenEventHandler;
 
 /**
  * 
