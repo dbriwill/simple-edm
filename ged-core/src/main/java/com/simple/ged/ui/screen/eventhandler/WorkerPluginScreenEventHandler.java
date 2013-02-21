@@ -1,16 +1,15 @@
 package com.simple.ged.ui.screen.eventhandler;
 
-import com.simple.ged.models.GedGetterPlugin;
-import com.simple.ged.ui.screen.SoftwareScreen.Screen;
-import com.simple.ged.ui.screen.WorkerPluginScreen;
-import fr.xmichel.toolbox.tools.PropertiesHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.ui.screen.SoftwareScreen.Screen;
+import com.simple.ged.ui.screen.WorkerPluginScreen;
 
 /**
  * 
@@ -35,11 +34,6 @@ public class WorkerPluginScreenEventHandler {
 	 * My logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(WorkerPluginScreenEventHandler.class);
-
-	/**
-	 * Properties
-	 */
-	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
 
 	/**
 	 * The watched screen
