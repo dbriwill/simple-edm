@@ -30,7 +30,12 @@ import fr.xmichel.toolbox.tools.DateTokenGetter;
 import fr.xmichel.toolbox.tools.OSHelper;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
 
-
+/**
+ * Add or edit document screen controller
+ * 
+ * @author xavier
+ *
+ */
 public class DocumentConfigurationScreenEventHandler implements DocumentInfoEditorListener, DocumentPreviewListener, EventHandler<ActionEvent> {
 
 	/**
@@ -136,9 +141,15 @@ public class DocumentConfigurationScreenEventHandler implements DocumentInfoEdit
 				});
 				t.start();
 			}
+			else { // show cannot be perform message avaible
+				Dialog.showError("Erreur", "L'utilisation de la fonction scanner n'est pas (encore) disponible sous votre système d'exploitation");
+			}
 
+			
 		} else if (arg0.getSource() == addDocumentScreen.get().getBtnSubmit()) {
 
+			addDocumentScreen.get().releaseOpenedFiles();
+			
 			GedDocument document = addDocumentScreen.get().getDocInfoEditor().getEventHandler().getDocument();
 			List<GedDocumentFile> attachedFiles = FileHelper.copyFilesIfNecessary(
 					addDocumentScreen.get().getDocumentPreviewer().getEventHandler().getFileList(), 
