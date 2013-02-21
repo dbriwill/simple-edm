@@ -12,8 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -27,7 +27,6 @@ import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.ui.MainWindow;
-import com.simple.ged.ui.screen.eventhandler.GetterPluginScreenEventHandler;
 import com.simple.ged.ui.screen.eventhandler.WorkerPluginScreenEventHandler;
 
 import fr.xmichel.toolbox.tools.DateHelper;
