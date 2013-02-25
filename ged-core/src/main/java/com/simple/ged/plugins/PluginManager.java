@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +121,7 @@ public final class PluginManager {
 			}
 			
 			logger.info(pluginFileName);
-			SimpleGedGetterPlugin p = PluginFactory.loadGetterPlugin(pluginFileName);
+			SimpleGedWorkerPlugin p = PluginFactory.loadWorkerPlugin(pluginFileName);
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {

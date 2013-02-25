@@ -1,5 +1,6 @@
 package com.simple.ged.connector.plugins.worker;
 
+import java.util.Date;
 import java.util.List;
 
 import com.simple.ged.connector.plugins.dto.GedFolderDTO;
@@ -14,6 +15,41 @@ import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
  */
 public abstract class SimpleGedWorkerPlugin {
 
+    /**
+     * The jar file name
+     */
+    private String jarFileName;
+
+    /**
+     * The destination for the downloaded file
+     */
+    private String destinationFile;
+
+    /**
+     * The plugin name
+     */
+    private String pluginName;
+
+    /**
+     * The plugin author
+     */
+    private String pluginAuthor;
+
+    /**
+     * The plugin version
+     */
+    private String pluginVersion;
+
+    /**
+     * The plugin date
+     */
+    private Date pluginDate;
+
+    /**
+     * The plugin description
+     */
+    private String pluginDescription;
+
 	/**
 	 * The properties list
 	 */
@@ -27,6 +63,54 @@ public abstract class SimpleGedWorkerPlugin {
 	 */
 	public abstract void doWork(GedFolderDTO gedRoot);
 
+
+    public String getDestinationFile() {
+        return destinationFile;
+    }
+
+    public void setDestinationFile(String destinationFile) {
+        this.destinationFile = destinationFile;
+    }
+
+    public String getPluginName() {
+        return pluginName;
+    }
+
+    public void setPluginName(String pluginName) {
+        this.pluginName = pluginName;
+    }
+
+    public String getPluginAuthor() {
+        return pluginAuthor;
+    }
+
+    public void setPluginAuthor(String pluginAuthor) {
+        this.pluginAuthor = pluginAuthor;
+    }
+
+    public String getPluginVersion() {
+        return pluginVersion;
+    }
+
+    public void setPluginVersion(String pluginVersion) {
+        this.pluginVersion = pluginVersion;
+    }
+
+    public Date getPluginDate() {
+        return pluginDate;
+    }
+
+    public void setPluginDate(Date pluginDate) {
+        this.pluginDate = pluginDate;
+    }
+
+    public String getPluginDescription() {
+        return pluginDescription;
+    }
+
+    public void setPluginDescription(String pluginDescription) {
+        this.pluginDescription = pluginDescription;
+    }
 	
 	public List<SimpleGedGetterPluginProperty> getProperties() {
 		return properties;
@@ -35,5 +119,13 @@ public abstract class SimpleGedWorkerPlugin {
 	public void setProperties(List<SimpleGedGetterPluginProperty> properties) {
 		this.properties = properties;
 	}
+
+    public String getJarFileName() {
+        return jarFileName;
+    }
+
+    public void setJarFileName(String jarFileName) {
+        this.jarFileName = jarFileName;
+    }
 
 }
