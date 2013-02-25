@@ -7,14 +7,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.simple.ged.models.GedGetterPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.models.GedMessage;
+import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginFactory.PluginFamily;
 import com.simple.ged.services.MessageService;
 import com.simple.ged.services.PluginService;
@@ -97,11 +98,11 @@ public final class PluginManager {
     /**
      * Get the worker plugin list
      */
-    public static List<GedGetterPlugin> getWorkerPluginList() {
+    public static List<GedWorkerPlugin> getWorkerPluginList() {
     	
     	FileHelper.createDirectoryIfNecessary(PLUGINS_DIRECTORY);
     	
-    	List<GedGetterPlugin> pluginList = new ArrayList<>();
+    	List<GedWorkerPlugin> pluginList = new ArrayList<>();
 
 		FilenameFilter jarFilter = new FilenameFilter() {
 			public boolean accept(File arg0, String arg1) {

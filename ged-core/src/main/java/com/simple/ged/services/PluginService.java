@@ -27,7 +27,7 @@ public final class PluginService {
 	 * Load and returns all plugins
 	 */
 	public static List<GedGetterPlugin> getAllGetterPlugins() {
-		return PluginManager.getPluginList();
+		return PluginManager.getGetterPluginList();
 	}
 	
 	
