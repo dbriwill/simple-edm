@@ -1,6 +1,9 @@
 package com.simple.ged.connector.plugins.worker;
 
+import java.util.List;
+
 import com.simple.ged.connector.plugins.dto.GedFolderDTO;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
 
 /**
  * This class is the super class of each simple GED worker plugins
@@ -11,8 +14,10 @@ import com.simple.ged.connector.plugins.dto.GedFolderDTO;
  */
 public abstract class SimpleGedWorkerPlugin {
 
-    // TODO : may we have some properties ?
-
+	/**
+	 * The properties list
+	 */
+	private List<SimpleGedGetterPluginProperty> properties;
 
 	/**
 	 * Make your works !
@@ -21,5 +26,14 @@ public abstract class SimpleGedWorkerPlugin {
 	 * 				The library root as an entry point
 	 */
 	public abstract void doWork(GedFolderDTO gedRoot);
+
 	
+	public List<SimpleGedGetterPluginProperty> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<SimpleGedGetterPluginProperty> properties) {
+		this.properties = properties;
+	}
+
 }

@@ -15,6 +15,7 @@ import com.simple.ged.Profile;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.models.GedMessage;
+import com.simple.ged.plugins.PluginFactory.PluginFamily;
 import com.simple.ged.services.MessageService;
 import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.SoftwareScreen;
@@ -57,9 +58,9 @@ public final class PluginManager {
 	static final String MANIFEST_FILE_NAME = "ged_plugin_manifest.properties";
 	
     /**
-     * Get the plugin list
+     * Get the getter plugin list
      */
-    public static List<GedGetterPlugin> getPluginList() {
+    public static List<GedGetterPlugin> getGetterPluginList() {
     	
     	FileHelper.createDirectoryIfNecessary(PLUGINS_DIRECTORY);
     	
@@ -75,8 +76,13 @@ public final class PluginManager {
 		String[] pluginsFiles = pluginsDirectory.list(jarFilter);
 		
 		for (String pluginFileName : pluginsFiles) {
+			
+			if (PluginFactory.getPluginFamilyForPlugin(pluginFileName) != PluginFamily.GETTER_PLUGIN) {
+				continue;
+			}
+			
 			logger.info(pluginFileName);
-			SimpleGedGetterPlugin p = PluginFactory.loadPlugin(pluginFileName);
+			SimpleGedGetterPlugin p = PluginFactory.loadGetterPlugin(pluginFileName);
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
@@ -88,19 +94,55 @@ public final class PluginManager {
     }
     
     
+    /**
+     * Get the worker plugin list
+     */
+    public static List<GedGetterPlugin> getWorkerPluginList() {
+    	
+    	FileHelper.createDirectoryIfNecessary(PLUGINS_DIRECTORY);
+    	
+    	List<GedGetterPlugin> pluginList = new ArrayList<>();
+
+		FilenameFilter jarFilter = new FilenameFilter() {
+			public boolean accept(File arg0, String arg1) {
+				return arg1.endsWith(".jar");
+			}
+		};
+
+		File pluginsDirectory = new File(PLUGINS_DIRECTORY);
+		String[] pluginsFiles = pluginsDirectory.list(jarFilter);
+		
+		for (String pluginFileName : pluginsFiles) {
+			
+			if (PluginFactory.getPluginFamilyForPlugin(pluginFileName) != PluginFamily.WORKER_PLUGIN) {
+				continue;
+			}
+			
+			logger.info(pluginFileName);
+			SimpleGedGetterPlugin p = PluginFactory.loadGetterPlugin(pluginFileName);
+			if ( p == null) {
+				logger.error("Couldn't load plugin : " + pluginFileName);
+			} else {
+				pluginList.add(PluginService.getPluginInformations(p));
+			}
+		}
+
+    	return pluginList;
+    }
     
+
     
     /**
 	 * Launch the plugin update if necessary
 	 */
-	public static void launchPluginUpdate(final SoftwareScreen ss) {
+	public static void launchGetterPluginUpdate(final SoftwareScreen ss) {
 		
 		Thread t = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				
-				List<GedGetterPlugin> plugins = getPluginList();
+				List<GedGetterPlugin> plugins = getGetterPluginList();
 				
 				for (GedGetterPlugin plugin : plugins) {
 					

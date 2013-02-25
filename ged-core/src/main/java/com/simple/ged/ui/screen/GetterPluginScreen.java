@@ -205,7 +205,7 @@ public class GetterPluginScreen extends SoftwareScreen {
 
 		pluginsList.clear();
 		
-		List<GedGetterPlugin> plugins = PluginManager.getPluginList();
+		List<GedGetterPlugin> plugins = PluginManager.getGetterPluginList();
 
 		logger.info("Plugin count : " + plugins.size());
 

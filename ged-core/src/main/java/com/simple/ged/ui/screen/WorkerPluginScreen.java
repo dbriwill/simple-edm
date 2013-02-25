@@ -65,7 +65,8 @@ public class WorkerPluginScreen extends SoftwareScreen {
 		super(mw);
 
 		instanciateWidgets();
-
+		refreshPluginListContent();
+		
 		table.setItems(pluginsList);
 
 		HBox.setHgrow(table, Priority.ALWAYS);
@@ -203,7 +204,7 @@ public class WorkerPluginScreen extends SoftwareScreen {
 
 		pluginsList.clear();
 		
-		List<GedGetterPlugin> plugins = PluginManager.getPluginList();
+		List<GedGetterPlugin> plugins = PluginManager.getWorkerPluginList();
 
 		logger.info("Plugin count : " + plugins.size());
 

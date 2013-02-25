@@ -71,7 +71,7 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 			p.setPluginProperties(properties);
 
 			PluginService.addOrUpdatePlugin(p);
-			PluginManager.launchPluginUpdate(pluginConfigurationScreen.get());
+			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
 
 			Dialog.showInfo(WorkerPluginConfigurationScreenEventHandler.properties.getProperty("information"), WorkerPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());
 			

@@ -115,7 +115,7 @@ public class MainWindow extends Application {
 		setCentralScreen(SoftwareScreen.Screen.BROWSING_SCREEN);
 		
 		// launch plugin update... (threaded)
-		PluginManager.launchPluginUpdate(new FakeScreen(this));
+		PluginManager.launchGetterPluginUpdate(new FakeScreen(this));
     }
     
 

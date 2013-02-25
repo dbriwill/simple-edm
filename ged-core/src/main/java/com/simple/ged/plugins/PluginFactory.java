@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 
 
 
@@ -32,6 +33,17 @@ import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
  */
 public final class PluginFactory {
 
+	/**
+	 * What kind of plugins
+	 * 
+	 * @author xavier
+	 *
+	 */
+	enum PluginFamily {
+		GETTER_PLUGIN,
+		WORKER_PLUGIN;
+	}
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(PluginFactory.class);
 	
@@ -44,7 +56,52 @@ public final class PluginFactory {
 	
 	
 	/**
-	 * Load the plugin for the given file name
+	 * Get the type of plugin for the given file
+	 */
+	static PluginFamily getPluginFamilyForPlugin(String pluginFileName) {
+		// will read the manifest, find the main class
+		// and try to instantiate this
+		try {
+			ClassLoader loader = null;
+
+			URL urls[] = {new File(PluginManager.PLUGINS_DIRECTORY + pluginFileName).toURI().toURL()};
+			loader = URLClassLoader.newInstance(urls);
+			
+			InputStreamReader isr = new InputStreamReader(loader.getResourceAsStream(PluginManager.MANIFEST_FILE_NAME), "utf8"); 
+			BufferedReader br = new BufferedReader(isr);
+			
+			String mainClass = "";
+			String line;
+			while ((line=br.readLine()) != null) {
+				line = line.replaceAll("[ \t]*=", "");
+				if (line.startsWith(PluginManifestTags.main_class_tag.getTagLabel())) {
+					mainClass = line.replaceAll(PluginManifestTags.main_class_tag.getTagLabel(), "").trim();
+				}
+			}
+			
+			Object o = Class.forName(mainClass, true, loader).newInstance();
+			
+			if (o instanceof SimpleGedGetterPlugin) {
+				return PluginFamily.GETTER_PLUGIN;
+			}
+			else if (o instanceof SimpleGedWorkerPlugin) {
+				return PluginFamily.WORKER_PLUGIN;
+			}
+			else {
+				return null;
+			}
+			
+		}
+		catch (Exception e) {
+			logger.error("Could not determine type of {}", pluginFileName, e);
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Load getter plugin for the given file name
 	 * 
 	 * @param pluginFileName
 	 * 				The plugin file name
@@ -52,7 +109,7 @@ public final class PluginFactory {
 	 * @return
 	 * 		The plugin if loading is successful, null otherwise
 	 */
-	 static SimpleGedGetterPlugin loadPlugin(String pluginFileName) {
+	 static SimpleGedGetterPlugin loadGetterPlugin(String pluginFileName) {
 				
 		try {
 			ClassLoader loader = null;
@@ -162,4 +219,115 @@ public final class PluginFactory {
 		return null;
 	}
 	
+	 
+	 
+	 /**
+	 * Load worker plugin for the given file name
+	 * 
+	 * @param pluginFileName
+	 * 				The plugin file name
+	 * 
+	 * @return
+	 * 		The plugin if loading is successful, null otherwise
+	 */
+	 static SimpleGedWorkerPlugin loadWorkerPlugin(String pluginFileName) {
+				
+		try {
+			ClassLoader loader = null;
+			
+			Map<PluginManifestTags, String> pluginInfos = new HashMap<>();
+			List<SimpleGedGetterPluginProperty> pluginProperties = new ArrayList<>();
+			
+			/*
+			 * Load plugin properties
+			 */
+			
+			logger.info("Loading : " + PluginManager.PLUGINS_DIRECTORY + pluginFileName);
+			URL urls[] = {new File(PluginManager.PLUGINS_DIRECTORY + pluginFileName).toURI().toURL()};
+			loader = URLClassLoader.newInstance(urls);
+
+			InputStreamReader isr = new InputStreamReader(loader.getResourceAsStream(PluginManager.MANIFEST_FILE_NAME), "utf8"); 
+			BufferedReader br = new BufferedReader(isr);
+	
+			String line;
+			while ((line=br.readLine()) != null) {
+			
+				line = line.replaceAll("[ \t]*=", "");
+
+				if (line.startsWith(PluginManifestTags.fields_tag.getTagLabel())) { // special treatment
+					
+					line = line.replaceAll(PluginManifestTags.fields_tag.getTagLabel(), "");
+					logger.trace(line);
+					
+					String[] properties = line.split(";");
+					
+					for (String property : properties) {
+						property = property.trim();
+						logger.trace(property);
+						
+						Pattern p = Pattern.compile("(.*)\\((.*)\\)");
+						Matcher m = p.matcher(property);
+						
+						String key = null;
+						String label = null;
+						while(m.find()) {
+							logger.trace("find : " + m.group(1) + " -> " + m.group(2));
+							key = m.group(1);
+							label = m.group(2);
+						}
+						
+						SimpleGedGetterPluginProperty sgpp = new SimpleGedGetterPluginProperty();
+						
+						if (key.contains("*")) {
+							key = key.replace("*", "");
+							sgpp.setHidden(true);
+						}
+						
+						sgpp.setPropertyKey(key.trim());
+						sgpp.setPropertyLabel(label.trim());
+						
+						pluginProperties.add(sgpp);
+					}
+
+				} else {	// it's not field tag
+			
+					for (PluginManifestTags tag : PluginManifestTags.values()) {
+						if (line.startsWith(tag.getTagLabel())) {
+							pluginInfos.put(tag, line.replaceAll(tag.getTagLabel(), "").trim());
+						}
+					}
+				}
+			
+			} // end while readline
+
+			
+			
+			/*
+			 * We can create plugin now !
+			 */
+
+			// set plugin infos
+			SimpleGedWorkerPlugin sgp = (SimpleGedWorkerPlugin) Class.forName(pluginInfos.get(PluginManifestTags.main_class_tag), true, loader).newInstance();
+
+			//sgp.setJarFileName(pluginFileName);
+			
+			sgp.setProperties(pluginProperties);
+			
+			for (java.util.Map.Entry<PluginManifestTags, String> e : pluginInfos.entrySet()) {
+				
+				logger.trace(e.getKey().getTagLabel() + "=" + e.getValue());
+				
+				if (e.getKey().getAttributeName() != null) {
+					PropertyUtils.setSimpleProperty(sgp, e.getKey().getAttributeName(), e.getValue());
+				}
+			}
+			return sgp;
+			
+		} catch (Exception e) {
+			logger.error("Failed to load plugin " + pluginFileName, e);
+            Dialog.showThrowable("Erreur", "Le chargement du plugin " + pluginFileName + "a échoué", e);
+		}
+		
+		return null;
+	}
 }
