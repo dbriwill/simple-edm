@@ -140,6 +140,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		
 		VBox optionsBox = new VBox(30);
 //		optionsBox.getChildren().addAll(help, optionLayout);
+		optionsBox.getChildren().addAll(optionLayout);
 		
 		globalLayout.add(detailsBox, 0, 0);
 		globalLayout.add(desc, 1, 0);
