@@ -1,13 +1,14 @@
 package fr.xmichel.ged;
 
-import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
 /**
  * User: xavier
@@ -21,14 +22,14 @@ public class OrangeMobilePluginTest {
         SimpleGedGetterPlugin p = new OrangeMobilePlugin();
 
         // create properties list
-        List<SimpleGedGetterPluginProperty> properties = new ArrayList<>();
+        List<SimpleGedPluginProperty> properties = new ArrayList<>();
 
         // create the required properties
-        SimpleGedGetterPluginProperty phoneNumber  = new SimpleGedGetterPluginProperty();
+        SimpleGedPluginProperty phoneNumber  = new SimpleGedPluginProperty();
         phoneNumber.setPropertyKey("phone_number");
         phoneNumber.setPropertyValue("06XXXXXXXX");
 
-        SimpleGedGetterPluginProperty secretCode  = new SimpleGedGetterPluginProperty();
+        SimpleGedPluginProperty secretCode  = new SimpleGedPluginProperty();
         secretCode.setPropertyKey("secret_code");
         secretCode.setPropertyValue("XXXXXX");
 

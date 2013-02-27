@@ -10,9 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
 /**
  * The demo plugin just copy the file designed by file_to_copy in the selected ged directory
@@ -64,10 +64,10 @@ public class DemoPlugin extends SimpleGedGetterPlugin {
 		SimpleGedGetterPlugin p = new DemoPlugin();
 		
 		// create properties list 
-		List<SimpleGedGetterPluginProperty> properties = new ArrayList<>();
+		List<SimpleGedPluginProperty> properties = new ArrayList<>();
 		
 		// create the required properties
-		SimpleGedGetterPluginProperty fileToCopy  = new SimpleGedGetterPluginProperty();
+		SimpleGedPluginProperty fileToCopy  = new SimpleGedPluginProperty();
 		fileToCopy.setPropertyKey("file_to_copy");
 		fileToCopy.setPropertyValue("D:\\foo.txt");
 		

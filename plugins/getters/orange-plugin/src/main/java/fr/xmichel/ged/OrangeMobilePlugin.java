@@ -22,9 +22,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
 public class OrangeMobilePlugin extends SimpleGedGetterPlugin {
 
@@ -199,14 +199,14 @@ public class OrangeMobilePlugin extends SimpleGedGetterPlugin {
 		SimpleGedGetterPlugin p = new OrangeMobilePlugin();
 		
 		// create properties list 
-		List<SimpleGedGetterPluginProperty> properties = new ArrayList<>();
+		List<SimpleGedPluginProperty> properties = new ArrayList<>();
 		
 		// create the required properties
-		SimpleGedGetterPluginProperty phoneNumber  = new SimpleGedGetterPluginProperty();
+		SimpleGedPluginProperty phoneNumber  = new SimpleGedPluginProperty();
 		phoneNumber.setPropertyKey("phone_number");
 		phoneNumber.setPropertyValue("06XXXXXXXX");
 		
-		SimpleGedGetterPluginProperty secretCode  = new SimpleGedGetterPluginProperty();
+		SimpleGedPluginProperty secretCode  = new SimpleGedPluginProperty();
 		secretCode.setPropertyKey("secret_code");
 		secretCode.setPropertyValue("XXXXXX");
 		
