@@ -97,7 +97,7 @@ echo "Version de ged-updater selon le code  : ${UPDATER_CODE_VERSION}"
 echo "Version de ged-updater selon maven    : ${UPDATER_MAVEN_VERSION}"
 
 echo "Version en ligne de ged-core          : ${CORE_ONLINE_VERSION}"
-echo "Version en ligne de ged-upcater       : ${UPDATER_ONLINE_VERSION}"
+echo "Version en ligne de ged-updater       : ${UPDATER_ONLINE_VERSION}"
 
 check_maven_code_version ${CORE_CODE_VERSION} ${CORE_MAVEN_VERSION} ged-core
 check_maven_code_version ${UPDATER_CODE_VERSION} ${UPDATER_MAVEN_VERSION} ged-updater

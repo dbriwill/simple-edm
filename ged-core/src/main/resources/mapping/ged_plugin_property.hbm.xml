@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-	<class name="com.simple.ged.connector.plugins.getter.SimpleGedPluginProperty" table="plugin_property" lazy="false" >
+	<class name="com.simple.ged.connector.plugins.SimpleGedPluginProperty" table="plugin_property" lazy="false" >
 
 		<id name="id" column="rowid">
 			<generator class="native"></generator>

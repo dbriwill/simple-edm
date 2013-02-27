@@ -79,7 +79,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * Help text
 	 */
-	private Text help;
+	//private Text help;
 	
 	/**
 	 * Save button
@@ -139,7 +139,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 //		optionLayout.add(comboIntervalBetweenUpdateInMonth, 1, 2);
 		
 		VBox optionsBox = new VBox(30);
-		optionsBox.getChildren().addAll(help, optionLayout);
+//		optionsBox.getChildren().addAll(help, optionLayout);
 		
 		globalLayout.add(detailsBox, 0, 0);
 		globalLayout.add(desc, 1, 0);
@@ -222,10 +222,10 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		desc = new Text();
 		desc.getStyleClass().add("list-plugin-desc");
 		
-		help = new Text();
-		help.setText(properties.getProperty("plugin_option_user_guide"));
+//		help = new Text();
+//		help.setText(properties.getProperty("plugin_option_user_guide"));
 		
-		save = new Button(properties.getProperty("save"));
+		save = new Button(properties.getProperty("run"));
 		save.setPrefSize(250, 80);
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -234,7 +234,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 			}
 		});
 		
-		Image i3 = new Image(getClass().getResourceAsStream(properties.getProperty("ico_save")));
+		Image i3 = new Image(getClass().getResourceAsStream(properties.getProperty("ico_run")));
 		ImageView iv3 = new ImageView(i3);
 		iv3.setSmooth(true);
 		iv3.setFitWidth(64);
