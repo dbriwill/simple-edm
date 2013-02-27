@@ -3,6 +3,9 @@ package com.simple.ged.connector.plugins.dto;
 import java.io.File;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * This class represent a leaf in the GED tree : some file
@@ -12,6 +15,11 @@ import java.util.Date;
  */
 public class GedDocumentDTO extends GedComponentDTO {
 
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(GedDocumentDTO.class);
+	
 	/**
 	 * Path to the manipulated file
 	 */
@@ -49,6 +57,7 @@ public class GedDocumentDTO extends GedComponentDTO {
 	@Override
 	protected void persist() {
 		// TODO implement me !
+		logger.error("Not implemented yet ! You want to help me or your need this feature ? Implement this for me please !");
 	}
 
 

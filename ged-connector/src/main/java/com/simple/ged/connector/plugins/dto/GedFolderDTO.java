@@ -4,6 +4,9 @@ import com.simple.ged.connector.plugins.dto.listeners.GedFoldertDtoDataSourceLis
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * This class represent a composite in the GED tree : some directory
@@ -13,6 +16,11 @@ import java.util.List;
  */
 public class GedFolderDTO extends GedComponentDTO {
 
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(GedFolderDTO.class);
+	
 	/**
 	 * Children list
      *
@@ -42,6 +50,7 @@ public class GedFolderDTO extends GedComponentDTO {
 	@Override
 	protected void persist() {
 		// TODO implement me !
+		logger.error("Not implemented yet ! You want to help me or your need this feature ? Implement this for me please !");
 	}
 
 
