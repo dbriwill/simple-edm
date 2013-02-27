@@ -16,4 +16,8 @@ public class SimpleGedPluginException extends Exception {
 	public SimpleGedPluginException(String errorMessage) {
 		super(errorMessage);
 	}
+	
+	public SimpleGedPluginException(String errorMessage, Throwable t) {
+		super(errorMessage, t);
+	}
 }

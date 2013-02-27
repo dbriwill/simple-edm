@@ -38,7 +38,7 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
         	recursiveLister(gedRoot);
         }
         catch (Exception e) {
-        	throw new SimpleGedPluginException("Quelque chose ne s'est pas bien passé... " + e.getMessage());
+        	throw new SimpleGedPluginException("Quelque chose ne s'est pas bien passé : " + e.getMessage(), e);
         }
         
         logger.info("End of work");
