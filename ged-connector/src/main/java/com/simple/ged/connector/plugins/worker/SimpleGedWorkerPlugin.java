@@ -61,9 +61,26 @@ public abstract class SimpleGedWorkerPlugin {
 	 * 
 	 * @param gedRoot
 	 * 				The library root as an entry point
+	 * 
+	 * @return 
+	 * 				Some feedback about the work performed
 	 */
-	public abstract void doWork(GedFolderDTO gedRoot) throws SimpleGedPluginException;
+	public abstract String doWork(GedFolderDTO gedRoot) throws SimpleGedPluginException;
 
+	
+	/**
+	 * Get the value of some property
+	 */
+	public String getPropertyValue(String key) {
+		for (SimpleGedPluginProperty p : properties) {
+			if (p.getPropertyKey().equals(key)) {
+				return p.getPropertyValue();
+			}
+		}
+		return null;
+	}
+	
+	
 
     public String getDestinationFile() {
         return destinationFile;
