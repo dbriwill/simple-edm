@@ -318,7 +318,16 @@ public final class PluginFactory {
 				logger.trace(e.getKey().getTagLabel() + "=" + e.getValue());
 				
 				if (e.getKey().getAttributeName() != null) {
-					PropertyUtils.setSimpleProperty(sgp, e.getKey().getAttributeName(), e.getValue());
+					if (e.getKey().getAttributeName().contains("date") || e.getKey().getAttributeName().contains("Date")) {
+						String[] dateSplit = e.getValue().split("-");
+						PropertyUtils.setSimpleProperty(
+								sgp, 
+								e.getKey().getAttributeName(), 
+								(new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]) - 1, Integer.parseInt(dateSplit[2]))).getTime()
+						);
+					} else {
+						PropertyUtils.setSimpleProperty(sgp, e.getKey().getAttributeName(), e.getValue());
+					}
 				}
 			}
 			return sgp;

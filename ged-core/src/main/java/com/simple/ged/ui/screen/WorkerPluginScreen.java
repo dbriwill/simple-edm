@@ -2,8 +2,6 @@ package com.simple.ged.ui.screen;
 
 import java.util.List;
 
-import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
-import com.simple.ged.models.GedWorkerPlugin;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,8 +23,8 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
-import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
+import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.WorkerPluginScreenEventHandler;
@@ -137,7 +135,7 @@ public class WorkerPluginScreen extends SoftwareScreen {
 
 				final GedWorkerPlugin pmi = p.getValue();
 
-                Button btnActivate = new Button(properties.getProperty("activate"));
+                Button btnActivate = new Button(properties.getProperty("run"));
                 btnActivate.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent arg0) {
