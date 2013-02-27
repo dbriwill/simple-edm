@@ -139,7 +139,7 @@ public class WorkerPluginScreen extends SoftwareScreen {
                 btnActivate.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent arg0) {
-                        //eventHandler.pluginActionRequired(WorkerPluginScreenEventHandler.Action.ONE_SHOT_RUN, pmi);
+                        eventHandler.pluginActionRequired(WorkerPluginScreenEventHandler.Action.ONE_SHOT_RUN, pmi);
                     }
                 });
 

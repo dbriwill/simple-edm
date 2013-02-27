@@ -26,6 +26,7 @@ import com.simple.ged.ui.screen.MessageScreen;
 import com.simple.ged.ui.screen.SettingsScreen;
 import com.simple.ged.ui.screen.SoftwareScreen;
 import com.simple.ged.ui.screen.ToolBar;
+import com.simple.ged.ui.screen.WorkerPluginConfigurationScreen;
 import com.simple.ged.ui.screen.WorkerPluginScreen;
 
 import fr.xmichel.toolbox.tools.FileHelper;
@@ -204,8 +205,8 @@ public class MainWindow extends Application {
 		case GETTER_PLUGIN_MANAGEMENT_SCREEN :
 			return new GetterPluginScreen(this);
 		
-		//case WORKER_PLUGIN_CONFIGURATION_SCREEN :
-		//	return new WorkerPluginConfigurationScreen(this);
+		case WORKER_PLUGIN_CONFIGURATION_SCREEN :
+			return new WorkerPluginConfigurationScreen(this);
 			
 		case WORKER_PLUGIN_MANAGEMENT_SCREEN :
 			return new WorkerPluginScreen(this);

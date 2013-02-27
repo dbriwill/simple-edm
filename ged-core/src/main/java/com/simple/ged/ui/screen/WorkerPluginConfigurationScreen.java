@@ -1,14 +1,11 @@
 package com.simple.ged.ui.screen;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Separator;
@@ -23,37 +20,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
-import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.ui.MainWindow;
-import com.simple.ged.ui.screen.eventhandler.GetterPluginConfigurationScreenEventHandler;
-import com.simple.ged.ui.widgets.LibraryView;
+import com.simple.ged.ui.screen.eventhandler.WorkerPluginConfigurationScreenEventHandler;
 
 import fr.xmichel.toolbox.tools.DateHelper;
 
 
 /**
  * 
- * This is the screen for configuring getter plugins
+ * This is the screen for configuring worker plugins
  * 
  * @author xavier
  *
  */
-public class GetterPluginConfigurationScreen extends SoftwareScreen {
+public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(GetterPluginConfigurationScreen.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreen.class);
 	
 	/**
 	 * The library view, to chose document target
 	 */
-	private LibraryView libraryView;
+	//private LibraryView libraryView;
 	
 	/**
 	 * The concerned plugin
 	 */
-	private GedGetterPlugin plugin;
+	private GedWorkerPlugin plugin;
 	
 	/**
 	 * The plugin name
@@ -98,12 +94,12 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * The day selector
 	 */
-	private ComboBox<Integer> comboDayOfMonthForUpdate;
+	//private ComboBox<Integer> comboDayOfMonthForUpdate;
 	
 	/**
 	 * The interval between update selector
 	 */
-	private ComboBox<Integer> comboIntervalBetweenUpdateInMonth;
+	//private ComboBox<Integer> comboIntervalBetweenUpdateInMonth;
 	
 	/**
 	 * Map of properties
@@ -113,15 +109,15 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * The destination file name pattern
 	 */
-	private TextField fieldNamePattern;
+	//private TextField fieldNamePattern;
 	
 	/**
 	 * My event handler
 	 */
-	private GetterPluginConfigurationScreenEventHandler eventHandler;
+	private WorkerPluginConfigurationScreenEventHandler eventHandler;
 	
 	
-	public GetterPluginConfigurationScreen(MainWindow mw) {
+	public WorkerPluginConfigurationScreen(MainWindow mw) {
 		super(mw);
 		
 		instanciateWidgets();
@@ -133,21 +129,21 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 		VBox detailsBox = new VBox();
 		detailsBox.getChildren().addAll(title, version, author, new Separator(), jarName);
 		
-		optionLayout.add(new Label(properties.getProperty("destination_file_name")), 0, 0);
-		optionLayout.add(fieldNamePattern, 1, 0);
-
-		optionLayout.add(new Label(properties.getProperty("day_of_getting")), 0, 1);
-		optionLayout.add(comboDayOfMonthForUpdate, 1, 1);
-		
-		optionLayout.add(new Label(properties.getProperty("time_between")), 0, 2);
-		optionLayout.add(comboIntervalBetweenUpdateInMonth, 1, 2);
+//		optionLayout.add(new Label(properties.getProperty("destination_file_name")), 0, 0);
+//		optionLayout.add(fieldNamePattern, 1, 0);
+//
+//		optionLayout.add(new Label(properties.getProperty("day_of_getting")), 0, 1);
+//		optionLayout.add(comboDayOfMonthForUpdate, 1, 1);
+//		
+//		optionLayout.add(new Label(properties.getProperty("time_between")), 0, 2);
+//		optionLayout.add(comboIntervalBetweenUpdateInMonth, 1, 2);
 		
 		VBox optionsBox = new VBox(30);
 		optionsBox.getChildren().addAll(help, optionLayout);
 		
 		globalLayout.add(detailsBox, 0, 0);
 		globalLayout.add(desc, 1, 0);
-		globalLayout.add(libraryView, 0, 1);
+		//globalLayout.add(libraryView, 0, 1);
 		globalLayout.add(optionsBox, 1, 1);
 		globalLayout.add(save, 1, 2);
 		
@@ -157,7 +153,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	
 	@Override
 	public void pullExtraValues(Map<String, Object> extras) {
-		plugin = (GedGetterPlugin) extras.get("ged-plugin");
+		plugin = (GedWorkerPlugin) extras.get("ged-plugin");
 		
 		title.setText(plugin.getPlugin().getPluginName());
 		version.setText(properties.getProperty("Version") + " " + plugin.getPlugin().getPluginVersion() + " " + properties.getProperty("released_the") + " " + DateHelper.calendarToString(plugin.getPlugin().getPluginDate()));
@@ -166,11 +162,11 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 		desc.setText(plugin.getPlugin().getPluginDescription());
 		
 		
-		if (plugin.isActivated()) {
-			fieldNamePattern.setText(plugin.getDestinationFilePattern());
-			comboDayOfMonthForUpdate.getSelectionModel().select(plugin.getDayOfMonthForUpdate() - 1);
-			comboIntervalBetweenUpdateInMonth.getSelectionModel().select(plugin.getIntervalBetweenUpdates() - 1);
-		}
+//		if (plugin.isActivated()) {
+//			fieldNamePattern.setText(plugin.getDestinationFilePattern());
+//			comboDayOfMonthForUpdate.getSelectionModel().select(plugin.getDayOfMonthForUpdate() - 1);
+//			comboIntervalBetweenUpdateInMonth.getSelectionModel().select(plugin.getIntervalBetweenUpdates() - 1);
+//		}
 		
 		
 		int currentRowNumber = 3;
@@ -182,15 +178,15 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 				field = new PasswordField();
 			}
 		
-			if (plugin.isActivated()) {
-				logger.debug("Plugin is activated, setting value");
-				for (SimpleGedGetterPluginProperty pr : plugin.getPluginProperties()) {
-					if (pr.getPropertyKey().equals(property.getPropertyKey())) {
-						field.setText(pr.getPropertyValue());
-						break;
-					}
-				}
-			}
+//			if (plugin.isActivated()) {
+//				logger.debug("Plugin is activated, setting value");
+//				for (SimpleGedGetterPluginProperty pr : plugin.getPluginProperties()) {
+//					if (pr.getPropertyKey().equals(property.getPropertyKey())) {
+//						field.setText(pr.getPropertyValue());
+//						break;
+//					}
+//				}
+//			}
 			
 			field.setOnKeyReleased(eventHandler);
 			
@@ -206,10 +202,10 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 
 	private void instanciateWidgets() {
 		
-		eventHandler = new GetterPluginConfigurationScreenEventHandler(this);
+		eventHandler = new WorkerPluginConfigurationScreenEventHandler(this);
 		
 		
-		libraryView = new LibraryView(this, true);
+		//libraryView = new LibraryView(this, true);
 		
 		title = new Label();
 		title.getStyleClass().add("list-plugin-title");
@@ -252,46 +248,46 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 		optionLayout.setHgap(10);
 		optionLayout.setVgap(10);
 		
-		comboDayOfMonthForUpdate = new ComboBox<>();
-		
-		List<Integer> vDays = new ArrayList<>();
-		for (int i = 1; i <= 30; ++i) {
-			vDays.add(i);
-		}
-		comboDayOfMonthForUpdate.getItems().addAll(vDays);
-		comboDayOfMonthForUpdate.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				eventHandler.checkValidity();
-			}
-		});
-		
-		comboIntervalBetweenUpdateInMonth = new ComboBox<>();
-		List<Integer> vMonth = new ArrayList<>();
-		for (int i = 1; i <= 12; ++i) {
-			vMonth.add(i);
-		}
-		comboIntervalBetweenUpdateInMonth.getItems().addAll(vMonth);
-		comboIntervalBetweenUpdateInMonth.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				eventHandler.checkValidity();
-			}
-		});
+//		comboDayOfMonthForUpdate = new ComboBox<>();
+//		
+//		List<Integer> vDays = new ArrayList<>();
+//		for (int i = 1; i <= 30; ++i) {
+//			vDays.add(i);
+//		}
+//		comboDayOfMonthForUpdate.getItems().addAll(vDays);
+//		comboDayOfMonthForUpdate.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent arg0) {
+//				eventHandler.checkValidity();
+//			}
+//		});
+//		
+//		comboIntervalBetweenUpdateInMonth = new ComboBox<>();
+//		List<Integer> vMonth = new ArrayList<>();
+//		for (int i = 1; i <= 12; ++i) {
+//			vMonth.add(i);
+//		}
+//		comboIntervalBetweenUpdateInMonth.getItems().addAll(vMonth);
+//		comboIntervalBetweenUpdateInMonth.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent arg0) {
+//				eventHandler.checkValidity();
+//			}
+//		});
 		
 		propertiesFieldsMap = new HashMap<>();
 		
-		fieldNamePattern = new TextField();
-		fieldNamePattern.setOnKeyReleased(eventHandler);
+//		fieldNamePattern = new TextField();
+//		fieldNamePattern.setOnKeyReleased(eventHandler);
 	}
 
 
-	public LibraryView getLibraryView() {
-		return libraryView;
-	}
+//	public LibraryView getLibraryView() {
+//		return libraryView;
+//	}
 
 
-	public GedGetterPlugin getPlugin() {
+	public GedWorkerPlugin getPlugin() {
 		return plugin;
 	}
 
@@ -301,14 +297,14 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	}
 
 
-	public ComboBox<Integer> getComboDayOfMonthForUpdate() {
-		return comboDayOfMonthForUpdate;
-	}
+//	public ComboBox<Integer> getComboDayOfMonthForUpdate() {
+//		return comboDayOfMonthForUpdate;
+//	}
 
 
-	public ComboBox<Integer> getComboIntervalBetweenUpdateInMonth() {
-		return comboIntervalBetweenUpdateInMonth;
-	}
+//	public ComboBox<Integer> getComboIntervalBetweenUpdateInMonth() {
+//		return comboIntervalBetweenUpdateInMonth;
+//	}
 
 
 	public Map<SimpleGedGetterPluginProperty, TextField> getPropertiesFieldsMap() {
@@ -316,8 +312,8 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	}
 
 
-	public TextField getFieldNamePattern() {
-		return fieldNamePattern;
-	}
+//	public TextField getFieldNamePattern() {
+//		return fieldNamePattern;
+//	}
 
 }

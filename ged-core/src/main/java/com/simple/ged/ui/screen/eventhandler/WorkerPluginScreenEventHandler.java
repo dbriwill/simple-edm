@@ -7,7 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.ui.screen.SoftwareScreen.Screen;
 import com.simple.ged.ui.screen.WorkerPluginScreen;
 
@@ -56,7 +56,7 @@ public class WorkerPluginScreenEventHandler {
 	 * @param pmi
 	 * 			The concerned plugin
 	 */
-	public void pluginActionRequired(Action a, final GedGetterPlugin pmi) {
+	public void pluginActionRequired(Action a, final GedWorkerPlugin pmi) {
 		
 		switch (a) {
 		
