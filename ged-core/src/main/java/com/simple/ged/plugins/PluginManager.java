@@ -204,7 +204,7 @@ public final class PluginManager {
 							
 						} catch (SimpleGedPluginException e1) {
 							
-							MessageService.addMessage(new GedMessage("ERROR", "Echec de récupération pour le plugin " + p.getJarFileName() + "<br/>Détail : " + e1.getMessage()));
+							MessageService.addMessage(new GedMessage("ERROR", "Echec de récupération pour le plugin " + p.getJarFileName() + "<br/>Détail :<br/>" + e1.getStackTrace()));
 							
 							logger.error("[ " + p.getJarFileName() + " ] Error in plugin DoGet : ", e1);
 						} 
@@ -237,7 +237,7 @@ public final class PluginManager {
 			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + "RESULTAT IS NOT RECUPERATED YET !!!"));
 		}
 		catch (SimpleGedPluginException e1) {
-			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail : " + e1.getMessage()));
+			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + e1.getStackTrace()));
 			
 			logger.error("[ " + p.getPlugin().getJarFileName() + " ] Error in plugin DoWork : ", e1);
 		}
