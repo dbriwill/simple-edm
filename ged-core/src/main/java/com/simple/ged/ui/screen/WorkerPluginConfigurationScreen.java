@@ -159,7 +159,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		version.setText(properties.getProperty("Version") + " " + plugin.getPlugin().getPluginVersion() + " " + properties.getProperty("released_the") + " " + DateHelper.calendarToString(plugin.getPlugin().getPluginDate()));
 		author.setText((properties.getProperty("by") + " " + plugin.getPlugin().getPluginAuthor()));
 		jarName.setText(plugin.getPlugin().getJarFileName());
-		desc.setText(plugin.getPlugin().getPluginDescription());
+		desc.setText(plugin.getPlugin().getPluginDescription().replace("\\n", "\n"));
 		
 		
 //		if (plugin.isActivated()) {
