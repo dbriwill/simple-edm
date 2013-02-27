@@ -91,6 +91,7 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 	
 	@Override
 	public void handle(KeyEvent arg0) {
+		checkValidity();
 	}
 	
 	/**
