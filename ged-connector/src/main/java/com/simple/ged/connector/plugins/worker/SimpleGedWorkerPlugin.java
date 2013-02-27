@@ -3,8 +3,9 @@ package com.simple.ged.connector.plugins.worker;
 import java.util.Date;
 import java.util.List;
 
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.dto.GedFolderDTO;
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 
 /**
  * This class is the super class of each simple GED worker plugins
@@ -53,7 +54,7 @@ public abstract class SimpleGedWorkerPlugin {
 	/**
 	 * The properties list
 	 */
-	private List<SimpleGedGetterPluginProperty> properties;
+	private List<SimpleGedPluginProperty> properties;
 
 	/**
 	 * Make your works !
@@ -61,7 +62,7 @@ public abstract class SimpleGedWorkerPlugin {
 	 * @param gedRoot
 	 * 				The library root as an entry point
 	 */
-	public abstract void doWork(GedFolderDTO gedRoot);
+	public abstract void doWork(GedFolderDTO gedRoot) throws SimpleGedPluginException;
 
 
     public String getDestinationFile() {
@@ -112,11 +113,11 @@ public abstract class SimpleGedWorkerPlugin {
         this.pluginDescription = pluginDescription;
     }
 	
-	public List<SimpleGedGetterPluginProperty> getProperties() {
+	public List<SimpleGedPluginProperty> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<SimpleGedGetterPluginProperty> properties) {
+	public void setProperties(List<SimpleGedPluginProperty> properties) {
 		this.properties = properties;
 	}
 

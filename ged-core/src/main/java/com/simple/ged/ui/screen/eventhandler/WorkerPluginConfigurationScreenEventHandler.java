@@ -14,11 +14,9 @@ import javafx.scene.input.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
-import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.WorkerPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -66,9 +64,9 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 			p.setFileName(p.getPlugin().getJarFileName());
 //			p.setIntervalBetweenUpdates((Integer) pluginConfigurationScreen.get().getComboIntervalBetweenUpdateInMonth().getSelectionModel().getSelectedItem());
 			
-			List<SimpleGedGetterPluginProperty> properties = new ArrayList<>();
+			List<SimpleGedPluginProperty> properties = new ArrayList<>();
 			
-			for (Entry<SimpleGedGetterPluginProperty, TextField> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			for (Entry<SimpleGedPluginProperty, TextField> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 				entry.getKey().setPropertyValue(entry.getValue().getText());
 				properties.add(entry.getKey());
 			}
@@ -77,7 +75,9 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 //			PluginService.addOrUpdatePlugin(p);
 //			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
 
-			Dialog.showInfo(WorkerPluginConfigurationScreenEventHandler.properties.getProperty("information"), WorkerPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());
+			PluginManager.launchWorkerPlugin(p, pluginConfigurationScreen.get());
+			
+			Dialog.showInfo(WorkerPluginConfigurationScreenEventHandler.properties.getProperty("information"), WorkerPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_launched"), pluginConfigurationScreen.get().getMainStage());
 			
 			pluginConfigurationScreen.get().refreshScreens();
 			pluginConfigurationScreen.get().finish();
@@ -99,7 +99,7 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 	public void checkValidity() {
 		boolean valid = true;
 		
-		for (Entry<SimpleGedGetterPluginProperty, TextField> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+		for (Entry<SimpleGedPluginProperty, TextField> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 			if (e.getValue().getText().isEmpty()) {
 				valid = false;
 				break;

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
+import com.simple.ged.connector.plugins.dto.GedFolderDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.models.GedGetterPlugin;
@@ -217,5 +218,32 @@ public final class PluginManager {
 		
 		t.start();
 	
+	}
+	
+	
+	 /**
+	 * Launch the plugin update if necessary
+	 */
+	public static void launchWorkerPlugin(final GedWorkerPlugin p, final SoftwareScreen ss) {
+		
+		MessageService.addMessage(new GedMessage("NEUTRAL", "Lancement de l'action pour le plugin :" + p.getPlugin().getJarFileName()));
+		ss.notifyNewMessagesAvailable();
+		
+		try {
+			p.getPlugin().setProperties(p.getPluginProperties());
+		
+			p.getPlugin().doWork(new GedFolderDTO(Profile.getInstance().getLibraryRoot()));
+			
+			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + "RESULTAT IS NOT RECUPERATED YET !!!"));
+		}
+		catch (SimpleGedPluginException e1) {
+			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail : " + e1.getMessage()));
+			
+			logger.error("[ " + p.getPlugin().getJarFileName() + " ] Error in plugin DoWork : ", e1);
+		}
+		finally {
+			ss.notifyNewMessagesAvailable();
+		}
+		
 	}
 }

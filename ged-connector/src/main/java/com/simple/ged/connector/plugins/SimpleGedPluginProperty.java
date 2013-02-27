@@ -1,4 +1,4 @@
-package com.simple.ged.connector.plugins.getter;
+package com.simple.ged.connector.plugins;
 
 
 /**
@@ -10,7 +10,7 @@ package com.simple.ged.connector.plugins.getter;
  * 
  * @author xavier
  */
-public class SimpleGedGetterPluginProperty {
+public class SimpleGedPluginProperty {
 	
     /**
      * ID (for mapping)
@@ -38,7 +38,7 @@ public class SimpleGedGetterPluginProperty {
 	private boolean hidden;
 	
 	
-	public SimpleGedGetterPluginProperty() {
+	public SimpleGedPluginProperty() {
 		hidden = false;
 	}
 	

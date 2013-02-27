@@ -2,7 +2,7 @@ package com.simple.ged.models;
 
 import java.util.List;
 
-import com.simple.ged.connector.plugins.getter.SimpleGedGetterPluginProperty;
+import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 
 /**
@@ -25,7 +25,7 @@ public class GedWorkerPlugin {
     /**
      * Properties attached to this plugin
      */
-    private List<SimpleGedGetterPluginProperty> pluginProperties;
+    private List<SimpleGedPluginProperty> pluginProperties;
 
     /**
      * The concerned plugin
@@ -41,11 +41,11 @@ public class GedWorkerPlugin {
 	}
 
 	
-	public List<SimpleGedGetterPluginProperty> getPluginProperties() {
+	public List<SimpleGedPluginProperty> getPluginProperties() {
 		return pluginProperties;
 	}
 
-	public void setPluginProperties(List<SimpleGedGetterPluginProperty> pluginProperties) {
+	public void setPluginProperties(List<SimpleGedPluginProperty> pluginProperties) {
 		this.pluginProperties = pluginProperties;
 	}
 
