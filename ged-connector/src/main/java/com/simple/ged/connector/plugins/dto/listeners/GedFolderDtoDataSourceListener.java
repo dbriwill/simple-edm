@@ -10,7 +10,7 @@ import java.util.List;
  * Bridge specialized for directories
  *
  */
-public interface GedFoldertDtoDataSourceListener extends GedComponentDtoDataSourceListener {
+public interface GedFolderDtoDataSourceListener extends GedComponentDtoDataSourceListener {
 
     /**
      * This directory want to know his children

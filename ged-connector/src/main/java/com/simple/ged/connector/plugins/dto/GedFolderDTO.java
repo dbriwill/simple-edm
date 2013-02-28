@@ -1,6 +1,6 @@
 package com.simple.ged.connector.plugins.dto;
 
-import com.simple.ged.connector.plugins.dto.listeners.GedFoldertDtoDataSourceListener;
+import com.simple.ged.connector.plugins.dto.listeners.GedFolderDtoDataSourceListener;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class GedFolderDTO extends GedComponentDTO {
     /**
      * Someone is listening for what I need
      */
-    private GedFoldertDtoDataSourceListener gedFoldertDtoDataSourceListener;
+    private GedFolderDtoDataSourceListener gedFoldertDtoDataSourceListener;
 
 
 	public GedFolderDTO(String relativePathToRoot) {
@@ -57,11 +57,11 @@ public class GedFolderDTO extends GedComponentDTO {
 
     //
 
-    public GedFoldertDtoDataSourceListener getGedFoldertDtoDataSourceListener() {
+    public GedFolderDtoDataSourceListener getGedFoldertDtoDataSourceListener() {
         return gedFoldertDtoDataSourceListener;
     }
 
-    public void setGedFoldertDtoDataSourceListener(GedFoldertDtoDataSourceListener gedFoldertDtoDataSourceListener) {
+    public void setGedFoldertDtoDataSourceListener(GedFolderDtoDataSourceListener gedFoldertDtoDataSourceListener) {
         this.gedFoldertDtoDataSourceListener = gedFoldertDtoDataSourceListener;
     }
 }

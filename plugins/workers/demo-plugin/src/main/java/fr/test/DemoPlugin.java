@@ -1,12 +1,13 @@
 package fr.test;
 
-import com.simple.ged.connector.plugins.dto.GedComponentDTO;
-import com.simple.ged.connector.plugins.dto.GedFolderDTO;
-import com.simple.ged.connector.plugins.dto.GedDocumentDTO;
-import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
-import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.simple.ged.connector.plugins.dto.GedComponentDTO;
+import com.simple.ged.connector.plugins.dto.GedDocumentDTO;
+import com.simple.ged.connector.plugins.dto.GedFolderDTO;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
+import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 
 /**
  * The demo plugin just list file in the ged
@@ -50,7 +51,7 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
         // sur un dossier, on parcours tous ses enfants
         if (element instanceof GedFolderDTO) {
             for (GedComponentDTO componentDTO : ((GedFolderDTO)element).getChildren()) {
-                recursiveLister(element);
+                recursiveLister(componentDTO);
             }
         }
 
