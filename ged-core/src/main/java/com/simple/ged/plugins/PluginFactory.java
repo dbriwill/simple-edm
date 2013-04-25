@@ -309,7 +309,7 @@ public final class PluginFactory {
 			// set plugin infos
 			SimpleGedWorkerPlugin sgp = (SimpleGedWorkerPlugin) Class.forName(pluginInfos.get(PluginManifestTags.main_class_tag), true, loader).newInstance();
 
-			//sgp.setJarFileName(pluginFileName);
+			sgp.setJarFileName(pluginFileName);
 			
 			sgp.setProperties(pluginProperties);
 			
