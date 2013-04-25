@@ -154,6 +154,10 @@ public class WorkerPluginScreen extends SoftwareScreen {
 		table.getColumns().add(colName);
 		table.getColumns().add(colDesc);
 		table.getColumns().add(colMang);
+		
+		colName.prefWidthProperty().bind(table.widthProperty().multiply(0.28));
+		colDesc.prefWidthProperty().bind(table.widthProperty().multiply(0.59));
+		colMang.prefWidthProperty().bind(table.widthProperty().multiply(0.12));
 	}
 
 	
