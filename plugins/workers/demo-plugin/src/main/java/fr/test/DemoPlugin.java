@@ -35,7 +35,13 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
         logger.info("Start work");
         
         try {
-        	pattern = getPropertyValue("phone_number");
+        	pattern = getPropertyValue("filter");
+        	if (pattern == null) {
+        		logger.error("Pattern is null !");
+        	}
+        	else {
+        		logger.info("Pattern I'm looking for : {}", pattern);
+        	}
         	recursiveLister(gedRoot);
         }
         catch (Exception e) {
