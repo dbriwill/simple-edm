@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -237,7 +239,7 @@ public final class PluginManager {
 			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + "RESULTAT IS NOT RECUPERATED YET !!!"));
 		}
 		catch (SimpleGedPluginException e1) {
-			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + e1.getStackTrace().toString()));
+			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + ExceptionUtils.getStackTrace(e1)));
 			
 			logger.error("[ " + p.getPlugin().getJarFileName() + " ] Error in plugin DoWork : ", e1);
 		}

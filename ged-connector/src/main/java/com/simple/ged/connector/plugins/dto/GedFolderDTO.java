@@ -1,6 +1,7 @@
 package com.simple.ged.connector.plugins.dto;
 
 import com.simple.ged.connector.plugins.dto.listeners.GedFolderDtoDataSourceListener;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 
 import java.util.List;
 
@@ -40,9 +41,18 @@ public class GedFolderDTO extends GedComponentDTO {
 	}
 
 	public List<GedComponentDTO> getChildren() {
-        if (children == null) {
-            children = gedFoldertDtoDataSourceListener.loadAndGiveMeMyChildren();
-        }
+		try {
+	        if (children == null) {
+	            children = gedFoldertDtoDataSourceListener.loadAndGiveMeMyChildren();
+	        }
+		}
+		catch (Exception e) {
+			try {
+				throw new SimpleGedPluginException("Cannot get children !", e);
+			} catch (SimpleGedPluginException e1) {
+				logger.error("Cannot get children from DTO : {}", e1);
+			}
+		}
 		return children;
 	}
 
