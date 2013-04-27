@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ged.core.version>4.0</ged.core.version>
 		<ged.updater.version>1.4</ged.updater.version>
-		<ged.connector.version>1.4.0</ged.connector.version>
+		<ged.connector.version>1.5-SNAPSHOT</ged.connector.version>
 		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
 	</properties>
 
@@ -78,6 +78,8 @@
 		<module>ged-update</module>
 		<module>ged-connector</module>
 
+		<module>plugins/archetypes/getter-archetype</module>
+		
 		<module>plugins/getters/demo-plugin</module>
 		<module>plugins/getters/orange-plugin</module>
 		<module>plugins/getters/sfr-mobile-plugin</module>
