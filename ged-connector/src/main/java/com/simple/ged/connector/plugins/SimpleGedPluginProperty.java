@@ -33,6 +33,16 @@ public class SimpleGedPluginProperty {
 	private String propertyValue;
 
 	/**
+	 * The value IS a boolean ?
+	 */
+	private Boolean isBooleanProperty;
+	
+	/**
+	 * The value as boolean (if valid for this property)
+	 */
+	private Boolean booleanValue;
+	
+	/**
 	 * Is hidden property ? Like passwords
 	 */
 	private boolean hidden;
@@ -85,5 +95,28 @@ public class SimpleGedPluginProperty {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public boolean getBooleanValue() {
+		return booleanValue != null ? booleanValue : false;
+	}
+
+	public void setBooleanValue(Boolean booleanValue) {
+		this.booleanValue = booleanValue;
+	}
+
+	public boolean isBooleanProperty() {
+		return isBooleanProperty != null ? isBooleanProperty : false;
+	}
+	public boolean getIsBooleanProperty() {
+		return isBooleanProperty();
+	}
+	
+	public void setBooleanProperty(Boolean isBooleanProperty) {
+		this.isBooleanProperty = isBooleanProperty;
+	}
+	public void setIsBooleanProperty(Boolean isBooleanProperty) {
+		this.isBooleanProperty = isBooleanProperty;
+	}
+	
 }
 

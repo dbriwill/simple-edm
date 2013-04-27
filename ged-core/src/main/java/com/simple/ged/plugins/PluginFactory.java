@@ -162,6 +162,18 @@ public final class PluginFactory {
 							sgpp.setHidden(true);
 						}
 						
+						if (key.contains("##")) {
+							key = key.replace("##", "");
+							sgpp.setBooleanProperty(true);
+							sgpp.setBooleanValue(true);
+						}
+						
+						if (key.contains("#")) {
+							key = key.replace("#", "");
+							sgpp.setBooleanProperty(true);
+							sgpp.setBooleanValue(false);
+						}
+						
 						sgpp.setPropertyKey(key.trim());
 						sgpp.setPropertyLabel(label.trim());
 						
@@ -281,6 +293,18 @@ public final class PluginFactory {
 						if (key.contains("*")) {
 							key = key.replace("*", "");
 							sgpp.setHidden(true);
+						}
+						
+						if (key.contains("##")) {
+							key = key.replace("##", "");
+							sgpp.setBooleanProperty(true);
+							sgpp.setBooleanValue(true);
+						}
+						
+						if (key.contains("#")) {
+							key = key.replace("#", "");
+							sgpp.setBooleanProperty(true);
+							sgpp.setBooleanValue(false);
 						}
 						
 						sgpp.setPropertyKey(key.trim());

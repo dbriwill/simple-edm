@@ -6,6 +6,8 @@ import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Separator;
@@ -104,7 +106,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * Map of properties
 	 */
-	private Map<SimpleGedPluginProperty, TextField> propertiesFieldsMap;
+	private Map<SimpleGedPluginProperty, Control> propertiesFieldsMap;
 	
 	/**
 	 * The destination file name pattern
@@ -174,22 +176,44 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		
 		for (SimpleGedPluginProperty property : plugin.getPlugin().getProperties()) {
 			
-			TextField field = new TextField();
-			if (property.isHidden()) {
-				field = new PasswordField();
-			}
-		
-//			if (plugin.isActivated()) {
-//				logger.debug("Plugin is activated, setting value");
-//				for (SimpleGedGetterPluginProperty pr : plugin.getPluginProperties()) {
-//					if (pr.getPropertyKey().equals(property.getPropertyKey())) {
-//						field.setText(pr.getPropertyValue());
-//						break;
+			Control field = null;
+			
+			if (property.isBooleanProperty()) {
+				
+				field = new CheckBox();
+				((CheckBox) field).setSelected(property.getBooleanValue());
+				
+//				if (plugin.isActivated()) {
+//					logger.debug("Plugin is activated, setting value");
+//					for (SimpleGedPluginProperty pr : plugin.getPluginProperties()) {
+//						if (pr.getPropertyKey().equals(property.getPropertyKey())) {
+//							((CheckBox) field).setSelected(pr.getBooleanValue());
+//							break;
+//						}
 //					}
 //				}
-//			}
+				
+			}
+			else { // property is not a boolean
 			
-			field.setOnKeyReleased(eventHandler);
+				field = new TextField();
+				if (property.isHidden()) {
+					field = new PasswordField();
+				}
+			
+//				if (plugin.isActivated()) {
+//					logger.debug("Plugin is activated, setting value");
+//					for (SimpleGedPluginProperty pr : plugin.getPluginProperties()) {
+//						if (pr.getPropertyKey().equals(property.getPropertyKey())) {
+//							((TextField) field).setText(pr.getPropertyValue());
+//							break;
+//						}
+//					}
+//				}
+				
+				field.setOnKeyReleased(eventHandler);
+				
+			}
 			
 			propertiesFieldsMap.put(property, field);
 			
@@ -308,7 +332,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 //	}
 
 
-	public Map<SimpleGedPluginProperty, TextField> getPropertiesFieldsMap() {
+	public Map<SimpleGedPluginProperty, Control> getPropertiesFieldsMap() {
 		return propertiesFieldsMap;
 	}
 

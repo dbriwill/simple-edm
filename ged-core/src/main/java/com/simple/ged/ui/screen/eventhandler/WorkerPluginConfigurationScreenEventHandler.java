@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
@@ -66,10 +68,17 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 			
 			List<SimpleGedPluginProperty> properties = new ArrayList<>();
 			
-			for (Entry<SimpleGedPluginProperty, TextField> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
-				entry.getKey().setPropertyValue(entry.getValue().getText());
-				properties.add(entry.getKey());
+			for (Entry<SimpleGedPluginProperty, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+				if (entry.getValue() instanceof TextField) {
+					entry.getKey().setPropertyValue(((TextField)entry.getValue()).getText());
+					properties.add(entry.getKey());
+				}
+				if (entry.getValue() instanceof CheckBox) {
+					entry.getKey().setBooleanValue(((CheckBox)entry).isSelected());
+					properties.add(entry.getKey());
+				}
 			}
+			
 			p.setPluginProperties(properties);
 
 //			PluginService.addOrUpdatePlugin(p);
@@ -100,10 +109,12 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 	public void checkValidity() {
 		boolean valid = true;
 		
-		for (Entry<SimpleGedPluginProperty, TextField> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
-			if (e.getValue().getText().isEmpty()) {
-				valid = false;
-				break;
+		for (Entry<SimpleGedPluginProperty, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			if (e.getValue() instanceof TextField) {
+				if (((TextField) e.getValue()).getText().isEmpty()) {
+					valid = false;
+					break;
+				}
 			}
 		}
 		

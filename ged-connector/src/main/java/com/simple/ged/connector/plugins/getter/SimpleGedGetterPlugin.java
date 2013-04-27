@@ -77,6 +77,19 @@ public abstract class SimpleGedGetterPlugin {
 		return null;
 	}
 	
+	/**
+	 * Get the boolean value of some property
+	 */
+	public boolean getPropertyBooleanValue(String key) {
+		for (SimpleGedPluginProperty p : properties) {
+			if (p.getPropertyKey().equals(key)) {
+				return p.getBooleanValue();
+			}
+		}
+		return false;
+	}
+	
+	
 	
 	/**
 	 * This method should get the file which has to be inserted in GED (from a website for example)

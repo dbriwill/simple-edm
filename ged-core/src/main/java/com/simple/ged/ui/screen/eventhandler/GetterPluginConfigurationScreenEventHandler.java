@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import com.simple.ged.models.GedGetterPlugin;
-import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
@@ -17,8 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.plugins.PluginManager;
 import com.simple.ged.services.PluginService;
+import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
@@ -67,9 +69,16 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			
 			List<SimpleGedPluginProperty> properties = new ArrayList<>();
 			
-			for (Entry<SimpleGedPluginProperty, TextField> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
-				entry.getKey().setPropertyValue(entry.getValue().getText());
-				properties.add(entry.getKey());
+			for (Entry<SimpleGedPluginProperty, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+				if (entry.getValue() instanceof TextField) {
+					entry.getKey().setPropertyValue(((TextField)entry.getValue()).getText());
+					properties.add(entry.getKey());
+				}
+				if (entry.getValue() instanceof CheckBox) {
+					logger.trace("checkbox is checked : {}", ((CheckBox)entry.getValue()).isSelected());
+					entry.getKey().setBooleanValue(((CheckBox)entry.getValue()).isSelected());
+					properties.add(entry.getKey());
+				}
 			}
 			p.setPluginProperties(properties);
 
@@ -112,10 +121,12 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			valid = false;
 		}
 		
-		for (Entry<SimpleGedPluginProperty, TextField> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
-			if (e.getValue().getText().isEmpty()) {
-				valid = false;
-				break;
+		for (Entry<SimpleGedPluginProperty, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			if (e.getValue() instanceof TextField) {
+				if (((TextField) e.getValue()).getText().isEmpty()) {
+					valid = false;
+					break;
+				}
 			}
 		}
 		

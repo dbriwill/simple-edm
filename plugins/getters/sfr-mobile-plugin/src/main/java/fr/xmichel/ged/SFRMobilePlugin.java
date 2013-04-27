@@ -133,6 +133,7 @@ public class SFRMobilePlugin extends SimpleGedGetterPlugin {
 				logger.debug("Going to facturation page");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(gotoClientSpaceEntity.getContent()));
 
+				@SuppressWarnings("unused")
 				String line;
 				while((line = reader.readLine()) != null){
 				}
@@ -147,78 +148,83 @@ public class SFRMobilePlugin extends SimpleGedGetterPlugin {
 			// Getting the PDF file "synthese"
 			// ------------------------------
 			
-			HttpGet pdfFileRequestSynthese = new HttpGet("https://www.sfr.fr/espace-client/consulter-factures-mobile/consultation/lireFactureABOPDF.html");
-			HttpResponse pdfFileResponseSynthese = httpclient.execute(pdfFileRequestSynthese);
+			if (getPropertyBooleanValue("dl_synthese")) {
 			
-			HttpEntity pdfFileEntitySynthese = pdfFileResponseSynthese.getEntity();
-			
-			if (pdfFileEntitySynthese != null) {
-				logger.debug("Downloading facture...");
-
-				try (FileOutputStream fos = new FileOutputStream(getDestinationFile() + " - synthese.pdf")) { // don't forget the file suffix
+				HttpGet pdfFileRequestSynthese = new HttpGet("https://www.sfr.fr/espace-client/consulter-factures-mobile/consultation/lireFactureABOPDF.html");
+				HttpResponse pdfFileResponseSynthese = httpclient.execute(pdfFileRequestSynthese);
 				
-					try (InputStream instream = pdfFileEntitySynthese.getContent()) {
-						int l;
-						byte[] tmp = new byte[2048];
-						while ((l = instream.read(tmp)) != -1) {
-							fos.write(tmp, 0, l);
-							fos.flush();
+				HttpEntity pdfFileEntitySynthese = pdfFileResponseSynthese.getEntity();
+				
+				if (pdfFileEntitySynthese != null) {
+					logger.debug("Downloading facture...");
+	
+					try (FileOutputStream fos = new FileOutputStream(getDestinationFile() + " - synthese.pdf")) { // don't forget the file suffix
+					
+						try (InputStream instream = pdfFileEntitySynthese.getContent()) {
+							int l;
+							byte[] tmp = new byte[2048];
+							while ((l = instream.read(tmp)) != -1) {
+								fos.write(tmp, 0, l);
+								fos.flush();
+							}
 						}
+						catch(IOException e) {
+							logger.error("Could not open read source file", e);
+							throw new SimpleGedPluginException("La lecture du fichier source a échouée : " + e.getMessage());
+						}
+							
 					}
-					catch(IOException e) {
-						logger.error("Could not open read source file", e);
-						throw new SimpleGedPluginException("La lecture du fichier source a échouée : " + e.getMessage());
+					catch (IOException e) {
+						logger.error("Could not open target file", e);
+						throw new SimpleGedPluginException("L'écriture dans le fichier de destination a échouée : " + e.getMessage());
 					}
-						
 				}
-				catch (IOException e) {
-					logger.error("Could not open target file", e);
-					throw new SimpleGedPluginException("L'écriture dans le fichier de destination a échouée : " + e.getMessage());
-				}
-			}
 
-				
+			}
 				
 			// ------------------------------
 			// Getting the PDF file "details"
 			// ------------------------------
 				
-			HttpGet pdfFileRequestDetails = new HttpGet("https://www.sfr.fr/espace-client/consulter-factures-mobile/consultation/lireFadetPDF.html?ligne=");
-			HttpResponse pdfFileResponseDetails = httpclient.execute(pdfFileRequestDetails);
+			if (getPropertyBooleanValue("dl_details")) {
 			
-			HttpEntity pdfFileEntityDetails = pdfFileResponseDetails.getEntity();
-			
-			if (pdfFileEntityDetails != null) {
-				logger.debug("Downloading facture...");
-
-				try (FileOutputStream fos = new FileOutputStream(getDestinationFile() + " - details.pdf")) { // don't forget the file suffix
+				HttpGet pdfFileRequestDetails = new HttpGet("https://www.sfr.fr/espace-client/consulter-factures-mobile/consultation/lireFadetPDF.html?ligne=");
+				HttpResponse pdfFileResponseDetails = httpclient.execute(pdfFileRequestDetails);
 				
-					try (InputStream instream = pdfFileEntityDetails.getContent()) {
-						int l;
-						byte[] tmp = new byte[2048];
-						while ((l = instream.read(tmp)) != -1) {
-							fos.write(tmp, 0, l);
-							fos.flush();
+				HttpEntity pdfFileEntityDetails = pdfFileResponseDetails.getEntity();
+				
+				if (pdfFileEntityDetails != null) {
+					logger.debug("Downloading facture...");
+	
+					try (FileOutputStream fos = new FileOutputStream(getDestinationFile() + " - details.pdf")) { // don't forget the file suffix
+					
+						try (InputStream instream = pdfFileEntityDetails.getContent()) {
+							int l;
+							byte[] tmp = new byte[2048];
+							while ((l = instream.read(tmp)) != -1) {
+								fos.write(tmp, 0, l);
+								fos.flush();
+							}
 						}
+						catch(IOException e) {
+							logger.error("Could not open read source file", e);
+							throw new SimpleGedPluginException("La lecture du fichier source a échouée : " + e.getMessage());
+						}
+							
 					}
-					catch(IOException e) {
-						logger.error("Could not open read source file", e);
-						throw new SimpleGedPluginException("La lecture du fichier source a échouée : " + e.getMessage());
+					catch (IOException e) {
+						logger.error("Could not open target file", e);
+						throw new SimpleGedPluginException("L'écriture dans le fichier de destination a échouée : " + e.getMessage());
 					}
-						
-				}
-				catch (IOException e) {
-					logger.error("Could not open target file", e);
-					throw new SimpleGedPluginException("L'écriture dans le fichier de destination a échouée : " + e.getMessage());
 				}
 			}
-
 		}
 		catch (Exception e) {
 			logger.error("Failed to execute recuperation", e);
 			throw new SimpleGedPluginException("La récupération de la facture s'est soldée par un échec : " + e.getMessage());
 		}
 		
+			
 		logger.info("End of SFRMobilePlugin");
 	}
 	
