@@ -61,7 +61,7 @@ fi
 
 # now we're in case of release
 
-current_version=$(grep '<version>' pom.xml | head -2 | tail -1 | sed 's/^.*>\(.*\)<.*$/\1/')
+current_version=$(grep '<ged.connector.version>' ../pom.xml | sed 's/^.*>\(.*\)<.*$/\1/')
 release_version=$(echo ${current_version} | sed 's/-SNAPSHOT//')
 
 echo "current version : ${current_version}"
@@ -69,8 +69,8 @@ show_neutral_message "release version is ${release_version}, is it right (enter 
 read
 
 # update module version for release
-echo "Updating version in ${PROJECT_LOCATION}/pom.xml..."
-sed -i -e "s/${current_version}-SNAPSHOT/${release_version}/" ${PROJECT_LOCATION}/pom.xml
+echo "Updating version in ${PROJECT_LOCATION}/../pom.xml . This will impact the ged-core and all connected plugins !"
+sed -i -e "s@<ged.connector.version>${current_version}-SNAPSHOT</ged.connector.version>@<ged.connector.version>${release_version}</ged.connector.version>@" ${PROJECT_LOCATION}/../pom.xml
 
 # release
 
@@ -98,8 +98,8 @@ fi
 
 # update module version for next snapshot
 
-echo "Updating version in ${PROJECT_LOCATION}/pom.xml..."
-sed -i -e "s/${release_version}/${next_snapshot_version}-SNAPSHOT/" ${PROJECT_LOCATION}/pom.xml
+echo "Updating version in ${PROJECT_LOCATION}/../pom.xml"
+sed -i -e "s@<ged.connector.version>${release_version}</ged.connector.version>@<ged.connector.version>${next_snapshot_version}-SNAPSHOT</ged.connector.version>@" ${PROJECT_LOCATION}/../pom.xml
 
 show_information_message "You can commit and push changes now, the now version is set in pom.xml"
 show_error_message "Do not forget to update the dependencie version in the concerned projects"

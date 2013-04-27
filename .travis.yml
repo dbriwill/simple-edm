@@ -2,8 +2,8 @@ language: java
 jdk:
   - openjdk7
   - oraclejdk7
-# whitelist
-branches:
-  only:
-    - master
-
+### whitelist
+#branches:
+#  only:
+#    - master
+#

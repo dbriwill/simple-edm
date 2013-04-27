@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>fr.simple.ged.connector</groupId>
 			<artifactId>ged-connector</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>${ged.connector.version}</version>
 		</dependency>
 
 		<!-- Dans mon repo -->

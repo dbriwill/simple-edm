@@ -11,7 +11,7 @@
 	<groupId>fr.simple.ged.connector</groupId>
 	<artifactId>ged-connector</artifactId>
 	<name>Simple Ged Connector</name>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>${ged.connector.version}</version>
 
 	<dependencies>
 	
