@@ -70,7 +70,7 @@ read
 
 # update module version for release
 echo "Updating version in ${PROJECT_LOCATION}/../pom.xml . This will impact the ged-core and all connected plugins !"
-sed -i -e "s@<ged.connector.version>${current_version}-SNAPSHOT</ged.connector.version>@<ged.connector.version>${release_version}</ged.connector.version>@" ${PROJECT_LOCATION}/../pom.xml
+sed -i -e "s@<ged.connector.version>${current_version}</ged.connector.version>@<ged.connector.version>${release_version}</ged.connector.version>@" ${PROJECT_LOCATION}/../pom.xml
 
 # release
 

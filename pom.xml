@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ged.core.version>4.0</ged.core.version>
 		<ged.updater.version>1.4</ged.updater.version>
-		<ged.connector.version>1.2.0-SNAPSHOT</ged.connector.version>
+		<ged.connector.version>1.4.0</ged.connector.version>
 		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
 	</properties>
 
