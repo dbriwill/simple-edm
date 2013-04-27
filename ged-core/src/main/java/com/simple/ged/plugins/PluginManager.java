@@ -302,9 +302,9 @@ public final class PluginManager {
 			rootNode.setGedFoldertDtoDataSourceListener(gedFolderDtoDataSourceListener);
 			
 			
-			p.getPlugin().doWork(rootNode);
+			String result = p.getPlugin().doWork(rootNode);
 			
-			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + "RESULTAT IS NOT RECUPERATED YET !!!"));
+			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + result));
 		}
 		catch (SimpleGedPluginException e1) {
 			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + ExceptionUtils.getStackTrace(e1)));

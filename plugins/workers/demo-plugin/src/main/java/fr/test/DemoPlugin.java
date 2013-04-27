@@ -1,5 +1,9 @@
 package fr.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +33,14 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
 	 */
 	private String pattern = "";
 	
+	private List<String> matchingDocumentsList;
+	
 	
     @Override
     public String doWork(GedFolderDTO gedRoot) throws SimpleGedPluginException {
         logger.info("Start work");
+        
+        matchingDocumentsList = new ArrayList<>();
         
         try {
         	pattern = getPropertyValue("filter");
@@ -50,7 +58,7 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
         
         logger.info("End of work");
         
-		return Integer.toString(matchingDocumentCount) + " document(s) correspondent au filtre défini !";
+		return Integer.toString(matchingDocumentCount) + " document(s) correspondent au filtre défini :<br/>   - " + StringUtils.join(matchingDocumentsList, "<br/>   - ");
     }
 
     private void recursiveLister(GedComponentDTO element) {
@@ -68,6 +76,7 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
             if (doc.getRelativePathToRoot().contains(pattern)) {
                 logger.debug("> {}", doc.getFile().getAbsoluteFile());
                 ++matchingDocumentCount;
+                matchingDocumentsList.add(doc.getRelativePathToRoot());
             }
         }
     }
