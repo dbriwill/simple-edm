@@ -7,20 +7,25 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
+import com.simple.ged.connector.plugins.dto.GedComponentDTO;
+import com.simple.ged.connector.plugins.dto.GedDocumentDTO;
 import com.simple.ged.connector.plugins.dto.GedFolderDTO;
+import com.simple.ged.connector.plugins.dto.listeners.GedDocumentDtoDataSourceListener;
+import com.simple.ged.connector.plugins.dto.listeners.GedFolderDtoDataSourceListener;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
+import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
+import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.models.GedMessage;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginFactory.PluginFamily;
+import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.services.MessageService;
 import com.simple.ged.services.PluginService;
 import com.simple.ged.ui.screen.SoftwareScreen;
@@ -234,7 +239,70 @@ public final class PluginManager {
 		try {
 			p.getPlugin().setProperties(p.getPluginProperties());
 		
-			p.getPlugin().doWork(new GedFolderDTO(Profile.getInstance().getLibraryRoot()));
+			GedFolderDTO rootNode = new GedFolderDTO("");
+			
+			// this listener will be the same for all files
+			final GedDocumentDtoDataSourceListener gedDocumentDtoDataSourceListener = new GedDocumentDtoDataSourceListener() {
+				@Override
+				public String getFilePathToLibraryRoot() {
+					return Profile.getInstance().getLibraryRoot();
+				}
+			};
+			
+			// this listener will be the same for all directories (root included)
+			final GedFolderDtoDataSourceListener gedFolderDtoDataSourceListener = new GedFolderDtoDataSourceListener() {
+				@Override
+				public String getFilePathToLibraryRoot() {
+					return Profile.getInstance().getLibraryRoot();
+				}
+				
+				@Override
+				public List<GedComponentDTO> loadAndGiveMeMyChildren(GedFolderDTO gedFolderDto) {
+					
+					logger.debug("Getting children for {}", gedFolderDto.getRelativePathToRoot());
+					
+					List<GedComponentDTO> childrens = new ArrayList<>();
+					
+					File file = new File(Profile.getInstance().getLibraryRoot() + gedFolderDto.getRelativePathToRoot());
+					
+					if (file.isFile()) {
+						return childrens;
+					}
+					for (File f : file.listFiles()) {
+
+						String relativePathToRoot = GedDocumentService.getRelativeFromAbsloutePath(f.getAbsolutePath());
+						
+						if (f.isDirectory()) {
+							GedFolderDTO component = new GedFolderDTO(relativePathToRoot);
+							component.setGedFoldertDtoDataSourceListener(this);
+							
+							childrens.add(component);
+						}
+						
+						if (f.isFile()) {
+							GedDocumentDTO component = new GedDocumentDTO(relativePathToRoot);
+							
+							GedDocument doc = GedDocumentService.findDocumentbyFilePath(relativePathToRoot);
+							
+							component.setDocumentDate(doc.getDate());
+							component.setDocumentDescription(doc.getDescription());
+							component.setDocumentName(doc.getName());
+							
+							component.setGedDocumentDtoDataSourceListener(gedDocumentDtoDataSourceListener);
+							
+							childrens.add(component);
+						}
+					}
+					
+					return childrens;
+				}
+			};
+			
+			
+			rootNode.setGedFoldertDtoDataSourceListener(gedFolderDtoDataSourceListener);
+			
+			
+			p.getPlugin().doWork(rootNode);
 			
 			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + "RESULTAT IS NOT RECUPERATED YET !!!"));
 		}

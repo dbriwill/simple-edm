@@ -43,7 +43,7 @@ public class GedFolderDTO extends GedComponentDTO {
 	public List<GedComponentDTO> getChildren() {
 		try {
 	        if (children == null) {
-	            children = gedFoldertDtoDataSourceListener.loadAndGiveMeMyChildren();
+	            children = gedFoldertDtoDataSourceListener.loadAndGiveMeMyChildren(this);
 	        }
 		}
 		catch (Exception e) {
@@ -56,6 +56,16 @@ public class GedFolderDTO extends GedComponentDTO {
 		return children;
 	}
 
+	
+	/**
+	 * What is the absolute file path to library root ?
+	 * 
+	 * For exemple, will return : "/home/xavier/Documents/"
+	 */
+	public String getFilePathToLibraryRoot() {
+		return gedFoldertDtoDataSourceListener.getFilePathToLibraryRoot();
+	}
+	
 
 	@Override
 	protected void persist() {

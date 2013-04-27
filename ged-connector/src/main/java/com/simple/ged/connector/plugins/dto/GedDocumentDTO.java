@@ -6,6 +6,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.connector.plugins.dto.listeners.GedDocumentDtoDataSourceListener;
+
 /**
  * 
  * This class represent a leaf in the GED tree : some file
@@ -21,9 +23,14 @@ public class GedDocumentDTO extends GedComponentDTO {
 	private static final Logger logger = LoggerFactory.getLogger(GedDocumentDTO.class);
 	
 	/**
+	 * My communicator with the Ged Core, will be injected by the core
+	 */
+	private GedDocumentDtoDataSourceListener gedDocumentDtoDataSourceListener;
+	
+	/**
 	 * Path to the manipulated file
 	 */
-	private File file;
+	private File file = null;
 
     /**
      * The document name
@@ -43,14 +50,25 @@ public class GedDocumentDTO extends GedComponentDTO {
 
 	public GedDocumentDTO(String relativePathToRoot) {
 		super(relativePathToRoot);
-		this.file = new File(relativePathToRoot);
 	}
 
 	/**
-	 * 
+	 * The file, loaded only if necessary
 	 */
 	public File getFile() {
+		if (file == null) {
+			file = new File(getFilePathToLibraryRoot() + getRelativePathToRoot());
+		}
 		return file;
+	}
+	
+	/**
+	 * What is the absolute file path to library root ?
+	 * 
+	 * For exemple, will return : "/home/xavier/Documents/"
+	 */
+	public String getFilePathToLibraryRoot() {
+		return gedDocumentDtoDataSourceListener.getFilePathToLibraryRoot();
 	}
 
 
@@ -84,4 +102,14 @@ public class GedDocumentDTO extends GedComponentDTO {
     public void setDocumentDate(Date documentDate) {
         this.documentDate = documentDate;
     }
+
+	public GedDocumentDtoDataSourceListener getGedDocumentDtoDataSourceListener() {
+		return gedDocumentDtoDataSourceListener;
+	}
+
+	public void setGedDocumentDtoDataSourceListener(
+			GedDocumentDtoDataSourceListener gedDocumentDtoDataSourceListener) {
+		this.gedDocumentDtoDataSourceListener = gedDocumentDtoDataSourceListener;
+	}
+
 }

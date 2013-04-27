@@ -65,7 +65,7 @@ public class DemoPlugin extends SimpleGedWorkerPlugin {
         if (element instanceof GedDocumentDTO) {
             GedDocumentDTO doc = (GedDocumentDTO)element;
             
-            if (doc.getDocumentName().contains(pattern)) {
+            if (doc.getRelativePathToRoot().contains(pattern)) {
                 logger.debug("> {}", doc.getFile().getAbsoluteFile());
                 ++matchingDocumentCount;
             }

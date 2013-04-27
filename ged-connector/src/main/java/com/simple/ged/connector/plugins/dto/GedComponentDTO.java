@@ -1,5 +1,6 @@
 package com.simple.ged.connector.plugins.dto;
 
+
 /**
  * 
  * This is an abstract component of the GED, which can be file or directory
@@ -14,7 +15,7 @@ public abstract class GedComponentDTO {
 	 */
 	private String relativePathToRoot;
 
-	
+
 	protected GedComponentDTO(String relativePathToRoot) {
 		this.relativePathToRoot = relativePathToRoot;
 	}
@@ -32,5 +33,5 @@ public abstract class GedComponentDTO {
 	public void setRelativePathToRoot(String relativePathToRoot) {
 		this.relativePathToRoot = relativePathToRoot;
 	}
-	
+
 }
