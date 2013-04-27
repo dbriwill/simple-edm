@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>simple-ged</artifactId>
 		<groupId>fr.simple.ged</groupId>
+		<artifactId>archetypes</artifactId>
 		<version>1.0.0</version>
-		<relativePath>../../..</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>fr.simple.ged.plugin</groupId>
 	<artifactId>archetype-getter-plugin</artifactId>
 	<name>Archetype for getter plugin</name>
-	<version>1.0</version>
+	<version>${ged.archetypes.version}</version>
 	<packaging>maven-archetype</packaging>
 	
     <build>

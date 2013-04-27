@@ -78,7 +78,7 @@
 		<module>ged-update</module>
 		<module>ged-connector</module>
 
-		<module>plugins/archetypes/getter-archetype</module>
+		<module>plugins/archetypes</module>
 		
 		<module>plugins/getters/demo-plugin</module>
 		<module>plugins/getters/orange-plugin</module>
