@@ -55,17 +55,17 @@ public class GedDocumentServiceTest {
         Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsloutePath(windowPath));
     }
     
-//    /**
-//     * Chemin relatif pour linux
-//     */
-//    @Test
-//    public void testRealtiveLinuxPath() {
-//        String unixPath = "/tmp/test/toto/foo.txt";
-//        String gedRoot  = "/tmp/test/";
-//        
-//        Profile.getInstance().setDocumentLibraryRoot(gedRoot);
-//        Profile.getInstance().commitChanges();
-//        
-//        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsloutePath(unixPath));
-//    }
+    /**
+     * Chemin relatif pour linux
+     */
+    @Test
+    public void testRealtiveLinuxPath() {
+        String unixPath = "/tmp/test/toto/foo.txt";
+        String gedRoot  = "/tmp/test/";
+        
+        Profile.getInstance().setDocumentLibraryRoot(gedRoot);
+        Profile.getInstance().commitChanges();
+        
+        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsloutePath(unixPath));
+    }
 }

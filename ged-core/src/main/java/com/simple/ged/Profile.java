@@ -11,6 +11,8 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.services.GedDocumentService;
+
 import fr.xmichel.javafx.dialog.Dialog;
 import fr.xmichel.toolbox.tools.OSHelper;
 
@@ -80,7 +82,8 @@ public final class Profile implements Serializable {
 	 * Warning : the value isn't save, please call commit to save changes !
 	 */
 	public synchronized void setDocumentLibraryRoot(String newRoot) {
-		libraryRoot = newRoot + (libraryRoot.endsWith(File.separator) ? "" : File.separator);
+		libraryRoot  = GedDocumentService.forceUnixSeparator(newRoot);
+		libraryRoot += libraryRoot.endsWith("/") ? "" : "/";
 	}
 	
 	/**

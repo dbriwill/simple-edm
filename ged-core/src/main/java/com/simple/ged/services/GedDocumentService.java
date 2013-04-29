@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,7 +186,7 @@ public final class GedDocumentService {
 	 * Get relative file path from the absolute path
 	 */
 	public static String getRelativeFromAbsloutePath(String absolutePath) {
-		return forceUnixSeparator(absolutePath.replaceFirst(Pattern.quote(Profile.getInstance().getLibraryRoot()), ""));
+		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
 	
 }
