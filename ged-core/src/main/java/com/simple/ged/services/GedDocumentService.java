@@ -50,8 +50,16 @@ public final class GedDocumentService {
 	/**
 	 * Replace \\ by /, to keep unix like path in database
 	 */
-	private static String forceUnixSeparator(String s) {
-		return s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
+	public static String forceUnixSeparator(String s) {
+        // replace all \ by /
+        s = s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
+
+        // replace all // by /
+        while (s.contains(Matcher.quoteReplacement("//"))) {
+            s = s.replaceAll("//", "/");
+        }
+
+        return s;
 	}
 	
 	
