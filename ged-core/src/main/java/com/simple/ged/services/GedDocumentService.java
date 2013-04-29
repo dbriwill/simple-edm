@@ -187,7 +187,7 @@ public final class GedDocumentService {
 	 * Get relative file path from the absolute path
 	 */
 	public static String getRelativeFromAbsloutePath(String absolutePath) {
-		return absolutePath.replaceFirst(Pattern.quote(Profile.getInstance().getLibraryRoot()), "");
+		return forceUnixSeparator(absolutePath.replaceFirst(Pattern.quote(Profile.getInstance().getLibraryRoot()), ""));
 	}
 	
 }
