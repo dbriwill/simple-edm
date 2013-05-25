@@ -14,8 +14,8 @@
 		<property name="propertyKey" column="name"></property>
 		<property name="propertyValue" column="value"></property>
 		<property name="hidden" column="hidden"></property>
-		<property name="isBooleanProperty" column="is_boolean_property"></property>
-		<property name="booleanValue" column="boolean_value"></property>
+		<property name="isBooleanProperty" column="is_boolean_property" not-null="false"></property>
+		<property name="booleanValue" column="boolean_value" not-null="false"></property>
 
 	</class>
 
