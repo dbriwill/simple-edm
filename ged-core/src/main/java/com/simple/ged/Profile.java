@@ -111,7 +111,8 @@ public final class Profile implements Serializable {
 	 * Note that the result should contains a final file separator
 	 */
 	public String getLibraryRoot() {
-		return libraryRoot + (libraryRoot.endsWith(File.separator) ? "" : File.separator);
+		String unixFormatRoor = GedDocumentService.forceUnixSeparator(libraryRoot);
+		return unixFormatRoor + (unixFormatRoor.endsWith("/") ? "" : "/");
 	}
 
 	

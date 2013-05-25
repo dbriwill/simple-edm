@@ -111,7 +111,8 @@ public class LibraryView extends TreeView<String> {
 	 * Get the path to display in a tree node
 	 */
 	public static String convertToNodeName(String path) {
-		String[] files = path.split(File.separator.equals("\\") ? "\\\\" : File.separator);	// stupid windows fix...
+		String unixPath = GedDocumentService.forceUnixSeparator(path);
+		String[] files = unixPath.split("/");
 		return files[files.length - 1];
 	}
     
@@ -138,6 +139,8 @@ public class LibraryView extends TreeView<String> {
 
 		}
 
+		logger.info("Building tree, root defined");
+		
 		getRoot().getChildren().clear();
 	
 		loadAndAddChildrenUnderNode(new File(Profile.getInstance().getLibraryRoot()), getRoot());
