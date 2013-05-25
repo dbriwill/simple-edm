@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocumentFile;
+import com.simple.ged.services.GedDocumentService;
 
 /**
  * This class provide tools for managing files
@@ -46,16 +47,17 @@ public final class FileHelper {
 	 * 
 	 * @return The file copied (or not), with relative file path
 	 */
-	private static GedDocumentFile copyFileIfNecessary(File file,
-			File directoryTarget, String fileName) {
+	private static GedDocumentFile copyFileIfNecessary(File file, File directoryTarget, String fileName) {
 
-		if (file.getAbsolutePath().startsWith(Profile.getInstance().getLibraryRoot())) {
+		String fileUnixPath = GedDocumentService.forceUnixSeparator(file.getAbsolutePath());
+		
+		if (fileUnixPath.startsWith(Profile.getInstance().getLibraryRoot())) {
 			// nothing to copy
-			return new GedDocumentFile(file.getAbsolutePath().replaceFirst(Profile.getInstance().getLibraryRoot().replace("\\", "\\\\"), "").replace('\\', '/'));
+			return new GedDocumentFile(fileUnixPath.replaceFirst(Profile.getInstance().getLibraryRoot(), ""));
 		}
 	
-		int mid = file.getAbsolutePath().lastIndexOf(".");
-		String extension = file.getAbsolutePath().substring(mid + 1, file.getAbsolutePath().length());
+		int mid = fileUnixPath.lastIndexOf(".");
+		String extension = fileUnixPath.substring(mid + 1, fileUnixPath.length());
 		
 		// we need to copy the file
 		String fullPath = directoryTarget.getAbsolutePath() + "/" + fileName + "." + extension;
@@ -74,8 +76,7 @@ public final class FileHelper {
 			logger.error("Cannot copy file : " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
 		}
 		
-		String specialLibraryRoot = Profile.getInstance().getLibraryRoot().replace("\\", "\\\\").replace("\\\\\\\\", "\\\\");
-		return new GedDocumentFile(target.getAbsolutePath().replaceFirst(specialLibraryRoot, "").replace('\\', '/'));
+		return new GedDocumentFile(GedDocumentService.forceUnixSeparator(target.getAbsolutePath()).replaceFirst(Profile.getInstance().getLibraryRoot(), ""));
 	}
 
 	/**
