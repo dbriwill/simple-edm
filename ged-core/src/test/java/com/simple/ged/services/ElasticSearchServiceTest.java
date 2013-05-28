@@ -1,16 +1,18 @@
 package com.simple.ged.services;
 
-import com.simple.ged.models.GedDocument;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.elasticsearch.node.Node;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.simple.ged.Profile;
+import com.simple.ged.models.GedDocument;
+import com.simple.ged.models.GedDocumentFile;
 
 public class ElasticSearchServiceTest {
 
@@ -20,9 +22,14 @@ public class ElasticSearchServiceTest {
     private GedDocument docBac;
     private GedDocument docBrevet;
     private GedDocument docBacNotes;
+    private GedDocument docLatex;
 
     @Before
     public void setUp() throws Exception {
+    	
+    	String executionPath = System.getProperty("user.dir") + "/target/";
+    	Profile.getInstance().setDocumentLibraryRoot(executionPath);
+    	
         docBac = new GedDocument();
         docBac.setDate(new Date());
         docBac.setName("Diplome du bac");
@@ -39,9 +46,22 @@ public class ElasticSearchServiceTest {
         docBacNotes.setName("Notes du bac");
         docBacNotes.setDescription("Relevé de notes du bac");
 
+        docLatex = new GedDocument();
+        docLatex.setDate(new Date());
+        docLatex.setName("Un template de document...");
+        docLatex.setDescription("...réalisé dans un format binaire");
+        docLatex.addFile(new GedDocumentFile("test-classes/demo_pdf.pdf"));
+        
         GedDocumentService.addOrUpdateDocument(docBac);
         GedDocumentService.addOrUpdateDocument(docBrevet);
         GedDocumentService.addOrUpdateDocument(docBacNotes);
+        GedDocumentService.addOrUpdateDocument(docLatex);
+        
+        ElasticSearchService.removeAllIndexedData();
+        ElasticSearchService.indexDocument(docBac);
+        ElasticSearchService.indexDocument(docBrevet);
+        ElasticSearchService.indexDocument(docBacNotes);
+        ElasticSearchService.indexDocument(docLatex);
     }
 
 
@@ -80,21 +100,18 @@ public class ElasticSearchServiceTest {
      */
     @Test
     public void searchDocumentWithAccentTest() throws Exception {
-
-        ElasticSearchService.removeAllIndexedData();
-        ElasticSearchService.indexDocument(docBac);
-        ElasticSearchService.indexDocument(docBrevet);
-        ElasticSearchService.indexDocument(docBacNotes);
-
         List<GedDocument> docs = ElasticSearchService.basicSearch("diplôme");
 
-        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
-                docBac, docBrevet
+        List<Integer> attemptedResult = Arrays.asList(new Integer[]{
+                docBac.getId(), docBrevet.getId()
         });
 
         Assert.assertNotNull(docs);
         Assert.assertTrue(docs.size() == attemptedResult.size());
-        Assert.assertTrue(docs.containsAll(attemptedResult));
+        for (GedDocument doc : docs) {
+        	Assert.assertTrue(attemptedResult.contains(doc.getId()));
+        }
+        //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }
 
     /**
@@ -102,21 +119,18 @@ public class ElasticSearchServiceTest {
      */
     @Test
     public void searchDocumentWithSTest() throws Exception {
-
-        ElasticSearchService.removeAllIndexedData();
-        ElasticSearchService.indexDocument(docBac);
-        ElasticSearchService.indexDocument(docBrevet);
-        ElasticSearchService.indexDocument(docBacNotes);
-
         List<GedDocument> docs = ElasticSearchService.basicSearch("diplômes");
 
-        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
-                docBac, docBrevet
+        List<Integer> attemptedResult = Arrays.asList(new Integer[]{
+                docBac.getId(), docBrevet.getId()
         });
 
         Assert.assertNotNull(docs);
         Assert.assertTrue(docs.size() == attemptedResult.size());
-        Assert.assertTrue(docs.containsAll(attemptedResult));
+        for (GedDocument doc : docs) {
+        	Assert.assertTrue(attemptedResult.contains(doc.getId()));
+        }
+        //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }
 
     /**
@@ -124,22 +138,35 @@ public class ElasticSearchServiceTest {
      */
     @Test
     public void searchMultiWordDocumentTest() throws Exception {
-
-        ElasticSearchService.removeAllIndexedData();
-        ElasticSearchService.indexDocument(docBac);
-        ElasticSearchService.indexDocument(docBrevet);
-        ElasticSearchService.indexDocument(docBacNotes);
-
         List<GedDocument> docs = ElasticSearchService.basicSearch("diplôme bac");
 
-        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
-                docBac
+        List<Integer> attemptedResult = Arrays.asList(new Integer[]{
+                docBac.getId()
         });
-
+        
         Assert.assertNotNull(docs);
         Assert.assertTrue(docs.size() == attemptedResult.size());
-        Assert.assertTrue(docs.containsAll(attemptedResult));
+        for (GedDocument doc : docs) {
+        	Assert.assertTrue(attemptedResult.contains(doc.getId()));
+        }
+        //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }
 
+    
+    @Test
+    public void searchOnBinaryContent() throws Exception {
+    	List<GedDocument> docs = ElasticSearchService.basicSearch("latex");
+
+        List<Integer> attemptedResult = Arrays.asList(new Integer[]{
+                docLatex.getId()
+        });
+ 
+        Assert.assertNotNull(docs);
+        Assert.assertTrue(docs.size() == attemptedResult.size());
+        for (GedDocument doc : docs) {
+        	Assert.assertTrue(attemptedResult.contains(doc.getId()));
+        }
+        //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
+    }
 
 }

@@ -44,7 +44,7 @@
 
 # Path to where plugins are installed:
 #
-# path.plugins: /path/to/plugins
+ path.plugins: ./target/es/plugins
 
 
 ################################## Discovery ##################################

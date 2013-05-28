@@ -1,21 +1,24 @@
 package com.simple.ged.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.simple.ged.models.GedDocument;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
+import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
-import org.elasticsearch.action.admin.indices.flush.FlushRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.io.FileSystemUtils;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.Base64;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.node.Node;
@@ -24,9 +27,10 @@ import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.simple.ged.Profile;
+import com.simple.ged.models.GedDocument;
+import com.simple.ged.models.GedDocumentFile;
+
 
 /**
  * Service for using Elastic search
@@ -85,12 +89,66 @@ public class ElasticSearchService {
      *          The document ID must be defined (for BDD mapping)
      */
     public static void indexDocument(GedDocument doc) {
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
-            String jsonString = mapper.writeValueAsString(doc);
+        	
+        	// the document is build manualy to 
+        	// have the possibility to add the binary file
+        	// content
+        	
+        	XContentBuilder contentBuilder = jsonBuilder();
+        	
+        	// add ged document attributes
+        	contentBuilder = contentBuilder.startObject();
+        	
+        	for (Method  m : GedDocument.class.getDeclaredMethods()) {
+        		//contentBuilder = contentBuilder.field(f.getName(), f.get(doc));
+        		if (m.getName().startsWith("get")) {
+        			if (m.getName().equalsIgnoreCase("getDocumentFiles")) { // ignore this type
+        				continue;
+        			}
+        			Object oo = m.invoke(doc);
+        			contentBuilder = contentBuilder.field(m.getName().substring(3), oo);
+        		}
+        	}
+        	
+        	// now add the binaries files (startObject("file").field("_content_type", contentType).field("_name", fileName).field("content", Base64.encodeBytes(content)).endObject())
+        	
+        	if (doc.getDocumentFiles().size() > 0) { // in fact we're just going to keep just the first file
+        		
+        		contentBuilder = contentBuilder.startObject("my_attachment");
+        		
+        		for (GedDocumentFile gedDocumentFile : doc.getDocumentFiles()) {
+        			
+        			//contentBuilder = contentBuilder.field("type", "attachment");
+        			//contentBuilder = contentBuilder.startObject("fields");
+        			
+        			Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath());
+        			
+        			String contentType = Files.probeContentType(filePath);
+        			//String name        = gedDocumentFile.getRelativeFilePath();
+        			String name        = Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath();
+        			String content     = Base64.encodeBytes(Files.readAllBytes(filePath));
+        			
+        			contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
+        			
+        			//contentBuilder = contentBuilder.endObject();
+        			
+        			// ALWAYS BREAK BECAUSE WE ONLY KEEP THE FIRST FILE
+        			// does someone wan't to try to keep others files ?
+        			break;
+        		}
+        		
+            	contentBuilder = contentBuilder.endObject();
+        	}
 
-            IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).setSource(jsonString).execute().actionGet();
+        	// and that's all folks
+        	contentBuilder = contentBuilder.endObject();
+        	
+
+            //IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).setSource(jsonString).execute().actionGet();
+            IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).setSource(contentBuilder).execute().actionGet();
+
 
             logger.debug("Indexed ged document {} with id {}", doc.getId(), ir.getId());
         }
@@ -141,6 +199,8 @@ public class ElasticSearchService {
      * Search for the given words
      */
     public static List<GedDocument> basicSearch(String searched) {
+    	node.client().admin().indices().prepareRefresh().execute().actionGet();
+    	
         List<GedDocument> documents = new ArrayList<>();
 
         BoolQueryBuilder qb = QueryBuilders.boolQuery();
