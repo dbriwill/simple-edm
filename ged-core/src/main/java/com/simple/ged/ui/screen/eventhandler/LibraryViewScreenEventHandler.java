@@ -49,7 +49,7 @@ public class LibraryViewScreenEventHandler implements LibraryListener {
 		
 		// try to show doc
 		
-		GedDocument d = GedDocumentService.findDocumentbyFilePath(relativeFilePathOfNewSelection);
+		GedDocument d = GedDocumentService.findDocumentByFilePath(relativeFilePathOfNewSelection);
 		
 		if (d == null) {
 			logger.debug("no document found for this file");

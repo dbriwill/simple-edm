@@ -282,7 +282,7 @@ public final class PluginManager {
 						if (f.isFile()) {
 							GedDocumentDTO component = new GedDocumentDTO(relativePathToRoot);
 							
-							GedDocument doc = GedDocumentService.findDocumentbyFilePath(relativePathToRoot);
+							GedDocument doc = GedDocumentService.findDocumentByFilePath(relativePathToRoot);
 							
 							component.setDocumentDate(doc.getDate());
 							component.setDocumentDescription(doc.getDescription());

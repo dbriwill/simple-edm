@@ -56,8 +56,8 @@ public final class DirectoryDAO {
 
 	/**
 	 * Save or update document
-	 * @param document
-	 * 				The document to save or to update
+	 * @param directory
+	 * 				The directory to save or to update
 	 */
 	public static synchronized void saveOrUpdate(GedDirectory directory)
 	{

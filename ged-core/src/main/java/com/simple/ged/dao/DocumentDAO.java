@@ -43,7 +43,7 @@ public final class DocumentDAO {
 	 *            The file path, relative to ged root
 	 */
 	public static synchronized GedDocument findDocumentbyFilePath(String filePath) {
-		logger.debug("Get document for file : " + filePath);
+		logger.debug("Get document for file : {}", filePath);
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Criteria criteria = session.createCriteria(GedDocumentFile.class).add(Restrictions.eq("relativeFilePath", filePath));  
@@ -61,6 +61,22 @@ public final class DocumentDAO {
 		
 		return d;
 	}
+
+
+    /**
+     * @param id
+     *            The document id
+     */
+    public static synchronized GedDocument findDocumentbyId(Integer id) {
+        logger.debug("Get document for id : {}", id);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        GedDocument d = (GedDocument)session.get(GedDocument.class, id);
+        session.close();
+
+        return d;
+    }
+
 
 	/**
 	 * Save or update document

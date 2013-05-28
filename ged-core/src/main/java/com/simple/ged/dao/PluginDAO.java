@@ -72,8 +72,8 @@ public final class PluginDAO {
 	
 	/**
 	 * Save or update document
-	 * @param document
-	 * 				The document to save or to update
+	 * @param pmi
+	 * 				The plugin to save or to update
 	 */
 	public static synchronized void saveOrUpdate(GedGetterPlugin pmi)
 	{

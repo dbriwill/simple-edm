@@ -67,10 +67,16 @@ public final class GedDocumentService {
 	 * @param filePath
 	 *            The file path, relative to ged root
 	 */
-	public static GedDocument findDocumentbyFilePath(String filePath) {
+	public static GedDocument findDocumentByFilePath(String filePath) {
 		return DocumentDAO.findDocumentbyFilePath(forceUnixSeparator(filePath));
 	}
-	
+
+    /**
+     * Ged document by id
+     */
+    public static GedDocument findDocumentById(Integer id) {
+        return DocumentDAO.findDocumentbyId(id);
+    }
 	
 	/**
 	 * 
