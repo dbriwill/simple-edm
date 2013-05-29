@@ -4,6 +4,7 @@ package com.simple.ged;
 import java.io.File;
 import java.util.Map.Entry;
 
+import com.simple.ged.services.ElasticSearchService;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,10 +55,20 @@ public final class Launcher {
 		
 		GedDocumentLocationService.makeSurAtLeastOneDocumentLocationExists();
 		MiddleProfile.getInstance().completeUpdate();
-		
+
+
+        // launch document indexation
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ElasticSearchService.indexAllNonIndexedDocumentInLibrary();
+            }
+        }).start();
+
+
 		
 		// check for updates
-		Thread t = new Thread(new Runnable() {
+		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				
@@ -123,8 +134,7 @@ public final class Launcher {
 			        .show();
 				}
 			}
-		});
-		t.start();
+		}).start();
 	
 	
 		// The main window

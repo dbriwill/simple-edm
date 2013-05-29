@@ -3,6 +3,7 @@ package com.simple.ged.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.Criteria;
@@ -36,6 +37,24 @@ public final class DocumentDAO {
 	 */
 	private DocumentDAO() {
 	}
+
+
+    /**
+     * Get messages, sorted by date desc
+     */
+    public static synchronized List<GedDocument> getAllGedDocuments() {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM GedDocument");
+
+        @SuppressWarnings("unchecked")
+        List<GedDocument> results = query.list();
+
+        session.close();
+
+        return results;
+    }
+
 	
 	/**
 	 * 

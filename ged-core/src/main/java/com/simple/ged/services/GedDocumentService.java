@@ -194,5 +194,13 @@ public final class GedDocumentService {
 	public static String getRelativeFromAbsloutePath(String absolutePath) {
 		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
+
+
+    /**
+     * Get all documents
+     */
+    public static List<GedDocument> getAllDocuments() {
+        return DocumentDAO.getAllGedDocuments();
+    }
 	
 }

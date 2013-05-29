@@ -257,4 +257,24 @@ public class ElasticSearchService {
         return documents;
     }
 
+
+    /**
+     * Index document which aren't indexed yet (I recommand to thread this method call)
+     */
+    public static void indexAllNonIndexedDocumentInLibrary() {
+        logger.info("All document non indexed will be now");
+
+        for (GedDocument doc : GedDocumentService.getAllDocuments()) {
+            if (! documentIsIndexed(doc)) {
+                logger.trace("Indexing document with id {}", doc.getId());
+                indexDocument(doc);
+            }
+            else {
+                logger.trace("Document {} is already indexed", doc.getId());
+            }
+        }
+
+        logger.info("All document indexation over");
+    }
+
 }

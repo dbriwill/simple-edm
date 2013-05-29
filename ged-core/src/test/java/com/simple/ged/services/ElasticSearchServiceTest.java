@@ -191,4 +191,23 @@ public class ElasticSearchServiceTest {
         //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }
 
+
+    /**
+     * Test for indexing all documents at the first ES installation
+     */
+    @Test
+    public void indexAllDocsInES() throws Exception {
+        ElasticSearchService.removeAllIndexedData();
+
+        List<GedDocument> docs = Arrays.asList(new GedDocument[]{
+                docLatex, docBac, docBrevet, docBacNotes
+        });
+
+        ElasticSearchService.indexAllNonIndexedDocumentInLibrary();
+
+        for (GedDocument doc : docs) {
+            Assert.assertTrue(ElasticSearchService.documentIsIndexed(doc));
+        }
+    }
+
 }
