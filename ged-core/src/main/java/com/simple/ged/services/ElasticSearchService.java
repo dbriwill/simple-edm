@@ -168,8 +168,7 @@ public class ElasticSearchService {
         			Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath());
         			
         			String contentType = Files.probeContentType(filePath);
-        			//String name        = gedDocumentFile.getRelativeFilePath();
-        			String name        = Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath();
+        			String name        = gedDocumentFile.getRelativeFilePath();
         			String content     = Base64.encodeBytes(Files.readAllBytes(filePath));
         			
         			contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
