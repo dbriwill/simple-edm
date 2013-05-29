@@ -36,15 +36,15 @@
 
 # Path to temporary files:
 #
- path.work: ./target/es/work
+ path.work: ./es/work
 
 # Path to log files:
 #
- path.logs: ./target/es/logs
+ path.logs: ./es/logs
 
 # Path to where plugins are installed:
 #
- path.plugins: ./target/es/plugins
+ path.plugins: ./es/plugins
 
 
 ################################## Discovery ##################################

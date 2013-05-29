@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,4 +186,39 @@ public final class FileHelper {
 	public static boolean fileExists(String path) {
 		return new File(path).exists();
 	}
+
+
+    /**
+     * Extract some resource to the given path
+     *
+     * @throws Exception
+     *                  ... if something wrong append
+     */
+    public static void extractZipEmbeddedResource(String resourceLocation, String destination) throws Exception {
+        byte[] buffer = new byte[1024];
+
+        ZipInputStream zis = new ZipInputStream(FileHelper.class.getResourceAsStream(resourceLocation));
+        ZipEntry ze = zis.getNextEntry();
+
+        while(ze != null) {
+            String fileName = ze.getName();
+            File newFile = new File(destination + "/" + fileName);
+
+            logger.debug("unzip file : {}", newFile.getAbsoluteFile());
+
+            new File(newFile.getParent()).mkdirs();
+            FileOutputStream fos = new FileOutputStream(newFile);
+
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+
+            fos.close();
+            ze = zis.getNextEntry();
+        }
+
+        zis.closeEntry();
+        zis.close();
+    }
 }
