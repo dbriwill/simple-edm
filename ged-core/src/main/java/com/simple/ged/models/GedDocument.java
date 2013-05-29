@@ -74,9 +74,9 @@ public class GedDocument implements Serializable {
     @ManyToOne
     @JoinColumn(name="location", nullable=true)
     private GedDocumentPhysicalLocation location;
-    
-    
-    
+
+
+
 	public GedDocument(int id, List<GedDocumentFile> documentFiles, String name, Date date, String description) {
 		this.id = id;
 		this.documentFiles = documentFiles;

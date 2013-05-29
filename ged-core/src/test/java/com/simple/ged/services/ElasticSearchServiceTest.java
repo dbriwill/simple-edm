@@ -27,8 +27,8 @@ public class ElasticSearchServiceTest {
     @Before
     public void setUp() throws Exception {
     	
-    	String executionPath = System.getProperty("user.dir") + "/target/";
-    	Profile.getInstance().setDocumentLibraryRoot(executionPath);
+    	String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-core") ? "" : "/ged-core") + "/target/";
+    	Profile.getInstance().setDocumentLibraryRoot(targetDirAbsolutePath);
     	
         docBac = new GedDocument();
         docBac.setDate(new Date());
@@ -152,7 +152,10 @@ public class ElasticSearchServiceTest {
         //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }
 
-    
+
+    /**
+     * Search in document binary content
+     */
     @Test
     public void searchOnBinaryContent() throws Exception {
     	List<GedDocument> docs = ElasticSearchService.basicSearch("latex");
@@ -160,11 +163,30 @@ public class ElasticSearchServiceTest {
         List<Integer> attemptedResult = Arrays.asList(new Integer[]{
                 docLatex.getId()
         });
- 
+
         Assert.assertNotNull(docs);
         Assert.assertTrue(docs.size() == attemptedResult.size());
         for (GedDocument doc : docs) {
         	Assert.assertTrue(attemptedResult.contains(doc.getId()));
+        }
+        //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
+    }
+
+    /**
+     * Search in document binary metadata (author)
+     */
+    @Test
+    public void searchOnBinaryMetadataContent() throws Exception {
+        List<GedDocument> docs = ElasticSearchService.basicSearch("xavier");
+
+        List<Integer> attemptedResult = Arrays.asList(new Integer[]{
+                docLatex.getId()
+        });
+
+        Assert.assertNotNull(docs);
+        Assert.assertTrue(docs.size() == attemptedResult.size());
+        for (GedDocument doc : docs) {
+            Assert.assertTrue(attemptedResult.contains(doc.getId()));
         }
         //Assert.assertTrue(docs.containsAll(attemptedResult));	// WTF ?
     }

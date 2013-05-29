@@ -2,6 +2,9 @@ package com.simple.ged.services;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.xmichel.toolbox.tools.FileHelper;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -31,6 +35,8 @@ import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 
+import static org.elasticsearch.common.io.Streams.copyToBytesFromClasspath;
+import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 
 /**
  * Service for using Elastic search
@@ -43,6 +49,14 @@ public class ElasticSearchService {
      * Index name
      */
     private static final String ES_GED_INDEX = "ged";
+
+    /**
+     * Index doc type
+     *
+     * @warning
+     *          Keep updated doc-mapping.json !
+     */
+    private static final String ES_GED_INDEX_TYPE_DOC = "doc";
 
     /**
      * My logger
@@ -77,8 +91,16 @@ public class ElasticSearchService {
         }
 
         // recreate indexes
-        node.client().admin().indices().prepareCreate("ged").execute().actionGet();
-        node.client().admin().indices().refresh(new RefreshRequest("ged")).actionGet();
+        node.client().admin().indices().prepareCreate(ES_GED_INDEX).execute().actionGet();
+        node.client().admin().indices().refresh(new RefreshRequest(ES_GED_INDEX)).actionGet();
+
+        // load custom mappings
+        try {
+            String content = copyToStringFromClasspath("/mapping/doc-mapping.json");
+            node.client().admin().indices().preparePutMapping(ES_GED_INDEX).setType(ES_GED_INDEX_TYPE_DOC).setSource(content).execute().actionGet();
+        } catch (IOException e) {
+            logger.error("Failed to read doc mapping for ES", e);
+        }
     }
 
 
@@ -112,16 +134,13 @@ public class ElasticSearchService {
         		}
         	}
         	
-        	// now add the binaries files (startObject("file").field("_content_type", contentType).field("_name", fileName).field("content", Base64.encodeBytes(content)).endObject())
+        	// now add the binaries files
         	
         	if (doc.getDocumentFiles().size() > 0) { // in fact we're just going to keep just the first file
         		
-        		contentBuilder = contentBuilder.startObject("my_attachment");
+        		contentBuilder = contentBuilder.startObject("file");
         		
         		for (GedDocumentFile gedDocumentFile : doc.getDocumentFiles()) {
-        			
-        			//contentBuilder = contentBuilder.field("type", "attachment");
-        			//contentBuilder = contentBuilder.startObject("fields");
         			
         			Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath());
         			
@@ -131,9 +150,7 @@ public class ElasticSearchService {
         			String content     = Base64.encodeBytes(Files.readAllBytes(filePath));
         			
         			contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
-        			
-        			//contentBuilder = contentBuilder.endObject();
-        			
+
         			// ALWAYS BREAK BECAUSE WE ONLY KEEP THE FIRST FILE
         			// does someone wan't to try to keep others files ?
         			break;
@@ -144,11 +161,8 @@ public class ElasticSearchService {
 
         	// and that's all folks
         	contentBuilder = contentBuilder.endObject();
-        	
 
-            //IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).setSource(jsonString).execute().actionGet();
-            IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).setSource(contentBuilder).execute().actionGet();
-
+            IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, ES_GED_INDEX_TYPE_DOC, Integer.toString(doc.getId())).setSource(contentBuilder).execute().actionGet();
 
             logger.debug("Indexed ged document {} with id {}", doc.getId(), ir.getId());
         }
@@ -163,7 +177,7 @@ public class ElasticSearchService {
      */
     public static boolean documentIsIndexed(GedDocument doc) {
         try {
-            GetResponse gr = node.client().prepareGet(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).execute().actionGet();
+            GetResponse gr = node.client().prepareGet(ES_GED_INDEX, ES_GED_INDEX_TYPE_DOC, Integer.toString(doc.getId())).execute().actionGet();
             return (gr != null && gr.isExists());
         }
         catch (IndexMissingException e) {
@@ -181,7 +195,7 @@ public class ElasticSearchService {
      */
     public static void unindexDocument(GedDocument doc) {
         try {
-            DeleteResponse dr = node.client().prepareDelete(ES_GED_INDEX, "doc", Integer.toString(doc.getId())).execute().get();
+            DeleteResponse dr = node.client().prepareDelete(ES_GED_INDEX, ES_GED_INDEX_TYPE_DOC, Integer.toString(doc.getId())).execute().get();
             if (dr.isNotFound()) {
                 logger.warn("Failed to remove document : not found");
             }
