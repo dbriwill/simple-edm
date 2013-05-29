@@ -1,5 +1,6 @@
 package com.simple.ged.services;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.contentBuilder;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.*;
@@ -141,7 +142,7 @@ public class ElasticSearchService {
         	XContentBuilder contentBuilder = jsonBuilder();
         	
         	// add ged document attributes
-        	contentBuilder = contentBuilder.startObject();
+        	contentBuilder.startObject();
         	
         	for (Method  m : GedDocument.class.getDeclaredMethods()) {
         		//contentBuilder = contentBuilder.field(f.getName(), f.get(doc));
@@ -150,7 +151,7 @@ public class ElasticSearchService {
         				continue;
         			}
         			Object oo = m.invoke(doc);
-        			contentBuilder = contentBuilder.field(m.getName().substring(3), oo);
+        			contentBuilder.field(m.getName().substring(3), oo);
         		}
         	}
         	
@@ -158,10 +159,12 @@ public class ElasticSearchService {
         	
         	if (doc.getDocumentFiles().size() > 0) { // in fact we're just going to keep just the first file
         		
-        		contentBuilder = contentBuilder.startObject("file");
+        		contentBuilder.startArray("files");
         		
         		for (GedDocumentFile gedDocumentFile : doc.getDocumentFiles()) {
-        			
+
+                    contentBuilder.startObject();
+
         			Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedDocumentFile.getRelativeFilePath());
         			
         			String contentType = Files.probeContentType(filePath);
@@ -171,16 +174,14 @@ public class ElasticSearchService {
         			
         			contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
 
-        			// ALWAYS BREAK BECAUSE WE ONLY KEEP THE FIRST FILE
-        			// does someone wan't to try to keep others files ?
-        			break;
+                    contentBuilder.endObject();
         		}
-        		
-            	contentBuilder = contentBuilder.endObject();
+
+                contentBuilder.endArray();
         	}
 
         	// and that's all folks
-        	contentBuilder = contentBuilder.endObject();
+        	contentBuilder.endObject();
 
             IndexResponse ir = node.client().prepareIndex(ES_GED_INDEX, ES_GED_INDEX_TYPE_DOC, Integer.toString(doc.getId())).setSource(contentBuilder).execute().actionGet();
 
