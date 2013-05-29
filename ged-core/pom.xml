@@ -19,8 +19,6 @@
 		<fr.xmichel.toolbox.version>1.0.2</fr.xmichel.toolbox.version>
 		<fr.xmichel.javafx.version>1.0.2</fr.xmichel.javafx.version>
 		
-		<javax.inject.version>1</javax.inject.version>
-		
 		<org.slf4j.version>1.7.2</org.slf4j.version>
 		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
 		
@@ -198,15 +196,6 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<version>${ch.qos.logback.version}</version>
-		</dependency>
-
-
-		<!-- Injection -->
-
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>${javax.inject.version}</version>
 		</dependency>
 
 
