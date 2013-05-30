@@ -25,7 +25,9 @@
 		<org.hibernate.core.version>4.1.3.Final</org.hibernate.core.version>
 		<org.hibernate.ejb-persistence.version>1.0.2.GA</org.hibernate.ejb-persistence.version>
 		<org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version>
-		
+
+        <org.elasticsearch.version>0.90.0</org.elasticsearch.version>
+
 		<org.xerial.sqlite-jdbc.version>3.7.2</org.xerial.sqlite-jdbc.version>
 		
 		<common.beanutils.version>1.8.3</common.beanutils.version>
@@ -233,7 +235,7 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>0.90.0</version>
+            <version>${org.elasticsearch.version}</version>
         </dependency>
 
 
