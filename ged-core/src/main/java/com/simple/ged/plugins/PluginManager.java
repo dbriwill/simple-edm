@@ -270,7 +270,7 @@ public final class PluginManager {
 					}
 					for (File f : file.listFiles()) {
 
-						String relativePathToRoot = GedDocumentService.getRelativeFromAbsloutePath(f.getAbsolutePath());
+						String relativePathToRoot = GedDocumentService.getRelativeFromAbsolutePath(f.getAbsolutePath());
 						
 						if (f.isDirectory()) {
 							GedFolderDTO component = new GedFolderDTO(relativePathToRoot);

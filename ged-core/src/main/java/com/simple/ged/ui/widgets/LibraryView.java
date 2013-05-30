@@ -172,9 +172,9 @@ public class LibraryView extends TreeView<String> {
  		// folder
  		if (new File(filePath).isDirectory()) {
  			
- 			logger.trace("ged icon for directory : {}", GedDocumentService.getRelativeFromAbsloutePath(filePath));
+ 			logger.trace("ged icon for directory : {}", GedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
- 			GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(GedDocumentService.getRelativeFromAbsloutePath(filePath));
+ 			GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(GedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
  			ImageView iv = null;
  			

@@ -168,7 +168,7 @@ public final class GedDocumentService {
 	/**
 	 * Get documents with the given location
 	 */
-	public static List<GedDocument> findDocumentbyLocation(GedDocumentPhysicalLocation location) {
+	public static List<GedDocument> findDocumentByLocation(GedDocumentPhysicalLocation location) {
 		return DocumentDAO.findDocumentbyLocation(location);
 	}
 	
@@ -178,20 +178,24 @@ public final class GedDocumentService {
 	 * Words is a string where word are splited by space, and a matching item must match with any of the given words
 	 */
 	public static synchronized List<GedDocumentFile> searchForWords(String searchedWords) {
-		String[] words = searchedWords.split(" ");
-		
-		// convert to java list
-		List<String> wordList = new ArrayList<>();
-        Collections.addAll(wordList, words);
-		
-		return DocumentDAO.getDocumentWhichContainsEveryWords(wordList);
+        List<GedDocumentFile> results = new ArrayList<>();
+
+        List<GedDocument> matchingDocuments = ElasticSearchService.basicSearch(searchedWords);
+
+        for (GedDocument doc : matchingDocuments) {
+            for (GedDocumentFile file : doc.getDocumentFiles()) {
+                results.add(file);
+            }
+        }
+
+		return results;
 	}
 	
 	
 	/**
 	 * Get relative file path from the absolute path
 	 */
-	public static String getRelativeFromAbsloutePath(String absolutePath) {
+	public static String getRelativeFromAbsolutePath(String absolutePath) {
 		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
 

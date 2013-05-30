@@ -52,7 +52,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsloutePath(windowPath));
+        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(windowPath));
     }
     
     /**
@@ -66,6 +66,6 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsloutePath(unixPath));
+        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(unixPath));
     }
 }

@@ -114,7 +114,7 @@ public final class GedDocumentLocationService {
 	{	
 		GedDocumentPhysicalLocation defaultLocation = DocumentLocationDAO.findLocationById(1);
 		
-		List<GedDocument> documentsWithLocationToUpdate = GedDocumentService.findDocumentbyLocation(location);
+		List<GedDocument> documentsWithLocationToUpdate = GedDocumentService.findDocumentByLocation(location);
 		for (GedDocument document : documentsWithLocationToUpdate) {
 			document.setLocation(defaultLocation);
 			GedDocumentService.addOrUpdateDocument(document);

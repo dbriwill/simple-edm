@@ -203,7 +203,11 @@ public final class DocumentDAO {
 	
 	/**
 	 * Search document which match with one of the given
+     *
+     * @deprecated
+     *              Use ElasticSearchService instead !
 	 */
+    @Deprecated
 	@SuppressWarnings("unchecked")
 	public static synchronized List<GedDocumentFile> getDocumentWhichContainsEveryWords(List<String> words) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
