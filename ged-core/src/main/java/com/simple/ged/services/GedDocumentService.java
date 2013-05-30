@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -94,6 +93,7 @@ public final class GedDocumentService {
 	public static void addOrUpdateDocument(GedDocument doc)
 	{
 		DocumentDAO.saveOrUpdate(doc);
+		ElasticSearchService.indexDocument(doc);
 	}
 	
 	/**
@@ -181,13 +181,16 @@ public final class GedDocumentService {
         List<GedDocumentFile> results = new ArrayList<>();
 
         List<GedDocument> matchingDocuments = ElasticSearchService.basicSearch(searchedWords);
-
+        logger.info("Matching document count : {}", matchingDocuments.size());
+        
         for (GedDocument doc : matchingDocuments) {
             for (GedDocumentFile file : doc.getDocumentFiles()) {
                 results.add(file);
             }
         }
 
+        logger.info("Matching files count : {}", results.size());
+        
 		return results;
 	}
 	

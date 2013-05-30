@@ -1,19 +1,16 @@
 package com.simple.ged.services;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.contentBuilder;
+import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-import java.io.*;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import fr.xmichel.toolbox.tools.FileHelper;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -36,8 +33,7 @@ import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 
-import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
-import static org.elasticsearch.common.io.Streams.copyToBytesFromClasspath;
+import fr.xmichel.toolbox.tools.FileHelper;
 
 /**
  * Service for using Elastic search
