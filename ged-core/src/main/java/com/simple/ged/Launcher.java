@@ -11,7 +11,6 @@ import javafx.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.services.GedDocumentLocationService;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.update.DoUpdate;
 import com.simple.ged.update.UpdateHelper;
@@ -52,7 +51,7 @@ public final class Launcher {
 		// create or update database
 		HibernateUtil.getSessionFactory().openSession();
 		
-		GedDocumentLocationService.makeSurAtLeastOneDocumentLocationExists();
+		
 		MiddleProfile.getInstance().completeUpdate();
 		
 		

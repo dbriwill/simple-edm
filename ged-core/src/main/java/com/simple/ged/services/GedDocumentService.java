@@ -18,7 +18,6 @@ import com.simple.ged.dao.DirectoryDAO;
 import com.simple.ged.dao.DocumentDAO;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
-import com.simple.ged.models.GedDocumentPhysicalLocation;
 import com.simple.ged.tools.FileHelper;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -159,13 +158,7 @@ public final class GedDocumentService {
 		DocumentDAO.deleteFile(forceUnixSeparator(filePath));
 	}
 	
-	/**
-	 * Get documents with the given location
-	 */
-	public static List<GedDocument> findDocumentbyLocation(GedDocumentPhysicalLocation location) {
-		return DocumentDAO.findDocumentbyLocation(location);
-	}
-	
+
 	/**
 	 * Search for the given words
 	 * 

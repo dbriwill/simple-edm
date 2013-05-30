@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -67,15 +66,7 @@ public class GedDocument implements Serializable {
      */
     @Column(name="description")
     private String description;
-    
-    /**
-     * Document location
-     */
-    @ManyToOne
-    @JoinColumn(name="location", nullable=true)
-    private GedDocumentPhysicalLocation location;
-    
-    
+  
     
 	public GedDocument(int id, List<GedDocumentFile> documentFiles, String name, Date date, String description) {
 		this.id = id;
@@ -83,18 +74,7 @@ public class GedDocument implements Serializable {
 		this.name = name;
 		this.date = date;
 		this.description = description;
-		this.location = null;
 	}
-
-	public GedDocument(int id, List<GedDocumentFile> documentFiles, String name, Date date, String description, GedDocumentPhysicalLocation location) {
-		this.id = id;
-		this.documentFiles = documentFiles;
-		this.name = name;
-		this.date = date;
-		this.description = description;
-		this.location = location;
-	}
-	
 
 	public GedDocument() {
 		this.id = null;
@@ -171,16 +151,6 @@ public class GedDocument implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	
-	
-	public GedDocumentPhysicalLocation getLocation() {
-		return location;
-	}
-
-	public void setLocation(GedDocumentPhysicalLocation location) {
-		this.location = location;
 	}
 
 	
