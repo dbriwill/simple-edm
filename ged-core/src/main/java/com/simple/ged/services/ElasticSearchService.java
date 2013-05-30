@@ -262,11 +262,11 @@ public class ElasticSearchService {
 
         for (GedDocument doc : GedDocumentService.getAllDocuments()) {
             if (! documentIsIndexed(doc)) {
-                logger.trace("Indexing document with id {}", doc.getId());
+                logger.debug("Indexing document with id {}", doc.getId());
                 indexDocument(doc);
             }
             else {
-                logger.trace("Document {} is already indexed", doc.getId());
+                logger.debug("Document {} is already indexed", doc.getId());
             }
         }
 
