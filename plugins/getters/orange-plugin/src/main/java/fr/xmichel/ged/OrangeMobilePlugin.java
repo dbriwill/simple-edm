@@ -22,7 +22,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
@@ -188,44 +187,4 @@ public class OrangeMobilePlugin extends SimpleGedGetterPlugin {
 		
 		logger.info("End of OrangeMobilePlugin");
 	}
-	
-	
-	
-	
-	// for testing
-	public static void main(String[] arg) {
-		
-		// Instantiate our plugin
-		SimpleGedGetterPlugin p = new OrangeMobilePlugin();
-		
-		// create properties list 
-		List<SimpleGedPluginProperty> properties = new ArrayList<>();
-		
-		// create the required properties
-		SimpleGedPluginProperty phoneNumber  = new SimpleGedPluginProperty();
-		phoneNumber.setPropertyKey("phone_number");
-		phoneNumber.setPropertyValue("06XXXXXXXX");
-		
-		SimpleGedPluginProperty secretCode  = new SimpleGedPluginProperty();
-		secretCode.setPropertyKey("secret_code");
-		secretCode.setPropertyValue("XXXXXX");
-		
-		// add the property in list
-		properties.add(phoneNumber);
-		properties.add(secretCode);
-		
-		// set properties list to our plugin
-		p.setProperties(properties);
-		
-		// define destination file for the try
-		p.setDestinationFile("orangeMobilePluginTest");
-		
-		// finally, try our plugin
-		try {
-			p.doGet();
-		} catch (SimpleGedPluginException e) {
-			logger.error("Epic fail :", e);
-		}
-	}
-	
 }
