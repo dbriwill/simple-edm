@@ -18,6 +18,19 @@
 	<properties>
 		<fr.xmichel.toolbox.version>1.0.2</fr.xmichel.toolbox.version>
 		<fr.xmichel.javafx.version>1.0.2</fr.xmichel.javafx.version>
+		
+		<org.slf4j.version>1.7.2</org.slf4j.version>
+		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
+		
+		<org.hibernate.core.version>4.1.3.Final</org.hibernate.core.version>
+		<org.hibernate.ejb-persistence.version>1.0.2.GA</org.hibernate.ejb-persistence.version>
+		<org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version>
+		
+		<org.xerial.sqlite-jdbc.version>3.7.2</org.xerial.sqlite-jdbc.version>
+		
+		<common.beanutils.version>1.8.3</common.beanutils.version>
+		<common.validator.version>1.4.0</common.validator.version>
+		<commons.lang.version>2.6</commons.lang.version>
 	</properties>
 
 
@@ -158,31 +171,31 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.2</version>
+			<version>${org.slf4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.2</version>
+			<version>${org.slf4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>1.7.2</version>
+			<version>${org.slf4j.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.7</version>
+			<version>${ch.qos.logback.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>1.0.7</version>
+			<version>${ch.qos.logback.version}</version>
 		</dependency>
 
 
@@ -191,19 +204,19 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.1.3.Final</version>
+			<version>${org.hibernate.core.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>ejb3-persistence</artifactId>
-			<version>1.0.2.GA</version>
+			<version>${org.hibernate.ejb-persistence.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
+			<version>${org.hibernate.annotation.version}</version>
 		</dependency>
 
 
@@ -212,7 +225,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.7.2</version>
+			<version>${org.xerial.sqlite-jdbc.version}</version>
 		</dependency>
 
         <!-- Elastic search -->
@@ -229,7 +242,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.8.3</version>
+			<version>${common.beanutils.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -241,7 +254,7 @@
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
+			<version>${common.validator.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -253,7 +266,7 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<version>${commons.lang.version}</version>
 		</dependency>
 
 	</dependencies>
