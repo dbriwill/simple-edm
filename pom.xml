@@ -83,6 +83,7 @@
 		<module>plugins/getters/demo-plugin</module>
 		<module>plugins/getters/orange-plugin</module>
 		<module>plugins/getters/sfr-mobile-plugin</module>
+		<module>plugins/getters/sfr-box-plugin</module>
 		
 		<module>plugins/workers/demo-plugin</module>
 	</modules>

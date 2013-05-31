@@ -11,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.models.GedDocument;
-import com.simple.ged.models.GedDocumentPhysicalLocation;
-import com.simple.ged.services.GedDocumentLocationService;
 import com.simple.ged.ui.listeners.DocumentInfoEditorListener;
 import com.simple.ged.ui.widgets.DocumentInfoEditor;
 
@@ -49,9 +47,6 @@ public class DocumentInfoEditorEventHandler implements EventHandler<KeyEvent> {
 		document.setDate(documentInfoEditor.get().getEditDocumentDate().getSelectedDate());
 		document.setDescription(documentInfoEditor.get().getEditDocumentDescription().getText());
 		
-		GedDocumentPhysicalLocation location = GedDocumentLocationService.getTheLocationAndCreateItIfItDoesntExists(documentInfoEditor.get().getComboDocumentLocation().getValue());
-		document.setLocation(location);
-		
 		return document;
 	}
 	
@@ -69,9 +64,6 @@ public class DocumentInfoEditorEventHandler implements EventHandler<KeyEvent> {
 		documentInfoEditor.get().getEditDocumentTitle().setText(document.getName());
 		documentInfoEditor.get().getEditDocumentDate().setSelectedDate(document.getDate());
 		documentInfoEditor.get().getEditDocumentDescription().setText(document.getDescription());
-		if (document.getLocation() != null) {
-			documentInfoEditor.get().getComboDocumentLocation().setValue(document.getLocation().getLabel());
-		}
 	}
 	
 	

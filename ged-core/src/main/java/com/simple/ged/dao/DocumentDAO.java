@@ -9,10 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
-import com.simple.ged.models.GedDocumentPhysicalLocation;
 
 import fr.xmichel.toolbox.hibernate.sqlite.HibernateUtil;
 
@@ -180,24 +181,6 @@ public final class DocumentDAO {
 		
 		session.getTransaction().commit();
 		session.close();
-	}
-	
-	
-	/**
-	 * Get documents with the given location
-	 */
-	public static List<GedDocument> findDocumentbyLocation(GedDocumentPhysicalLocation location) {
-		Session session = HibernateUtil.getSessionFactory().openSession();  
-		
-		Criteria criteria = session.createCriteria(GedDocument.class)
-				.add(Restrictions.eq("location", location));  
-		
-		@SuppressWarnings("unchecked")
-		List<GedDocument> results = criteria.list();  
-		
-		session.close();
-		
-		return results;
 	}
 	
 	

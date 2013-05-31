@@ -25,7 +25,6 @@
 
 		<mapping class="com.simple.ged.models.GedDocument" />
 		<mapping class="com.simple.ged.models.GedDocumentFile" />
-		<mapping class="com.simple.ged.models.GedDocumentPhysicalLocation" />
 		<mapping class="com.simple.ged.models.GedMessage" />
 		<mapping class="com.simple.ged.models.GedGetterPlugin" />
 		<mapping class="com.simple.ged.models.GedDirectory" />
