@@ -3,10 +3,8 @@ package com.simple.ged.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;

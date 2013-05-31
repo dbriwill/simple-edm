@@ -1,6 +1,5 @@
 package com.simple.ged.services;
 
-import static org.elasticsearch.common.io.Streams.copyToByteArray;
 import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
