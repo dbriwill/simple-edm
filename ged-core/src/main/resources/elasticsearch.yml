@@ -26,7 +26,7 @@
 
 # Path to directory where to store index data allocated for this node.
 #
- path.data: ./target/es/data
+ path.data: ./es/data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (à la RAID 0) on a file level, favouring locations with most free
@@ -63,18 +63,4 @@
 #
 # discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
  discovery.zen.ping.unicast.hosts: ["localhost"]
-
-
-#################################### Custom ####################################
-
-index:
-        analysis:
-                analyzer:
-                        default:
-                                tokenizer:      standard
-                                filter:         [standard, lowercase, asciifolding, french_stemmer]
-                filter:
-                        french_stemmer:
-                                type:           stemmer
-                                name:           light_french
 

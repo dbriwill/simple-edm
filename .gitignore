@@ -17,6 +17,9 @@
 # maven
 target
 
+# elastic search
+es
+
 # from simple ged
 *.profile
 *.sqlite

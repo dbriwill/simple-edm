@@ -1,5 +1,6 @@
 package com.simple.ged.services;
 
+import static org.elasticsearch.common.io.Streams.copyToByteArray;
 import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -22,6 +23,7 @@ import org.elasticsearch.common.Base64;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -76,7 +78,7 @@ public class ElasticSearchService {
         try {
             String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
             if (! FileHelper.folderExists(mapperPluginAttachmentsDir)) {
-                logger.warn("elasticsearch-mapper-attachments not deployed yet, I'll do it now !");
+                logger.info("elasticsearch-mapper-attachments not deployed yet, I'll do it now !");
                 com.simple.ged.tools.FileHelper.extractZipEmbeddedResource("/embedded/elasticsearch-mapper-attachments-1.7.0.zip", mapperPluginAttachmentsDir);
                 logger.info("elasticsearch-mapper-attachments deployed");
             }
@@ -88,7 +90,38 @@ public class ElasticSearchService {
         // now we can start ES
         node = NodeBuilder.nodeBuilder().node();
         node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+
+        rebuildEsIndexAndMappingsIfNecessary();
     }
+
+
+    /**
+     * Action to do on start or on ES restart
+     */
+    private static void rebuildEsIndexAndMappingsIfNecessary() {
+
+        // recreate indexes if necessary
+        try {
+            node.client().admin().indices().prepareCreate(ES_GED_INDEX).execute().actionGet();
+        }
+        catch (IndexAlreadyExistsException e) {
+            logger.info("Index {} already exists", ES_GED_INDEX);
+        }
+        catch (Exception e) {
+            logger.error("Failed to rebuild index {}", ES_GED_INDEX, e);
+        }
+
+        // load custom mappings
+        try {
+            String content = copyToStringFromClasspath("/mapping/doc-mapping.json");
+            node.client().admin().indices().preparePutMapping(ES_GED_INDEX).setType(ES_GED_INDEX_TYPE_DOC).setSource(content).execute().actionGet();
+        } catch (IOException e) {
+            logger.error("Failed to read doc mapping for ES", e);
+        }
+
+        node.client().admin().indices().refresh(new RefreshRequest(ES_GED_INDEX)).actionGet();
+    }
+
 
     /**
      * Remove all data in ES
@@ -107,17 +140,7 @@ public class ElasticSearchService {
             logger.error("Failed to delete index, has it been create yet ?");
         }
 
-        // recreate indexes
-        node.client().admin().indices().prepareCreate(ES_GED_INDEX).execute().actionGet();
-        node.client().admin().indices().refresh(new RefreshRequest(ES_GED_INDEX)).actionGet();
-
-        // load custom mappings
-        try {
-            String content = copyToStringFromClasspath("/mapping/doc-mapping.json");
-            node.client().admin().indices().preparePutMapping(ES_GED_INDEX).setType(ES_GED_INDEX_TYPE_DOC).setSource(content).execute().actionGet();
-        } catch (IOException e) {
-            logger.error("Failed to read doc mapping for ES", e);
-        }
+        rebuildEsIndexAndMappingsIfNecessary();
     }
 
 
@@ -153,11 +176,13 @@ public class ElasticSearchService {
         	
         	// now add the binaries files
         	
-        	if (doc.getDocumentFiles().size() > 0) { // in fact we're just going to keep just the first file
+        	if (doc.getDocumentFiles().size() > 0) {
         		
         		contentBuilder.startArray("files");
         		
         		for (GedDocumentFile gedDocumentFile : doc.getDocumentFiles()) {
+
+                    logger.debug("Adding file '{}{}' for ES indexation", Profile.getInstance().getLibraryRoot(), gedDocumentFile.getRelativeFilePath());
 
                     contentBuilder.startObject();
 
@@ -185,7 +210,7 @@ public class ElasticSearchService {
         catch (Exception e) {
             logger.error("Failed to index document", e);
         }
-        node.client().admin().indices().prepareRefresh().execute().actionGet();
+
     }
 
     /**
@@ -222,14 +247,13 @@ public class ElasticSearchService {
         catch (Exception e) {
             logger.error("Failed to un-index document", e);
         }
-        node.client().admin().indices().prepareRefresh().execute().actionGet();
     }
 
     /**
      * Search for the given words
      */
     public static List<GedDocument> basicSearch(String searched) {
-    	node.client().admin().indices().prepareRefresh().execute().actionGet();
+        node.client().admin().indices().refresh(new RefreshRequest(ES_GED_INDEX)).actionGet();
     	
         List<GedDocument> documents = new ArrayList<>();
 
@@ -242,12 +266,20 @@ public class ElasticSearchService {
 
         logger.debug("The query is : {}", qb);
 
-        SearchResponse sr = node.client().prepareSearch(ES_GED_INDEX).setQuery(qb).setSize(10000).execute().actionGet();
+        try {
+            SearchResponse sr = node.client().prepareSearch(ES_GED_INDEX).setQuery(qb).setSize(10000).execute().actionGet();
 
-        logger.debug("Matching docs count : {}", sr.getHits().getTotalHits());
-        for (SearchHit hit : sr.getHits()) {
-            // currently, we're not looking for the data stored in ES, just for the document ID
-            documents.add(GedDocumentService.findDocumentById(Integer.parseInt(hit.getId())));
+            logger.debug("Matching docs count : {}", sr.getHits().getTotalHits());
+            for (SearchHit hit : sr.getHits()) {
+                // currently, we're not looking for the data stored in ES, just for the document ID
+                documents.add(GedDocumentService.findDocumentById(Integer.parseInt(hit.getId())));
+            }
+        }
+        catch (IndexMissingException e) {
+            logger.error("Failed to search because the index {} doesn't exists yet !", ES_GED_INDEX);
+        }
+        catch (Exception e) {
+            logger.error("Failed to search this pattern", e);
         }
 
         return documents;
