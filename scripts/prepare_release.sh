@@ -3,6 +3,8 @@
 # nom du répertoire ou seront deployés les fichiers générés
 RELEASE_TARGET=scripts/files-to-release
 
+# ou se situe le repertoire ou seront déposés les fichiers de mise à jour
+FINAL_RELEASE_DIRECTORY=../simple-ged-upload
 
 
 # @params neutral message
@@ -78,6 +80,17 @@ rm -fr ${RELEASE_TARGET}
 
 
 #
+# verification de l'existence du repertoire ou seront poses les releases
+#
+if [ ! -d "${FINAL_RELEASE_DIRECTORY}" ]
+then
+	show_error_message "Le repertoire ${FINAL_RELEASE_DIRECTORY} où devrait être déposée la version finale des fichiers n'existe pas"
+	exit 0
+fi
+
+
+
+#
 # Verification de la coherence des versions
 #
 
@@ -132,7 +145,7 @@ read
 # Compilation
 #
 
-mvn clean install
+mvn clean install -Dmaven.test.skip=true
 
 if [ $? -ne 0 ]
 then
@@ -164,7 +177,14 @@ cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 
 cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+
+
+# directory I have to take in final zip
+for dir_resource in ged-core/target/lib ged-core/target/embedded
+do
+	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
+done
 
 
 # les versions pour mise a jour (que les jars qui ont changes)
@@ -174,7 +194,8 @@ then
 	cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_TARGET}"
 fi
 
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_TARGET}"
+cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_TARGET}"
+
 
 
 # javadoc
@@ -189,17 +210,8 @@ then
 	exit 1
 fi
 
-cp -r ged-core/target/site "${RELEASE_TARGET}/doc"
-
-
-#
-# Creation des archives (zip)
-#
-
-cd "${RELEASE_TARGET}"
-zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
-rm -fr "simple_ged"
-cd -
+mkdir -p "${FINAL_RELEASE_DIRECTORY}/doc"
+cp -r ged-core/target/site "${FINAL_RELEASE_DIRECTORY}/doc/${CORE_MAVEN_VERSION}"
 
 
 #
@@ -215,11 +227,43 @@ cat > "${RELEASE_TARGET}/last_version.xml" <<EOL
 			<url>http://ged90.googlecode.com/files/ged-core-CURRENT_VERSION-jar-with-dependencies.jar</url>
 			<destination>simple_ged.jar</destination>
 		</file>
+EOL
+
+
+
+FINAL_RELEASE_DIRECTORY_LIB="${FINAL_RELEASE_DIRECTORY}/lib"
+if [ ! -d "${FINAL_RELEASE_DIRECTORY_LIB}" ]
+then
+	mkdir -p "${FINAL_RELEASE_DIRECTORY_LIB}"
+fi
+
+
+
+for dependency in $(ls ${RELEASE_DIR_TARGET}/lib)
+do
+	echo "Checking for dependency : $dependency"
+	if [ ! -e "${FINAL_RELEASE_DIRECTORY_LIB}/${dependency}" ]
+	then
+		cp  "${RELEASE_DIR_TARGET}/lib/${dependency}" "${FINAL_RELEASE_DIRECTORY_LIB}"
+	fi
+		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
+		<file>
+			<url>http://plop.org/lib/${dependency}</url>
+			<destination>lib/${dependency}</destination>
+		</file>
+EOL
+done
+
+
+cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
 	</files>
 </version>
 EOL
 
 sed -i -e "s/CURRENT_VERSION/${CORE_MAVEN_VERSION}/g" "${RELEASE_TARGET}/last_version.xml"
+
+
+
 
 
 cat > "${RELEASE_TARGET}/updater_last_version.xml" <<EOL
@@ -239,28 +283,43 @@ sed -i -e "s/CURRENT_VERSION/${UPDATER_MAVEN_VERSION}/g" "${RELEASE_TARGET}/upda
 
 
 #
-# On mets les droits a tous (probleme de mon windows ?)
+# Creation des archives (zip)
 #
-chmod -R 777 ${RELEASE_TARGET}/*
+
+cd "${RELEASE_TARGET}"
+zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
+rm -fr "simple_ged"
+cd -
 
 
 #
-# Upload sur google code
+# Envoi du zip genere
 #
-# Tout est caché (deprecated), une action humain doit montrer l'installeur principal
+cp "${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip" "${FINAL_RELEASE_DIRECTORY}/release/"
+
+
 #
-
-show_neutral_message "Upload... (peut prendre un peu beaucoup de temps)"
-
-python scripts/googlecode_upload.py -p ged90 -s "Simple GED ${CORE_MAVEN_VERSION}" -l Deprecated ${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip
-python scripts/googlecode_upload.py -p ged90 -s "Updater vers la version ${CORE_MAVEN_VERSION}" -l Deprecated ${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}-jar-with-dependencies.jar
+# Envoi les fichiers pour update
+#
+cp "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar" "${FINAL_RELEASE_DIRECTORY}/update"
 
 if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
 then
-	python scripts/googlecode_upload.py -p ged90 -s "Updater de l'updater vers la version ${CORE_MAVEN_VERSION}" -l Deprecated ${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar
+	 cp "${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar" "${FINAL_RELEASE_DIRECTORY}/update"
 fi
 
 
+#
+# ... et mise en avant de la derniere version
+#
+cd "${FINAL_RELEASE_DIRECTORY}"
+ln -s "release/simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged_latest.zip"
+cd -
+
+#
+# On mets les droits a tous (probleme de mon windows ?)
+#
+#chmod -R 777 ${RELEASE_TARGET}/*
 
 
 #
@@ -274,7 +333,7 @@ pwd
 # fini
 #
 
-show_information_message "Packages générés et uploadés, il faut mettre à jour les pom maintenant"
+show_information_message "Packages générés, il faut envoyer et mettre à jour les pom maintenant"
 show_error_message "Note : les descripteurs de mise à jour ne sont pas déployés automatiquement, à vous de le faire après les vérifications d'usage"
 
 

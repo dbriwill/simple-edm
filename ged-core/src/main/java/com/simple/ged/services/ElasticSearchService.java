@@ -78,7 +78,7 @@ public class ElasticSearchService {
             String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
             if (! FileHelper.folderExists(mapperPluginAttachmentsDir)) {
                 logger.info("elasticsearch-mapper-attachments not deployed yet, I'll do it now !");
-                com.simple.ged.tools.FileHelper.extractZipEmbeddedResource("/embedded/elasticsearch-mapper-attachments-1.7.0.zip", mapperPluginAttachmentsDir);
+                com.simple.ged.tools.FileHelper.extractZip("embedded/elasticsearch-mapper-attachments-1.7.0.zip", mapperPluginAttachmentsDir);
                 logger.info("elasticsearch-mapper-attachments deployed");
             }
         }
