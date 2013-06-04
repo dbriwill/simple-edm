@@ -4,7 +4,10 @@
 RELEASE_TARGET=scripts/files-to-release
 
 # ou se situe le repertoire ou seront déposés les fichiers de mise à jour
-FINAL_RELEASE_DIRECTORY=../simple-ged-upload
+FINAL_RELEASE_DIRECTORY=../simple-ged-download-dev
+
+# the repository which contains documentation
+DOC_RELEASE_DIRECTORY=../simple-ged-doc
 
 
 # @params neutral message
@@ -165,23 +168,28 @@ fi
 
 
 RELEASE_DIR_TARGET="${RELEASE_TARGET}/simple_ged"
-IMAGE_TARGET="${RELEASE_DIR_TARGET}/images"
+
+
+#############################
+#IMAGE_TARGET="${RELEASE_DIR_TARGET}/images"
 
 # la version globale : pour une installation sans rien avant
 
-mkdir -p ${IMAGE_TARGET}
-cp ged-core/src/main/resources/images/icon.ico "${IMAGE_TARGET}"
-cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
+#mkdir -p ${IMAGE_TARGET}
+#cp ged-core/src/main/resources/images/icon.ico "${IMAGE_TARGET}"
+#cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 
 #cp ged-connector/target/ged-connector*.jar "${RELEASE_DIR_TARGET}/SimpleGedConnector.jar"
 
-cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
+#cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+#cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+#############################
 
 
-# directory I have to take in final zip
-for dir_resource in ged-core/target/lib ged-core/target/embedded
+#
+mkdir -p ${RELEASE_DIR_TARGET}/lib/
+for dir_resource in ged-core/target/lib
 do
 	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
 done
@@ -210,8 +218,6 @@ then
 	exit 1
 fi
 
-mkdir -p "${FINAL_RELEASE_DIRECTORY}/doc"
-cp -r ged-core/target/site "${FINAL_RELEASE_DIRECTORY}/doc/${CORE_MAVEN_VERSION}"
 
 
 #
@@ -283,43 +289,63 @@ sed -i -e "s/CURRENT_VERSION/${UPDATER_MAVEN_VERSION}/g" "${RELEASE_TARGET}/upda
 
 
 #
+# generation dans le repo de distribution
+#
+mkdir -p ${FINAL_RELEASE_DIRECTORY}/images
+cp ged-core/src/main/resources/images/icon.ico "${FINAL_RELEASE_DIRECTORY}/images/"
+cp ged-core/dll/AspriseJTwain.dll "${FINAL_RELEASE_DIRECTORY}"
+
+cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${FINAL_RELEASE_DIRECTORY}/simpleGedUpdateSystem.jar"
+
+cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${FINAL_RELEASE_DIRECTORY}/simple_ged.jar"
+
+## les lib ont été copiées précédement si nécessaire, il nous reste les embarquées
+for dir_resource in ged-core/target/embedded
+do
+	cp -r "${dir_resource}" "${FINAL_RELEASE_DIRECTORY}"
+done
+
+
+
+#
 # Creation des archives (zip)
 #
 
-cd "${RELEASE_TARGET}"
-zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
-rm -fr "simple_ged"
-cd -
+#cd "${RELEASE_TARGET}"
+#zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
+#rm -fr "simple_ged"
+#cd -
 
 
 #
 # Envoi du zip genere
 #
-cp "${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip" "${FINAL_RELEASE_DIRECTORY}/release/"
+#cp "${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip" "${FINAL_RELEASE_DIRECTORY}/release/"
 
 
 #
 # Envoi les fichiers pour update
 #
-cp "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar" "${FINAL_RELEASE_DIRECTORY}/update"
+#cp "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar" "${FINAL_RELEASE_DIRECTORY}/update"
 
-if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
-then
-	 cp "${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar" "${FINAL_RELEASE_DIRECTORY}/update"
-fi
+#if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
+#then
+#	 cp "${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar" "${FINAL_RELEASE_DIRECTORY}/update"
+#fi
 
 
 #
 # ... et mise en avant de la derniere version
 #
-cd "${FINAL_RELEASE_DIRECTORY}"
-ln -s "release/simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged_latest.zip"
-cd -
+#cd "${FINAL_RELEASE_DIRECTORY}"
+#ln -s "release/simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged_latest.zip"
+#cd -
+
 
 #
 # On mets les droits a tous (probleme de mon windows ?)
 #
-#chmod -R 777 ${RELEASE_TARGET}/*
+chmod -R 777 ${DOC_RELEASE_DIRECTORY}/*
 
 
 #
@@ -335,8 +361,4 @@ pwd
 
 show_information_message "Packages générés, il faut envoyer et mettre à jour les pom maintenant"
 show_error_message "Note : les descripteurs de mise à jour ne sont pas déployés automatiquement, à vous de le faire après les vérifications d'usage"
-
-
-
-
 
