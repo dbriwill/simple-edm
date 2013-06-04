@@ -346,6 +346,7 @@ done
 # On mets les droits a tous (probleme de mon windows ?)
 #
 chmod -R 777 ${DOC_RELEASE_DIRECTORY}/*
+chmod -R 777 ${FINAL_RELEASE_DIRECTORY}/*
 
 
 #
