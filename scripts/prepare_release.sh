@@ -4,10 +4,10 @@
 RELEASE_TARGET=scripts/files-to-release
 
 # ou se situe le repertoire ou seront déposés les fichiers de mise à jour
-FINAL_RELEASE_DIRECTORY=../simple-ged-download-dev
+FINAL_RELEASE_DIRECTORY=../ged90
 
 # the repository which contains documentation
-DOC_RELEASE_DIRECTORY=../simple-ged-doc
+#DOC_RELEASE_DIRECTORY=../simple-ged-doc
 
 
 # @params neutral message
@@ -170,29 +170,33 @@ fi
 RELEASE_DIR_TARGET="${RELEASE_TARGET}/simple_ged"
 
 
-#############################
-#IMAGE_TARGET="${RELEASE_DIR_TARGET}/images"
+IMAGE_TARGET="${RELEASE_DIR_TARGET}/images"
 
 # la version globale : pour une installation sans rien avant
 
-#mkdir -p ${IMAGE_TARGET}
-#cp ged-core/src/main/resources/images/icon.ico "${IMAGE_TARGET}"
-#cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
+mkdir -p ${IMAGE_TARGET}
+cp ged-core/src/main/resources/images/icon.ico "${IMAGE_TARGET}"
+cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 
 #cp ged-connector/target/ged-connector*.jar "${RELEASE_DIR_TARGET}/SimpleGedConnector.jar"
 
-#cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
+cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
-#cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
-#############################
+cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
 
 
-#
 mkdir -p ${RELEASE_DIR_TARGET}/lib/
 for dir_resource in ged-core/target/lib
 do
 	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
 done
+
+mkdir -p ${RELEASE_DIR_TARGET}/embedded/
+for dir_resource in ged-core/target/embedded
+do
+	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
+done
+
 
 
 # les versions pour mise a jour (que les jars qui ont changes)
@@ -208,15 +212,15 @@ cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_TARGET}"
 
 # javadoc
 
-cd ged-core
-mvn javadoc:javadoc
-cd ..
+#cd ged-core
+#mvn javadoc:javadoc
+#cd ..
 
-if [ $? -ne 0 ]
-then
-	show_error_message 'La génération de la javadoc a échouée'
-	exit 1
-fi
+#if [ $? -ne 0 ]
+#then
+#	show_error_message 'La génération de la javadoc a échouée'
+#	exit 1
+#fi
 
 
 
@@ -242,7 +246,11 @@ if [ ! -d "${FINAL_RELEASE_DIRECTORY_LIB}" ]
 then
 	mkdir -p "${FINAL_RELEASE_DIRECTORY_LIB}"
 fi
-
+FINAL_RELEASE_DIRECTORY_EMB="${FINAL_RELEASE_DIRECTORY}/embedded"
+if [ ! -d "${FINAL_RELEASE_DIRECTORY_EMB}" ]
+then
+	mkdir -p "${FINAL_RELEASE_DIRECTORY_EMB}"
+fi
 
 
 for dependency in $(ls ${RELEASE_DIR_TARGET}/lib)
@@ -259,6 +267,23 @@ do
 		</file>
 EOL
 done
+
+
+for dependency in $(ls ${RELEASE_DIR_TARGET}/embedded)
+do
+	echo "Checking for embedding : $dependency"
+	if [ ! -e "${FINAL_RELEASE_DIRECTORY_EMB}/${dependency}" ]
+	then
+		cp  "${RELEASE_DIR_TARGET}/embedded/${dependency}" "${FINAL_RELEASE_DIRECTORY_EMB}"
+	fi
+		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
+		<file>
+			<url>http://plop.org/embedded/${dependency}</url>
+			<destination>embedded/${dependency}</destination>
+		</file>
+EOL
+done
+
 
 
 cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
@@ -288,64 +313,38 @@ EOL
 sed -i -e "s/CURRENT_VERSION/${UPDATER_MAVEN_VERSION}/g" "${RELEASE_TARGET}/updater_last_version.xml"
 
 
-#
-# generation dans le repo de distribution
-#
-mkdir -p ${FINAL_RELEASE_DIRECTORY}/images
-cp ged-core/src/main/resources/images/icon.ico "${FINAL_RELEASE_DIRECTORY}/images/"
-cp ged-core/dll/AspriseJTwain.dll "${FINAL_RELEASE_DIRECTORY}"
-
-cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${FINAL_RELEASE_DIRECTORY}/simpleGedUpdateSystem.jar"
-
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${FINAL_RELEASE_DIRECTORY}/simple_ged.jar"
-
-## les lib ont été copiées précédement si nécessaire, il nous reste les embarquées
-for dir_resource in ged-core/target/embedded
-do
-	cp -r "${dir_resource}" "${FINAL_RELEASE_DIRECTORY}"
-done
-
-
 
 #
 # Creation des archives (zip)
 #
 
-#cd "${RELEASE_TARGET}"
-#zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
-#rm -fr "simple_ged"
-#cd -
+cd "${RELEASE_TARGET}"
+zip -r "simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged"
+rm -fr "simple_ged"
+cd -
 
 
 #
-# Envoi du zip genere
+# Envoi des zip genere
 #
-#cp "${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip" "${FINAL_RELEASE_DIRECTORY}/release/"
+
+scp "${RELEASE_TARGET}/ged-core-${UPDATER_MAVEN_VERSION}.jar" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/update
+
+if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
+then
+	 scp "${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/update
+fi
 
 
-#
-# Envoi les fichiers pour update
-#
-#cp "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar" "${FINAL_RELEASE_DIRECTORY}/update"
 
-#if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
-#then
-#	 cp "${RELEASE_TARGET}/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar" "${FINAL_RELEASE_DIRECTORY}/update"
-#fi
+scp "${RELEASE_TARGET}/simple_ged_${UPDATER_MAVEN_VERSION}.zip" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/release
 
-
-#
-# ... et mise en avant de la derniere version
-#
-#cd "${FINAL_RELEASE_DIRECTORY}"
-#ln -s "release/simple_ged_${CORE_MAVEN_VERSION}.zip" "simple_ged_latest.zip"
-#cd -
 
 
 #
 # On mets les droits a tous (probleme de mon windows ?)
 #
-chmod -R 777 ${DOC_RELEASE_DIRECTORY}/*
+#chmod -R 777 ${DOC_RELEASE_DIRECTORY}/*
 chmod -R 777 ${FINAL_RELEASE_DIRECTORY}/*
 
 
