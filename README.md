@@ -27,5 +27,6 @@ Orange
 SFR
 ---
 [Plugin box](http://master.dl.sourceforge.net/project/simpleged/plugins/sfr-box/sfr-box-plugin-1.0-jar-with-dependencies.jar)
+
 [Plugin mobile](http://master.dl.sourceforge.net/project/simpleged/plugins/sfr-mobile/sfr-mobile-plugin-1.0-jar-with-dependencies.jar)
 
