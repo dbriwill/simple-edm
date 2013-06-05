@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>fr.simple.ged.plugin</groupId>
-	<artifactId>sfr-ged-plugin</artifactId>
+	<artifactId>sfr-mobile-plugin</artifactId>
 	<name>SFR Mobile Plugin</name>
 	<version>1.0</version>
 
