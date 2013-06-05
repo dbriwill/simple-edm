@@ -24,6 +24,16 @@ show_error_message(){
 }
 
 
+#
+# skip tests ?
+#
+MAVEN_TEST=
+if [ "$1" == "skip-test" ]
+then
+	MAVEN_TEST=-Dmaven.test.skip=true
+fi
+
+
 
 # proxy
 if [ ! -z "${HTTP_PROXY}" ]
@@ -148,7 +158,7 @@ read
 # Compilation
 #
 
-mvn clean install -Dmaven.test.skip=true
+mvn clean install ${MAVEN_TEST}
 
 if [ $? -ne 0 ]
 then
@@ -234,7 +244,7 @@ cat > "${RELEASE_TARGET}/last_version.xml" <<EOL
 	<number>CURRENT_VERSION</number>
 	<files>
 		<file>
-			<url>http://ged90.googlecode.com/files/ged-core-CURRENT_VERSION-jar-with-dependencies.jar</url>
+			<url>${UURRLL}.jar</url>
 			<destination>simple_ged.jar</destination>
 		</file>
 EOL
@@ -262,7 +272,7 @@ do
 	fi
 		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
 		<file>
-			<url>http://plop.org/lib/${dependency}</url>
+			<url>http://ged90.googlecode.com/git/lib/${dependency}</url>
 			<destination>lib/${dependency}</destination>
 		</file>
 EOL
@@ -278,7 +288,7 @@ do
 	fi
 		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
 		<file>
-			<url>http://plop.org/embedded/${dependency}</url>
+			<url>http://ged90.googlecode.com/git/embedded/${dependency}</url>
 			<destination>embedded/${dependency}</destination>
 		</file>
 EOL
@@ -303,7 +313,7 @@ cat > "${RELEASE_TARGET}/updater_last_version.xml" <<EOL
 	<number>CURRENT_VERSION</number>
 	<files>
 		<file>
-			<url>http://ged90.googlecode.com/files/ged-update-CURRENT_VERSION-jar-with-dependencies.jar</url>
+			<url>${UURRLL}.jar</url>
 			<destination>simpleGedUpdateSystem.jar</destination>
 		</file>
 	</files>
@@ -324,6 +334,23 @@ rm -fr "simple_ged"
 cd -
 
 
+
+#
+# On mets les droits a tous (probleme de mon windows ?)
+#
+chmod -R 777 ${RELEASE_TARGET}/*
+chmod -R 777 ${FINAL_RELEASE_DIRECTORY}/*
+
+
+
+#
+# Accept upload
+#
+TIMEOUT_IN_SECOND=120
+show_neutral_message "L'upload commencera dans ${TIMEOUT_IN_SECOND} secondes si l'action n'est pas annulée via controle-c"
+sleep ${TIMEOUT_IN_SECOND}
+
+
 #
 # Envoi des zip genere
 #
@@ -339,13 +366,6 @@ fi
 
 scp "${RELEASE_TARGET}/simple_ged_${UPDATER_MAVEN_VERSION}.zip" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/release
 
-
-
-#
-# On mets les droits a tous (probleme de mon windows ?)
-#
-#chmod -R 777 ${DOC_RELEASE_DIRECTORY}/*
-chmod -R 777 ${FINAL_RELEASE_DIRECTORY}/*
 
 
 #
