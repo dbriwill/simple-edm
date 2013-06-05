@@ -127,27 +127,24 @@ public class LibraryView extends TreeView<String> {
 		if (getRoot() == null) {
 			TreeItem<String> newRoot = new TreeItem<>(LibraryView.convertToNodeName(Profile.getInstance().getLibraryRoot()), getIconForNode(""));
 			setRoot(newRoot);
-			
-			newRoot.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() { // object is string...
-				@SuppressWarnings("unchecked")
-				@Override
-				public void handle(TreeModificationEvent<Object> arg0) { // object is string...
-					logger.trace("Want to expand {}", arg0);
-					eventHandler.branchExpandedEventHandler(arg0.getSource());
-				}
-			});
-
 		}
 
 		logger.info("Building tree, root defined");
 		
 		getRoot().getChildren().clear();
-	
+
+        getRoot().addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() { // object is string...
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(TreeModificationEvent<Object> arg0) { // object is string...
+                logger.trace("Want to expand {}", arg0);
+                eventHandler.branchExpandedEventHandler(arg0.getSource());
+            }
+        });
+
+
 		loadAndAddChildrenUnderNode(new File(Profile.getInstance().getLibraryRoot()), getRoot());
 
-		// old methode
-		//listFile(new File(Profile.getInstance().getLibraryRoot()), getRoot());
-		
 		logger.info("Build or rebuild tree over");
 	}
 	
