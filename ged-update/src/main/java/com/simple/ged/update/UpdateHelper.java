@@ -44,7 +44,10 @@ public final class UpdateHelper {
 	public static String getVersionNumber(String address) {
 		
 		String onlineVersion = "0";
-		
+
+        // ajout du prefix a l'url si canal particulier de selectionné
+        address = UpdateInformations.releaseChanel.getPrefix() + address;
+
 		try {
 			URL xmlUrl = new URL(address);
 			
