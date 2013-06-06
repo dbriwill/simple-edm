@@ -148,16 +148,14 @@ public final class UpdateHelper {
 	 * @see http://baptiste-wicht.developpez.com/tutoriels/java/update/
 	 */
 	public static void downloadAndReplaceFile(String onlineFileUrl, String localFilePath) {
-	
-		// this list contains files which we always replace
-		Set<String> alwaysReplaceFiles = new HashSet<>();
-		alwaysReplaceFiles.add("simple_ged.jar");
-		alwaysReplaceFiles.add("simpleGedUpdateSystem.jar");
 		
 		// file already exists !
-		if (! alwaysReplaceFiles.contains(localFilePath) && new File(localFilePath).exists()) {
+		if (! localFilePath.endsWith("simple_ged.jar") && ! localFilePath.endsWith("simpleGedUpdateSystem.jar") && new File(localFilePath).exists()) {
+			logger.info("File already exists and won't be replaced : {}", localFilePath);
 			return;
 		}
+		
+		logger.info("Download {} and replace {}", onlineFileUrl, localFilePath);
 		
 		try { 
 			// make sur parent exits
