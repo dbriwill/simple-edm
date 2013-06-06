@@ -35,9 +35,9 @@
 	<logger name="org.apache" level="WARN" />
 
     <!-- elastic search -->
-    <logger name="org.elasticsearch" level="INFO" />
+    <logger name="org.elasticsearch" level="WARN" />
 
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
