@@ -1,15 +1,13 @@
 package com.simple.ged.update;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -46,7 +44,11 @@ public final class UpdateHelper {
 	public static String getVersionNumber(String address) {
 		
 		String onlineVersion = "0";
-		
+
+        // ajout du prefix a l'url si canal particulier de selectionné
+        address += UpdateInformations.releaseChanel.getSuffix();
+        logger.info("Getting xml at adress : {}", address);
+        
 		try {
 			URL xmlUrl = new URL(address);
 			
@@ -75,7 +77,7 @@ public final class UpdateHelper {
 			}
 			
 		} catch (Exception e) {
-			logger.error("Could not get xml document" + address, e);
+			logger.error("Could not get xml document : " + address, e);
 		}
 
 		return onlineVersion;
@@ -91,6 +93,10 @@ public final class UpdateHelper {
 	 */
 	public static Map<String, String> getFilesToDownloadMap(String address) {
 		Map<String, String> fileToDownload = new HashMap<String, String>();
+		
+        // ajout du prefix a l'url si canal particulier de selectionné
+        address += UpdateInformations.releaseChanel.getSuffix();
+        logger.info("Getting xml at adress : {}", address);
 		
 		try {
 			URL xmlUrl = new URL(address);
@@ -140,57 +146,23 @@ public final class UpdateHelper {
 	 * @see http://baptiste-wicht.developpez.com/tutoriels/java/update/
 	 */
 	public static void downloadAndReplaceFile(String onlineFileUrl, String localFilePath) {
-		URLConnection connection = null;
-		InputStream is = null;
-		FileOutputStream destinationFile = null;
+		
+		// file already exists !
+		if (! localFilePath.endsWith("simple_ged.jar") && ! localFilePath.endsWith("simpleGedUpdateSystem.jar") && new File(localFilePath).exists()) {
+			logger.info("File already exists and won't be replaced : {}", localFilePath);
+			return;
+		}
+		
+		logger.info("Download {} and replace {}", onlineFileUrl, localFilePath);
 		
 		try { 
-	        URL url = new URL(onlineFileUrl);
-			connection = url.openConnection( );
-	        
-			int length = connection.getContentLength();
-
-			if(length == -1){
-				throw new IOException("Fichier vide");
-	       	}
-
-			is = new BufferedInputStream(connection.getInputStream());
-
-			byte[] data = new byte[length];
-
-			int currentBit = 0;
-			int deplacement = 0;
+			// make sur parent exits
+			new File(new File(localFilePath).getParent()).mkdirs();
 			
-			while(deplacement < length){
-				currentBit = is.read(data, deplacement, data.length-deplacement);	
-				if(currentBit == -1) {
-					break;	
-				}
-				deplacement += currentBit;
-			}
-
-			if(deplacement != length){
-				throw new IOException("Le fichier n'a pas été lu en entier (seulement " 
-					+ deplacement + " sur " + length + ")");
-			}		
-		
-			destinationFile = new FileOutputStream(localFilePath); 
-
-			destinationFile.write(data);
-
-			destinationFile.flush();
-
-	      } catch (MalformedURLException e) { 
-	    	  logger.error("Wrong url : " + onlineFileUrl, e); 
-	      } catch (IOException e) { 
-	    	  logger.error("Could not read source file", e);
-	      } finally {
-	    	  try {
-	    		  is.close();
-				  destinationFile.close();
-	    	  } catch (IOException e) {
-	    		  logger.error("Could not write target file", e);
-	    	  }
+			// ... copy it !
+			FileUtils.copyURLToFile(new URL(onlineFileUrl), new File(localFilePath));
+	      } catch (Exception e) { 
+	    	  logger.error("Could not read/write file", e);
 	      }
 	}
 	

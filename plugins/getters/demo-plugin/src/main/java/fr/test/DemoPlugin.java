@@ -4,13 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
@@ -56,35 +53,4 @@ public class DemoPlugin extends SimpleGedGetterPlugin {
 		logger.info("End of demo plugin");
 	}
 	
-	
-	// for testing
-	public static void main(String[] arg) {
-		
-		// Instantiate our plugin
-		SimpleGedGetterPlugin p = new DemoPlugin();
-		
-		// create properties list 
-		List<SimpleGedPluginProperty> properties = new ArrayList<>();
-		
-		// create the required properties
-		SimpleGedPluginProperty fileToCopy  = new SimpleGedPluginProperty();
-		fileToCopy.setPropertyKey("file_to_copy");
-		fileToCopy.setPropertyValue("D:\\foo.txt");
-		
-		// add the property in list
-		properties.add(fileToCopy);
-		
-		// set properties list to our plugin
-		p.setProperties(properties);
-		
-		// define destination file for the try
-		p.setDestinationFile("D:\\toto.txt");
-		
-		// finally, try our plugin
-		try {
-			p.doGet();
-		} catch (SimpleGedPluginException e) {
-			logger.error("Epic fail :", e);
-		}
-	}
 }

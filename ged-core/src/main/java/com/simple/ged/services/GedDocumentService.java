@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -66,10 +65,16 @@ public final class GedDocumentService {
 	 * @param filePath
 	 *            The file path, relative to ged root
 	 */
-	public static GedDocument findDocumentbyFilePath(String filePath) {
+	public static GedDocument findDocumentByFilePath(String filePath) {
 		return DocumentDAO.findDocumentbyFilePath(forceUnixSeparator(filePath));
 	}
-	
+
+    /**
+     * Ged document by id
+     */
+    public static GedDocument findDocumentById(Integer id) {
+        return DocumentDAO.findDocumentbyId(id);
+    }
 	
 	/**
 	 * 
@@ -87,6 +92,7 @@ public final class GedDocumentService {
 	public static void addOrUpdateDocument(GedDocument doc)
 	{
 		DocumentDAO.saveOrUpdate(doc);
+		ElasticSearchService.indexDocument(doc);
 	}
 	
 	/**
@@ -158,28 +164,43 @@ public final class GedDocumentService {
 		DocumentDAO.deleteFile(forceUnixSeparator(filePath));
 	}
 	
-
+	
 	/**
 	 * Search for the given words
 	 * 
 	 * Words is a string where word are splited by space, and a matching item must match with any of the given words
 	 */
 	public static synchronized List<GedDocumentFile> searchForWords(String searchedWords) {
-		String[] words = searchedWords.split(" ");
-		
-		// convert to java list
-		List<String> wordList = new ArrayList<>();
-        Collections.addAll(wordList, words);
-		
-		return DocumentDAO.getDocumentWhichContainsEveryWords(wordList);
+        List<GedDocumentFile> results = new ArrayList<>();
+
+        List<GedDocument> matchingDocuments = ElasticSearchService.basicSearch(searchedWords);
+        logger.info("Matching document count : {}", matchingDocuments.size());
+        
+        for (GedDocument doc : matchingDocuments) {
+            for (GedDocumentFile file : doc.getDocumentFiles()) {
+                results.add(file);
+            }
+        }
+
+        logger.info("Matching files count : {}", results.size());
+        
+		return results;
 	}
 	
 	
 	/**
 	 * Get relative file path from the absolute path
 	 */
-	public static String getRelativeFromAbsloutePath(String absolutePath) {
+	public static String getRelativeFromAbsolutePath(String absolutePath) {
 		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
+
+
+    /**
+     * Get all documents
+     */
+    public static List<GedDocument> getAllDocuments() {
+        return DocumentDAO.getAllGedDocuments();
+    }
 	
 }

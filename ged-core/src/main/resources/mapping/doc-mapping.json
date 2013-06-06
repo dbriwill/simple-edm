@@ -1,0 +1,23 @@
+{
+    "doc" : {
+        "properties" : {
+            "id" : {
+                "type" : "string",
+                "store" : "no"
+            },
+            "name" : {
+                "type" : "string"
+            },
+            "description" : {
+                "type" : "string"
+            },
+            "date" : {
+                "type" : "date",
+                "format" : "dateOptionalTime"
+            },
+            "files" : {
+                "type" : "attachment"
+            }
+        }
+    }
+}

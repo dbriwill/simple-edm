@@ -25,7 +25,9 @@
 		<org.hibernate.core.version>4.1.3.Final</org.hibernate.core.version>
 		<org.hibernate.ejb-persistence.version>1.0.2.GA</org.hibernate.ejb-persistence.version>
 		<org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version>
-		
+
+        <org.elasticsearch.version>0.90.1</org.elasticsearch.version>
+
 		<org.xerial.sqlite-jdbc.version>3.7.2</org.xerial.sqlite-jdbc.version>
 		
 		<common.beanutils.version>1.8.3</common.beanutils.version>
@@ -38,14 +40,13 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
 					<archive>
 						<manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
 							<mainClass>com.simple.ged.Launcher</mainClass>
 						</manifest>
 					</archive>
@@ -54,13 +55,49 @@
 					<execution>
 						<id>make-assembly</id>
 						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources-embedded</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/embedded/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>embedded/</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 
 
@@ -227,6 +264,14 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>${org.xerial.sqlite-jdbc.version}</version>
 		</dependency>
+
+        <!-- Elastic search -->
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${org.elasticsearch.version}</version>
+        </dependency>
 
 
 		<!-- Autres -->

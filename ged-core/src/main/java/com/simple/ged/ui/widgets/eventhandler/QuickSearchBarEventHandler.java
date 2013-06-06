@@ -45,7 +45,7 @@ public class QuickSearchBarEventHandler implements EventHandler<KeyEvent> {
 
 	@Override
 	public void handle(KeyEvent arg0) {
-		if (arg0.getCode().equals(KeyCode.ENTER)) {
+		if (quickSearchBar.get().getSeachPatternInput().getText().isEmpty() || arg0.getCode().equals(KeyCode.ENTER)) {
 			search();
 		}
 	}

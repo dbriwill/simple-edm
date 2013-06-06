@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -35,6 +36,24 @@ public final class DocumentDAO {
 	 */
 	private DocumentDAO() {
 	}
+
+
+    /**
+     * Get messages, sorted by date desc
+     */
+    public static synchronized List<GedDocument> getAllGedDocuments() {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM GedDocument");
+
+        @SuppressWarnings("unchecked")
+        List<GedDocument> results = query.list();
+
+        session.close();
+
+        return results;
+    }
+
 	
 	/**
 	 * 
@@ -42,7 +61,7 @@ public final class DocumentDAO {
 	 *            The file path, relative to ged root
 	 */
 	public static synchronized GedDocument findDocumentbyFilePath(String filePath) {
-		logger.debug("Get document for file : " + filePath);
+		logger.debug("Get document for file : {}", filePath);
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Criteria criteria = session.createCriteria(GedDocumentFile.class).add(Restrictions.eq("relativeFilePath", filePath));  
@@ -60,6 +79,22 @@ public final class DocumentDAO {
 		
 		return d;
 	}
+
+
+    /**
+     * @param id
+     *            The document id
+     */
+    public static synchronized GedDocument findDocumentbyId(Integer id) {
+        logger.debug("Get document for id : {}", id);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        GedDocument d = (GedDocument)session.get(GedDocument.class, id);
+        session.close();
+
+        return d;
+    }
+
 
 	/**
 	 * Save or update document
@@ -149,7 +184,11 @@ public final class DocumentDAO {
 	
 	/**
 	 * Search document which match with one of the given
+     *
+     * @deprecated
+     *              Use ElasticSearchService instead !
 	 */
+    @Deprecated
 	@SuppressWarnings("unchecked")
 	public static synchronized List<GedDocumentFile> getDocumentWhichContainsEveryWords(List<String> words) {
 		Session session = HibernateUtil.getSessionFactory().openSession();

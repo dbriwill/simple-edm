@@ -28,8 +28,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<ged.core.version>4.1</ged.core.version>
-		<ged.updater.version>1.4</ged.updater.version>
+		<ged.core.version>4.2</ged.core.version>
+		<ged.updater.version>1.5</ged.updater.version>
 		<ged.connector.version>1.4.0</ged.connector.version>
 		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
 	</properties>
