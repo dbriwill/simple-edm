@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
 import com.simple.ged.plugins.PluginManager;
+import com.simple.ged.services.ElasticSearchService;
 import com.simple.ged.ui.screen.AboutScreen;
 import com.simple.ged.ui.screen.DirectoryEditionScreen;
 import com.simple.ged.ui.screen.DocumentConfigurationScreen;
@@ -124,6 +125,15 @@ public class MainWindow extends Application {
 		// default central screen
 		setCentralScreen(SoftwareScreen.Screen.BROWSING_SCREEN);
 		
+        // launch document indexation... (threaded)
+		new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ElasticSearchService.indexAllNonIndexedDocumentInLibrary();
+            }
+        }).start();
+
+		
 		// launch plugin update... (threaded)
 		PluginManager.launchGetterPluginUpdate(new FakeScreen(this));
 		
@@ -132,6 +142,13 @@ public class MainWindow extends Application {
     }
     
 
+    @Override  
+    public void stop() {  
+    	// close ES on exit
+    	ElasticSearchService.closeES();
+    }  
+    
+    
 	/**
 	 * Define the central screen, previous central screen won't be lost be lost, we keep screen stack in memory !
 	 */

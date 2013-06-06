@@ -92,6 +92,11 @@ public class ElasticSearchService {
 
         rebuildEsIndexAndMappingsIfNecessary();
     }
+    
+    public static void closeES() {
+    	logger.info("Closing ES");
+    	node.close();
+    }
 
 
     /**

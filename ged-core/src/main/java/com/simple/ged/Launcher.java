@@ -6,7 +6,6 @@ import javafx.application.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.services.ElasticSearchService;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.update.UpdateInformations;
 
@@ -47,18 +46,9 @@ public final class Launcher {
 		logger.info("open hibernate session...");
 		HibernateUtil.getSessionFactory().openSession();
 		
+		// complete update (messages)
 		logger.info("complete update...");
 		MiddleProfile.getInstance().completeUpdate();
-
-        // launch document indexation
-		logger.info("launch non indexed-docs indexation...");
-		new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ElasticSearchService.indexAllNonIndexedDocumentInLibrary();
-            }
-        }).start();
-
         
 		// The main window
 		logger.info("show main window !");
