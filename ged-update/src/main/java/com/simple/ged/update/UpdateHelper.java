@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Document;
@@ -46,8 +48,9 @@ public final class UpdateHelper {
 		String onlineVersion = "0";
 
         // ajout du prefix a l'url si canal particulier de selectionné
-        address = UpdateInformations.releaseChanel.getPrefix() + address;
-
+        address += UpdateInformations.releaseChanel.getSuffix();
+        logger.info("Getting xml at adress : {}", address);
+        
 		try {
 			URL xmlUrl = new URL(address);
 			
@@ -76,7 +79,7 @@ public final class UpdateHelper {
 			}
 			
 		} catch (Exception e) {
-			logger.error("Could not get xml document" + address, e);
+			logger.error("Could not get xml document : " + address, e);
 		}
 
 		return onlineVersion;
@@ -92,6 +95,10 @@ public final class UpdateHelper {
 	 */
 	public static Map<String, String> getFilesToDownloadMap(String address) {
 		Map<String, String> fileToDownload = new HashMap<String, String>();
+		
+        // ajout du prefix a l'url si canal particulier de selectionné
+        address += UpdateInformations.releaseChanel.getSuffix();
+        logger.info("Getting xml at adress : {}", address);
 		
 		try {
 			URL xmlUrl = new URL(address);
@@ -142,8 +149,13 @@ public final class UpdateHelper {
 	 */
 	public static void downloadAndReplaceFile(String onlineFileUrl, String localFilePath) {
 	
+		// this list contains files which we always replace
+		Set<String> alwaysReplaceFiles = new HashSet<>();
+		alwaysReplaceFiles.add("simple_ged.jar");
+		alwaysReplaceFiles.add("simpleGedUpdateSystem.jar");
+		
 		// file already exists !
-		if (new File(localFilePath).exists()) {
+		if (! alwaysReplaceFiles.contains(localFilePath) && new File(localFilePath).exists()) {
 			return;
 		}
 		

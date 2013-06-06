@@ -19,18 +19,18 @@ public final class UpdateInformations {
 	private static final Logger logger = LoggerFactory.getLogger(UpdateInformations.class);
 
     /**
-     * The list of available chanel
+     * The list of available channel
      */
     public enum ReleaseChanel {
         STABLE(""),
-        DEV("dev-");
+        DEV("-dev");
 
-        private String prefix;
-        ReleaseChanel(String filePrefix) {
-            prefix = filePrefix;
+        private String suffix;
+        ReleaseChanel(String fileSuffix) {
+        	suffix = fileSuffix;
         }
-        public String getPrefix() {
-            return prefix;
+        public String getSuffix() {
+            return suffix;
         }
     }
 
@@ -106,10 +106,14 @@ public final class UpdateInformations {
 		// channel de maj
         releaseChanel = ReleaseChanel.STABLE;
 
-        if (properties.contains("release.chanel")) { // l'utilisateur a spécifié un chanel de distribution
+        if (properties.getProperty("release.chanel") != null) { // l'utilisateur a spécifié un chanel de distribution
             if (properties.getProperty("release.chanel").equals("dev")) {
+            	logger.info("Release chanel : DEV");
                 releaseChanel = ReleaseChanel.DEV;
             }
+        }
+        else {
+        	logger.info("Release chanel : STABLE");
         }
     }
 	
