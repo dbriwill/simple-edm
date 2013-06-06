@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -49,7 +50,10 @@ public class ToolBar extends SoftwareScreen {
 			setOpacity(INITIAL_OPACITY);
 			
 			final ToolBarButton self = this;
-			
+
+            Tooltip tooltip = new Tooltip(toolTipText + "  ");
+            Tooltip.install(this, tooltip);
+
 			setOnMouseEntered(new EventHandler<Event>() {
 				@Override
 				public void handle(Event arg0) {
@@ -193,11 +197,11 @@ public class ToolBar extends SoftwareScreen {
 		// create buttons
 		btnBack  			= new ToolBarButton(properties.getProperty("back"), eventHandler);
 		btnSettings			= new ToolBarButton(properties.getProperty("info_settings"), eventHandler);
-		btnAbout			= new ToolBarButton(properties.getProperty("info_about") + properties.getProperty("APPLICATION_NAME"), eventHandler);
-		btnGetterPluginManagement = new ToolBarButton(properties.getProperty("info_plugin_management"), eventHandler);
+		btnAbout			= new ToolBarButton(properties.getProperty("info_about") + " " + properties.getProperty("APPLICATION_NAME"), eventHandler);
+		btnGetterPluginManagement = new ToolBarButton(properties.getProperty("info_plugin_management_getter"), eventHandler);
 		btnMessages			= new ToolBarButton(properties.getProperty("info_messages"), eventHandler);
 		btnHome				= new ToolBarButton(properties.getProperty("home"), eventHandler);
-        btnWorkerPluginManagement = new ToolBarButton("NOT SPECIFIED", eventHandler);
+        btnWorkerPluginManagement = new ToolBarButton(properties.getProperty("info_plugin_management_worker"), eventHandler);
 
 
 		// define associated pictures
