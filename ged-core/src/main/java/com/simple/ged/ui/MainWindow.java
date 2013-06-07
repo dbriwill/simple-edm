@@ -291,7 +291,7 @@ public class MainWindow extends Application {
 	
 	private void checkForUpgrade() {
 		// check for updates
-        Platform.runLater(new Runnable() {
+        new Thread(new Runnable() {
 			@Override
 			public void run() {
 				
@@ -323,7 +323,7 @@ public class MainWindow extends Application {
 				 * Now update the core if necessary
 				 */
 				
-				String onlineVersion = UpdateHelper.getVersionNumber(UpdateInformations.GED_CORE_UPDATE_DESCRIPTOR_PATH);
+				final String onlineVersion = UpdateHelper.getVersionNumber(UpdateInformations.GED_CORE_UPDATE_DESCRIPTOR_PATH);
 				
 				if (Float.parseFloat(onlineVersion) <= Float.parseFloat(PropertiesHelper.getInstance().getProperties().getProperty("APPLICATION_VERSION"))) {
 					logger.info("UpdateManager : No new version");
@@ -333,31 +333,36 @@ public class MainWindow extends Application {
 				logger.info("UpdateManager : New version (" + onlineVersion + ") is avaliable");
 				
 				if (onlineVersion != null) {
-					
-					Dialog.buildConfirmation("Nouvelle version disponible",
-							"Vous utilisez la version " + PropertiesHelper.getInstance().getProperties().getProperty("APPLICATION_VERSION") 
-							+ " de Simple GED or la version " + onlineVersion + " est disponible.\n"
-							+ "Voulez-vous faire la mise à jour ? (recommandé)"
-					)
-			        .addYesButton(new EventHandler<ActionEvent>() {
-			            @Override
-			            public void handle(ActionEvent arg0) {
-			            	try {
-						        Runtime.getRuntime().exec("java -jar simpleGedUpdateSystem.jar");
-						        System.exit(0);
-							} catch (Exception e) {
-								logger.error("Cannot do upgrade : ", e);
-								Dialog.showThrowable("Erreur", "Impossible de lancer l'assistant de mise à jour", e);
-							}
-			            }
-			        })
-			        .addNoButton(null)
-			        .addCancelButton(null)
-			        .build()
-			        .show();
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Dialog.buildConfirmation("Nouvelle version disponible",
+                                    "Vous utilisez la version " + PropertiesHelper.getInstance().getProperties().getProperty("APPLICATION_VERSION")
+                                            + " de Simple GED or la version " + onlineVersion + " est disponible.\n"
+                                            + "Voulez-vous faire la mise à jour ? (recommandé)"
+                            )
+                                    .addYesButton(new EventHandler<ActionEvent>() {
+                                        @Override
+                                        public void handle(ActionEvent arg0) {
+                                            try {
+                                                Runtime.getRuntime().exec("java -jar simpleGedUpdateSystem.jar");
+                                                System.exit(0);
+                                            } catch (Exception e) {
+                                                logger.error("Cannot do upgrade : ", e);
+                                                Dialog.showThrowable("Erreur", "Impossible de lancer l'assistant de mise à jour", e);
+                                            }
+                                        }
+                                    })
+                                    .addNoButton(null)
+                                    .addCancelButton(null)
+                                    .build()
+                                    .show();
+                        }
+                    });
 				}
 			}
-		});
+		}).start();
 	}
 	
 }
