@@ -1,11 +1,16 @@
 package com.simple.ged.ui.screen;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.web.WebView;
@@ -43,7 +48,7 @@ public class MessageScreen extends SoftwareScreen {
 	 * The webview html string content
 	 */
 	private String strMessage;
-	
+
 	
 	public MessageScreen(MainWindow mw) {
 		super(mw);
@@ -67,8 +72,9 @@ public class MessageScreen extends SoftwareScreen {
 		} catch (IOException e) {
 			logger.error("Failed to read /html/message-foot.html", e);
 		}
-		
 
+        // strMessage contains all page content
+        strMessage = header + strMessage + footer;
 		webView.getEngine().loadContent(header + strMessage + footer);
 
 		HBox.setHgrow(webView, Priority.ALWAYS);
@@ -83,7 +89,27 @@ public class MessageScreen extends SoftwareScreen {
 	
 	private void instanciateWidget() {
 		webView = new WebView();
-		
+
+        // open links in another browser
+        webView.getEngine().locationProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> ov, final String oldLoc, final String loc) {
+                try {
+                    Desktop.getDesktop().browse(new URL(loc).toURI());
+                }
+                catch (Exception e) {
+                    logger.error("Failed to open browser for url " + loc, e);
+                }
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.getEngine().loadContent(strMessage);
+                    }
+                });
+            }
+        });
+
 		StringBuilder sb = new StringBuilder();
 		
 		for (GedMessage m : MessageService.getMessages()) {
