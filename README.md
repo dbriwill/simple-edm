@@ -8,7 +8,8 @@ Téléchargements
 Logiciel
 --------
 
-A définir (pour l'instant, voir http://www.xaviermichel.info/tips/read/17/Simple-GED-logiciel-open-source-de-gestion-lectronique-de-documents)
+[Télécharger simple ged](http://sourceforge.net/projects/simpleged/files/latest/download). Voir le [wiki pour l'installation](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-simple-ged).
+
 
 Plugins
 -------
