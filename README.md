@@ -14,7 +14,7 @@ Logiciel
 Plugins
 -------
 
-_Une fois le plugin téléchargé, voir [comment installer un plugin](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-un-plugin).
+_Une fois le plugin téléchargé, voir [comment installer un plugin](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-un-plugin)._
 
 ### Orange
 
