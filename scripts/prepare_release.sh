@@ -244,7 +244,7 @@ cat > "${RELEASE_TARGET}/last_version.xml" <<EOL
 	<number>CURRENT_VERSION</number>
 	<files>
 		<file>
-			<url>http://master.dl.sourceforge.net/project/simpleged/updates/${CORE_MAVEN_VERSION}.jar</url>
+			<url>http://master.dl.sourceforge.net/project/simpleged/updates/ged-core-${CORE_MAVEN_VERSION}.jar</url>
 			<destination>simple_ged.jar</destination>
 		</file>
 EOL
@@ -313,7 +313,7 @@ cat > "${RELEASE_TARGET}/updater_last_version.xml" <<EOL
 	<number>CURRENT_VERSION</number>
 	<files>
 		<file>
-			<url>http://master.dl.sourceforge.net/project/simpleged/updates/${UPDATER_MAVEN_VERSION}.jar</url>
+			<url>http://master.dl.sourceforge.net/project/simpleged/updates/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar</url>
 			<destination>simpleGedUpdateSystem.jar</destination>
 		</file>
 	</files>
@@ -346,7 +346,7 @@ chmod -R 777 ${FINAL_RELEASE_DIRECTORY}/*
 #
 # Accept upload
 #
-TIMEOUT_IN_SECOND=120
+TIMEOUT_IN_SECOND=10
 show_neutral_message "L'upload commencera dans ${TIMEOUT_IN_SECOND} secondes si l'action n'est pas annulée via controle-c"
 sleep ${TIMEOUT_IN_SECOND}
 
@@ -355,7 +355,7 @@ sleep ${TIMEOUT_IN_SECOND}
 # Envoi des zip genere
 #
 
-scp "${RELEASE_TARGET}/ged-core-${UPDATER_MAVEN_VERSION}.jar" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/updates
+scp "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/updates
 
 if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
 then
@@ -364,7 +364,7 @@ fi
 
 
 
-scp "${RELEASE_TARGET}/simple_ged_${UPDATER_MAVEN_VERSION}.zip" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/releases
+scp "${RELEASE_TARGET}/simple_ged_${CORE_MAVEN_VERSION}.zip" xaviermichel@frs.sourceforge.net:/home/frs/project/simpleged/releases
 
 
 
