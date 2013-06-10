@@ -14,6 +14,8 @@ Logiciel
 Plugins
 -------
 
+_Une fois le plugin téléchargé, voir [comment installer un plugin](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-un-plugin).
+
 ### Orange
 
 [Plugin mobile](http://master.dl.sourceforge.net/project/simpleged/plugins/orange-mobile/orange-ged-plugin-1.3-jar-with-dependencies.jar)
