@@ -105,14 +105,14 @@ public final class MiddleProfile implements Serializable {
 			lastKnownVersion = 4.1;
 		}
 
-        // changes on version 4.2
-        if (lastKnownVersion < 4.2) {
-            logger.info("Completing update to version 4.2 ...");
-            // add update informations message
-            MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
-            lastKnownVersion = 4.2;
-        }
-		
+	        // changes on version 4.2
+	        if (lastKnownVersion < 4.2) {
+	            logger.info("Completing update to version 4.2 ...");
+	            // add update informations message
+	            MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
+	            lastKnownVersion = 4.2;
+	        }
+			
 		// save new known version
 		lastKnownVersion = Double.parseDouble(properties.getProperty("APPLICATION_VERSION"));
 		commitChanges();
