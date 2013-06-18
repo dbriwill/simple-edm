@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.simple.ged.models.*;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,6 @@ import com.simple.ged.connector.plugins.dto.listeners.GedFolderDtoDataSourceList
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
-import com.simple.ged.models.GedDocument;
-import com.simple.ged.models.GedGetterPlugin;
-import com.simple.ged.models.GedMessage;
-import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginFactory.PluginFamily;
 import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.services.MessageService;
@@ -160,7 +157,7 @@ public final class PluginManager {
 						continue;
 					}
 					
-					SimpleGedGetterPlugin p = plugin.getPlugin();
+					final SimpleGedGetterPlugin p = plugin.getPlugin();
 					GedGetterPlugin i = plugin;
 					
 					boolean shouldUpdate = false;
@@ -203,7 +200,30 @@ public final class PluginManager {
 							p.setProperties(i.getPluginProperties());
 							
 							p.doGet();
-							
+
+                            GedDocument gedDocument = new GedDocument();
+                            gedDocument.setName(destinationFileName);
+                            gedDocument.setDate(new GregorianCalendar().getTime());
+
+                            List<GedDocumentFile> gedDocumentFiles = new ArrayList<>();
+
+                            File dir = new File(Profile.getInstance().getLibraryRoot() + i.getDestinationDirectory() + (i.getDestinationDirectory().isEmpty() ? "" : File.separator));
+                            logger.debug("Plugin target directory : {}", dir.getAbsolutePath());
+                            final String finalDestinationFileName = destinationFileName;
+                            File[] files = dir.listFiles(new FilenameFilter() {
+                                public boolean accept(File dir, String name) {
+                                    logger.trace("{} pour {}.", name, finalDestinationFileName);
+                                    return name.toLowerCase().startsWith(finalDestinationFileName);
+                                }
+                            });
+
+                            for (File f : files) {
+                                gedDocumentFiles.add(new GedDocumentFile(GedDocumentService.getRelativeFromAbsolutePath(f.getAbsolutePath())));
+                            }
+
+                            gedDocument.setDocumentFiles(gedDocumentFiles);
+                            GedDocumentService.addOrUpdateDocument(gedDocument);
+
 							i.setLastUpdateDate(new GregorianCalendar().getTime());
 							PluginService.addOrUpdatePlugin(i);
 							
