@@ -17,13 +17,12 @@ import com.simple.ged.services.MessageService;
 
 import fr.xmichel.toolbox.tools.PropertiesHelper;
 
-
 /**
  * This is the profile which is shared between different OS.
  * 
  * 
  * @author xavier
- *
+ * 
  */
 public final class MiddleProfile implements Serializable {
 
@@ -32,20 +31,19 @@ public final class MiddleProfile implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
 	private static final transient Logger logger = LoggerFactory.getLogger(MiddleProfile.class);
-	
+
 	private static transient MiddleProfile currentMiddleProfil = null;
 
 	private static final transient String MIDDLE_PROFILE_FILE_NAME = "middle.profile";
-	
+
 	/**
 	 * Singleton getter
 	 */
 	public static synchronized MiddleProfile getInstance() {
 		if (currentMiddleProfil == null) {
 			File f = new File(MIDDLE_PROFILE_FILE_NAME);
-			if ( f.exists() ) {
+			if (f.exists()) {
 				currentMiddleProfil = loadState();
 			} else {
 				currentMiddleProfil = new MiddleProfile();
@@ -53,34 +51,32 @@ public final class MiddleProfile implements Serializable {
 		}
 		return currentMiddleProfil;
 	}
-	
+
 	/**
 	 * The last known version
 	 */
 	private double lastKnownVersion;
-	
-	
-	
+
 	private MiddleProfile() {
-		lastKnownVersion = 3.2;			// this attribute appears in version 3.3, previous version was... 3.2 !
+		lastKnownVersion = 3.2; // this attribute appears in version 3.3,
+								// previous version was... 3.2 !
 	}
-	
-	
+
 	/**
 	 * Verify if an update was done. If true, complete update instructions.
 	 */
 	public synchronized void completeUpdate() {
-		
+
 		Properties properties = PropertiesHelper.getInstance().getProperties();
-		
+
 		// changes on version 3.3
-		if (lastKnownVersion < 3.3) { 
+		if (lastKnownVersion < 3.3) {
 			logger.info("Completing update to version 3.3 ...");
 			// add update informations message
 			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_33_msg")));
 			lastKnownVersion = 3.3;
 		}
-		
+
 		// changes on version 3.4
 		if (lastKnownVersion < 3.4) {
 			logger.info("Completing update to version 3.4 ...");
@@ -88,7 +84,7 @@ public final class MiddleProfile implements Serializable {
 			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_34_msg")));
 			lastKnownVersion = 3.4;
 		}
-		
+
 		// changes on version 4.0
 		if (lastKnownVersion < 4.0) {
 			logger.info("Completing update to version 4.0 ...");
@@ -96,7 +92,7 @@ public final class MiddleProfile implements Serializable {
 			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_40_msg")));
 			lastKnownVersion = 4.0;
 		}
-		
+
 		// changes on version 4.1
 		if (lastKnownVersion < 4.1) {
 			logger.info("Completing update to version 4.1 ...");
@@ -105,21 +101,28 @@ public final class MiddleProfile implements Serializable {
 			lastKnownVersion = 4.1;
 		}
 
-	        // changes on version 4.2
-	        if (lastKnownVersion < 4.2) {
-	            logger.info("Completing update to version 4.2 ...");
-	            // add update informations message
-	            MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
-	            lastKnownVersion = 4.2;
-	        }
-			
+		// changes on version 4.2
+		if (lastKnownVersion < 4.2) {
+			logger.info("Completing update to version 4.2 ...");
+			// add update informations message
+			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
+			lastKnownVersion = 4.2;
+		}
+
+		// changes on version 4.3
+		if (lastKnownVersion < 4.3) {
+			logger.info("Completing update to version 4.3 ...");
+			// add update informations message
+			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_43_msg")));
+			lastKnownVersion = 4.3;
+		}
+		
+		
 		// save new known version
 		lastKnownVersion = Double.parseDouble(properties.getProperty("APPLICATION_VERSION"));
 		commitChanges();
 	}
-	
-	
-	
+
 	/**
 	 * Save the changes
 	 */
@@ -127,60 +130,54 @@ public final class MiddleProfile implements Serializable {
 		logger.info("Saving middle settings");
 		saveState();
 	}
-	
-	
+
 	/**
 	 * Save the profile
 	 */
-	private synchronized void saveState(){
+	private synchronized void saveState() {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(MIDDLE_PROFILE_FILE_NAME);
-			ObjectOutputStream oos= new ObjectOutputStream(fos);
-			oos.writeObject(this); 
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(this);
 			oos.flush();
 			oos.close();
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Error while saving middle profil");
-		}
-		finally {
+		} finally {
 			try {
 				fos.close();
 			} catch (IOException e) {
 			}
 		}
 	}
-	
+
 	/**
 	 * Load the profile
-	 * @return
-	 * 		The loaded profile
+	 * 
+	 * @return The loaded profile
 	 */
-	private static synchronized MiddleProfile loadState(){
+	private static synchronized MiddleProfile loadState() {
 		MiddleProfile profil = null;
 		try {
 			FileInputStream fis = new FileInputStream(MIDDLE_PROFILE_FILE_NAME);
-			ObjectInputStream ois= new ObjectInputStream(fis);
-			try {	
-				profil = (MiddleProfile) ois.readObject(); 
-			} 
-			finally{
-				try{
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			try {
+				profil = (MiddleProfile) ois.readObject();
+			} finally {
+				try {
 					ois.close();
-				} 
-				finally {
+				} finally {
 					fis.close();
 				}
 			}
-		} 
-		catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Error while loading middle profil");
-			
+
 			// if exception, create profile
 			profil = new MiddleProfile();
-		} 
+		}
 		return profil;
 	}
-	
+
 }
