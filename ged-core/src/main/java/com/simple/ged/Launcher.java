@@ -45,7 +45,20 @@ public final class Launcher {
 		logger.info("==========================================================================");
 		logger.info("Hi, this is {} version {}", PropertiesHelper.getInstance().getProperties().get("APPLICATION_NAME"), PropertiesHelper.getInstance().getProperties().get("APPLICATION_VERSION"));
 		logger.info("You can report issues on {}", PropertiesHelper.getInstance().getProperties().get("APPLICATION_ISSUES_URL"));
-		logger.info("Thanks !");
+		logger.info("--------------------------------------------------------------------------");
+		logger.info("java.runtime.name          : " + System.getProperty("java.runtime.name"));
+		logger.info("java.runtime.version       : " + System.getProperty("java.runtime.version"));
+		logger.info("java.specification.name    : " + System.getProperty("java.specification.name"));
+		logger.info("java.specification.vendor  : " + System.getProperty("java.specification.vendor"));
+		logger.info("java.specification.version : " + System.getProperty("java.specification.version"));
+		logger.info("java.vendor                : " + System.getProperty("java.vendor"));
+		logger.info("java.version               : " + System.getProperty("java.version"));
+		logger.info("java.vm.info               : " + System.getProperty("java.vm.info"));
+		logger.info("java.vm.name               : " + System.getProperty("java.vm.name"));
+		logger.info("java.vm.version            : " + System.getProperty("java.vm.version"));
+		logger.info("os.arch                    : " + System.getProperty("os.arch"));
+		logger.info("os.name                    : " + System.getProperty("os.name"));
+		logger.info("os.version                 : " + System.getProperty("os.version"));
 		logger.info("==========================================================================");
 		
 		// create or update database
