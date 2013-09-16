@@ -73,7 +73,7 @@ public final class GedDocumentService {
      * Ged document by id
      */
     public static GedDocument findDocumentById(Integer id) {
-        return DocumentDAO.findDocumentbyId(id);
+        return DocumentDAO.find(id);
     }
 	
 	/**

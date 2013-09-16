@@ -1,6 +1,5 @@
 package com.simple.ged.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -85,7 +84,7 @@ public final class DocumentDAO {
      * @param id
      *            The document id
      */
-    public static synchronized GedDocument findDocumentbyId(Integer id) {
+    public static synchronized GedDocument find(Integer id) {
         logger.debug("Get document for id : {}", id);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -179,66 +178,6 @@ public final class DocumentDAO {
 		
 		session.getTransaction().commit();
 		session.close();
-	}
-	
-	
-	/**
-	 * Search document which match with one of the given
-     *
-     * @deprecated
-     *              Use ElasticSearchService instead !
-	 */
-    @Deprecated
-	@SuppressWarnings("unchecked")
-	public static synchronized List<GedDocumentFile> getDocumentWhichContainsEveryWords(List<String> words) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		
-		List<GedDocumentFile> results =  new ArrayList<>();
-		
-		// 1. Documents name which match with pattern
-		Criteria criteriaDocumentName = session.createCriteria(GedDocument.class);
-		
-		for (String word : words) {
-			criteriaDocumentName.add(Restrictions.like("name", "%" + word + "%").ignoreCase());
-		}
-		
-		// add founded documents
-		List<GedDocument> docsWhichMatchWithName = criteriaDocumentName.list();
-		for (GedDocument doc : docsWhichMatchWithName) {
-			for (GedDocumentFile file : doc.getDocumentFiles()) {
-				results.add(file);
-			}
-		}
-		
-		// 2. Document description match with pattern
-		Criteria criteriaDocumentDesc = session.createCriteria(GedDocument.class);
-		
-		for (String word : words) {
-			criteriaDocumentDesc.add(Restrictions.like("description", "%" + word + "%").ignoreCase());
-		}
-		// add founded documents
-		List<GedDocument> docsWhichMatchWithDescription = criteriaDocumentDesc.list();
-		for (GedDocument doc : docsWhichMatchWithDescription) {
-			for (GedDocumentFile file : doc.getDocumentFiles()) {
-				results.add(file);
-			}
-		}
-
-		// 3. Documents files which match with pattern
-		Criteria criteriaFile = session.createCriteria(GedDocumentFile.class);
-		for (String word : words) {
-			criteriaFile.add(Restrictions.like("relativeFilePath", "%" + word + "%").ignoreCase());
-		}
-		
-		// add founded files
-		List<GedDocumentFile> files = criteriaFile.list();  
-		for (GedDocumentFile file : files) {
-			results.add(file);
-		}
-		
-		session.close();
-		
-		return results;
 	}
 	
 }
