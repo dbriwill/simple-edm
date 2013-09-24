@@ -1,6 +1,5 @@
 package com.simple.ged.models;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
 import javax.persistence.*;
@@ -69,7 +68,7 @@ public class GedGetterPlugin {
      */
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="plugin_id", nullable=false)
-    private List<SimpleGedPluginProperty> pluginProperties;
+    private List<GedPluginProperty> pluginProperties;
 
     /**
      * The concerned plugin
@@ -126,11 +125,11 @@ public class GedGetterPlugin {
 		this.intervalBetweenUpdates = intervalBetweenUpdates;
 	}
 
-	public List<SimpleGedPluginProperty> getPluginProperties() {
+	public List<GedPluginProperty> getPluginProperties() {
 		return pluginProperties;
 	}
 
-	public void setPluginProperties(List<SimpleGedPluginProperty> pluginProperties) {
+	public void setPluginProperties(List<GedPluginProperty> pluginProperties) {
 		this.pluginProperties = pluginProperties;
 	}
 

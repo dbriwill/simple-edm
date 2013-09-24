@@ -1,13 +1,11 @@
 package com.simple.ged.connector.plugins.getter;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
-import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
+import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 
 /**
  * This class is the super class of each simple GED getters plugins
@@ -56,7 +54,7 @@ public abstract class SimpleGedGetterPlugin {
 	/**
 	 * The properties list
 	 */
-	private List<SimpleGedPluginProperty> properties;
+	private List<SimpleGedPluginPropertyDTO> properties;
 	
 	
 	
@@ -69,7 +67,7 @@ public abstract class SimpleGedGetterPlugin {
 	 * Get the value of some property
 	 */
 	public String getPropertyValue(String key) {
-		for (SimpleGedPluginProperty p : properties) {
+		for (SimpleGedPluginPropertyDTO p : properties) {
 			if (p.getPropertyKey().equals(key)) {
 				return p.getPropertyValue();
 			}
@@ -81,7 +79,7 @@ public abstract class SimpleGedGetterPlugin {
 	 * Get the boolean value of some property
 	 */
 	public boolean getPropertyBooleanValue(String key) {
-		for (SimpleGedPluginProperty p : properties) {
+		for (SimpleGedPluginPropertyDTO p : properties) {
 			if (p.getPropertyKey().equals(key)) {
 				return p.getBooleanValue();
 			}
@@ -148,11 +146,11 @@ public abstract class SimpleGedGetterPlugin {
 		this.pluginDescription = pluginDescription;
 	}
 
-	public List<SimpleGedPluginProperty> getProperties() {
+	public List<SimpleGedPluginPropertyDTO> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<SimpleGedPluginProperty> properties) {
+	public void setProperties(List<SimpleGedPluginPropertyDTO> properties) {
 		this.properties = properties;
 	}
 
