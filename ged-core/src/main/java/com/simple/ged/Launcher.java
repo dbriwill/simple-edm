@@ -5,11 +5,13 @@ import javafx.application.Application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.simple.ged.services.GedDirectoryService;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.update.UpdateInformations;
 
-import fr.xmichel.toolbox.hibernate.sqlite.HibernateUtil;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
 
 
@@ -63,7 +65,15 @@ public final class Launcher {
 		
 		// create or update database
 		logger.info("open hibernate session...");
-		HibernateUtil.getSessionFactory().openSession();
+		
+		//HibernateUtil.getSessionFactory().openSession();
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext();
+		appContext.getEnvironment().setActiveProfiles("resthub-jpa");
+		String[] locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" };
+		appContext.setConfigLocations(locations);
+		appContext.refresh();
+		
+		GedDirectoryService gedDirectoryService = appContext.getBean(GedDirectoryService.class);
 		
 		// complete update (messages)
 		logger.info("complete update...");

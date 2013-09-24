@@ -16,6 +16,8 @@ import javafx.scene.image.ImageView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDirectory;
@@ -45,6 +47,14 @@ public class LibraryView extends TreeView<String> {
 	 * My logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(LibraryView.class);
+	
+	// TODO : remove static
+	private static GedDirectoryService gedDirectoryService;
+	
+	static {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
+		gedDirectoryService = appContext.getBean(GedDirectoryService.class);
+	}
 	
 	/**
 	 * Some facking (yes it's a 'A') node which is a fack children (for expandable property)
@@ -171,7 +181,7 @@ public class LibraryView extends TreeView<String> {
  			
  			logger.trace("ged icon for directory : {}", GedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
- 			GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(GedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(GedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
  			ImageView iv = null;
  			

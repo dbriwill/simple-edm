@@ -15,6 +15,8 @@ import javafx.scene.input.KeyEvent;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;
@@ -37,6 +39,15 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(DirectoryEditionScreenEventHandler.class);
 
+	// TODO : remove static
+	private static GedDirectoryService gedDirectoryService;
+	
+	static {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
+		gedDirectoryService = appContext.getBean(GedDirectoryService.class);
+	}
+	
+	
 	/**
 	 * The managed object
 	 */
@@ -89,7 +100,7 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 			return;
 		}
 		
-		GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(directoryName);
+		GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(directoryName);
 		if (dir == null) {
 			logger.trace("Instanciate new directory");
 			dir = new GedDirectory();
@@ -98,7 +109,7 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 		dir.setRelativeDirectoryPath(directoryName);
 		dir.setIconPath(targetLocationWithoutPrefix);
 		
-		GedDirectoryService.addOrUpdateDirectory(dir);
+		gedDirectoryService.save(dir);
 		
 		directoryEditionScreen.get().refreshScreens();
 		

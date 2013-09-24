@@ -1,11 +1,14 @@
 package com.simple.ged.services;
 
-import java.util.regex.Matcher;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
 
-import com.simple.ged.dao.DirectoryDAO;
+import com.simple.ged.dao.GedDirectoryRepository;
 import com.simple.ged.models.GedDirectory;
 
 /**
@@ -17,50 +20,78 @@ import com.simple.ged.models.GedDirectory;
  * @author xavier
  * 
  */
+@Service
 public final class GedDirectoryService {
 
+	private GedDirectoryRepository directoryRepository;
+	
+	
 	/**
 	 * My logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(GedDirectoryService.class);
-
 	
-	/**
-	 * Should not be instantiated
-	 */
-	private GedDirectoryService() {	
+	
+	private GedDirectoryService() {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
+		directoryRepository = appContext.getBean(GedDirectoryRepository.class);
 	}
-	
-	
-	/**
-	 * Replace \\ by /, to keep unix like path in database
-	 */
-	private static String forceUnixSeparator(String s) {
-		return s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
-	}
-	
 	
 	/**
 	 * 
 	 * @param directoryPath
 	 *            The directory path, relative to ged root
 	 */
-	public static GedDirectory findDirectorybyDirectoryPath(String directoryPath) {
-		logger.debug("Fin directory for path : {}", directoryPath);
-		return DirectoryDAO.findDirectorybyDirectoryPath(forceUnixSeparator(directoryPath));
+	public GedDirectory findDirectoryByDirectoryPath(String directoryPath) {
+		logger.debug("Find directory for path : {}", directoryPath);
+		return directoryRepository.findByDirectoryPath(GedDocumentService.forceUnixSeparator(directoryPath));
 	}
 
 	
 	/**
 	 * Add or update the given document
 	 */
-	public static void addOrUpdateDirectory(GedDirectory directory)
-	{
+	public void save(GedDirectory directory) {
 		if (directory.getRelativeDirectoryPath().startsWith("/")) {
 			directory.setRelativeDirectoryPath(directory.getRelativeDirectoryPath().replaceFirst("/", ""));
 		}
+		directoryRepository.save(directory);
+	}
+	
+	
+	/**
+	 * Rename a directory (same treatment)
+	 * 
+	 * @param oldName
+	 *            The old name contains the relative path to file
+	 * 
+	 * @param newName
+	 *            The new name contains the relative path to file, with the new
+	 *            name =)
+	 */
+	public void updateDirectoryPath(String oldName, String newName) {
+		logger.debug("Rename : " + oldName + " to " + newName);
+		List<GedDirectory> directoriesToUpdate = directoryRepository.findByDirectoryPathStartingWith(oldName);
+
+		for (GedDirectory directory : directoriesToUpdate) {
+			directory.setRelativeDirectoryPath(directory.getRelativeDirectoryPath().replaceFirst(oldName, newName));
+			directoryRepository.save(directory);
+		}
+	}
+
+	
+	/**
+	 * Delete a document file
+	 * 
+	 * If some document as not at least on attached file after delete, it's removed
+	 */
+	public void deleteDirectory(String directoryPath) {
+		logger.debug("Remove directory : " + directoryPath);
 		
-		DirectoryDAO.saveOrUpdate(directory);
+		List<GedDirectory> directoriesToDelete = directoryRepository.findByDirectoryPathStartingWith(directoryPath);
+		for (GedDirectory directory : directoriesToDelete) {
+			directoryRepository.delete(directory);
+		}
 	}
 	
 }

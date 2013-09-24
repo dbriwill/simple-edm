@@ -11,9 +11,10 @@ import java.util.regex.Matcher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.Profile;
-import com.simple.ged.dao.DirectoryDAO;
 import com.simple.ged.dao.DocumentDAO;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
@@ -37,10 +38,19 @@ public final class GedDocumentService {
 	private static final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
 
 	
+	// TODO : remove static
+	private static GedDirectoryService gedDirectoryService;
+	
+	static {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
+		gedDirectoryService = appContext.getBean(GedDirectoryService.class);
+	}
+	
 	/**
 	 * Should not be instantiated
 	 */
 	private GedDocumentService() {	
+
 	}
 	
 	
@@ -141,7 +151,7 @@ public final class GedDocumentService {
 		logger.debug("New name : {}", newNameUnixStyle);
 		
 		// rename in database
-		DirectoryDAO.updateDirectoryPath(oldNameUnixStyle, newNameUnixStyle);
+		gedDirectoryService.updateDirectoryPath(oldNameUnixStyle, newNameUnixStyle);
 		DocumentDAO.updateFilePath(oldNameUnixStyle, newNameUnixStyle);
 	}
 	
@@ -160,7 +170,7 @@ public final class GedDocumentService {
 			return;
 		}
 		
-		DirectoryDAO.deleteDirectory(forceUnixSeparator(filePath));
+		gedDirectoryService.deleteDirectory(forceUnixSeparator(filePath));
 		DocumentDAO.deleteFile(forceUnixSeparator(filePath));
 	}
 	

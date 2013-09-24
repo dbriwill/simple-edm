@@ -33,6 +33,8 @@
 		<common.beanutils.version>1.8.3</common.beanutils.version>
 		<common.validator.version>1.4.0</common.validator.version>
 		<commons.lang.version>2.6</commons.lang.version>
+		
+		<org.resthub.version>2.1.2</org.resthub.version>
 	</properties>
 
 
@@ -233,6 +235,14 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<version>${ch.qos.logback.version}</version>
+		</dependency>
+
+
+		<!-- Resthub -->
+		<dependency>
+		    <groupId>org.resthub</groupId>
+		    <artifactId>resthub-jpa</artifactId>
+		    <version>${org.resthub.version}</version>
 		</dependency>
 
 
