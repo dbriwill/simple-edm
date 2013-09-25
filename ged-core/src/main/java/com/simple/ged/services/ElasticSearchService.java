@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
+import com.simple.ged.tools.SpringFactory;
 
 import fr.xmichel.toolbox.tools.FileHelper;
 
@@ -40,6 +41,8 @@ import fr.xmichel.toolbox.tools.FileHelper;
  * Service for using Elastic search
  *
  * @author  Xavier
+ * 
+ * TODO : use it as a spring service ! unstatic me !
  */
 public class ElasticSearchService {
 
@@ -72,7 +75,18 @@ public class ElasticSearchService {
      */
     private static Node node;
 
+    /**
+     * document respository
+     */
+    private static GedDocumentService gedDocumentService;
+    
+    
     static {
+    	
+    	// one day it won't be static...
+		gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+    	
+		
         // make sur plugin can be loaded before starting ES
         try {
             String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
@@ -276,7 +290,7 @@ public class ElasticSearchService {
             logger.debug("Matching docs count : {}", sr.getHits().getTotalHits());
             for (SearchHit hit : sr.getHits()) {
                 // currently, we're not looking for the data stored in ES, just for the document ID
-                documents.add(GedDocumentService.findDocumentById(Integer.parseInt(hit.getId())));
+                documents.add(gedDocumentService.findDocumentById(Integer.parseInt(hit.getId())));
             }
         }
         catch (IndexMissingException e) {
@@ -296,7 +310,7 @@ public class ElasticSearchService {
     public static void indexAllNonIndexedDocumentInLibrary() {
         logger.info("All document non indexed will be now");
 
-        for (GedDocument doc : GedDocumentService.getAllDocuments()) {
+        for (GedDocument doc : gedDocumentService.findAll()) {
             if (! documentIsIndexed(doc)) {
                 logger.debug("Indexing document with id {}", doc.getId());
                 indexDocument(doc);

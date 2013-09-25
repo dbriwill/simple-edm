@@ -19,6 +19,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import com.simple.ged.models.GedPluginProperty;
@@ -115,7 +116,7 @@ public final class PluginFactory {
 			ClassLoader loader = null;
 			
 			Map<PluginManifestTags, String> pluginInfos = new HashMap<>();
-			List<GedPluginProperty> pluginProperties = new ArrayList<>();
+			List<SimpleGedPluginPropertyDTO> pluginProperties = new ArrayList<>();
 			
 			/*
 			 * Load plugin properties

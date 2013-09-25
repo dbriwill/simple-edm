@@ -20,6 +20,7 @@ import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.tools.FileHelper;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.listeners.DocumentInfoEditorListener;
 import com.simple.ged.ui.listeners.DocumentPreviewListener;
 import com.simple.ged.ui.screen.DocumentConfigurationScreen;
@@ -52,6 +53,9 @@ public class DocumentConfigurationScreenEventHandler implements DocumentInfoEdit
 	 * Properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
+	
+	
+	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
 	
 	
 	public DocumentConfigurationScreenEventHandler(DocumentConfigurationScreen addDocumentScreen) {
@@ -162,7 +166,7 @@ public class DocumentConfigurationScreenEventHandler implements DocumentInfoEdit
 				document.setId(addDocumentScreen.get().getDocument().getId());
 			}
 			
-			GedDocumentService.addOrUpdateDocument(document);
+			gedDocumentService.save(document);
 
 			String message = properties.getProperty("doc_added");
 			if (addDocumentScreen.get().getDocument() != null) {

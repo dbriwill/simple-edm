@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.DirectoryEditionScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -43,8 +44,7 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 	private static GedDirectoryService gedDirectoryService;
 	
 	static {
-		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
-		gedDirectoryService = appContext.getBean(GedDirectoryService.class);
+		gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	}
 	
 	

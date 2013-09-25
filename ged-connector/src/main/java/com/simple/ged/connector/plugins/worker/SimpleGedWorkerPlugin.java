@@ -134,7 +134,7 @@ public abstract class SimpleGedWorkerPlugin {
 		return properties;
 	}
 
-	public void setProperties(List<SimpleGedPluginPropertyDTO> properties) {
+	public void setProperties(List<GedPluginProperty> properties) {
 		this.properties = properties;
 	}
 

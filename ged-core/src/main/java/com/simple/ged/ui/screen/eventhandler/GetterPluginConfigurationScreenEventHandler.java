@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.plugins.PluginManager;
@@ -67,9 +68,9 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			p.setFileName(p.getPlugin().getJarFileName());
 			p.setIntervalBetweenUpdates((Integer) pluginConfigurationScreen.get().getComboIntervalBetweenUpdateInMonth().getSelectionModel().getSelectedItem());
 			
-			List<GedPluginProperty> properties = new ArrayList<>();
+			List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 			
-			for (Entry<GedPluginProperty, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			for (Entry<SimpleGedPluginPropertyDTO, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 				if (entry.getValue() instanceof TextField) {
 					entry.getKey().setPropertyValue(((TextField)entry.getValue()).getText());
 					properties.add(entry.getKey());
@@ -80,6 +81,8 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 					properties.add(entry.getKey());
 				}
 			}
+			
+			// TODO : add converter to GedPluginProperty
 			p.setPluginProperties(properties);
 
 			PluginService.addOrUpdatePlugin(p);
@@ -121,7 +124,7 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			valid = false;
 		}
 		
-		for (Entry<GedPluginProperty, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+		for (Entry<SimpleGedPluginPropertyDTO, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 			if (e.getValue() instanceof TextField) {
 				if (((TextField) e.getValue()).getText().isEmpty()) {
 					valid = false;

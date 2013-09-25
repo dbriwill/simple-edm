@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.simple.ged.dao.GedDirectoryRepository;
 import com.simple.ged.models.GedDirectory;
+import com.simple.ged.tools.SpringFactory;
 
 /**
  * 
@@ -33,8 +32,7 @@ public final class GedDirectoryService {
 	
 	
 	private GedDirectoryService() {
-		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
-		directoryRepository = appContext.getBean(GedDirectoryRepository.class);
+		directoryRepository = SpringFactory.getAppContext().getBean(GedDirectoryRepository.class);
 	}
 	
 	/**
@@ -55,7 +53,7 @@ public final class GedDirectoryService {
 		if (directory.getRelativeDirectoryPath().startsWith("/")) {
 			directory.setRelativeDirectoryPath(directory.getRelativeDirectoryPath().replaceFirst("/", ""));
 		}
-		directoryRepository.save(directory);
+		directoryRepository.saveAndFlush(directory);
 	}
 	
 	
@@ -75,7 +73,7 @@ public final class GedDirectoryService {
 
 		for (GedDirectory directory : directoriesToUpdate) {
 			directory.setRelativeDirectoryPath(directory.getRelativeDirectoryPath().replaceFirst(oldName, newName));
-			directoryRepository.save(directory);
+			directoryRepository.saveAndFlush(directory);
 		}
 	}
 
