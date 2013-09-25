@@ -13,7 +13,7 @@ import com.simple.ged.models.GedMessage;
  * @author xavier
  *
  */
-public interface MessageRepository extends JpaRepository<GedMessage, Integer> {
+public interface GedMessageRepository extends JpaRepository<GedMessage, Integer> {
 
 	public List<GedMessage> findAllOrderByDateDesc();
 

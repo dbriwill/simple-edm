@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocumentFile;
 import com.simple.ged.services.GedDocumentService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.listeners.DocumentInfoViewerListener;
 import com.simple.ged.ui.listeners.LibraryListener;
 import com.simple.ged.ui.listeners.LibraryListener.LIBRARY_FILE_TYPE;
@@ -55,6 +56,8 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  */
 public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCell<String>>, ChangeListener<TreeItem<String>>, DocumentInfoViewerListener, QuickSearchListener {
 
+	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+	
 	/**
 	 * Global properties
 	 */
@@ -267,9 +270,9 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 			Map<String, Object> extras = new HashMap<>();
 		
 			extras.put("relative-document-root", getFilePathFromTreeItem(node.getParent()));
-			extras.put("ged-document", GedDocumentService.getDocumentFromFile(getFilePathFromTreeItem(node)));
+			extras.put("ged-document", gedDocumentService.findDocumentByFilePath(getFilePathFromTreeItem(node)));
 			
-			if (GedDocumentService.getDocumentFromFile(getFilePathFromTreeItem(node)) == null) {
+			if (gedDocumentService.findDocumentByFilePath(getFilePathFromTreeItem(node)) == null) {
 				extras.put("system-file", new File(Profile.getInstance().getLibraryRoot() + getCurrentItemRelativePath()));
 			}
 			
@@ -372,7 +375,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 								@Override
 								public void handle(ActionEvent arg0) {
 									libraryView.get().getParentScreen().releaseOpenedFiles();
-	          						GedDocumentService.deleteDocumentFile(getFilePathFromTreeItem(getTreeItem()));
+	          						gedDocumentService.deleteDocumentFile(getFilePathFromTreeItem(getTreeItem()));
             						getTreeItem().getParent().getChildren().remove(getTreeItem());
 								}
 							})
@@ -451,7 +454,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
                 	
                 	File f = new File(Profile.getInstance().getLibraryRoot() + sourcePath);
                 	
-                	GedDocumentService.renameDocumentFile(sourcePath, targetPath + File.separatorChar + f.getName());
+                	gedDocumentService.renameDocumentFile(sourcePath, targetPath + File.separatorChar + f.getName());
                 	
                 	sourceItem.getParent().getChildren().remove(sourceItem);
                 	targetItem.getChildren().add(sourceItem);
@@ -561,7 +564,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 						
 						logger.info("renaming from : " + getFilePathFromTreeItem(getTreeItem()) + " => " + getFilePathFromTreeItem(getTreeItem().getParent()) + (getFilePathFromTreeItem(getTreeItem().getParent()).isEmpty() ? "" : "/") + textField.getText());
 						libraryView.get().getParentScreen().releaseOpenedFiles();
-						GedDocumentService.renameDocumentFile(getFilePathFromTreeItem(getTreeItem()), getFilePathFromTreeItem(getTreeItem().getParent()) + (getFilePathFromTreeItem(getTreeItem().getParent()).isEmpty() ? "" : "/") + textField.getText());
+						gedDocumentService.renameDocumentFile(getFilePathFromTreeItem(getTreeItem()), getFilePathFromTreeItem(getTreeItem().getParent()) + (getFilePathFromTreeItem(getTreeItem().getParent()).isEmpty() ? "" : "/") + textField.getText());
 						
 						
 						commitEdit(textField.getText());
@@ -593,7 +596,7 @@ public class LibraryViewEventHandler implements Callback<TreeView<String>,TreeCe
 			return;
 		}
 		
-		List<GedDocumentFile> files = GedDocumentService.searchForWords(pattern);
+		List<GedDocumentFile> files = gedDocumentService.searchForWords(pattern);
 		
 		if (files.size() == 0) {
 			logger.info("No matching document for pattern : "+ pattern);

@@ -20,7 +20,8 @@ import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedPluginService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -36,6 +37,8 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  */
 public class GetterPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
 
+	private GedPluginService gedPluginService = SpringFactory.getAppContext().getBean(GedPluginService.class);
+	
 	/**
 	 * My logger
 	 */
@@ -85,7 +88,7 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			// TODO : add converter to GedPluginProperty
 			p.setPluginProperties(properties);
 
-			PluginService.addOrUpdatePlugin(p);
+			gedPluginService.save(p);
 			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
 
 			Dialog.showInfo(GetterPluginConfigurationScreenEventHandler.properties.getProperty("information"), GetterPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());

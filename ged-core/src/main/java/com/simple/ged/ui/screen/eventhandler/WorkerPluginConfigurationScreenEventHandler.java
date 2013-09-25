@@ -20,6 +20,8 @@ import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.plugins.PluginManager;
+import com.simple.ged.services.GedPluginService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.WorkerPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -34,7 +36,7 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  *
  */
 public class WorkerPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
-
+	
 	/**
 	 * My logger
 	 */

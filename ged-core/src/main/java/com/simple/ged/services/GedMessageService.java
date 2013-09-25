@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.simple.ged.dao.MessageRepository;
+import com.simple.ged.dao.GedMessageRepository;
 import com.simple.ged.models.GedMessage;
 import com.simple.ged.tools.SpringFactory;
 
@@ -18,7 +18,7 @@ import com.simple.ged.tools.SpringFactory;
 @Service
 public final class GedMessageService {
 
-	private MessageRepository gedMessageRepository = SpringFactory.getAppContext().getBean(MessageRepository.class);
+	private GedMessageRepository gedMessageRepository = SpringFactory.getAppContext().getBean(GedMessageRepository.class);
 	
 	/**
 	 * Get messages, sorted by date desc

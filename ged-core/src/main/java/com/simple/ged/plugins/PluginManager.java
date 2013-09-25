@@ -24,7 +24,7 @@ import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import com.simple.ged.plugins.PluginFactory.PluginFamily;
 import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.services.GedMessageService;
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedPluginService;
 import com.simple.ged.ui.screen.SoftwareScreen;
 
 import fr.xmichel.toolbox.tools.DateHelper;
@@ -93,7 +93,7 @@ public final class PluginManager {
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
-				pluginList.add(PluginService.getPluginInformations(p));
+				pluginList.add(GedPluginService.getPluginInformations(p));
 			}
 		}
 
@@ -130,7 +130,7 @@ public final class PluginManager {
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
-				pluginList.add(PluginService.getPluginInformations(p));
+				pluginList.add(GedPluginService.getPluginInformations(p));
 			}
 		}
 
@@ -225,7 +225,7 @@ public final class PluginManager {
                             GedDocumentService.addOrUpdateDocument(gedDocument);
 
 							i.setLastUpdateDate(new GregorianCalendar().getTime());
-							PluginService.addOrUpdatePlugin(i);
+							GedPluginService.addOrUpdatePlugin(i);
 							
 							GedMessageService.addMessage(new GedMessage("INFO", "Récupération réussie pour le plugin " + p.getJarFileName() + "<br/>Nouveau fichier enregistré : " + p.getDestinationFile()));
 							

@@ -15,8 +15,6 @@ import javafx.scene.input.KeyEvent;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;

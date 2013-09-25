@@ -13,7 +13,7 @@ import javafx.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedPluginService;
 import com.simple.ged.ui.screen.SoftwareScreen.Screen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -93,7 +93,7 @@ public class GetterPluginScreenEventHandler {
 			.addYesButton(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent arg0) {
-    				PluginService.desactivatePlugin(pmi);
+    				GedPluginService.desactivatePlugin(pmi);
     				pluginScreen.get().refreshPluginListContent();
 				}
 			})
