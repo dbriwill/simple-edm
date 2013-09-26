@@ -20,7 +20,7 @@ import com.simple.ged.tools.SpringFactory;
  * 
  */
 @Service
-public final class GedDirectoryService {
+public class GedDirectoryService {
 
 	private GedDirectoryRepository directoryRepository;
 	

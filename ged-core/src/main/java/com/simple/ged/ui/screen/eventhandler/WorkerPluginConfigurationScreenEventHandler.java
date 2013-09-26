@@ -17,11 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
-import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.models.GedPluginProperty;
+import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.services.GedPluginService;
-import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.WorkerPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;

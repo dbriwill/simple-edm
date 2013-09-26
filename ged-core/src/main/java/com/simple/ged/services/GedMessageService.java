@@ -17,7 +17,7 @@ import com.simple.ged.tools.SpringFactory;
  *
  */
 @Service
-public final class GedMessageService {
+public class GedMessageService {
 
 	private GedMessageRepository gedMessageRepository = SpringFactory.getAppContext().getBean(GedMessageRepository.class);
 	

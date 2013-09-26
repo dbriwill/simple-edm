@@ -3,7 +3,6 @@ package com.simple.ged.ui.screen;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -18,9 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedWorkerPlugin;
@@ -42,7 +38,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreen.class);
+	//private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreen.class);
 	
 	/**
 	 * The library view, to chose document target

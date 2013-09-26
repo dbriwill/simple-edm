@@ -31,7 +31,7 @@ import fr.xmichel.javafx.dialog.Dialog;
  *
  */
 @Service
-public final class GedDocumentService {
+public class GedDocumentService {
 
 	/**
 	 * My logger
