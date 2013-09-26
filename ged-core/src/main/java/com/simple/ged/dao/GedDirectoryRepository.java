@@ -15,15 +15,15 @@ import com.simple.ged.models.GedDirectory;
 public interface GedDirectoryRepository extends JpaRepository<GedDirectory, Integer> {
 
 	/**
-	 * @param directoryPath
+	 * @param relativeDirectoryPath
 	 *            The directory path, relative to ged root
 	 */
-	public GedDirectory findByDirectoryPath(String directoryPath);
+	public GedDirectory findByRelativeDirectoryPath(String relativeDirectoryPath);
 	
 	/**
-	 * @param directoryPath
+	 * @param relativeDirectoryPath
 	 *            The directory path, relative to ged root
 	 */
-	public List<GedDirectory> findByDirectoryPathStartingWith(String directoryPath);
+	public List<GedDirectory> findByRelativeDirectoryPathStartingWith(String relativeDirectoryPath);
 
 }

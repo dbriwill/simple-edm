@@ -42,7 +42,7 @@ public final class GedDirectoryService {
 	 */
 	public GedDirectory findDirectoryByDirectoryPath(String directoryPath) {
 		logger.debug("Find directory for path : {}", directoryPath);
-		return directoryRepository.findByDirectoryPath(GedDocumentService.forceUnixSeparator(directoryPath));
+		return directoryRepository.findByRelativeDirectoryPath(GedDocumentService.forceUnixSeparator(directoryPath));
 	}
 
 	
@@ -69,7 +69,7 @@ public final class GedDirectoryService {
 	 */
 	public void updateDirectoryPath(String oldName, String newName) {
 		logger.debug("Rename : " + oldName + " to " + newName);
-		List<GedDirectory> directoriesToUpdate = directoryRepository.findByDirectoryPathStartingWith(oldName);
+		List<GedDirectory> directoriesToUpdate = directoryRepository.findByRelativeDirectoryPathStartingWith(oldName);
 
 		for (GedDirectory directory : directoriesToUpdate) {
 			directory.setRelativeDirectoryPath(directory.getRelativeDirectoryPath().replaceFirst(oldName, newName));
@@ -86,7 +86,7 @@ public final class GedDirectoryService {
 	public void deleteDirectory(String directoryPath) {
 		logger.debug("Remove directory : " + directoryPath);
 		
-		List<GedDirectory> directoriesToDelete = directoryRepository.findByDirectoryPathStartingWith(directoryPath);
+		List<GedDirectory> directoriesToDelete = directoryRepository.findByRelativeDirectoryPathStartingWith(directoryPath);
 		for (GedDirectory directory : directoriesToDelete) {
 			directoryRepository.delete(directory);
 		}
