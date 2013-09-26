@@ -15,8 +15,6 @@ import com.simple.ged.models.GedMessage;
  */
 public interface GedMessageRepository extends JpaRepository<GedMessage, Integer> {
 
-	public List<GedMessage> findAllOrderByDateDesc();
-
 	public List<GedMessage> findByReadFalse(); 
 	
 	@Query("UPDATE GedMessage SET read=true")

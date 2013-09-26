@@ -2,6 +2,7 @@ package com.simple.ged.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.simple.ged.dao.GedMessageRepository;
@@ -24,8 +25,9 @@ public final class GedMessageService {
 	 * Get messages, sorted by date desc
 	 */
 	public List<GedMessage> getMessages() {
-		return gedMessageRepository.findAllOrderByDateDesc();
+		return gedMessageRepository.findAll(new Sort(Sort.Direction.DESC, "date"));
 	}
+
 	
 	/**
 	 * Is there unread messages ?

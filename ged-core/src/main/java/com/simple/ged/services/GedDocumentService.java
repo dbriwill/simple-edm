@@ -90,7 +90,7 @@ public final class GedDocumentService {
 	 *            The file path, relative to ged root
 	 */
 	public GedDocument findDocumentByFilePath(String filePath) {
-		return gedDocumentRepository.findByRelativeFilePath(forceUnixSeparator(filePath));
+		return gedDocumentRepository.findByDocumentFilesRelativeFilePath(forceUnixSeparator(filePath));
 	}
 
 	

@@ -15,7 +15,8 @@ import com.simple.ged.models.GedDocument;
  */
 public interface GedDocumentRepository extends JpaRepository<GedDocument, Integer> {
 
-	@Query("select gd from GedDocument gd where gd.documentFiles.relativeFilePath = %?1")
-	public GedDocument findByRelativeFilePath(String relativeFilePath);
-	
+	//@Query("select gd from GedDocument gd join GedDocumentFile gdf where gdf.relativeFilePath = %?1")
+	//public GedDocument findByRelativeFilePath(String relativeFilePath);
+
+    public GedDocument findByDocumentFilesRelativeFilePath(String relativeFilePath);
 }
