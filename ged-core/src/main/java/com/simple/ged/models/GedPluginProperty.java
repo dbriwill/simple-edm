@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -80,7 +82,27 @@ public class GedPluginProperty {
         return dto;
     }
 
-	
+
+    public static GedPluginProperty convertFromDTO(SimpleGedPluginPropertyDTO simpleGedPluginPropertyDTO) {
+        GedPluginProperty property = new GedPluginProperty();
+        property.setBooleanValue(simpleGedPluginPropertyDTO.getBooleanValue());
+        property.setHidden(simpleGedPluginPropertyDTO.getHidden());
+        property.setIsBooleanProperty(simpleGedPluginPropertyDTO.getIsBooleanProperty());
+        property.setPropertyKey(simpleGedPluginPropertyDTO.getPropertyKey());
+        property.setPropertyLabel(simpleGedPluginPropertyDTO.getPropertyLabel());
+        property.setPropertyValue(simpleGedPluginPropertyDTO.getPropertyValue());
+        return property;
+    }
+
+    public static List<GedPluginProperty> convertFromDTO(List<SimpleGedPluginPropertyDTO> simpleGedPluginPropertyDTOList) {
+        List<GedPluginProperty> list = new ArrayList<>();
+        for (SimpleGedPluginPropertyDTO dto : simpleGedPluginPropertyDTOList) {
+            list.add(convertFromDTO(dto));
+        }
+        return list;
+    }
+
+
 	public GedPluginProperty() {
 		hidden = false;
 	}

@@ -77,9 +77,8 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 					properties.add(entry.getKey());
 				}
 			}
-			
-			// TODO : add converter to GedPluginProperty
-			p.setPluginProperties(properties);
+
+			p.setPluginProperties(GedPluginProperty.convertFromDTO(properties));
 
 			PluginManager.launchWorkerPlugin(p, pluginConfigurationScreen.get());
 			

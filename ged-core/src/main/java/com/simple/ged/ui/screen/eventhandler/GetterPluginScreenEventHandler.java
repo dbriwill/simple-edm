@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.GetterPluginScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -49,6 +50,8 @@ public class GetterPluginScreenEventHandler {
 	 * Properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
+
+    private static GedPluginService gedPluginService = SpringFactory.getAppContext().getBean(GedPluginService.class);
 	
 	/**
 	 * The watched screen
@@ -93,7 +96,7 @@ public class GetterPluginScreenEventHandler {
 			.addYesButton(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent arg0) {
-    				GedPluginService.desactivatePlugin(pmi);
+    				gedPluginService.desactivatePlugin(pmi);
     				pluginScreen.get().refreshPluginListContent();
 				}
 			})

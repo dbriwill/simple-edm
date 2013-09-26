@@ -84,9 +84,8 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 					properties.add(entry.getKey());
 				}
 			}
-			
-			// TODO : add converter to GedPluginProperty
-			p.setPluginProperties(properties);
+
+			p.setPluginProperties(GedPluginProperty.convertFromDTO(properties));
 
 			gedPluginService.save(p);
 			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
