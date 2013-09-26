@@ -1,9 +1,14 @@
 package com.simple.ged.services;
 
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.simple.ged.Profile;
+import com.simple.ged.models.GedDocument;
+import com.simple.ged.models.GedDocumentFile;
+import com.simple.ged.tools.SpringFactory;
 
 /**
  * DocumentDAO tests
@@ -67,5 +72,30 @@ public class GedDocumentServiceTest {
         Profile.getInstance().commitChanges();
         
         Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(unixPath));
+    }
+    
+    
+    /**
+     * La fonction de recherche JPA fonctionne
+     */
+    @Test
+    public void testFindByRelativeFilePath() {
+    	String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-core") ? "" : "/ged-core") + "/target/";
+    	Profile.getInstance().setDocumentLibraryRoot(targetDirAbsolutePath);
+    	
+    	GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+    	
+    	GedDocument doc = new GedDocument();
+    	doc.setDate(new Date());
+    	doc.setName("Diplome du bac");
+    	doc.setDescription("Bla");
+    	doc.addFile(new GedDocumentFile("test-classes/demo_pdf.pdf"));
+  
+    	gedDocumentService.save(doc);
+  
+    	GedDocument docFound = gedDocumentService.findDocumentByFilePath("test-classes/demo_pdf.pdf");
+    	
+    	Assert.assertNotNull(docFound);
+    	Assert.assertEquals(doc, docFound);
     }
 }

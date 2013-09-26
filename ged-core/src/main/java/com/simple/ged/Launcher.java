@@ -5,10 +5,8 @@ import javafx.application.Application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.simple.ged.services.GedDirectoryService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.update.UpdateInformations;
 
@@ -65,15 +63,7 @@ public final class Launcher {
 		
 		// create or update database
 		logger.info("open hibernate session...");
-		
-		//HibernateUtil.getSessionFactory().openSession();
-		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext();
-		appContext.getEnvironment().setActiveProfiles("ged-jpa");
-		String[] locations = { "classpath*:applicationContext.xml" };
-		appContext.setConfigLocations(locations);
-		appContext.refresh();
-		
-		GedDirectoryService gedDirectoryService = appContext.getBean(GedDirectoryService.class);
+		SpringFactory.getAppContext();
 		
 		// complete update (messages)
 		logger.info("complete update...");

@@ -16,9 +16,12 @@ import javafx.scene.input.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.plugins.PluginManager;
+import com.simple.ged.services.GedPluginService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.WorkerPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -33,7 +36,7 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  *
  */
 public class WorkerPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
-
+	
 	/**
 	 * My logger
 	 */
@@ -59,16 +62,12 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 		if (e.getSource() == pluginConfigurationScreen.get().getSave()) {
 			
 			GedWorkerPlugin p = pluginConfigurationScreen.get().getPlugin();
-		
-//			p.setDayOfMonthForUpdate((Integer) pluginConfigurationScreen.get().getComboDayOfMonthForUpdate().getSelectionModel().getSelectedItem());
-//			p.setDestinationDirectory(pluginConfigurationScreen.get().getLibraryView().getEventHandler().getCurrentItemRelativePath());
-//			p.setDestinationFilePattern(pluginConfigurationScreen.get().getFieldNamePattern().getText().trim());
+
 			p.setFileName(p.getPlugin().getJarFileName());
-//			p.setIntervalBetweenUpdates((Integer) pluginConfigurationScreen.get().getComboIntervalBetweenUpdateInMonth().getSelectionModel().getSelectedItem());
+
+			List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 			
-			List<GedPluginProperty> properties = new ArrayList<>();
-			
-			for (Entry<GedPluginProperty, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			for (Entry<SimpleGedPluginPropertyDTO, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 				if (entry.getValue() instanceof TextField) {
 					entry.getKey().setPropertyValue(((TextField)entry.getValue()).getText());
 					properties.add(entry.getKey());
@@ -79,10 +78,8 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 				}
 			}
 			
+			// TODO : add converter to GedPluginProperty
 			p.setPluginProperties(properties);
-
-//			PluginService.addOrUpdatePlugin(p);
-//			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
 
 			PluginManager.launchWorkerPlugin(p, pluginConfigurationScreen.get());
 			
@@ -109,7 +106,7 @@ public class WorkerPluginConfigurationScreenEventHandler implements EventHandler
 	public void checkValidity() {
 		boolean valid = true;
 		
-		for (Entry<GedPluginProperty, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+		for (Entry<SimpleGedPluginPropertyDTO, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 			if (e.getValue() instanceof TextField) {
 				if (((TextField) e.getValue()).getText().isEmpty()) {
 					valid = false;

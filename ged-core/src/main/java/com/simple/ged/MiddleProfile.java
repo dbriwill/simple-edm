@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.models.GedMessage;
-import com.simple.ged.services.MessageService;
+import com.simple.ged.services.GedMessageService;
+import com.simple.ged.tools.SpringFactory;
 
 import fr.xmichel.toolbox.tools.PropertiesHelper;
 
@@ -37,6 +38,10 @@ public final class MiddleProfile implements Serializable {
 
 	private static final transient String MIDDLE_PROFILE_FILE_NAME = "middle.profile";
 
+	
+	private static GedMessageService gedMessageService = SpringFactory.getAppContext().getBean(GedMessageService.class);
+	
+	
 	/**
 	 * Singleton getter
 	 */
@@ -73,7 +78,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 3.3) {
 			logger.info("Completing update to version 3.3 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_33_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_33_msg")));
 			lastKnownVersion = 3.3;
 		}
 
@@ -81,7 +86,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 3.4) {
 			logger.info("Completing update to version 3.4 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_34_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_34_msg")));
 			lastKnownVersion = 3.4;
 		}
 
@@ -89,7 +94,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 4.0) {
 			logger.info("Completing update to version 4.0 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_40_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_40_msg")));
 			lastKnownVersion = 4.0;
 		}
 
@@ -97,7 +102,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 4.1) {
 			logger.info("Completing update to version 4.1 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_41_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_41_msg")));
 			lastKnownVersion = 4.1;
 		}
 
@@ -105,7 +110,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 4.2) {
 			logger.info("Completing update to version 4.2 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_42_msg")));
 			lastKnownVersion = 4.2;
 		}
 
@@ -113,7 +118,7 @@ public final class MiddleProfile implements Serializable {
 		if (lastKnownVersion < 4.3) {
 			logger.info("Completing update to version 4.3 ...");
 			// add update informations message
-			MessageService.addMessage(new GedMessage("NEUTRAL", properties.getProperty("update_43_msg")));
+			gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_43_msg")));
 			lastKnownVersion = 4.3;
 		}
 		

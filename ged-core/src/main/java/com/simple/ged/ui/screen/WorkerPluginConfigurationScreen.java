@@ -22,8 +22,8 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedWorkerPlugin;
-import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.WorkerPluginConfigurationScreenEventHandler;
 
@@ -107,7 +107,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * Map of properties
 	 */
-	private Map<GedPluginProperty, Control> propertiesFieldsMap;
+	private Map<SimpleGedPluginPropertyDTO, Control> propertiesFieldsMap;
 	
 	/**
 	 * The destination file name pattern
@@ -174,8 +174,9 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		
 		
 		int currentRowNumber = 3;
-		
-		for (GedPluginProperty property : plugin.getPluginProperties()) {
+
+
+		for (SimpleGedPluginPropertyDTO property : plugin.getPlugin().getProperties()) {
 			
 			Control field = null;
 			
@@ -333,7 +334,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 //	}
 
 
-	public Map<GedPluginProperty, Control> getPropertiesFieldsMap() {
+	public Map<SimpleGedPluginPropertyDTO, Control> getPropertiesFieldsMap() {
 		return propertiesFieldsMap;
 	}
 
