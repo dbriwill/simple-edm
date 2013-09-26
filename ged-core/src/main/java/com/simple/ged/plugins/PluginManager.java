@@ -197,7 +197,7 @@ public final class PluginManager {
 							
 							p.setDestinationFile(Profile.getInstance().getLibraryRoot() + i.getDestinationDirectory() + (i.getDestinationDirectory().isEmpty() ? "" : File.separator) + destinationFileName);
 							
-							p.setProperties(i.getPluginProperties());
+							p.setProperties(i.getPropertiesAsDTO());
 							
 							p.doGet();
 
@@ -257,7 +257,7 @@ public final class PluginManager {
 		ss.notifyNewMessagesAvailable();
 		
 		try {
-			p.getPlugin().setProperties(p.getPluginProperties());
+			p.getPlugin().setProperties(p.getPropertiesAsDTO());
 		
 			GedFolderDTO rootNode = new GedFolderDTO("");
 			

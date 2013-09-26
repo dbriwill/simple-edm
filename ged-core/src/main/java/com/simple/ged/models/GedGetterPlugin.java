@@ -1,8 +1,10 @@
 package com.simple.ged.models;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +78,14 @@ public class GedGetterPlugin {
     @Transient
     private SimpleGedGetterPlugin plugin;
 
+
+    public List<SimpleGedPluginPropertyDTO> getPropertiesAsDTO() {
+        List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
+        for (GedPluginProperty p : pluginProperties) {
+            properties.add(p.convertToDTO());
+        }
+        return properties;
+    }
     
 	public Integer getId() {
 		return id;

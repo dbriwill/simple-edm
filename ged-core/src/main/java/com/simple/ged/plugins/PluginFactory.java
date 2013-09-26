@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import fr.xmichel.javafx.dialog.Dialog;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -115,7 +116,7 @@ public final class PluginFactory {
 			ClassLoader loader = null;
 			
 			Map<PluginManifestTags, String> pluginInfos = new HashMap<>();
-			List<GedPluginProperty> pluginProperties = new ArrayList<>();
+			List<SimpleGedPluginPropertyDTO> pluginProperties = new ArrayList<>();
 			
 			/*
 			 * Load plugin properties
@@ -177,7 +178,7 @@ public final class PluginFactory {
 						sgpp.setPropertyKey(key.trim());
 						sgpp.setPropertyLabel(label.trim());
 						
-						pluginProperties.add(sgpp);
+						pluginProperties.add(sgpp.convertToDTO());
 					}
 
 				} else {	// it's not field tag
@@ -248,7 +249,7 @@ public final class PluginFactory {
 			ClassLoader loader = null;
 			
 			Map<PluginManifestTags, String> pluginInfos = new HashMap<>();
-			List<GedPluginProperty> pluginProperties = new ArrayList<>();
+			List<SimpleGedPluginPropertyDTO> pluginProperties = new ArrayList<>();
 			
 			/*
 			 * Load plugin properties
@@ -310,7 +311,7 @@ public final class PluginFactory {
 						sgpp.setPropertyKey(key.trim());
 						sgpp.setPropertyLabel(label.trim());
 						
-						pluginProperties.add(sgpp);
+						pluginProperties.add(sgpp.convertToDTO());
 					}
 
 				} else {	// it's not field tag

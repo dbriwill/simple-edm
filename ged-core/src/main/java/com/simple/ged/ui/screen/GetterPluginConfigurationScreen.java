@@ -177,7 +177,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 		
 		int currentRowNumber = 3;
 		
-		for (GedPluginProperty property : plugin.getPlugin().getProperties()) {
+		for (GedPluginProperty property : plugin.getPluginProperties()) {
 			
 			Control field = null;
 			

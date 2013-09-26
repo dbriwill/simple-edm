@@ -68,8 +68,8 @@ public final class Launcher {
 		
 		//HibernateUtil.getSessionFactory().openSession();
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext();
-		appContext.getEnvironment().setActiveProfiles("resthub-jpa");
-		String[] locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" };
+		appContext.getEnvironment().setActiveProfiles("ged-jpa");
+		String[] locations = { "classpath*:applicationContext.xml" };
 		appContext.setConfigLocations(locations);
 		appContext.refresh();
 		

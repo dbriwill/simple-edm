@@ -57,9 +57,9 @@ public class LibraryView extends TreeView<String> {
 	}
 	
 	/**
-	 * Some facking (yes it's a 'A') node which is a fack children (for expandable property)
+	 * Some faking (yes it's a 'A') node which is a fake children (for expandable property)
 	 */
-	public static final TreeItem<String> FACK_CHILD = new TreeItem<String>("");
+	public static final TreeItem<String> FAKE_CHILD = new TreeItem<String>("");
 	
 	/**
 	 * Have I to show all files or just directories ? 
@@ -269,7 +269,7 @@ public class LibraryView extends TreeView<String> {
 			TreeItem<String> subNode = new TreeItem<>(convertToNodeName(f.getName()), getIconForNode(f.getPath()));
 			
 			if (f.isDirectory()) {
-				subNode.getChildren().add(FACK_CHILD);
+				subNode.getChildren().add(FAKE_CHILD);
 			} else { // f is child
 				if (showDirectoryOnly) {
 					continue;

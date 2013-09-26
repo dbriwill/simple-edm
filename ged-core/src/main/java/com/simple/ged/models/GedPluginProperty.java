@@ -1,5 +1,7 @@
 package com.simple.ged.models;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,7 +64,22 @@ public class GedPluginProperty {
 	 */
 	@Column(name="hidden")
 	private boolean hidden;
-	
+
+
+    /**
+     * Converter to DTO
+     */
+    public SimpleGedPluginPropertyDTO convertToDTO() {
+        SimpleGedPluginPropertyDTO dto = new SimpleGedPluginPropertyDTO();
+        dto.setBooleanValue(getBooleanValue());
+        dto.setHidden(getHidden());
+        dto.setIsBooleanProperty(getIsBooleanProperty());
+        dto.setPropertyKey(getPropertyKey());
+        dto.setPropertyLabel(getPropertyLabel());
+        dto.setPropertyValue(getPropertyValue());
+        return dto;
+    }
+
 	
 	public GedPluginProperty() {
 		hidden = false;

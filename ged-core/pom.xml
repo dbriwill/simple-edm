@@ -22,9 +22,13 @@
 		<org.slf4j.version>1.7.2</org.slf4j.version>
 		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
 		
-		<org.hibernate.core.version>4.1.3.Final</org.hibernate.core.version>
+		<org.hibernate.core.version>4.2.5.Final</org.hibernate.core.version>
 		<org.hibernate.ejb-persistence.version>1.0.2.GA</org.hibernate.ejb-persistence.version>
 		<org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version>
+        <org.hibernate.hibernate-ehcache.version>4.2.5.Final</org.hibernate.hibernate-ehcache.version>
+        <org.hibernate.hibernate-entitymanager.version>4.2.5.Final</org.hibernate.hibernate-entitymanager.version>
+
+        <ehcache.version>2.6.6</ehcache.version>
 
         <org.elasticsearch.version>0.90.1</org.elasticsearch.version>
 
@@ -33,8 +37,14 @@
 		<common.beanutils.version>1.8.3</common.beanutils.version>
 		<common.validator.version>1.4.0</common.validator.version>
 		<commons.lang.version>2.6</commons.lang.version>
-		
-		<org.resthub.version>2.1.2</org.resthub.version>
+
+        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.data.jpa.version>1.3.4.RELEASE</spring.data.jpa.version>
+        <spring.data.commons.version>1.5.2.RELEASE</spring.data.commons.version>
+
+        <bonecp.spring.version>0.7.1.RELEASE</bonecp.spring.version>
+
+        <google.guava.version>14.0.1</google.guava.version>
 	</properties>
 
 
@@ -238,12 +248,112 @@
 		</dependency>
 
 
-		<!-- Resthub -->
-		<dependency>
-		    <groupId>org.resthub</groupId>
-		    <artifactId>resthub-jpa</artifactId>
-		    <version>${org.resthub.version}</version>
-		</dependency>
+		<!-- Spring -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.data.commons.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.jpa.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-orm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- Bonecp -->
+
+        <dependency>
+            <groupId>com.jolbox</groupId>
+            <artifactId>bonecp-spring</artifactId>
+            <version>${bonecp.spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
 		<!-- Hibernate -->
@@ -254,6 +364,7 @@
 			<version>${org.hibernate.core.version}</version>
 		</dependency>
 
+        <!--
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>ejb3-persistence</artifactId>
@@ -265,6 +376,28 @@
 			<artifactId>hibernate-annotations</artifactId>
 			<version>${org.hibernate.annotation.version}</version>
 		</dependency>
+		-->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${org.hibernate.hibernate-ehcache.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${org.hibernate.hibernate-entitymanager.version}</version>
+        </dependency>
+
+
+        <!-- ehcache -->
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
 
 
 		<!-- SQLite driver -->
@@ -315,6 +448,15 @@
 			<artifactId>commons-lang</artifactId>
 			<version>${commons.lang.version}</version>
 		</dependency>
+
+
+        <!-- Google -->
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${google.guava.version}</version>
+        </dependency>
 
 	</dependencies>
 

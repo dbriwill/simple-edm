@@ -3,6 +3,7 @@ package com.simple.ged.ui.screen;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -174,7 +175,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 		
 		int currentRowNumber = 3;
 		
-		for (GedPluginProperty property : plugin.getPlugin().getProperties()) {
+		for (GedPluginProperty property : plugin.getPluginProperties()) {
 			
 			Control field = null;
 			
