@@ -16,8 +16,6 @@ import javafx.scene.image.ImageView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDirectory;
@@ -49,12 +47,8 @@ public class LibraryView extends TreeView<String> {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(LibraryView.class);
 	
-	// TODO : remove static
-	private static GedDirectoryService gedDirectoryService;
+	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
-	static {
-		gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
-	}
 	
 	/**
 	 * Some faking (yes it's a 'A') node which is a fake children (for expandable property)
@@ -76,6 +70,10 @@ public class LibraryView extends TreeView<String> {
 	 * The software properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
+	
+	
+	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+	
 	
 	/**
 	 * My parent
@@ -179,9 +177,9 @@ public class LibraryView extends TreeView<String> {
  		// folder
  		if (new File(filePath).isDirectory()) {
  			
- 			logger.trace("ged icon for directory : {}", GedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			logger.trace("ged icon for directory : {}", gedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
- 			GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(GedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(gedDocumentService.getRelativeFromAbsolutePath(filePath));
  			
  			ImageView iv = null;
  			

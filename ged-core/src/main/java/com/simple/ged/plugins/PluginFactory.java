@@ -13,10 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
-import fr.xmichel.javafx.dialog.Dialog;
 import org.apache.commons.beanutils.PropertyUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +21,8 @@ import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import com.simple.ged.models.GedPluginProperty;
+
+import fr.xmichel.javafx.dialog.Dialog;
 
 
 

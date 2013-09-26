@@ -15,6 +15,9 @@ import com.simple.ged.tools.SpringFactory;
  */
 public class GedDocumentServiceTest {
 
+	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+	
+	
     /**
      * Les \ d'un chemin windows sont convertis en /
      */
@@ -57,7 +60,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(windowPath));
+        Assert.assertEquals("toto/foo.txt", gedDocumentService.getRelativeFromAbsolutePath(windowPath));
     }
     
     /**
@@ -71,7 +74,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(unixPath));
+        Assert.assertEquals("toto/foo.txt", gedDocumentService.getRelativeFromAbsolutePath(unixPath));
     }
     
     

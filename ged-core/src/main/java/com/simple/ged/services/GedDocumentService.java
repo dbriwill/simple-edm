@@ -39,18 +39,11 @@ public final class GedDocumentService {
 	private static final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
 
 	
-	private GedDocumentRepository gedDocumentRepository;
+	private GedDocumentRepository gedDocumentRepository = SpringFactory.getAppContext().getBean(GedDocumentRepository.class);
 	
-	private GedDocumentFileService gedDocumentFileService;
+	private GedDocumentFileService gedDocumentFileService = SpringFactory.getAppContext().getBean(GedDocumentFileService.class);
 	
-	private GedDirectoryService gedDirectoryService;
-	
-	
-	private GedDocumentService() {
-		gedDocumentRepository = SpringFactory.getAppContext().getBean(GedDocumentRepository.class);
-		gedDocumentFileService = SpringFactory.getAppContext().getBean(GedDocumentFileService.class);
-		gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
-	}
+	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
 	
 	
@@ -75,7 +68,7 @@ public final class GedDocumentService {
 	/**
 	 * Get relative file path from the absolute path
 	 */
-	public static String getRelativeFromAbsolutePath(String absolutePath) {
+	public String getRelativeFromAbsolutePath(String absolutePath) {
 		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
 	

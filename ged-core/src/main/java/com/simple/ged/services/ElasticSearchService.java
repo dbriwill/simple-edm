@@ -78,15 +78,12 @@ public class ElasticSearchService {
     /**
      * document respository
      */
-    private static GedDocumentService gedDocumentService;
+    // one day it won't be static...
+    private static GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
     
     
     static {
-    	
-    	// one day it won't be static...
-		gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
-    	
-		
+
         // make sur plugin can be loaded before starting ES
         try {
             String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
