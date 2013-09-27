@@ -1,4 +1,7 @@
-package fr.xmichel.ged;
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+package ${package};
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,39 +13,40 @@ import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
-/**
- * User: xavier
- */
-public class SFRBoxPluginTest {
+import fr.xmichel.ged.SFRBoxPlugin;
 
+
+public class SimplePluginTest {
+	
     @Test
     public void testNotThrowException() {
-
-        // Instantiate our plugin
-        SimpleGedGetterPlugin p = new SFRBoxPlugin();
+    	
+    	// Instantiate our plugin
+        SimpleGedGetterPlugin p = new SimplePlugin();
 
         // create properties list
         List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 
         // create the required properties
-        SimpleGedPluginPropertyDTO phoneNumber  = new SimpleGedPluginPropertyDTO();
-        phoneNumber.setPropertyKey("sfr_mail");
-        phoneNumber.setPropertyValue("xxxxxx.xxxxxx@sfr.fr");
+        SimpleGedPluginPropertyDTO someProperty  = new SimpleGedPluginPropertyDTO();
+        phoneNumber.setPropertyKey("identifiant");
+        phoneNumber.setPropertyValue("KEEP_IT_SECRET");
+        
+        SimpleGedPluginPropertyDTO someOtherProperty  = new SimpleGedPluginPropertyDTO();
+        secretCode.setPropertyKey("password");
+        secretCode.setPropertyValue("KEEP_IT_SECRET");
 
-        SimpleGedPluginPropertyDTO secretCode  = new SimpleGedPluginPropertyDTO();
-        secretCode.setPropertyKey("secret_code");
-        secretCode.setPropertyValue("XXXXXXXXXX");
-
+        
         // add the property in list
-        properties.add(phoneNumber);
-        properties.add(secretCode);
-
+        properties.add(someProperty);
+        properties.add(someOtherProperty);
+        
         // set properties list to our plugin
         p.setProperties(properties);
-
+        
         // define destination file for the try
-        p.setDestinationFile("sfrBoxPluginTest");
-
+        p.setDestinationFile("simple_plugin_test");
+    	
         // finally, try our plugin
         try {
             p.doGet();
@@ -50,5 +54,5 @@ public class SFRBoxPluginTest {
             Assert.assertTrue(false); // should never works... No ?
         }
     }
-
+	
 }

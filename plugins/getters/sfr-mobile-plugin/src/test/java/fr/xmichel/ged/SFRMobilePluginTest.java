@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
@@ -22,14 +22,14 @@ public class SFRMobilePluginTest {
         SimpleGedGetterPlugin p = new SFRMobilePlugin();
 
         // create properties list
-        List<SimpleGedPluginProperty> properties = new ArrayList<>();
+        List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 
         // create the required properties
-        SimpleGedPluginProperty phoneNumber  = new SimpleGedPluginProperty();
+        SimpleGedPluginPropertyDTO phoneNumber  = new SimpleGedPluginPropertyDTO();
         phoneNumber.setPropertyKey("phone_number");
         phoneNumber.setPropertyValue("06XXXXXXXX");
 
-        SimpleGedPluginProperty secretCode  = new SimpleGedPluginProperty();
+        SimpleGedPluginPropertyDTO secretCode  = new SimpleGedPluginPropertyDTO();
         secretCode.setPropertyKey("secret_code");
         secretCode.setPropertyValue("XXXXXX");
 
