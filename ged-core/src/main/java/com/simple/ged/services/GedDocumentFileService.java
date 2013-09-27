@@ -12,11 +12,7 @@ import com.simple.ged.tools.SpringFactory;
 @Service
 public class GedDocumentFileService {
 
-	private GedDocumentFileRepository gedDocumentFileRepository;
-	
-	private GedDocumentFileService() {
-		gedDocumentFileRepository = SpringFactory.getAppContext().getBean(GedDocumentFileRepository.class);
-	}
+	private GedDocumentFileRepository gedDocumentFileRepository = SpringFactory.getAppContext().getBean(GedDocumentFileRepository.class);
 	
 	
 	public GedDocumentFile findByRelativeFilePath(String relativefilePath) {

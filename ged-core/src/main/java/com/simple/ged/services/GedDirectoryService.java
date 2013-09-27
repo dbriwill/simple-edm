@@ -22,18 +22,14 @@ import com.simple.ged.tools.SpringFactory;
 @Service
 public class GedDirectoryService {
 
-	private GedDirectoryRepository directoryRepository;
+	private GedDirectoryRepository directoryRepository = SpringFactory.getAppContext().getBean(GedDirectoryRepository.class);
 	
 	
 	/**
 	 * My logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(GedDirectoryService.class);
-	
-	
-	private GedDirectoryService() {
-		directoryRepository = SpringFactory.getAppContext().getBean(GedDirectoryRepository.class);
-	}
+
 	
 	/**
 	 * 
