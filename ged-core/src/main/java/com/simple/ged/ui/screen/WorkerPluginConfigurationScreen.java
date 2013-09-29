@@ -18,9 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.ui.MainWindow;
@@ -41,7 +38,7 @@ public class WorkerPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * My logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreen.class);
+	//private static final Logger logger = LoggerFactory.getLogger(WorkerPluginConfigurationScreen.class);
 	
 	/**
 	 * The library view, to chose document target
