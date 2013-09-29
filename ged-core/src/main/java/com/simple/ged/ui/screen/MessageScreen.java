@@ -19,7 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.simple.ged.models.GedMessage;
-import com.simple.ged.services.MessageService;
+import com.simple.ged.services.GedMessageService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.MainWindow;
 
 import fr.xmichel.toolbox.tools.DateHelper;
@@ -34,6 +35,8 @@ import fr.xmichel.toolbox.tools.FileHelper;
  */
 public class MessageScreen extends SoftwareScreen {
 
+	private GedMessageService gedMessageService = SpringFactory.getAppContext().getBean(GedMessageService.class);
+	
 	/**
 	 * My logger
 	 */
@@ -82,7 +85,7 @@ public class MessageScreen extends SoftwareScreen {
 		
 		this.getChildren().add(webView);
 		
-		MessageService.markAllMessagesAsRead();
+		gedMessageService.markAllMessagesAsRead();
 		notifyNoNewMessagesAvailable();
 	}
 	
@@ -112,7 +115,7 @@ public class MessageScreen extends SoftwareScreen {
 
 		StringBuilder sb = new StringBuilder();
 		
-		for (GedMessage m : MessageService.getMessages()) {
+		for (GedMessage m : gedMessageService.getMessages()) {
 			
 			List<String> classes = new ArrayList<>();
 			classes.add("alert");

@@ -2,27 +2,26 @@ package com.simple.ged.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
-import com.simple.ged.dao.PluginDAO;
+import com.simple.ged.dao.GedPluginRepository;
 import com.simple.ged.models.GedGetterPlugin;
 import com.simple.ged.models.GedWorkerPlugin;
 import com.simple.ged.plugins.PluginManager;
+import com.simple.ged.tools.SpringFactory;
 
 /**
- * 
  * Plugin service
  * 
  * @author xavier
  *
  */
-public final class PluginService {
+@Service
+public final class GedPluginService {
 
-	/**
-	 * Should not be instantiated
-	 */
-	private PluginService() {
-	}
+	private GedPluginRepository gedPluginRepository = SpringFactory.getAppContext().getBean(GedPluginRepository.class);
 	
 	
 	/**
@@ -33,7 +32,6 @@ public final class PluginService {
 	}
 	
 	
-	
 	/**
 	 * Get plugin informations from database
 	 * 
@@ -42,9 +40,9 @@ public final class PluginService {
 	 *            
 	 * If the plugin is 
 	 */
-	public static synchronized GedGetterPlugin getPluginInformations(SimpleGedGetterPlugin plugin) {
+	public GedGetterPlugin getPluginInformations(SimpleGedGetterPlugin plugin) {
 		
-		GedGetterPlugin pmi = PluginDAO.getPluginInformations(plugin.getJarFileName());
+		GedGetterPlugin pmi = gedPluginRepository.findByFileName(plugin.getJarFileName());
 		
 		if (pmi == null) {
 			pmi = new GedGetterPlugin();
@@ -55,8 +53,7 @@ public final class PluginService {
 		return pmi;
 	}
 
-
-
+	
     /**
      * Get plugin informations from nowhere
      *
@@ -74,22 +71,19 @@ public final class PluginService {
         return pmi;
     }
 
-
-
+    
 	/**
 	 * Add or update the given plugin
 	 */
-	public static void addOrUpdatePlugin(GedGetterPlugin pmi)
-	{
-		PluginDAO.saveOrUpdate(pmi);
+	public void save(GedGetterPlugin pmi) {
+		gedPluginRepository.save(pmi);
 	}
 	
 	
 	/**
 	 * Desactivate and delete saved informations of the given plugin
 	 */
-	public static void desactivatePlugin(GedGetterPlugin pmi)
-	{
-		PluginDAO.delete(pmi);
+	public void desactivatePlugin(GedGetterPlugin pmi) {
+		gedPluginRepository.delete(pmi);
 	}
 }

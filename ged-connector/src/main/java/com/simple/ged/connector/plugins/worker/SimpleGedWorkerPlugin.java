@@ -3,8 +3,8 @@ package com.simple.ged.connector.plugins.worker;
 import java.util.Date;
 import java.util.List;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
 import com.simple.ged.connector.plugins.dto.GedFolderDTO;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 
 /**
@@ -54,7 +54,7 @@ public abstract class SimpleGedWorkerPlugin {
 	/**
 	 * The properties list
 	 */
-	private List<SimpleGedPluginProperty> properties;
+	private List<SimpleGedPluginPropertyDTO> properties;
 
 	/**
 	 * Make your works !
@@ -72,7 +72,7 @@ public abstract class SimpleGedWorkerPlugin {
 	 * Get the value of some property
 	 */
 	public String getPropertyValue(String key) {
-		for (SimpleGedPluginProperty p : properties) {
+		for (SimpleGedPluginPropertyDTO p : properties) {
 			if (p.getPropertyKey().equals(key)) {
 				return p.getPropertyValue();
 			}
@@ -130,11 +130,11 @@ public abstract class SimpleGedWorkerPlugin {
         this.pluginDescription = pluginDescription;
     }
 	
-	public List<SimpleGedPluginProperty> getProperties() {
+	public List<SimpleGedPluginPropertyDTO> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<SimpleGedPluginProperty> properties) {
+	public void setProperties(List<SimpleGedPluginPropertyDTO> properties) {
 		this.properties = properties;
 	}
 

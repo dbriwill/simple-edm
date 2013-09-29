@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.services.GedDocumentService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.listeners.LibraryListener;
 import com.simple.ged.ui.previewwidgets.AddDocumentPreviewer;
 import com.simple.ged.ui.screen.LibraryViewScreen;
@@ -25,6 +26,9 @@ public class LibraryViewScreenEventHandler implements LibraryListener {
 	 * Logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(LibraryViewScreenEventHandler.class);
+	
+	
+	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
 	
 	/**
 	 * The controlled object
@@ -49,7 +53,7 @@ public class LibraryViewScreenEventHandler implements LibraryListener {
 		
 		// try to show doc
 		
-		GedDocument d = GedDocumentService.findDocumentByFilePath(relativeFilePathOfNewSelection);
+		GedDocument d = gedDocumentService.findDocumentByFilePath(relativeFilePathOfNewSelection);
 		
 		if (d == null) {
 			logger.debug("no document found for this file");

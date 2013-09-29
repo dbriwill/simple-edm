@@ -16,10 +16,12 @@ import javafx.scene.input.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.plugins.PluginManager;
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedPluginService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.GetterPluginConfigurationScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -35,6 +37,8 @@ import fr.xmichel.toolbox.tools.PropertiesHelper;
  */
 public class GetterPluginConfigurationScreenEventHandler implements EventHandler<KeyEvent> {
 
+	private GedPluginService gedPluginService = SpringFactory.getAppContext().getBean(GedPluginService.class);
+	
 	/**
 	 * My logger
 	 */
@@ -67,9 +71,9 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			p.setFileName(p.getPlugin().getJarFileName());
 			p.setIntervalBetweenUpdates((Integer) pluginConfigurationScreen.get().getComboIntervalBetweenUpdateInMonth().getSelectionModel().getSelectedItem());
 			
-			List<SimpleGedPluginProperty> properties = new ArrayList<>();
+			List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 			
-			for (Entry<SimpleGedPluginProperty, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+			for (Entry<SimpleGedPluginPropertyDTO, Control> entry : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 				if (entry.getValue() instanceof TextField) {
 					entry.getKey().setPropertyValue(((TextField)entry.getValue()).getText());
 					properties.add(entry.getKey());
@@ -80,9 +84,10 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 					properties.add(entry.getKey());
 				}
 			}
-			p.setPluginProperties(properties);
 
-			PluginService.addOrUpdatePlugin(p);
+			p.setPluginProperties(GedPluginProperty.convertFromDTO(properties));
+
+			gedPluginService.save(p);
 			PluginManager.launchGetterPluginUpdate(pluginConfigurationScreen.get());
 
 			Dialog.showInfo(GetterPluginConfigurationScreenEventHandler.properties.getProperty("information"), GetterPluginConfigurationScreenEventHandler.properties.getProperty("plugin_is_activated"), pluginConfigurationScreen.get().getMainStage());
@@ -121,7 +126,7 @@ public class GetterPluginConfigurationScreenEventHandler implements EventHandler
 			valid = false;
 		}
 		
-		for (Entry<SimpleGedPluginProperty, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
+		for (Entry<SimpleGedPluginPropertyDTO, Control> e : pluginConfigurationScreen.get().getPropertiesFieldsMap().entrySet()) {
 			if (e.getValue() instanceof TextField) {
 				if (((TextField) e.getValue()).getText().isEmpty()) {
 					valid = false;

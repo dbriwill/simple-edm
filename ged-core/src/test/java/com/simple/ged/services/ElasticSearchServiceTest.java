@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
+import com.simple.ged.tools.SpringFactory;
 
 public class ElasticSearchServiceTest {
 
@@ -24,6 +25,8 @@ public class ElasticSearchServiceTest {
     private GedDocument docBacNotes;
     private GedDocument docLatex;
 
+    private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+    
     @Before
     public void setUp() throws Exception {
     	
@@ -52,10 +55,10 @@ public class ElasticSearchServiceTest {
         docLatex.setDescription("...réalisé dans un format binaire");
         docLatex.addFile(new GedDocumentFile("test-classes/demo_pdf.pdf"));
         
-        GedDocumentService.addOrUpdateDocument(docBac);
-        GedDocumentService.addOrUpdateDocument(docBrevet);
-        GedDocumentService.addOrUpdateDocument(docBacNotes);
-        GedDocumentService.addOrUpdateDocument(docLatex);
+        gedDocumentService.save(docBac);
+        gedDocumentService.save(docBrevet);
+        gedDocumentService.save(docBacNotes);
+        gedDocumentService.save(docLatex);
         
         ElasticSearchService.removeAllIndexedData();
         ElasticSearchService.indexDocument(docBac);

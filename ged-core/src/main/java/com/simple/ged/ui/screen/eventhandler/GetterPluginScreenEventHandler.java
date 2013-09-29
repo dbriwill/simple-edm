@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.GetterPluginScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +14,7 @@ import javafx.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedPluginService;
 import com.simple.ged.ui.screen.SoftwareScreen.Screen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -49,6 +50,8 @@ public class GetterPluginScreenEventHandler {
 	 * Properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
+
+    private static GedPluginService gedPluginService = SpringFactory.getAppContext().getBean(GedPluginService.class);
 	
 	/**
 	 * The watched screen
@@ -93,7 +96,7 @@ public class GetterPluginScreenEventHandler {
 			.addYesButton(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent arg0) {
-    				PluginService.desactivatePlugin(pmi);
+    				gedPluginService.desactivatePlugin(pmi);
     				pluginScreen.get().refreshPluginListContent();
 				}
 			})

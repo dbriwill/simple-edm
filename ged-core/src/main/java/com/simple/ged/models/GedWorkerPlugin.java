@@ -1,8 +1,9 @@
 package com.simple.ged.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 
 /**
@@ -25,7 +26,15 @@ public class GedWorkerPlugin {
     /**
      * Properties attached to this plugin
      */
-    private List<SimpleGedPluginProperty> pluginProperties;
+    private List<GedPluginProperty> pluginProperties;
+
+    public List<SimpleGedPluginPropertyDTO> getPropertiesAsDTO() {
+        List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
+        for (GedPluginProperty p : pluginProperties) {
+            properties.add(p.convertToDTO());
+        }
+        return properties;
+    }
 
     /**
      * The concerned plugin
@@ -41,11 +50,11 @@ public class GedWorkerPlugin {
 	}
 
 	
-	public List<SimpleGedPluginProperty> getPluginProperties() {
+	public List<GedPluginProperty> getPluginProperties() {
 		return pluginProperties;
 	}
 
-	public void setPluginProperties(List<SimpleGedPluginProperty> pluginProperties) {
+	public void setPluginProperties(List<GedPluginProperty> pluginProperties) {
 		this.pluginProperties = pluginProperties;
 	}
 

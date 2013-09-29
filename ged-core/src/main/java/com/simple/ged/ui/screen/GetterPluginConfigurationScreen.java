@@ -24,8 +24,9 @@ import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.models.GedGetterPlugin;
+import com.simple.ged.models.GedPluginProperty;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.ui.screen.eventhandler.GetterPluginConfigurationScreenEventHandler;
 import com.simple.ged.ui.widgets.LibraryView;
@@ -110,7 +111,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	/**
 	 * Map of properties
 	 */
-	private Map<SimpleGedPluginProperty, Control> propertiesFieldsMap;
+	private Map<SimpleGedPluginPropertyDTO, Control> propertiesFieldsMap;
 	
 	/**
 	 * The destination file name pattern
@@ -176,8 +177,8 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 		
 		
 		int currentRowNumber = 3;
-		
-		for (SimpleGedPluginProperty property : plugin.getPlugin().getProperties()) {
+
+		for (SimpleGedPluginPropertyDTO property : plugin.getPlugin().getProperties()) {
 			
 			Control field = null;
 			
@@ -188,7 +189,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 				
 				if (plugin.isActivated()) {
 					logger.debug("Plugin is activated, setting value for boolean : ");
-					for (SimpleGedPluginProperty pr : plugin.getPluginProperties()) {
+					for (GedPluginProperty pr : plugin.getPluginProperties()) {
 						if (pr.getPropertyKey().equals(property.getPropertyKey())) {
 							((CheckBox) field).setSelected(pr.getBooleanValue());
 							logger.debug("{}", pr.getBooleanValue());
@@ -207,7 +208,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 			
 				if (plugin.isActivated()) {
 					logger.debug("Plugin is activated, setting value");
-					for (SimpleGedPluginProperty pr : plugin.getPluginProperties()) {
+					for (GedPluginProperty pr : plugin.getPluginProperties()) {
 						if (pr.getPropertyKey().equals(property.getPropertyKey())) {
 							((TextField) field).setText(pr.getPropertyValue());
 							break;
@@ -336,7 +337,7 @@ public class GetterPluginConfigurationScreen extends SoftwareScreen {
 	}
 
 
-	public Map<SimpleGedPluginProperty, Control> getPropertiesFieldsMap() {
+	public Map<SimpleGedPluginPropertyDTO, Control> getPropertiesFieldsMap() {
 		return propertiesFieldsMap;
 	}
 

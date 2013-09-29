@@ -10,13 +10,14 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.simple.ged.Profile;
-import com.simple.ged.dao.DirectoryDAO;
-import com.simple.ged.dao.DocumentDAO;
+import com.simple.ged.dao.GedDocumentRepository;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 import com.simple.ged.tools.FileHelper;
+import com.simple.ged.tools.SpringFactory;
 
 import fr.xmichel.javafx.dialog.Dialog;
 
@@ -28,7 +29,8 @@ import fr.xmichel.javafx.dialog.Dialog;
  * @author xavier
  *
  */
-public final class GedDocumentService {
+@Service
+public class GedDocumentService {
 
 	/**
 	 * My logger
@@ -36,46 +38,37 @@ public final class GedDocumentService {
 	private static final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
 
 	
-	/**
-	 * Should not be instantiated
-	 */
-	private GedDocumentService() {	
-	}
+	private GedDocumentRepository gedDocumentRepository = SpringFactory.getAppContext().getBean(GedDocumentRepository.class);
+
+	private GedDocumentFileService gedDocumentFileService = SpringFactory.getAppContext().getBean(GedDocumentFileService.class);
+
+	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
-
-	/**
-	 * 
-	 * @param filePath
-	 *            The file path, relative to ged root
-	 */
-	public static GedDocument findDocumentByFilePath(String filePath) {
-		return DocumentDAO.findDocumentbyFilePath(FileHelper.forceUnixSeparator(filePath));
-	}
-
+	
     /**
      * Ged document by id
      */
-    public static GedDocument findDocumentById(Integer id) {
-        return DocumentDAO.find(id);
+    public GedDocument findDocumentById(Integer id) {
+        return gedDocumentRepository.findOne(id);
     }
-	
-	/**
-	 * 
-	 * @param filePath
-	 *            The file path, relative to ged root
-	 */
-	public static GedDocument getDocumentFromFile(String filePath) {
-		return DocumentDAO.findDocumentbyFilePath(FileHelper.forceUnixSeparator(filePath));
-	}
+    
+    
+    /**
+     * Get document by filePath
+     */
+    public GedDocument findDocumentByFilePath(String relativeFilePath) {
+		return gedDocumentRepository.findByDocumentFilesRelativeFilePath(relativeFilePath);
+    }
+    
 	
 	/**
 	 * Add or update the given document
 	 */
-	public static void addOrUpdateDocument(GedDocument doc)
-	{
-		DocumentDAO.saveOrUpdate(doc);
+	public void save(GedDocument doc) {
+		gedDocumentRepository.saveAndFlush(doc);
 		ElasticSearchService.indexDocument(doc);
 	}
+	
 	
 	/**
 	 * Rename some ged document file (give relative file path)
@@ -85,7 +78,7 @@ public final class GedDocumentService {
 	 * @param newName
 	 * 				The new file name
 	 */
-	public static void renameDocumentFile(String oldName, String newName)
+	public void renameDocumentFile(String oldName, String newName)
 	{
 		if (newName.isEmpty()) {
 			return;
@@ -123,27 +116,44 @@ public final class GedDocumentService {
 		logger.debug("New name : {}", newNameUnixStyle);
 		
 		// rename in database
-		DirectoryDAO.updateDirectoryPath(oldNameUnixStyle, newNameUnixStyle);
-		DocumentDAO.updateFilePath(oldNameUnixStyle, newNameUnixStyle);
+		gedDirectoryService.updateDirectoryPath(oldNameUnixStyle, newNameUnixStyle);
+		
+
+		List<GedDocumentFile> results = gedDocumentFileService.findByRelativeFilePathStartingWith(oldName);
+		
+		for (GedDocumentFile file : results) {
+			file.setRelativeFilePath(file.getRelativeFilePath().replaceFirst(oldName, newName));
+			gedDocumentFileService.save(file);
+		}
 	}
 	
 	
 	/**
 	 * Delete some document
 	 */
-	public static void deleteDocumentFile(String filePath)
+	public void deleteDocumentFile(String filePath)
 	{
 		try {
-			FileHelper.recursifDelete(new File(Profile.getInstance()
-					.getLibraryRoot() + filePath));
+			FileHelper.recursifDelete(new File(Profile.getInstance().getLibraryRoot() + filePath));
 		} catch (IOException e) {
 			logger.error("Delete error", e);
 			Dialog.showThrowable("Impossible de supprimer le fichier", "La suppression du fichier a échoué :", e);
 			return;
 		}
 		
-		DirectoryDAO.deleteDirectory(FileHelper.forceUnixSeparator(filePath));
-		DocumentDAO.deleteFile(FileHelper.forceUnixSeparator(filePath));
+		gedDirectoryService.deleteDirectory(FileHelper.forceUnixSeparator(filePath));
+		
+		List<GedDocumentFile> results = gedDocumentFileService.findByRelativeFilePathStartingWith(filePath);
+		for (GedDocumentFile f : results) {
+			f.getDocument().removeFile(f);
+			gedDocumentRepository.save(f.getDocument());
+			
+			if (f.getDocument().getDocumentFiles().isEmpty()) {
+				gedDocumentRepository.delete(f.getDocument());
+			}
+			
+			gedDocumentFileService.delete(f);
+		}
 	}
 	
 	
@@ -152,7 +162,7 @@ public final class GedDocumentService {
 	 * 
 	 * Words is a string where word are splited by space, and a matching item must match with any of the given words
 	 */
-	public static synchronized List<GedDocumentFile> searchForWords(String searchedWords) {
+	public  List<GedDocumentFile> searchForWords(String searchedWords) {
         List<GedDocumentFile> results = new ArrayList<>();
 
         List<GedDocument> matchingDocuments = ElasticSearchService.basicSearch(searchedWords);
@@ -169,11 +179,12 @@ public final class GedDocumentService {
 		return results;
 	}
 
+
     /**
      * Get all documents
-     */
-    public static List<GedDocument> getAllDocuments() {
-        return DocumentDAO.getAllGedDocuments();
+	*/
+    public List<GedDocument> findAll() {
+        return gedDocumentRepository.findAll();
     }
 	
 }

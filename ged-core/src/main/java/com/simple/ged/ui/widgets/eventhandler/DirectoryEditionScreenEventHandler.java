@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.DirectoryEditionScreen;
 
 import fr.xmichel.javafx.dialog.Dialog;
@@ -37,6 +38,14 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(DirectoryEditionScreenEventHandler.class);
 
+	// TODO : remove static
+	private static GedDirectoryService gedDirectoryService;
+	
+	static {
+		gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
+	}
+	
+	
 	/**
 	 * The managed object
 	 */
@@ -89,7 +98,7 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 			return;
 		}
 		
-		GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(directoryName);
+		GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(directoryName);
 		if (dir == null) {
 			logger.trace("Instanciate new directory");
 			dir = new GedDirectory();
@@ -98,7 +107,7 @@ public class DirectoryEditionScreenEventHandler implements EventHandler<KeyEvent
 		dir.setRelativeDirectoryPath(directoryName);
 		dir.setIconPath(targetLocationWithoutPrefix);
 		
-		GedDirectoryService.addOrUpdateDirectory(dir);
+		gedDirectoryService.save(dir);
 		
 		directoryEditionScreen.get().refreshScreens();
 		

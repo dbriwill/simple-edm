@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
@@ -38,10 +38,10 @@ public class DemoPluginTest {
 		SimpleGedGetterPlugin p = new DemoPlugin();
 		
 		// create properties list 
-		List<SimpleGedPluginProperty> properties = new ArrayList<>();
+		List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 		
 		// create the required properties
-		SimpleGedPluginProperty fileToCopy  = new SimpleGedPluginProperty();
+		SimpleGedPluginPropertyDTO fileToCopy  = new SimpleGedPluginPropertyDTO();
 		fileToCopy.setPropertyKey("file_to_copy");
 		fileToCopy.setPropertyValue(sourceFileAbsolutePath);
 		

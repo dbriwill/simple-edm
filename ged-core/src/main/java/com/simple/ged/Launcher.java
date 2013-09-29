@@ -6,10 +6,10 @@ import javafx.application.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.MainWindow;
 import com.simple.ged.update.UpdateInformations;
 
-import fr.xmichel.toolbox.hibernate.sqlite.HibernateUtil;
 import fr.xmichel.toolbox.tools.PropertiesHelper;
 
 
@@ -63,7 +63,7 @@ public final class Launcher {
 		
 		// create or update database
 		logger.info("open hibernate session...");
-		HibernateUtil.getSessionFactory().openSession();
+		SpringFactory.getAppContext();
 		
 		// complete update (messages)
 		logger.info("complete update...");

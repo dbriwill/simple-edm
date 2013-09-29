@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.simple.ged.models.*;
+import com.simple.ged.tools.SpringFactory;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 import com.simple.ged.connector.plugins.worker.SimpleGedWorkerPlugin;
 import com.simple.ged.plugins.PluginFactory.PluginFamily;
 import com.simple.ged.services.GedDocumentService;
-import com.simple.ged.services.MessageService;
-import com.simple.ged.services.PluginService;
+import com.simple.ged.services.GedMessageService;
+import com.simple.ged.services.GedPluginService;
 import com.simple.ged.ui.screen.SoftwareScreen;
 
 import fr.xmichel.toolbox.tools.DateHelper;
@@ -45,8 +46,13 @@ public final class PluginManager {
 	 * My logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(PluginManager.class);
-	
-	
+
+    private static GedMessageService gedMessageService = SpringFactory.getAppContext().getBean(GedMessageService.class);
+
+    private static GedPluginService gedPluginService = SpringFactory.getAppContext().getBean(GedPluginService.class);
+
+    private static GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+
 	/**
 	 * Should not be instantiated
 	 */
@@ -93,7 +99,7 @@ public final class PluginManager {
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
-				pluginList.add(PluginService.getPluginInformations(p));
+				pluginList.add(gedPluginService.getPluginInformations(p));
 			}
 		}
 
@@ -130,7 +136,7 @@ public final class PluginManager {
 			if ( p == null) {
 				logger.error("Couldn't load plugin : " + pluginFileName);
 			} else {
-				pluginList.add(PluginService.getPluginInformations(p));
+				pluginList.add(GedPluginService.getPluginInformations(p));
 			}
 		}
 
@@ -182,7 +188,7 @@ public final class PluginManager {
 					
 					if (shouldUpdate) {
 						try {
-							MessageService.addMessage(new GedMessage("NEUTRAL", "Début de récupération de document pour le plugin :" + p.getJarFileName()));
+							gedMessageService.save(new GedMessage("NEUTRAL", "Début de récupération de document pour le plugin :" + p.getJarFileName()));
 							
 							String destinationFileName = i.getDestinationFilePattern();
 							
@@ -197,7 +203,7 @@ public final class PluginManager {
 							
 							p.setDestinationFile(Profile.getInstance().getLibraryRoot() + i.getDestinationDirectory() + (i.getDestinationDirectory().isEmpty() ? "" : File.separator) + destinationFileName);
 							
-							p.setProperties(i.getPluginProperties());
+							p.setProperties(i.getPropertiesAsDTO());
 							
 							p.doGet();
 
@@ -222,16 +228,16 @@ public final class PluginManager {
                             }
 
                             gedDocument.setDocumentFiles(gedDocumentFiles);
-                            GedDocumentService.addOrUpdateDocument(gedDocument);
+                            gedDocumentService.save(gedDocument);
 
 							i.setLastUpdateDate(new GregorianCalendar().getTime());
-							PluginService.addOrUpdatePlugin(i);
-							
-							MessageService.addMessage(new GedMessage("INFO", "Récupération réussie pour le plugin " + p.getJarFileName() + "<br/>Nouveau fichier enregistré : " + p.getDestinationFile()));
+							gedPluginService.save(i);
+
+							gedMessageService.save(new GedMessage("INFO", "Récupération réussie pour le plugin " + p.getJarFileName() + "<br/>Nouveau fichier enregistré : " + p.getDestinationFile()));
 							
 						} catch (SimpleGedPluginException e1) {
 							
-							MessageService.addMessage(new GedMessage("ERROR", "Echec de récupération pour le plugin " + p.getJarFileName() + "<br/>Détail :<br/>" + e1.getStackTrace().toString()));
+							gedMessageService.save(new GedMessage("ERROR", "Echec de récupération pour le plugin " + p.getJarFileName() + "<br/>Détail :<br/>" + e1.getStackTrace().toString()));
 							
 							logger.error("[ " + p.getJarFileName() + " ] Error in plugin DoGet : ", e1);
 						} 
@@ -253,11 +259,11 @@ public final class PluginManager {
 	 */
 	public static void launchWorkerPlugin(final GedWorkerPlugin p, final SoftwareScreen ss) {
 		
-		MessageService.addMessage(new GedMessage("NEUTRAL", "Lancement de l'action pour le plugin :" + p.getPlugin().getJarFileName()));
+		gedMessageService.save(new GedMessage("NEUTRAL", "Lancement de l'action pour le plugin :" + p.getPlugin().getJarFileName()));
 		ss.notifyNewMessagesAvailable();
 		
 		try {
-			p.getPlugin().setProperties(p.getPluginProperties());
+			p.getPlugin().setProperties(p.getPropertiesAsDTO());
 		
 			GedFolderDTO rootNode = new GedFolderDTO("");
 			
@@ -291,7 +297,7 @@ public final class PluginManager {
 					for (File f : file.listFiles()) {
 
 						String relativePathToRoot = com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(f.getAbsolutePath());
-						
+	
 						if (f.isDirectory()) {
 							GedFolderDTO component = new GedFolderDTO(relativePathToRoot);
 							component.setGedFoldertDtoDataSourceListener(this);
@@ -302,7 +308,7 @@ public final class PluginManager {
 						if (f.isFile()) {
 							GedDocumentDTO component = new GedDocumentDTO(relativePathToRoot);
 							
-							GedDocument doc = GedDocumentService.findDocumentByFilePath(relativePathToRoot);
+							GedDocument doc = gedDocumentService.findDocumentByFilePath(relativePathToRoot);
 							
 							component.setDocumentDate(doc.getDate());
 							component.setDocumentDescription(doc.getDescription());
@@ -324,10 +330,10 @@ public final class PluginManager {
 			
 			String result = p.getPlugin().doWork(rootNode);
 			
-			MessageService.addMessage(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + result));
+			gedMessageService.save(new GedMessage("INFO", "Exécution réussie pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Résulat :<br/>" + result));
 		}
 		catch (SimpleGedPluginException e1) {
-			MessageService.addMessage(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + ExceptionUtils.getStackTrace(e1)));
+			gedMessageService.save(new GedMessage("ERROR", "Echec d'exécution pour le plugin " + p.getPlugin().getJarFileName() + "<br/>Détail :<br/>" + ExceptionUtils.getStackTrace(e1)));
 			
 			logger.error("[ " + p.getPlugin().getJarFileName() + " ] Error in plugin DoWork : ", e1);
 		}
