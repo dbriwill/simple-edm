@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.simple.ged.Profile;
+import com.simple.ged.tools.FileHelper;
 
 /**
  * DocumentDAO tests
@@ -16,7 +17,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testWindowsToUnixPath() {
         String windowPath = "C:\\temp\\test\\foo.txt";
-        String unixPath = GedDocumentService.forceUnixSeparator(windowPath);
+        String unixPath = FileHelper.forceUnixSeparator(windowPath);
         Assert.assertEquals(unixPath, "C:/temp/test/foo.txt");
     }
 
@@ -26,7 +27,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testWindowsToUnixPathMultiBackslash() {
         String windowPath = "C:\\temp\\test\\foo.txt";
-        String unixPath = GedDocumentService.forceUnixSeparator(windowPath);
+        String unixPath = FileHelper.forceUnixSeparator(windowPath);
         Assert.assertEquals(unixPath, "C:/temp/test/foo.txt");
     }
 
@@ -37,7 +38,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testKeepValidUnixPath() {
         String unixPath = "/tmp/test/foo.txt";
-        Assert.assertEquals(unixPath, GedDocumentService.forceUnixSeparator(unixPath));
+        Assert.assertEquals(unixPath, FileHelper.forceUnixSeparator(unixPath));
     }
 
     
@@ -52,7 +53,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(windowPath));
+        Assert.assertEquals("toto/foo.txt", FileHelper.getRelativeFromAbsolutePath(windowPath));
     }
     
     /**
@@ -66,6 +67,6 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", GedDocumentService.getRelativeFromAbsolutePath(unixPath));
+        Assert.assertEquals("toto/foo.txt", FileHelper.getRelativeFromAbsolutePath(unixPath));
     }
 }

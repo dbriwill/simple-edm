@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;
-import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.ui.screen.DirectoryEditionScreen;
 import com.simple.ged.ui.screen.SoftwareScreen;
 import com.simple.ged.ui.widgets.eventhandler.LibraryViewEventHandler;
@@ -111,7 +110,7 @@ public class LibraryView extends TreeView<String> {
 	 * Get the path to display in a tree node
 	 */
 	public static String convertToNodeName(String path) {
-		String unixPath = GedDocumentService.forceUnixSeparator(path);
+		String unixPath = com.simple.ged.tools.FileHelper.forceUnixSeparator(path);
 		String[] files = unixPath.split("/");
 		return files[files.length - 1];
 	}
@@ -169,9 +168,9 @@ public class LibraryView extends TreeView<String> {
  		// folder
  		if (new File(filePath).isDirectory()) {
  			
- 			logger.trace("ged icon for directory : {}", GedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			logger.trace("ged icon for directory : {}", com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(filePath));
  			
- 			GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(GedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			GedDirectory dir = GedDirectoryService.findDirectorybyDirectoryPath(com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(filePath));
  			
  			ImageView iv = null;
  			

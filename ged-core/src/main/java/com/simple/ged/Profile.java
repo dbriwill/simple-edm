@@ -82,7 +82,7 @@ public final class Profile implements Serializable {
 	 * Warning : the value isn't save, please call commit to save changes !
 	 */
 	public synchronized void setDocumentLibraryRoot(String newRoot) {
-		libraryRoot  = GedDocumentService.forceUnixSeparator(newRoot);
+		libraryRoot  = com.simple.ged.tools.FileHelper.forceUnixSeparator(newRoot);
 		libraryRoot += libraryRoot.endsWith("/") ? "" : "/";
 	}
 	
@@ -111,7 +111,7 @@ public final class Profile implements Serializable {
 	 * Note that the result should contains a final file separator
 	 */
 	public String getLibraryRoot() {
-		String unixFormatRoot = GedDocumentService.forceUnixSeparator(libraryRoot);
+		String unixFormatRoot = com.simple.ged.tools.FileHelper.forceUnixSeparator(libraryRoot);
 		return unixFormatRoot + (unixFormatRoot.endsWith("/") ? "" : "/");
 	}
 

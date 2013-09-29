@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,30 +42,14 @@ public final class GedDocumentService {
 	private GedDocumentService() {	
 	}
 	
-	
-	/**
-	 * Replace \\ by /, to keep unix like path in database
-	 */
-	public static String forceUnixSeparator(String s) {
-        // replace all \ by /
-        s = s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
 
-        // replace all // by /
-        while (s.contains(Matcher.quoteReplacement("//"))) {
-            s = s.replaceAll("//", "/");
-        }
-
-        return s;
-	}
-	
-	
 	/**
 	 * 
 	 * @param filePath
 	 *            The file path, relative to ged root
 	 */
 	public static GedDocument findDocumentByFilePath(String filePath) {
-		return DocumentDAO.findDocumentbyFilePath(forceUnixSeparator(filePath));
+		return DocumentDAO.findDocumentbyFilePath(FileHelper.forceUnixSeparator(filePath));
 	}
 
     /**
@@ -81,9 +64,8 @@ public final class GedDocumentService {
 	 * @param filePath
 	 *            The file path, relative to ged root
 	 */
-	public static GedDocument getDocumentFromFile(String filePath)
-	{
-		return DocumentDAO.findDocumentbyFilePath(forceUnixSeparator(filePath));
+	public static GedDocument getDocumentFromFile(String filePath) {
+		return DocumentDAO.findDocumentbyFilePath(FileHelper.forceUnixSeparator(filePath));
 	}
 	
 	/**
@@ -127,8 +109,8 @@ public final class GedDocumentService {
 			return;
 		}
 		
-		String oldNameUnixStyle = forceUnixSeparator(oldName);
-		String newNameUnixStyle = forceUnixSeparator(newName);
+		String oldNameUnixStyle = FileHelper.forceUnixSeparator(oldName);
+		String newNameUnixStyle = FileHelper.forceUnixSeparator(newName);
 		
 		if (oldNameUnixStyle.startsWith("/")) {
 			oldNameUnixStyle = oldNameUnixStyle.replaceFirst("/", "");
@@ -160,8 +142,8 @@ public final class GedDocumentService {
 			return;
 		}
 		
-		DirectoryDAO.deleteDirectory(forceUnixSeparator(filePath));
-		DocumentDAO.deleteFile(forceUnixSeparator(filePath));
+		DirectoryDAO.deleteDirectory(FileHelper.forceUnixSeparator(filePath));
+		DocumentDAO.deleteFile(FileHelper.forceUnixSeparator(filePath));
 	}
 	
 	
@@ -186,15 +168,6 @@ public final class GedDocumentService {
         
 		return results;
 	}
-	
-	
-	/**
-	 * Get relative file path from the absolute path
-	 */
-	public static String getRelativeFromAbsolutePath(String absolutePath) {
-		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
-	}
-
 
     /**
      * Get all documents

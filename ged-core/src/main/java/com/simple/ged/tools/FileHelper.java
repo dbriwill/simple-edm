@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocumentFile;
-import com.simple.ged.services.GedDocumentService;
 
 /**
  * This class provide tools for managing files
@@ -27,12 +27,33 @@ public final class FileHelper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileHelper.class);
 	
+
 	
 	/**
-	 * Should not be instantiated
+	 * Replace \\ by /, to keep unix path like path !
 	 */
-	private FileHelper() {
+	public static String forceUnixSeparator(String s) {
+        // replace all \ by /
+        s = s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
+
+        // replace all // by /
+        while (s.contains(Matcher.quoteReplacement("//"))) {
+            s = s.replaceAll("//", "/");
+        }
+
+        return s;
 	}
+	
+	
+	/**
+	 * Get relative file path from the absolute path
+	 * 
+	 * @warning Returns a unix path like (separator : '/')
+	 */
+	public static String getRelativeFromAbsolutePath(String absolutePath) {
+		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
+	}
+	
 	
 	/**
 	 * Copy the file in the library if necessary (if the file is not even in
@@ -51,7 +72,7 @@ public final class FileHelper {
 	 */
 	private static GedDocumentFile copyFileIfNecessary(File file, File directoryTarget, String fileName) {
 
-		String fileUnixPath = GedDocumentService.forceUnixSeparator(file.getAbsolutePath());
+		String fileUnixPath = forceUnixSeparator(file.getAbsolutePath());
 		
 		if (fileUnixPath.startsWith(Profile.getInstance().getLibraryRoot())) {
 			// nothing to copy
@@ -78,7 +99,7 @@ public final class FileHelper {
 			logger.error("Cannot copy file : " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
 		}
 		
-		return new GedDocumentFile(GedDocumentService.forceUnixSeparator(target.getAbsolutePath()).replaceFirst(Profile.getInstance().getLibraryRoot(), ""));
+		return new GedDocumentFile(forceUnixSeparator(target.getAbsolutePath()).replaceFirst(Profile.getInstance().getLibraryRoot(), ""));
 	}
 
 	/**
