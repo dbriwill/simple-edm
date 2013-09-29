@@ -10,6 +10,8 @@ import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 import com.simple.ged.tools.SpringFactory;
 
+import fr.xmichel.toolbox.tools.DateTokenGetter;
+
 /**
  * DocumentDAO tests
  */
@@ -83,20 +85,19 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void testFindByRelativeFilePath() {
-    	String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-core") ? "" : "/ged-core") + "/target/";
-    	Profile.getInstance().setDocumentLibraryRoot(targetDirAbsolutePath);
-    	
     	GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
+    	
+    	String fakeFile = "some_file_name.fake";
     	
     	GedDocument doc = new GedDocument();
     	doc.setDate(new Date());
     	doc.setName("Diplome du bac");
     	doc.setDescription("Bla");
-    	doc.addFile(new GedDocumentFile("test-classes/demo_pdf.pdf"));
+    	doc.addFile(new GedDocumentFile(fakeFile));
   
     	gedDocumentService.save(doc);
   
-    	GedDocument docFound = gedDocumentService.findDocumentByFilePath("test-classes/demo_pdf.pdf");
+    	GedDocument docFound = gedDocumentService.findDocumentByFilePath(fakeFile);
     	
     	Assert.assertNotNull(docFound);
     	Assert.assertEquals(doc, docFound);
