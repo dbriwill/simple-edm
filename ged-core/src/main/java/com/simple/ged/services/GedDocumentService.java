@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,45 +39,11 @@ public class GedDocumentService {
 
 	
 	private GedDocumentRepository gedDocumentRepository = SpringFactory.getAppContext().getBean(GedDocumentRepository.class);
-	
+
 	private GedDocumentFileService gedDocumentFileService = SpringFactory.getAppContext().getBean(GedDocumentFileService.class);
-	
+
 	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
-
-	/**
-	 * Replace \\ by /, to keep unix like path in database
-	 */
-	public static String forceUnixSeparator(String s) {
-        // replace all \ by /
-        s = s.replaceAll(Matcher.quoteReplacement("\\"), Matcher.quoteReplacement("/"));
-
-        // replace all // by /
-        while (s.contains(Matcher.quoteReplacement("//"))) {
-            s = s.replaceAll("//", "/");
-        }
-
-        return s;
-	}
-	
-	
-	/**
-	 * Get relative file path from the absolute path
-	 */
-	public String getRelativeFromAbsolutePath(String absolutePath) {
-		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
-	}
-	
-
-	/**
-	 * 
-	 * @param filePath
-	 *            The file path, relative to ged root
-	 */
-	public GedDocument findDocumentByFilePath(String filePath) {
-		return gedDocumentRepository.findByDocumentFilesRelativeFilePath(forceUnixSeparator(filePath));
-	}
-
 	
     /**
      * Ged document by id
@@ -86,8 +51,16 @@ public class GedDocumentService {
     public GedDocument findDocumentById(Integer id) {
         return gedDocumentRepository.findOne(id);
     }
+    
+    
+    /**
+     * Get document by filePath
+     */
+    public GedDocument findDocumentByFilePath(String relativeFilePath) {
+		return gedDocumentRepository.findByDocumentFilesRelativeFilePath(relativeFilePath);
+    }
+    
 	
-
 	/**
 	 * Add or update the given document
 	 */
@@ -129,8 +102,8 @@ public class GedDocumentService {
 			return;
 		}
 		
-		String oldNameUnixStyle = forceUnixSeparator(oldName);
-		String newNameUnixStyle = forceUnixSeparator(newName);
+		String oldNameUnixStyle = FileHelper.forceUnixSeparator(oldName);
+		String newNameUnixStyle = FileHelper.forceUnixSeparator(newName);
 		
 		if (oldNameUnixStyle.startsWith("/")) {
 			oldNameUnixStyle = oldNameUnixStyle.replaceFirst("/", "");
@@ -168,7 +141,7 @@ public class GedDocumentService {
 			return;
 		}
 		
-		gedDirectoryService.deleteDirectory(forceUnixSeparator(filePath));
+		gedDirectoryService.deleteDirectory(FileHelper.forceUnixSeparator(filePath));
 		
 		List<GedDocumentFile> results = gedDocumentFileService.findByRelativeFilePathStartingWith(filePath);
 		for (GedDocumentFile f : results) {
@@ -205,7 +178,7 @@ public class GedDocumentService {
         
 		return results;
 	}
-	
+
 
     /**
      * Get all documents

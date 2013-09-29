@@ -8,9 +8,9 @@ import org.junit.Test;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
+import com.simple.ged.tools.FileHelper;
 import com.simple.ged.tools.SpringFactory;
 
-import fr.xmichel.toolbox.tools.DateTokenGetter;
 
 /**
  * DocumentDAO tests
@@ -26,7 +26,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testWindowsToUnixPath() {
         String windowPath = "C:\\temp\\test\\foo.txt";
-        String unixPath = GedDocumentService.forceUnixSeparator(windowPath);
+        String unixPath = FileHelper.forceUnixSeparator(windowPath);
         Assert.assertEquals(unixPath, "C:/temp/test/foo.txt");
     }
 
@@ -36,7 +36,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testWindowsToUnixPathMultiBackslash() {
         String windowPath = "C:\\temp\\test\\foo.txt";
-        String unixPath = GedDocumentService.forceUnixSeparator(windowPath);
+        String unixPath = FileHelper.forceUnixSeparator(windowPath);
         Assert.assertEquals(unixPath, "C:/temp/test/foo.txt");
     }
 
@@ -47,7 +47,7 @@ public class GedDocumentServiceTest {
     @Test
     public void testKeepValidUnixPath() {
         String unixPath = "/tmp/test/foo.txt";
-        Assert.assertEquals(unixPath, GedDocumentService.forceUnixSeparator(unixPath));
+        Assert.assertEquals(unixPath, FileHelper.forceUnixSeparator(unixPath));
     }
 
     
@@ -62,7 +62,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", gedDocumentService.getRelativeFromAbsolutePath(windowPath));
+        Assert.assertEquals("toto/foo.txt", FileHelper.getRelativeFromAbsolutePath(windowPath));
     }
     
     /**
@@ -76,7 +76,7 @@ public class GedDocumentServiceTest {
         Profile.getInstance().setDocumentLibraryRoot(gedRoot);
         Profile.getInstance().commitChanges();
         
-        Assert.assertEquals("toto/foo.txt", gedDocumentService.getRelativeFromAbsolutePath(unixPath));
+        Assert.assertEquals("toto/foo.txt", FileHelper.getRelativeFromAbsolutePath(unixPath));
     }
     
     
@@ -85,8 +85,6 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void testFindByRelativeFilePath() {
-    	GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
-    	
     	String fakeFile = "some_file_name.fake";
     	
     	GedDocument doc = new GedDocument();
@@ -99,7 +97,7 @@ public class GedDocumentServiceTest {
   
     	GedDocument docFound = gedDocumentService.findDocumentByFilePath(fakeFile);
     	
-    	Assert.assertNotNull(docFound);
-    	Assert.assertEquals(doc, docFound);
+    	Assert.assertNotNull(docFound); 	
+        Assert.assertEquals(doc, docFound);
     }
 }

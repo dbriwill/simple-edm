@@ -224,7 +224,7 @@ public final class PluginManager {
                             });
 
                             for (File f : files) {
-                                gedDocumentFiles.add(new GedDocumentFile(gedDocumentService.getRelativeFromAbsolutePath(f.getAbsolutePath())));
+                                gedDocumentFiles.add(new GedDocumentFile(com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(f.getAbsolutePath())));
                             }
 
                             gedDocument.setDocumentFiles(gedDocumentFiles);
@@ -296,8 +296,8 @@ public final class PluginManager {
 					}
 					for (File f : file.listFiles()) {
 
-						String relativePathToRoot = gedDocumentService.getRelativeFromAbsolutePath(f.getAbsolutePath());
-						
+						String relativePathToRoot = com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(f.getAbsolutePath());
+	
 						if (f.isDirectory()) {
 							GedFolderDTO component = new GedFolderDTO(relativePathToRoot);
 							component.setGedFoldertDtoDataSourceListener(this);

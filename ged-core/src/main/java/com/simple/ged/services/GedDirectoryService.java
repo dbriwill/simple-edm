@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.simple.ged.dao.GedDirectoryRepository;
 import com.simple.ged.models.GedDirectory;
+import com.simple.ged.tools.FileHelper;
 import com.simple.ged.tools.SpringFactory;
 
 /**
@@ -38,7 +39,7 @@ public class GedDirectoryService {
 	 */
 	public GedDirectory findDirectoryByDirectoryPath(String directoryPath) {
 		logger.debug("Find directory for path : {}", directoryPath);
-		return directoryRepository.findByRelativeDirectoryPath(GedDocumentService.forceUnixSeparator(directoryPath));
+		return directoryRepository.findByRelativeDirectoryPath(FileHelper.forceUnixSeparator(directoryPath));
 	}
 
 	

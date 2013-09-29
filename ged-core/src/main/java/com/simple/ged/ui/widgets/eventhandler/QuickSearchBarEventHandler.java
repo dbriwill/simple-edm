@@ -1,7 +1,10 @@
 package com.simple.ged.ui.widgets.eventhandler;
 
 import java.lang.ref.WeakReference;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +26,11 @@ import com.simple.ged.ui.widgets.QuickSearchBar;
 public class QuickSearchBarEventHandler implements EventHandler<KeyEvent> {
 
 	/**
+	 * Auto-submit time in ms
+	 */
+	private static final long AUTO_SUBMIT_TIME_IN_MS = 1000;
+	
+	/**
 	 * The logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(QuickSearchBarEventHandler.class);
@@ -31,6 +39,11 @@ public class QuickSearchBarEventHandler implements EventHandler<KeyEvent> {
 	 * The watched widget
 	 */
 	private WeakReference<QuickSearchBar> quickSearchBar;
+	
+	/**
+	 * Timer for auto submit
+	 */
+	private Timer timer;
 	
 	/**
 	 * Event listener
@@ -48,6 +61,24 @@ public class QuickSearchBarEventHandler implements EventHandler<KeyEvent> {
 		if (quickSearchBar.get().getSeachPatternInput().getText().isEmpty() || arg0.getCode().equals(KeyCode.ENTER)) {
 			search();
 		}
+		
+		// auto submit search
+		try {
+			timer.cancel();
+			timer.purge();
+		} catch (Exception e) { /* can be null or already canceled, it's not a blocker functionality ! */ }
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+				      @Override public void run() {
+				    	  	search();
+				      }
+				});
+			}
+		}, AUTO_SUBMIT_TIME_IN_MS);
+		// end of auto submit search
 	}
 	
 	

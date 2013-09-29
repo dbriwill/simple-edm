@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.simple.ged.Profile;
 import com.simple.ged.models.GedDirectory;
 import com.simple.ged.services.GedDirectoryService;
-import com.simple.ged.services.GedDocumentService;
 import com.simple.ged.tools.SpringFactory;
 import com.simple.ged.ui.screen.DirectoryEditionScreen;
 import com.simple.ged.ui.screen.SoftwareScreen;
@@ -49,7 +48,6 @@ public class LibraryView extends TreeView<String> {
 	
 	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
-	
 	/**
 	 * Some faking (yes it's a 'A') node which is a fake children (for expandable property)
 	 */
@@ -70,10 +68,6 @@ public class LibraryView extends TreeView<String> {
 	 * The software properties
 	 */
 	private static final Properties properties = PropertiesHelper.getInstance().getProperties();
-	
-	
-	private GedDocumentService gedDocumentService = SpringFactory.getAppContext().getBean(GedDocumentService.class);
-	
 	
 	/**
 	 * My parent
@@ -119,7 +113,7 @@ public class LibraryView extends TreeView<String> {
 	 * Get the path to display in a tree node
 	 */
 	public static String convertToNodeName(String path) {
-		String unixPath = GedDocumentService.forceUnixSeparator(path);
+		String unixPath = com.simple.ged.tools.FileHelper.forceUnixSeparator(path);
 		String[] files = unixPath.split("/");
 		return files[files.length - 1];
 	}
@@ -177,9 +171,9 @@ public class LibraryView extends TreeView<String> {
  		// folder
  		if (new File(filePath).isDirectory()) {
  			
- 			logger.trace("ged icon for directory : {}", gedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			logger.trace("ged icon for directory : {}", com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(filePath));
  			
- 			GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(gedDocumentService.getRelativeFromAbsolutePath(filePath));
+ 			GedDirectory dir = gedDirectoryService.findDirectoryByDirectoryPath(com.simple.ged.tools.FileHelper.getRelativeFromAbsolutePath(filePath));
  			
  			ImageView iv = null;
  			
