@@ -3,6 +3,7 @@ package com.simple.ged.services;
 import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -34,8 +36,6 @@ import com.simple.ged.Profile;
 import com.simple.ged.models.GedDocument;
 import com.simple.ged.models.GedDocumentFile;
 import com.simple.ged.tools.SpringFactory;
-
-import fr.xmichel.toolbox.tools.FileHelper;
 
 /**
  * Service for using Elastic search
@@ -85,17 +85,26 @@ public class ElasticSearchService {
     static {
 
         // make sur plugin can be loaded before starting ES
-        try {
-            String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
-            if (! FileHelper.folderExists(mapperPluginAttachmentsDir)) {
-                logger.info("elasticsearch-mapper-attachments not deployed yet, I'll do it now !");
-                com.simple.ged.tools.FileHelper.extractZip("embedded/elasticsearch-mapper-attachments-1.7.0.zip", mapperPluginAttachmentsDir);
-                logger.info("elasticsearch-mapper-attachments deployed");
-            }
-        }
-        catch (Exception e) {
-            logger.error("Failed to deploy elasticsearch-mapper-attachments plugin", e);
-        }
+    	
+    	// inheritance from old plugin management ...
+    	try {
+    		String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
+			FileUtils.deleteDirectory(new File(mapperPluginAttachmentsDir));
+		} catch (IOException e) {
+			logger.warn("Failed to delete the old ES plugins dir, may not exists...");
+		}
+    	
+//        try {
+//            if (! FileHelper.folderExists(mapperPluginAttachmentsDir)) {
+//                logger.info("elasticsearch-mapper-attachments not deployed yet, I'll do it now !");
+//                com.simple.ged.tools.FileHelper.extractZip("embedded/elasticsearch-mapper-attachments-1.7.0.zip", mapperPluginAttachmentsDir);
+//                logger.info("elasticsearch-mapper-attachments deployed");
+//            }
+//        }
+//        catch (Exception e) {
+//            logger.error("Failed to deploy elasticsearch-mapper-attachments plugin", e);
+//        }
+    	// end of inheritance from old plugin management ...
 
         // now we can start ES
         node = NodeBuilder.nodeBuilder().node();

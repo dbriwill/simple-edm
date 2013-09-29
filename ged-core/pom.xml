@@ -30,7 +30,8 @@
 
         <ehcache.version>2.6.6</ehcache.version>
 
-        <org.elasticsearch.version>0.90.1</org.elasticsearch.version>
+        <org.elasticsearch.version>0.90.5</org.elasticsearch.version>
+        <org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
 
 		<org.xerial.sqlite-jdbc.version>3.7.2</org.xerial.sqlite-jdbc.version>
 		
@@ -416,6 +417,12 @@
             <version>${org.elasticsearch.version}</version>
         </dependency>
 
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch-mapper-attachments</artifactId>
+			<version>${org.elasticsearch.elasticsearch-mapper-attachments.version}</version>
+		</dependency>
+		            
 
 		<!-- Autres -->
 
