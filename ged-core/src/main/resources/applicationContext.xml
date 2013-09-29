@@ -32,8 +32,8 @@
         <prop key="dataSource.username"></prop>
         <prop key="dataSource.password"></prop>
 
-        <prop key="dataSource.minConnectionsPerPartition">0</prop>
-        <prop key="dataSource.maxConnectionsPerPartition">10</prop>
+        <prop key="dataSource.minConnectionsPerPartition">1</prop>
+        <prop key="dataSource.maxConnectionsPerPartition">1</prop>
         <prop key="dataSource.partitionCount">1</prop>
 
         <prop key="dataSource.idleConnectionTestPeriodInSeconds">60</prop>

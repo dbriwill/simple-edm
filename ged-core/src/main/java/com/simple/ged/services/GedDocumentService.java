@@ -45,10 +45,7 @@ public class GedDocumentService {
 	
 	private GedDirectoryService gedDirectoryService = SpringFactory.getAppContext().getBean(GedDirectoryService.class);
 	
-	
-	
-	/*** GET OUT THIS IN NEW CLASS ***/
-	
+
 	/**
 	 * Replace \\ by /, to keep unix like path in database
 	 */
@@ -72,11 +69,7 @@ public class GedDocumentService {
 		return forceUnixSeparator(forceUnixSeparator(absolutePath).replaceFirst(forceUnixSeparator(Profile.getInstance().getLibraryRoot()), ""));
 	}
 	
-	
-	/************************************/
-	
-	
-	
+
 	/**
 	 * 
 	 * @param filePath
