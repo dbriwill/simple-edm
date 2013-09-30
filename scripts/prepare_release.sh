@@ -198,7 +198,7 @@ cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
 cp ged-core/target/jfx/app/ged-core-${CORE_MAVEN_VERSION}-jfx.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
-
+cp ged-core/target/jfx/app/ged-core-${CORE_MAVEN_VERSION}-jfx.jar "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar"
 
 mkdir -p ${RELEASE_DIR_TARGET}/lib/
 for dir_resource in ged-core/target/jfx/app/lib
@@ -213,9 +213,6 @@ if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
 then
 	cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_TARGET}"
 fi
-
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_TARGET}"
-
 
 
 # javadoc
