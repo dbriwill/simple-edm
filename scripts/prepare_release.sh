@@ -166,6 +166,11 @@ then
 	exit 1
 fi
 
+# special core pour javafx . Si on le souhaitais, les tests ont déjà été fait juste avant
+cd ged-core
+mvn jfx:jar -Dmaven.test.skip=true
+cd -
+
 
 #
 # Regrouppement des fichiers pour la release
@@ -192,21 +197,14 @@ cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 
 cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
-
+cp ged-core/target/jfx/app/ged-core-${CORE_MAVEN_VERSION}-jfx.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+cp ged-core/target/jfx/app/ged-core-${CORE_MAVEN_VERSION}-jfx.jar "${RELEASE_TARGET}/ged-core-${CORE_MAVEN_VERSION}.jar"
 
 mkdir -p ${RELEASE_DIR_TARGET}/lib/
-for dir_resource in ged-core/target/lib
+for dir_resource in ged-core/target/jfx/app/lib
 do
 	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
 done
-
-mkdir -p ${RELEASE_DIR_TARGET}/embedded/
-for dir_resource in ged-core/target/embedded
-do
-	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
-done
-
 
 
 # les versions pour mise a jour (que les jars qui ont changes)
@@ -215,9 +213,6 @@ if [ "${UPDATER_IS_TO_UPDATE}" == "1" ]
 then
 	cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_TARGET}"
 fi
-
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_TARGET}"
-
 
 
 # javadoc
@@ -256,11 +251,6 @@ if [ ! -d "${FINAL_RELEASE_DIRECTORY_LIB}" ]
 then
 	mkdir -p "${FINAL_RELEASE_DIRECTORY_LIB}"
 fi
-FINAL_RELEASE_DIRECTORY_EMB="${FINAL_RELEASE_DIRECTORY}/embedded"
-if [ ! -d "${FINAL_RELEASE_DIRECTORY_EMB}" ]
-then
-	mkdir -p "${FINAL_RELEASE_DIRECTORY_EMB}"
-fi
 
 
 for dependency in $(ls ${RELEASE_DIR_TARGET}/lib)
@@ -279,31 +269,12 @@ EOL
 done
 
 
-for dependency in $(ls ${RELEASE_DIR_TARGET}/embedded)
-do
-	echo "Checking for embedding : $dependency"
-	if [ ! -e "${FINAL_RELEASE_DIRECTORY_EMB}/${dependency}" ]
-	then
-		cp  "${RELEASE_DIR_TARGET}/embedded/${dependency}" "${FINAL_RELEASE_DIRECTORY_EMB}"
-	fi
-		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
-		<file>
-			<url>http://ged90.googlecode.com/git/embedded/${dependency}</url>
-			<destination>embedded/${dependency}</destination>
-		</file>
-EOL
-done
-
-
-
 cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
 	</files>
 </version>
 EOL
 
 sed -i -e "s/CURRENT_VERSION/${CORE_MAVEN_VERSION}/g" "${RELEASE_TARGET}/last_version.xml"
-
-
 
 
 
