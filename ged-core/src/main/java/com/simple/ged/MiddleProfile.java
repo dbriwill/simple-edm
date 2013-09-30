@@ -83,7 +83,7 @@ public final class MiddleProfile implements Serializable {
 		for (Double newVersion : versionsWithChangelog) {
 			if (lastKnownVersion < newVersion) {
 				logger.info("Completing update to version {} ...", newVersion);
-				gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_" + String.valueOf(lastKnownVersion).replaceFirst("\\.", "") + "_msg")));
+				gedMessageService.save(new GedMessage("NEUTRAL", properties.getProperty("update_" + String.valueOf(newVersion).replaceFirst("\\.", "") + "_msg")));
 				lastKnownVersion = newVersion;
 			}
 		}

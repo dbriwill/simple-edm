@@ -11,7 +11,7 @@
 	<groupId>fr.simple.ged.plugin</groupId>
 	<artifactId>sfr-mobile-plugin</artifactId>
 	<name>SFR Mobile Plugin</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 
 	<build>
 		<plugins>

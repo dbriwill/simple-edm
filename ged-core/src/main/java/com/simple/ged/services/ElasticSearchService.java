@@ -89,6 +89,7 @@ public class ElasticSearchService {
     	// inheritance from old plugin management ...
     	try {
     		String mapperPluginAttachmentsDir = ES_PLUGIN_DIR + "mapper-attachments-1.7.0/";
+    		(new File("embedded/elasticsearch-mapper-attachments-1.7.0.zip")).delete();
 			FileUtils.deleteDirectory(new File(mapperPluginAttachmentsDir));
 		} catch (IOException e) {
 			logger.warn("Failed to delete the old ES plugins dir, may not exists...");
