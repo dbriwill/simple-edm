@@ -166,6 +166,11 @@ then
 	exit 1
 fi
 
+# special core pour javafx . Si on le souhaitais, les tests ont déjà été fait juste avant
+cd ged-core
+mvn jfx:jar -Dmaven.test.skip=true
+cd -
+
 
 #
 # Regrouppement des fichiers pour la release
@@ -192,11 +197,11 @@ cp ged-core/dll/AspriseJTwain.dll "${RELEASE_DIR_TARGET}"
 
 cp ged-update/target/ged-update-${UPDATER_MAVEN_VERSION}-jar-with-dependencies.jar "${RELEASE_DIR_TARGET}/simpleGedUpdateSystem.jar"
 
-cp ged-core/target/ged-core-${CORE_MAVEN_VERSION}.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
+cp ged-core/target/jfx/app/ged-core-${CORE_MAVEN_VERSION}-jfx.jar "${RELEASE_DIR_TARGET}/simple_ged.jar"
 
 
 mkdir -p ${RELEASE_DIR_TARGET}/lib/
-for dir_resource in ged-core/target/lib
+for dir_resource in ged-core/target/jfx/app/lib
 do
 	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
 done

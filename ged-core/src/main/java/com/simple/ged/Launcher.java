@@ -1,6 +1,8 @@
 package com.simple.ged;
 
 
+import java.io.File;
+
 import javafx.application.Application;
 
 import org.slf4j.Logger;
@@ -60,6 +62,12 @@ public final class Launcher {
 		logger.info("os.name                    : " + System.getProperty("os.name"));
 		logger.info("os.version                 : " + System.getProperty("os.version"));
 		logger.info("==========================================================================");
+		
+		// delete old errors...
+		try {
+			// delete embedded javafx if exists
+			(new File("lib/javafx-2.2.jar")).delete();
+		} catch(Exception e) {}
 		
 		// create or update database
 		logger.info("open hibernate session...");
