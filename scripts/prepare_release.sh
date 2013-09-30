@@ -201,13 +201,6 @@ do
 	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
 done
 
-mkdir -p ${RELEASE_DIR_TARGET}/embedded/
-for dir_resource in ged-core/target/embedded
-do
-	cp -r "${dir_resource}" "${RELEASE_DIR_TARGET}"
-done
-
-
 
 # les versions pour mise a jour (que les jars qui ont changes)
 
@@ -256,11 +249,6 @@ if [ ! -d "${FINAL_RELEASE_DIRECTORY_LIB}" ]
 then
 	mkdir -p "${FINAL_RELEASE_DIRECTORY_LIB}"
 fi
-FINAL_RELEASE_DIRECTORY_EMB="${FINAL_RELEASE_DIRECTORY}/embedded"
-if [ ! -d "${FINAL_RELEASE_DIRECTORY_EMB}" ]
-then
-	mkdir -p "${FINAL_RELEASE_DIRECTORY_EMB}"
-fi
 
 
 for dependency in $(ls ${RELEASE_DIR_TARGET}/lib)
@@ -279,31 +267,12 @@ EOL
 done
 
 
-for dependency in $(ls ${RELEASE_DIR_TARGET}/embedded)
-do
-	echo "Checking for embedding : $dependency"
-	if [ ! -e "${FINAL_RELEASE_DIRECTORY_EMB}/${dependency}" ]
-	then
-		cp  "${RELEASE_DIR_TARGET}/embedded/${dependency}" "${FINAL_RELEASE_DIRECTORY_EMB}"
-	fi
-		cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
-		<file>
-			<url>http://ged90.googlecode.com/git/embedded/${dependency}</url>
-			<destination>embedded/${dependency}</destination>
-		</file>
-EOL
-done
-
-
-
 cat >> "${RELEASE_TARGET}/last_version.xml" <<EOL
 	</files>
 </version>
 EOL
 
 sed -i -e "s/CURRENT_VERSION/${CORE_MAVEN_VERSION}/g" "${RELEASE_TARGET}/last_version.xml"
-
-
 
 
 
