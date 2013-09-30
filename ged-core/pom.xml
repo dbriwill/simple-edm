@@ -18,34 +18,34 @@
 	<properties>
 		<fr.xmichel.toolbox.version>1.0.2</fr.xmichel.toolbox.version>
 		<fr.xmichel.javafx.version>1.0.4</fr.xmichel.javafx.version>
-		
+
 		<org.slf4j.version>1.7.2</org.slf4j.version>
 		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
-		
+
 		<org.hibernate.core.version>4.2.5.Final</org.hibernate.core.version>
 		<!-- <org.hibernate.ejb-persistence.version>1.0.2.GA</org.hibernate.ejb-persistence.version> -->
-		<!-- <org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version>  -->
-        <org.hibernate.hibernate-ehcache.version>4.2.5.Final</org.hibernate.hibernate-ehcache.version>
-        <org.hibernate.hibernate-entitymanager.version>4.2.5.Final</org.hibernate.hibernate-entitymanager.version>
+		<!-- <org.hibernate.annotation.version>3.5.6-Final</org.hibernate.annotation.version> -->
+		<org.hibernate.hibernate-ehcache.version>4.2.5.Final</org.hibernate.hibernate-ehcache.version>
+		<org.hibernate.hibernate-entitymanager.version>4.2.5.Final</org.hibernate.hibernate-entitymanager.version>
 
-        <ehcache.version>2.6.6</ehcache.version>
+		<ehcache.version>2.6.6</ehcache.version>
 
-        <org.elasticsearch.version>0.90.5</org.elasticsearch.version>
-        <org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
+		<org.elasticsearch.version>0.90.5</org.elasticsearch.version>
+		<org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
 
 		<org.xerial.sqlite-jdbc.version>3.7.2</org.xerial.sqlite-jdbc.version>
-		
+
 		<common.beanutils.version>1.8.3</common.beanutils.version>
 		<common.validator.version>1.4.0</common.validator.version>
 		<commons.lang.version>2.6</commons.lang.version>
 
-        <spring.version>3.2.3.RELEASE</spring.version>
-        <spring.data.jpa.version>1.3.4.RELEASE</spring.data.jpa.version>
-        <spring.data.commons.version>1.5.2.RELEASE</spring.data.commons.version>
+		<spring.version>3.2.3.RELEASE</spring.version>
+		<spring.data.jpa.version>1.3.4.RELEASE</spring.data.jpa.version>
+		<spring.data.commons.version>1.5.2.RELEASE</spring.data.commons.version>
 
-        <bonecp.spring.version>0.7.1.RELEASE</bonecp.spring.version>
+		<bonecp.spring.version>0.7.1.RELEASE</bonecp.spring.version>
 
-        <google.guava.version>14.0.1</google.guava.version>
+		<google.guava.version>14.0.1</google.guava.version>
 	</properties>
 
 
@@ -58,8 +58,8 @@
 				<configuration>
 					<archive>
 						<manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>com.simple.ged.Launcher</mainClass>
 						</manifest>
 					</archive>
@@ -68,59 +68,63 @@
 					<execution>
 						<id>make-assembly</id>
 						<phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
+						<goals>
+							<goal>jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources-embedded</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/embedded/</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>embedded/</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources-embedded</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/embedded/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>embedded/</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<mainClass>com.simple.ged.Launcher</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 
 	<repositories>
-		<!--  
-		<repository>
-			<id>xaviermichel-snapshots</id>
-			<url>https://github.com/xaviermichel/maven-repo/raw/master/snapshots</url>
-		</repository>
-		-->
+		<!-- <repository> <id>xaviermichel-snapshots</id> <url>https://github.com/xaviermichel/maven-repo/raw/master/snapshots</url> 
+			</repository> -->
 		<repository>
 			<id>xaviermichel-releases</id>
 			<url>https://github.com/xaviermichel/maven-repo/raw/master/releases</url>
@@ -208,11 +212,8 @@
 			<version>1.0.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-			<version>2.2</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>javafx</artifactId> 
+			<version>2.2</version> </dependency> -->
 
 		<!-- Dans les repos -->
 
@@ -251,110 +252,110 @@
 
 		<!-- Spring -->
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-            <version>${spring.data.commons.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring.data.jpa.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-jdbc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-orm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>${spring.data.commons.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 
-        <!-- Bonecp -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.jpa.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jdbc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-orm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp-spring</artifactId>
-            <version>${bonecp.spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
+		<!-- Bonecp -->
+
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp-spring</artifactId>
+			<version>${bonecp.spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 
 		<!-- Hibernate -->
@@ -365,40 +366,31 @@
 			<version>${org.hibernate.core.version}</version>
 		</dependency>
 
-        <!--
+		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>ejb3-persistence</artifactId> 
+			<version>${org.hibernate.ejb-persistence.version}</version> </dependency> 
+			<dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-annotations</artifactId> 
+			<version>${org.hibernate.annotation.version}</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>ejb3-persistence</artifactId>
-			<version>${org.hibernate.ejb-persistence.version}</version>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${org.hibernate.hibernate-ehcache.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>${org.hibernate.annotation.version}</version>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${org.hibernate.hibernate-entitymanager.version}</version>
 		</dependency>
-		-->
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${org.hibernate.hibernate-ehcache.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${org.hibernate.hibernate-entitymanager.version}</version>
-        </dependency>
 
 
-        <!-- ehcache -->
+		<!-- ehcache -->
 
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>${ehcache.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
 
 
 		<!-- SQLite driver -->
@@ -409,20 +401,20 @@
 			<version>${org.xerial.sqlite-jdbc.version}</version>
 		</dependency>
 
-        <!-- Elastic search -->
+		<!-- Elastic search -->
 
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>${org.elasticsearch.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch-mapper-attachments</artifactId>
 			<version>${org.elasticsearch.elasticsearch-mapper-attachments.version}</version>
 		</dependency>
-		            
+
 
 		<!-- Autres -->
 
@@ -457,13 +449,13 @@
 		</dependency>
 
 
-        <!-- Google -->
+		<!-- Google -->
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${google.guava.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${google.guava.version}</version>
+		</dependency>
 
 	</dependencies>
 
