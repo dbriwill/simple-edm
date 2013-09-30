@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.simple.ged.connector.plugins.SimpleGedPluginProperty;
+import com.simple.ged.connector.plugins.dto.SimpleGedPluginPropertyDTO;
 import com.simple.ged.connector.plugins.feedback.SimpleGedPluginException;
 import com.simple.ged.connector.plugins.getter.SimpleGedGetterPlugin;
 
@@ -35,10 +35,10 @@ public class SimplePlugin extends SimpleGedGetterPlugin {
 		SimpleGedGetterPlugin p = new DemoPlugin();
 		
 		// create properties list 
-		List<SimpleGedPluginProperty> properties = new ArrayList<>();
+		List<SimpleGedPluginPropertyDTO> properties = new ArrayList<>();
 		
 		// create the required properties
-		SimpleGedPluginProperty fileToCopy  = new SimpleGedPluginProperty();
+		SimpleGedPluginPropertyDTO fileToCopy  = new SimpleGedPluginPropertyDTO();
 		fileToCopy.setPropertyKey("file_to_copy");
 		fileToCopy.setPropertyValue("/tmp/foo.txt");
 		
