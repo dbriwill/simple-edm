@@ -16,17 +16,9 @@ Plugins
 
 _Une fois le plugin téléchargé, voir [comment installer un plugin](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-un-plugin)._
 
-### Orange
+Il exite des plugins pour les mobiles orange/sfr et pour la box de sfr, [voir la liste](https://sourceforge.net/projects/simpleged/files/plugins/).
 
-[Plugin mobile](http://master.dl.sourceforge.net/project/simpleged/plugins/orange-mobile/orange-ged-plugin-1.3-jar-with-dependencies.jar)
-
-###SFR
-
-[Plugin box](http://master.dl.sourceforge.net/project/simpleged/plugins/sfr-box/sfr-box-plugin-1.0-jar-with-dependencies.jar)
-
-[Plugin mobile](http://master.dl.sourceforge.net/project/simpleged/plugins/sfr-mobile/sfr-mobile-plugin-1.0-jar-with-dependencies.jar)
-
-
+Notez qu'il est possible pour un développeur de [créer son plugin facilement](https://github.com/xaviermichel/simple-ged/wiki/D%C3%A9veloppement-de-plugins).
 
 
 Captures d'écran
