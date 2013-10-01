@@ -88,9 +88,14 @@ public final class PluginManager {
 		File pluginsDirectory = new File(PLUGINS_DIRECTORY);
 		String[] pluginsFiles = pluginsDirectory.list(jarFilter);
 		
+		logger.debug("Loading getters plugins in {}", pluginsDirectory.getAbsolutePath());
+		
 		for (String pluginFileName : pluginsFiles) {
 			
+			logger.debug("Found file : {}", pluginFileName);
+			
 			if (PluginFactory.getPluginFamilyForPlugin(pluginFileName) != PluginFamily.GETTER_PLUGIN) {
+				logger.debug("{} is not a getter plugin ! skipping.", pluginFileName);
 				continue;
 			}
 			

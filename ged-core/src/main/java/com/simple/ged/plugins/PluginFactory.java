@@ -66,7 +66,7 @@ public final class PluginFactory {
 			ClassLoader loader = null;
 
 			URL urls[] = {new File(PluginManager.PLUGINS_DIRECTORY + pluginFileName).toURI().toURL()};
-			loader = URLClassLoader.newInstance(urls);
+			loader = URLClassLoader.newInstance(urls, PluginFactory.class.getClassLoader());
 			
 			InputStreamReader isr = new InputStreamReader(loader.getResourceAsStream(PluginManager.MANIFEST_FILE_NAME), "utf8"); 
 			BufferedReader br = new BufferedReader(isr);
@@ -91,7 +91,6 @@ public final class PluginFactory {
 			else {
 				return null;
 			}
-			
 		}
 		catch (Exception e) {
 			logger.error("Could not determine type of {}", pluginFileName, e);
@@ -124,7 +123,7 @@ public final class PluginFactory {
 			
 			logger.info("Loading : " + PluginManager.PLUGINS_DIRECTORY + pluginFileName);
 			URL urls[] = {new File(PluginManager.PLUGINS_DIRECTORY + pluginFileName).toURI().toURL()};
-			loader = URLClassLoader.newInstance(urls);
+			loader = URLClassLoader.newInstance(urls, PluginFactory.class.getClassLoader());
 
 			InputStreamReader isr = new InputStreamReader(loader.getResourceAsStream(PluginManager.MANIFEST_FILE_NAME), "utf8"); 
 			BufferedReader br = new BufferedReader(isr);
@@ -257,7 +256,7 @@ public final class PluginFactory {
 			
 			logger.info("Loading : " + PluginManager.PLUGINS_DIRECTORY + pluginFileName);
 			URL urls[] = {new File(PluginManager.PLUGINS_DIRECTORY + pluginFileName).toURI().toURL()};
-			loader = URLClassLoader.newInstance(urls);
+			loader = URLClassLoader.newInstance(urls, PluginFactory.class.getClassLoader());
 
 			InputStreamReader isr = new InputStreamReader(loader.getResourceAsStream(PluginManager.MANIFEST_FILE_NAME), "utf8"); 
 			BufferedReader br = new BufferedReader(isr);

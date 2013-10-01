@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<ged.archetypes.version>1.5-SNAPSHOT</ged.archetypes.version>
+		<ged.archetypes.version>1.6-SNAPSHOT</ged.archetypes.version>
 	</properties>
 
 	<modules>

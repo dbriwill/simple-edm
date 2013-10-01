@@ -61,6 +61,7 @@
 			<groupId>fr.simple.ged.connector</groupId>
 			<artifactId>ged-connector</artifactId>
 			<version>${ged.connector.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

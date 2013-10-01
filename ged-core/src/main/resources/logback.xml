@@ -37,7 +37,11 @@
     <!-- elastic search -->
     <logger name="org.elasticsearch" level="WARN" />
 
-	<root level="INFO">
+	<!-- spring -->
+	<logger name="org.springframework" level="WARN" />
+
+	<!-- others -->
+	<root level="DEBUG">
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
