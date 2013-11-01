@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<version>
+	<number>4.4</number>
+	<files>
+		<file>
+			<url>http://master.dl.sourceforge.net/project/simpleged/updates/ged-core-4.4.jar</url>
+			<destination>simple_ged.jar</destination>
+		</file>
+		<file>
+			<url>http://ged90.googlecode.com/git/lib/ged-update-1.5.jar</url>
+			<destination>lib/ged-update-1.5.jar</destination>
+		</file>
+	</files>
+</version>

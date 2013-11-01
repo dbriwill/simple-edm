@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<version>
+	<number>1.5</number>
+	<files>
+		<file>
+			<url>http://master.dl.sourceforge.net/project/simpleged/updates/ged-update-1.5-jar-with-dependencies.jar</url>
+			<destination>simpleGedUpdateSystem.jar</destination>
+		</file>
+	</files>
+</version>
