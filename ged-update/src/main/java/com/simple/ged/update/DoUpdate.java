@@ -29,7 +29,7 @@ public final class DoUpdate {
 	/**
 	 * This updater version
 	 */
-	public static final String UPDATER_VERSION = "1.5";
+	public static final String UPDATER_VERSION = "1.6";
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(DoUpdate.class);
