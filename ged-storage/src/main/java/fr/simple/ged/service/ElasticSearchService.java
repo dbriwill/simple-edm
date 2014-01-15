@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * This service must ONLY be used on a full client computer (which have webapp and ES running). In other case,
- * Elastic search should be directly used
+ * This service must ONLY be used if the embedded storage is active. In other case,
+ * elastic search should be directly used
  * 
  * @author xavier
  *

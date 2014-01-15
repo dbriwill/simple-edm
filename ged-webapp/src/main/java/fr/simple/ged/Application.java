@@ -6,19 +6,65 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import fr.simple.ged.service.ElasticSearchService;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.thymeleaf.spring3.SpringTemplateEngine;
+import org.thymeleaf.spring3.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-@ComponentScan
+
 @EnableAutoConfiguration
+@ComponentScan(basePackages = {"fr.simple.ged"})
 public class Application {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
-	
-	
+
+
+    private static void usage() {
+        logger.info("Usage");
+        logger.info("-----");
+        logger.info("       --disable-embedded-storage | -d");
+        logger.info("       --enable-embedded-storage  | -e");
+        logger.info("       --help                     | -h");
+    }
+
+
 	public static void main(String[] args) {
-		
+
+        // default value
+        boolean embeddedStorage = false;
+
+        for (String arg : args) {
+            switch (arg) {
+                case "--disable-embedded-storage" :
+                case "-d" :
+                    embeddedStorage = false;
+                    break;
+                case "--enable-embedded-storage" :
+                case "-e" :
+                    embeddedStorage = true;
+                    break;
+                case "--help" :
+                case "-h" :
+                    usage();
+                default :
+                    logger.warn("Unknown argument : {}", arg);
+            }
+        }
+
         // hello !
         logger.info("==========================================================================");
         //logger.info("Hi, this is {} version {}", PropertiesHelper.getInstance().getProperties().get("APPLICATION_NAME"), PropertiesHelper.getInstance().getProperties().get("APPLICATION_VERSION"));
@@ -38,13 +84,14 @@ public class Application {
         logger.info("os.name                    : " + System.getProperty("os.name"));
         logger.info("os.version                 : " + System.getProperty("os.version"));
         logger.info("==========================================================================");
-		
-		if (! Arrays.asList(args).contains("server")) {
+
+        logger.info("Embedded storage engine : {}", embeddedStorage);
+
+		if (embeddedStorage) {
 			// we're in the full client mode, we have to initialize the storage engine
-			logger.info("ES is started with cluser name {}", ElasticSearchService.getCluserName());
+			//logger.info("ES is started with cluser name {}", ElasticSearchService.getCluserName());
 		}
 		
         SpringApplication.run(Application.class, args);
     }
-	
 }

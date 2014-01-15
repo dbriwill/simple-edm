@@ -8,43 +8,50 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import fr.simple.ged.common.dto.GedMessageDto;
 
-@Controller
+@RestController
 public class GedMessageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GedMessageController.class);
+
+    // a voir : https://github.com/spring-projects/spring-data-elasticsearch
 	
-	
-    @RequestMapping(value = "/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GedMessageDto> getMessages() {
+    @RequestMapping(value = "/message", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<GedMessageDto> list() {
         List<GedMessageDto> gedMessages = new ArrayList<>();
-    	
-        gedMessages.add(new GedMessageDto("Hello, I'm the first message"));
-        gedMessages.add(new GedMessageDto("Hello, I'm another message"));
+
+        gedMessages.add(new GedMessageDto("id_1", "Hello, I'm the first message"));
+        gedMessages.add(new GedMessageDto("id_2", "Hello, I'm another message"));
         
         return gedMessages;
     }
-    
-    
+
     @RequestMapping(value = "/message/{messageid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody GedMessageDto getMessage(@PathVariable String messageid) {
-        return new GedMessageDto("Hello, I'm the message you requested (number " + messageid + ")");
+    public @ResponseBody GedMessageDto read(@PathVariable String messageid) {
+        return new GedMessageDto("id_" + messageid, "Hello, I'm the message you requested");
     }
-    
-    
-    
-    @RequestMapping(value = "/message", method = {RequestMethod.POST, RequestMethod.PUT}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.ACCEPTED)
-    public @ResponseBody GedMessageDto postMessage() {
-        GedMessageDto gedMessage = new GedMessageDto("plop");
+
+    @RequestMapping(method=RequestMethod.POST, value="/message", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody GedMessageDto create(@RequestBody GedMessageDto gedMessage) {
+        //employeeDS.add(e);
         return gedMessage;
+    }
+
+    @RequestMapping(method=RequestMethod.PUT, value="/message/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public @ResponseBody GedMessageDto update(
+            @RequestBody GedMessageDto gedMessage, @PathVariable String id) {
+        //employeeDS.update(e);
+        return gedMessage;
+    }
+
+    @RequestMapping(method=RequestMethod.DELETE, value="/message/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public @ResponseBody void delete(@PathVariable String id) {
+        //employeeDS.remove(Long.parseLong(id));
     }
     
     
