@@ -36,8 +36,8 @@
 	
 		<div class="header">
 			<ul class="nav nav-pills pull-right">
-				<li class="active"><a href="#">Documents</a></li>
-				<li><a href="/about">A propos</a></li>
+				<li th:class="${section_document}? 'active'"><a href="/">Documents</a></li>
+				<li th:class="${section_about}? 'active'"><a href="/about">A propos</a></li>
 			</ul>
 			<h3 class="text-muted">Simple Ged</h3>
 		</div>

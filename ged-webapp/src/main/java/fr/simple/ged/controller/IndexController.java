@@ -10,7 +10,14 @@ public class IndexController {
 
     @RequestMapping("/")
     public String home(Model model) {
+    	model.addAttribute("section_document", true);
         return "/home";
     }
 
+    
+    @RequestMapping("/about")
+    public String about(Model model) {
+    	model.addAttribute("section_about", true);
+        return "/home";
+    }
 }
