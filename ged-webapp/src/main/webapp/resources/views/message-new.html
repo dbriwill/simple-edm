@@ -1,0 +1,20 @@
+<div id="messageNew">
+
+    <h2>New message</h2>
+
+    <form>
+
+        <div class="formField">
+            <label for="message.message">Message</label>
+            <textarea id="message.message" ng-model="message.message">
+            </textarea>
+        </div>
+
+        <hr/>
+
+        <button class="button" ng-click="gotoMessageListPage()">&lt; Retour</button> &nbsp;
+        <button class="button" ng-click="submit()">Sauver</button>
+
+    </form>
+
+</div>

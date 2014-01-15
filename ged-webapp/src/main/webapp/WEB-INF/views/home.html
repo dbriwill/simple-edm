@@ -1,31 +1,56 @@
 ﻿<!-- http://spring.io/guides/tutorials/web/4/ -->
 <html ng-app="gedApp">
-	<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <title>Simple Ged</title>
-
-        <link href="/resources/css/bootstrap.min.css" rel="stylesheet"/>
-
-        <script src="/resources/js/libs/jquery.min.js"></script>
-        <script src="/resources/js/libs/bootstrap.min.js"></script>
-        <script src="/resources/js/libs/angular.min.js"></script>
-	</head>
-	<body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-		<!-- <header th:include="layout :: head"></header>  -->
+	<title>Simple Ged</title>
 	
-		<span>Hello,</span>
-		<span>Xavier</span>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
 
-        <!--  <footer th:include="layout :: foot"></footer> -->
+	<!-- 
+	<script src="/resources/js/libs/jquery.min.js"></script>
+    <script src="/resources/js/libs/bootstrap.min.js"></script>
+    <script src="/resources/js/libs/angular.min.js"></script> 
+    -->
 
-        <script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.min.js"></script>
+	
+	<script src="https://code.jquery.com/jquery.js"></script>
+	
+	<script src="/resources/js/application.js"></script>
+	<script src="/resources/js/controllers.js"></script>
+	<script src="/resources/js/services.js"></script>
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<div class="container">
+	
+		<div class="header">
+			<ul class="nav nav-pills pull-right">
+				<li class="active"><a href="#">Documents</a></li>
+				<li><a href="/about">A propos</a></li>
+			</ul>
+			<h3 class="text-muted">Simple Ged</h3>
+		</div>
 
 
+		<div ng-view="message-list"></div>
 
-        </script>
 
-    </body>
+		<div class="footer">
+			<p><a href="https://github.com/xaviermichel/simple-ged/">Repository</a></p>
+		</div>
+
+	</div> <!-- /container -->
+	
+</body>
 </html>
