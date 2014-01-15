@@ -5,7 +5,7 @@
 	
 	<groupId>fr.simple.ged</groupId>
 	<artifactId>simple-ged</artifactId>
-	<version>${ged.version}</version>
+	<version>5.0</version>
 	<name>Simple Ged</name>
 	<description>A simple GED</description>
 	<packaging>pom</packaging>

@@ -4,11 +4,22 @@ import java.io.Serializable;
 
 public class GedMessageDto implements Serializable {
 
-	public String message;
+    protected String id;
 
-	public GedMessageDto(String message) {
-		this.message = message;
-	}
+    protected String message;
+
+    public GedMessageDto(String id, String message) {
+        this.id = id;
+        this.message = message;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 	public String getMessage() {
 		return message;
