@@ -6,7 +6,15 @@ public class GedMessageDto implements Serializable {
 
     protected String id;
 
+    protected String date;
+
     protected String message;
+
+    public GedMessageDto() {
+        this.id      = "undefined";
+        this.date    = "undefined";
+        this.message = "undefined";
+    }
 
     public GedMessageDto(String id, String message) {
         this.id = id;
@@ -28,4 +36,12 @@ public class GedMessageDto implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

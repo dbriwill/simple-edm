@@ -3,6 +3,9 @@
         "properties" : {
             "message" : {
                 "type" : "string"
+            },
+            "date" : {
+                "type" : "string"
             }
         }
     }

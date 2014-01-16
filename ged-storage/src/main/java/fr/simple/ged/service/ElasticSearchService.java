@@ -108,7 +108,7 @@ public class ElasticSearchService {
     }
 
     
-    public static String getCluserName() {
+    public static String getClusterName() {
     	return node.client().admin().cluster().prepareHealth().get().getClusterName();
     }
 }
