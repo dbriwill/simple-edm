@@ -26,7 +26,7 @@ public class Application {
 	public static void main(String[] args) {
 
         // default value
-        boolean embeddedStorage = false;
+        boolean embeddedStorage = true;
 
         for (String arg : args) {
             switch (arg) {
@@ -70,7 +70,7 @@ public class Application {
 
 		if (embeddedStorage) {
 			// we're in the full client mode, we have to initialize the storage engine
-			//logger.info("ES is started with cluser name {}", ElasticSearchService.getCluserName());
+			logger.info("ES is started with cluster name {}", ElasticSearchLauncher.getClusterName());
 		}
 		
         SpringApplication.run(Application.class, args);

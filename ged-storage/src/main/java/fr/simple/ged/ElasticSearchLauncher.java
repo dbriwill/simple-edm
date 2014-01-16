@@ -4,6 +4,8 @@ import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 
 import java.io.IOException;
 
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.node.Node;
@@ -43,7 +45,7 @@ public class ElasticSearchLauncher {
     /**
      * Elastic search plugins folder
      */
-    private static final String ES_PLUGIN_DIR = "es/plugins/";
+//    private static final String ES_PLUGIN_DIR = "es/plugins/";
 
     /**
      * Our ES node
@@ -83,6 +85,8 @@ public class ElasticSearchLauncher {
      */
     private static void rebuildEsIndexAndMappingsIfNecessary() {
 
+    	logger.info("ES is building indexes and mappings if necessary...");
+    	
         // recreate indexes if necessary
         try {
             node.client().admin().indices().prepareCreate(ES_GED_INDEX).execute().actionGet();
@@ -105,10 +109,34 @@ public class ElasticSearchLauncher {
         }
 
         node.client().admin().indices().refresh(new RefreshRequest(ES_GED_INDEX)).actionGet();
+        
+        logger.info("Building is over !");
     }
 
     
     public static String getClusterName() {
     	return node.client().admin().cluster().prepareHealth().get().getClusterName();
+    }
+    
+    
+    
+    /**
+     * Remove all data in ES
+     */
+    public static void removeAllIndexedData() {
+        try {
+            DeleteIndexResponse delete = node.client().admin().indices().delete(new DeleteIndexRequest(ES_GED_INDEX)).actionGet();
+            if (! delete.isAcknowledged()) {
+                logger.error("Index wasn't deleted");
+            }
+            else {
+                logger.info("Index has been deleted");
+            }
+        }
+        catch (Exception e) {
+            logger.error("Failed to delete index, has it been create yet ?");
+        }
+
+        rebuildEsIndexAndMappingsIfNecessary();
     }
 }

@@ -16,7 +16,7 @@
 		<ged.version>5.0</ged.version>
 		<start-class>fr.simple.ged.Application</start-class>
 	
-		<org.slf4j.version>1.7.2</org.slf4j.version>
+		<org.slf4j.version>1.7.5</org.slf4j.version>
 		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
 		
 		<org.elasticsearch.version>0.90.5</org.elasticsearch.version>
@@ -24,10 +24,13 @@
 	
 		<org.springframework.data.spring-data-rest-webmvc.version>2.0.0.M1</org.springframework.data.spring-data-rest-webmvc.version>
 		<org.springframework.boot.version>0.5.0.M6</org.springframework.boot.version>
+		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.BUILD-SNAPSHOT</org.springframework.data.spring-data-elasticsearch.version>
 
 		<com.fasterxml.jackson.core.version>2.3.0</com.fasterxml.jackson.core.version>
 
         <org.thymeleaf.version>2.0.20</org.thymeleaf.version>
+        
+        <javax.inject.version>1</javax.inject.version>
 	</properties>
 	
 	
@@ -89,6 +92,8 @@
 			<version>${ged.version}</version>
 		</dependency>
 				
+				
+		<!-- jaxax -->
 
 		<!-- logger -->
 	
@@ -137,6 +142,11 @@
 			<version>${org.springframework.boot.version}</version>
 		</dependency>
 
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-elasticsearch</artifactId>
+		    <version>${org.springframework.data.spring-data-elasticsearch.version}</version>
+		</dependency> 
 
 		<!-- Jackson -->
 		

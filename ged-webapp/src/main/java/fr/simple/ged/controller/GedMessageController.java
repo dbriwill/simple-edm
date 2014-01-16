@@ -3,8 +3,6 @@ package fr.simple.ged.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,7 @@ import fr.simple.ged.common.dto.GedMessageDto;
 @RestController
 public class GedMessageController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(GedMessageController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(GedMessageController.class);
 
     // a voir : https://github.com/spring-projects/spring-data-elasticsearch
 	
