@@ -1,4 +1,4 @@
-package fr.simple.ged.service;
+package fr.simple.ged;
 
 import static org.elasticsearch.common.io.Streams.copyToStringFromClasspath;
 
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author xavier
  *
  */
-public class ElasticSearchService {
+public class ElasticSearchLauncher {
 
 	 /**
      * Index name
@@ -37,7 +37,7 @@ public class ElasticSearchService {
     /**
      * My logger
      */
-    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchLauncher.class);
 
 
     /**
