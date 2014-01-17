@@ -7,12 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.env.Environment;
 
 import fr.simple.ged.service.GedLibraryService;
 
 
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"fr.simple.ged"})
+@PropertySources(value = {
+		@PropertySource("classpath:/properties/constants.properties")
+	}
+)
 public class Application {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -24,6 +31,19 @@ public class Application {
         return gedLibraryService;
     }
 
+    public static Environment getEnv() {
+		return env;
+	}
+
+
+	private static Environment env;
+    
+	
+    @Inject
+	public void setEnv(Environment env) {
+		Application.env = env;
+	}
+	
     @Inject
     public void setGedLibraryService(GedLibraryService gedLibraryService) {
         Application.gedLibraryService = gedLibraryService;
@@ -62,10 +82,20 @@ public class Application {
             }
         }
 
-        // hello !
+        logger.info("[BEFORE-SPRING-BEAN] Embedded storage engine : {}", embeddedStorage);
+
+		if (embeddedStorage) {
+			// we're in the full client mode, we have to initialize the storage engine
+			logger.info("ES is started with cluster name {}", ElasticSearchLauncher.getClusterName());
+		}
+
+        SpringApplication.run(Application.class, args);
+
+        
+        // Run this logs AFTER spring bean injection !
         logger.info("==========================================================================");
-//        logger.info("Hi, this is {} version {}", constants.get("APPLICATION_NAME"), constants.get("APPLICATION_VERSION"));
-//        logger.info("You can report issues on {}", constants.get("APPLICATION_ISSUES_URL"));
+		logger.info("Hi, this is {} version {}", env.getProperty("APPLICATION_NAME"), env.getProperty("APPLICATION_VERSION"));
+		logger.info("You can report issues on {}", env.getProperty("APPLICATION_ISSUES_URL"));
         logger.info("--------------------------------------------------------------------------");
         logger.info("java.runtime.name          : " + System.getProperty("java.runtime.name"));
         logger.info("java.runtime.version       : " + System.getProperty("java.runtime.version"));
@@ -81,16 +111,8 @@ public class Application {
         logger.info("os.name                    : " + System.getProperty("os.name"));
         logger.info("os.version                 : " + System.getProperty("os.version"));
         logger.info("==========================================================================");
-
-        logger.info("Embedded storage engine : {}", embeddedStorage);
-
-		if (embeddedStorage) {
-			// we're in the full client mode, we have to initialize the storage engine
-			logger.info("ES is started with cluster name {}", ElasticSearchLauncher.getClusterName());
-		}
-
-        SpringApplication.run(Application.class, args);
-
+        
+        
         gedLibraryService.createDefaultLibraryIfNotExists();
     }
 }
