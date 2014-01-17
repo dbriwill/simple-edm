@@ -1,10 +1,21 @@
 package fr.simple.ged;
 
+import fr.simple.ged.service.GedLibraryService;
+import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import javax.inject.Inject;
 
 
 @EnableAutoConfiguration
@@ -12,6 +23,18 @@ import org.springframework.context.annotation.ComponentScan;
 public class Application {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+
+    private static GedLibraryService gedLibraryService;
+
+    public GedLibraryService getGedLibraryService() {
+        return gedLibraryService;
+    }
+
+    @Inject
+    public void setGedLibraryService(GedLibraryService gedLibraryService) {
+        this.gedLibraryService = gedLibraryService;
+    }
 
 
     private static void usage() {
@@ -72,7 +95,9 @@ public class Application {
 			// we're in the full client mode, we have to initialize the storage engine
 			logger.info("ES is started with cluster name {}", ElasticSearchLauncher.getClusterName());
 		}
-		
+
         SpringApplication.run(Application.class, args);
+
+        gedLibraryService.createDefaultLibraryIfNotExists();
     }
 }

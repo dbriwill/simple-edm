@@ -5,9 +5,9 @@ import javax.inject.Named;
 import fr.simple.ged.common.dto.GedLibraryDto;
 import fr.simple.ged.model.GedLibrary;
 
-// TODO : make a abstract converter
+// TODO : add generic mapper (http://stackoverflow.com/questions/14523601/bo-dto-mapper-in-java)
 @Named
-public class GedLibraryConverter {
+public class GedLibraryMapper {
 
 	public GedLibraryDto modelToDto(GedLibrary model) {
 		GedLibraryDto dto = new GedLibraryDto();

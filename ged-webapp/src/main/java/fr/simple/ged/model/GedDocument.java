@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "ged", type = "ged_document")
+@Document(indexName = "ged", type = "document")
 public class GedDocument {
 
 	private String parentId;

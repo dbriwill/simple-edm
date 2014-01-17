@@ -21,16 +21,20 @@
 		
 		<org.elasticsearch.version>0.90.5</org.elasticsearch.version>
 		<org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
-	
+
+        <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+        <org.springframework.data.version>1.4.3.RELEASE</org.springframework.data.version>
 		<org.springframework.data.spring-data-rest-webmvc.version>2.0.0.M1</org.springframework.data.spring-data-rest-webmvc.version>
 		<org.springframework.boot.version>0.5.0.M6</org.springframework.boot.version>
+        <org.springframework.data.spring-data-commons-core.version>1.4.1.RELEASE</org.springframework.data.spring-data-commons-core.version>
 		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.BUILD-SNAPSHOT</org.springframework.data.spring-data-elasticsearch.version>
 
-		<com.fasterxml.jackson.core.version>2.3.0</com.fasterxml.jackson.core.version>
+		<com.fasterxml.jackson.core.version>2.2.2</com.fasterxml.jackson.core.version>
 
         <org.thymeleaf.version>2.0.20</org.thymeleaf.version>
         
         <javax.inject.version>1</javax.inject.version>
+        <javax.persistence.persistence-api.version>1.0.2</javax.persistence.persistence-api.version>
 	</properties>
 	
 	
@@ -95,7 +99,20 @@
 				
 		<!-- jaxax -->
 
-		<!-- logger -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>${javax.persistence.persistence-api.version}</version>
+        </dependency>
+
+
+        <!-- logger -->
 	
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -130,6 +147,12 @@
 
 		<!-- Spring -->
 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${org.springframework.data.version}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-rest-webmvc</artifactId>
@@ -146,13 +169,52 @@
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-elasticsearch</artifactId>
 		    <version>${org.springframework.data.spring-data-elasticsearch.version}</version>
-		</dependency> 
+		</dependency>
 
-		<!-- Jackson -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons-core</artifactId>
+            <version>${org.springframework.data.spring-data-commons-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+
+        <!-- Jackson -->
 		
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
 		</dependency>
 
 
@@ -179,6 +241,6 @@
 			<version>${org.elasticsearch.elasticsearch-mapper-attachments.version}</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 </project>
