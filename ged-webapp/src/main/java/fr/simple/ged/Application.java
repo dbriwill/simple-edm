@@ -114,5 +114,7 @@ public class Application {
         
         
         gedLibraryService.createDefaultLibraryIfNotExists();
+        
+        logger.info("Startup is finished ! Waiting for some user...");
     }
 }
