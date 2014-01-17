@@ -7,9 +7,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +20,14 @@ import fr.simple.ged.repository.GedLibraryRepository;
 
 @Service
 @PropertySources(value = {
-			@PropertySource("classpath:/library_service.properties")
+			@PropertySource("classpath:/properties/default_values.fr_fr.properties")
 		}
 )
 public class GedLibraryService {
 
     private final Logger logger = LoggerFactory.getLogger(GedLibraryService.class);
     
-    @Autowired
+    @Inject
     Environment env;
 
     @Inject

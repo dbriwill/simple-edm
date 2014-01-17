@@ -12,6 +12,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,11 +26,17 @@ import fr.simple.ged.service.GedLibraryService;
 @WebAppConfiguration
 @ContextConfiguration(classes = { Application.class })
 @ComponentScan(basePackages = { "fr.simple.ged" })
+@PropertySources(value = {
+		@PropertySource("classpath:/properties/default_values.fr_fr.properties")
+	}
+)
 public class GedLibraryServiceTest {
 
 	@Autowired
 	private GedLibraryService gedLibraryService;
 
+	@Autowired
+    Environment env;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -68,7 +77,7 @@ public class GedLibraryServiceTest {
 		List<GedLibrary> librairies = gedLibraryService.getGedLibraries();
 		
 		assertThat(librairies.size()).isEqualTo(1);
-		assertThat(librairies.get(0).getName()).isEqualTo("Documents");
+		assertThat(librairies.get(0).getName()).isEqualTo(env.getProperty("default.library.name"));
 	}
 
 }
