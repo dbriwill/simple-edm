@@ -1,9 +1,7 @@
 package fr.simple.ged.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
 
 @Document(indexName = "ged", type = "library")
 public class GedLibrary {

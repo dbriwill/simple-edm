@@ -1,21 +1,14 @@
 package fr.simple.ged;
 
-import fr.simple.ged.service.GedLibraryService;
-import org.elasticsearch.node.NodeBuilder;
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import javax.inject.Inject;
+import fr.simple.ged.service.GedLibraryService;
 
 
 @EnableAutoConfiguration
@@ -33,7 +26,7 @@ public class Application {
 
     @Inject
     public void setGedLibraryService(GedLibraryService gedLibraryService) {
-        this.gedLibraryService = gedLibraryService;
+        Application.gedLibraryService = gedLibraryService;
     }
 
 
