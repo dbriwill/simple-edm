@@ -17,9 +17,9 @@
 		<start-class>fr.simple.ged.Application</start-class>
 	
 		<org.slf4j.version>1.7.5</org.slf4j.version>
-		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
+		<ch.qos.logback.version>1.0.13</ch.qos.logback.version>
 		
-		<org.elasticsearch.version>0.90.5</org.elasticsearch.version>
+		<org.elasticsearch.version>0.90.9</org.elasticsearch.version>
 		<org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
 
         <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
@@ -35,6 +35,9 @@
         
         <javax.inject.version>1</javax.inject.version>
         <javax.persistence.persistence-api.version>1.0.2</javax.persistence.persistence-api.version>
+        
+        <junit.version>4.11</junit.version>
+        <org.easytesting.version>2.0M8</org.easytesting.version>
 	</properties>
 	
 	
@@ -239,7 +242,34 @@
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch-mapper-attachments</artifactId>
 			<version>${org.elasticsearch.elasticsearch-mapper-attachments.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+
+		<!-- junit -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- easytesting -->
+        
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert-core</artifactId>
+            <version>${org.easytesting.version}</version>
+            <scope>test</scope>
+        </dependency>
+		
 
     </dependencies>
 

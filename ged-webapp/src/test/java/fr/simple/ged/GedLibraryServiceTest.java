@@ -1,10 +1,12 @@
 package fr.simple.ged;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.elasticsearch.node.Node;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import fr.simple.ged.common.dto.GedLibraryDto;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.service.GedLibraryService;
 
@@ -56,17 +57,18 @@ public class GedLibraryServiceTest {
 			e.printStackTrace();
 		}
 
-		Assert.assertNotNull(node);
-		Assert.assertFalse(node.isClosed());
+		assertThat(node).isNotNull();
+		assertThat(node.isClosed()).isFalse();
 	}
 
+	
 	@Test
 	public void defaultLibraryIsCreatedAtStart() {
-		GedLibraryDto gedLibraryDto = new GedLibraryDto();
-
-		Assert.assertNotNull(gedLibraryService);
-		GedLibrary library = gedLibraryService.save(gedLibraryDto);
-		// gedLibraryService.getGedLibraries();
+		gedLibraryService.createDefaultLibraryIfNotExists();
+		List<GedLibrary> librairies = gedLibraryService.getGedLibraries();
+		
+		assertThat(librairies.size()).isEqualTo(1);
+		assertThat(librairies.get(0).getName()).isEqualTo("Documents");
 	}
 
 }

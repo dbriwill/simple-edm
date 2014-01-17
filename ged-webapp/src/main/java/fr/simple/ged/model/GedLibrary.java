@@ -9,26 +9,17 @@ public class GedLibrary {
 	@Id
 	private String id;
 
-    private Long version;
-
 	private String name;
 
 	private String description;
 
+	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
 	}
 
 	public String getName() {

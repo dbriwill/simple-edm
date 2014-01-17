@@ -3,22 +3,33 @@ package fr.simple.ged.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+
 import fr.simple.ged.common.dto.GedLibraryDto;
 import fr.simple.ged.converter.GedLibraryMapper;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.repository.GedLibraryRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 
-@Named
+@Service
+@PropertySources(value = {
+			@PropertySource("classpath:/library_service.properties")
+		}
+)
 public class GedLibraryService {
 
     private final Logger logger = LoggerFactory.getLogger(GedLibraryService.class);
-
+    
+    @Autowired
+    Environment env;
 
     @Inject
 	protected GedLibraryRepository gedLibraryRepository;
@@ -57,7 +68,11 @@ public class GedLibraryService {
         logger.debug("Checking for at least one library found...");
         if (gedLibraryRepository.count() == 0) {
             logger.info("Creating default library");
-            // TODO
+            
+            GedLibraryDto libraryDto = new GedLibraryDto();
+            libraryDto.setName(env.getProperty("default.library.name"));
+            libraryDto.setDescription(env.getProperty("default.library.description"));
+            save(libraryDto);
         }
     }
 	
