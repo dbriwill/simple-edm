@@ -34,15 +34,15 @@ public class GedLibraryService {
 	protected GedLibraryRepository gedLibraryRepository;
 
     @Inject
-	protected GedLibraryMapper gedLibraryConverter;
+	protected GedLibraryMapper gedLibraryMapper;
 
 
-    public GedLibraryMapper getGedLibraryConverter() {
-        return gedLibraryConverter;
+    public GedLibraryMapper getGedLibraryMapper() {
+        return gedLibraryMapper;
     }
 
-    public void setGedLibraryConverter(GedLibraryMapper gedLibraryConverter) {
-        this.gedLibraryConverter = gedLibraryConverter;
+    public void setGedLibraryMapper(GedLibraryMapper gedLibraryMapper) {
+        this.gedLibraryMapper = gedLibraryMapper;
     }
 
     public GedLibraryRepository getGedLibraryRepository() {
@@ -61,6 +61,14 @@ public class GedLibraryService {
 		}
 		return gedLibraries;
 	}
+	
+	public List<GedLibraryDto> getGedLibrariesDto() {
+		List<GedLibraryDto> gedLibrariesDto = new ArrayList<>();
+		for (GedLibrary l : gedLibraryRepository.findAll()) {
+			gedLibrariesDto.add(gedLibraryMapper.modelToDto(l));
+		}
+		return gedLibrariesDto;
+	}
 
 
     public void createDefaultLibraryIfNotExists() {
@@ -76,7 +84,7 @@ public class GedLibraryService {
     }
 	
 	public GedLibrary save(GedLibraryDto gedLibraryDto) {
-		return gedLibraryRepository.save(gedLibraryConverter.dtoToModel(gedLibraryDto));
+		return gedLibraryRepository.save(gedLibraryMapper.dtoToModel(gedLibraryDto));
 	}
 	
 }
