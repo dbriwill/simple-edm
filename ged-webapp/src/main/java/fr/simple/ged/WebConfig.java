@@ -2,6 +2,7 @@ package fr.simple.ged;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
@@ -17,6 +18,7 @@ import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @EnableWebMvc
+@Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
