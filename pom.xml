@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>fr.simple.ged</groupId>
 	<artifactId>simple-ged</artifactId>
 	<version>5.0</version>
@@ -30,7 +30,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
-		
+
 		<ged.version>5.0</ged.version>
 	</properties>
 
@@ -67,7 +67,6 @@
 	<modules>
 		<module>ged-webapp</module>
 		<module>ged-contracts</module>
-		<module>ged-storage</module>
 	</modules>
 
 

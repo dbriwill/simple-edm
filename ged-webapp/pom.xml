@@ -39,6 +39,8 @@
 		<junit.version>4.11</junit.version>
 		<org.easytesting.version>2.0M8</org.easytesting.version>
 
+		<commons-io.version>2.4</commons-io.version>
+
 		<com.google.guava.version>15.0</com.google.guava.version>
 	</properties>
 
@@ -96,12 +98,6 @@
 		<dependency>
 			<groupId>fr.simple.ged</groupId>
 			<artifactId>ged-contracts</artifactId>
-			<version>${ged.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>fr.simple.ged</groupId>
-			<artifactId>ged-storage</artifactId>
 			<version>${ged.version}</version>
 		</dependency>
 
@@ -275,7 +271,16 @@
 			<version>${org.easytesting.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		<!-- apache -->
 
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		
 
 		<!-- google -->
 

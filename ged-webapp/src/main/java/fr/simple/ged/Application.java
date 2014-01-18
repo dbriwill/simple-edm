@@ -11,9 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 
-import fr.simple.ged.embedded.EmbeddedElasticSearchLauncher;
 import fr.simple.ged.service.GedLibraryService;
-
 
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"fr.simple.ged"})
@@ -51,49 +49,9 @@ public class Application {
     }
 
 
-    private static void usage() {
-        logger.info("Usage");
-        logger.info("-----");
-        logger.info("       --disable-embedded-storage | -d");
-        logger.info("       --enable-embedded-storage  | -e");
-        logger.info("       --help                     | -h");
-    }
-    
-
 	public static void main(String[] args) {
 
-        // default value
-        boolean embeddedStorage = true;
-
-        for (String arg : args) {
-            switch (arg) {
-                case "--disable-embedded-storage" :
-                case "-d" :
-                    embeddedStorage = false;
-                    break;
-                case "--enable-embedded-storage" :
-                case "-e" :
-                    embeddedStorage = true;
-                    break;
-                case "--help" :
-                case "-h" :
-                    usage();
-                default :
-                    logger.warn("Unknown argument : {}", arg);
-            }
-        }
-
-        logger.info("[CONFIGURATION] Embedded storage engine : {}", embeddedStorage);
-
-		if (embeddedStorage) {
-			// we're in the full client mode, we have to initialize the storage engine
-			logger.info("Starting embedded Elastic search");
-			EmbeddedElasticSearchLauncher.start();
-			logger.info("ES is started with cluster name {}", EmbeddedElasticSearchLauncher.getClusterName());
-		}
-
         SpringApplication.run(Application.class, args);
-
         
         // Run this logs AFTER spring bean injection !
         logger.info("==========================================================================");
@@ -114,6 +72,7 @@ public class Application {
         logger.info("os.name                    : " + System.getProperty("os.name"));
         logger.info("os.version                 : " + System.getProperty("os.version"));
         logger.info("==========================================================================");
+        logger.info("[CONFIGURATION] Embedded storage engine : {}", env.getProperty("ged.embedded-storage"));
         
         
         gedLibraryService.createDefaultLibraryIfNotExists();

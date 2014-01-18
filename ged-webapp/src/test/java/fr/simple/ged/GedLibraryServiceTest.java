@@ -17,9 +17,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import fr.simple.ged.embedded.EmbeddedElasticSearchLauncher;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.service.GedLibraryService;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -39,8 +39,8 @@ public class GedLibraryServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		EmbeddedElasticSearchLauncher.start();
-		EmbeddedElasticSearchLauncher.removeAllIndexedData();
+//		EmbeddedElasticSearchLauncher.start();
+//		EmbeddedElasticSearchLauncher.removeAllIndexedData();
 	}
 
 	@After
