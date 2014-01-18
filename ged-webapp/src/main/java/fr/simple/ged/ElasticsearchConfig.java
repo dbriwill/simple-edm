@@ -134,7 +134,6 @@ public class ElasticsearchConfig {
 		}
 
         logger.info("Building is over !");
-    	
     }
     
 }

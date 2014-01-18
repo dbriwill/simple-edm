@@ -2,9 +2,11 @@ package fr.simple.ged;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
-import org.junit.After;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.client.Client;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,16 +39,28 @@ public class GedLibraryServiceTest {
 	@Autowired
     Environment env;
 	
+	private static final String ES_INDEX = "documents";
+	
+	/**
+	 * Will destroy and rebuild ES_INDEX
+	 */
 	@Before
 	public void setUp() throws Exception {
-//		EmbeddedElasticSearchLauncher.start();
-//		EmbeddedElasticSearchLauncher.removeAllIndexedData();
+		ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig();
+		
+		Method getLocalClientMethod = ElasticsearchConfig.class.getDeclaredMethod("localClient");
+		getLocalClientMethod.setAccessible(true);
+		Client client = (Client) getLocalClientMethod.invoke(elasticsearchConfig);
+		
+		Class<?> rebuildEsMappingMethodParams[] = new Class[1];
+		rebuildEsMappingMethodParams[0] = Client.class;
+		Method rebuildEsMappingMethod = ElasticsearchConfig.class.getDeclaredMethod("buildEsMapping", rebuildEsMappingMethodParams);
+		rebuildEsMappingMethod.setAccessible(true);
+		
+		client.admin().indices().delete(new DeleteIndexRequest(ES_INDEX)).actionGet();
+		rebuildEsMappingMethod.invoke(elasticsearchConfig, client);
 	}
 
-	@After
-	public void tearDown() {
-	}
-	
 	
 	@Test
 	public void defaultLibraryIsCreatedAtStart() {
