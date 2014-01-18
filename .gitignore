@@ -19,6 +19,8 @@ target
 
 # elastic search
 es
+*/data
+
 
 # from simple ged
 *.profile
