@@ -3,7 +3,7 @@ package fr.simple.ged.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "ged", type = "library")
+@Document(indexName = "documents", type = "library")
 public class GedLibrary {
 
 	@Id

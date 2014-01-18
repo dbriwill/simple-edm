@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>0.5.0.M6</version>
-    </parent>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>0.5.0.M6</version>
+	</parent>
 
 	<artifactId>ged-webapp</artifactId>
 	<name>simple ged webapp</name>
@@ -15,32 +15,34 @@
 	<properties>
 		<ged.version>5.0</ged.version>
 		<start-class>fr.simple.ged.Application</start-class>
-	
+
 		<org.slf4j.version>1.7.5</org.slf4j.version>
 		<ch.qos.logback.version>1.0.13</ch.qos.logback.version>
-		
+
 		<org.elasticsearch.version>0.90.9</org.elasticsearch.version>
 		<org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
 
-        <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
-        <org.springframework.data.version>1.4.3.RELEASE</org.springframework.data.version>
+		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+		<org.springframework.data.version>1.4.3.RELEASE</org.springframework.data.version>
 		<org.springframework.data.spring-data-rest-webmvc.version>2.0.0.M1</org.springframework.data.spring-data-rest-webmvc.version>
 		<org.springframework.boot.version>0.5.0.M6</org.springframework.boot.version>
-        <org.springframework.data.spring-data-commons-core.version>1.4.1.RELEASE</org.springframework.data.spring-data-commons-core.version>
+		<org.springframework.data.spring-data-commons-core.version>1.4.1.RELEASE</org.springframework.data.spring-data-commons-core.version>
 		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.BUILD-SNAPSHOT</org.springframework.data.spring-data-elasticsearch.version>
 
 		<com.fasterxml.jackson.core.version>2.2.2</com.fasterxml.jackson.core.version>
 
-        <org.thymeleaf.version>2.0.20</org.thymeleaf.version>
-        
-        <javax.inject.version>1</javax.inject.version>
-        <javax.persistence.persistence-api.version>1.0.2</javax.persistence.persistence-api.version>
-        
-        <junit.version>4.11</junit.version>
-        <org.easytesting.version>2.0M8</org.easytesting.version>
+		<org.thymeleaf.version>2.0.20</org.thymeleaf.version>
+
+		<javax.inject.version>1</javax.inject.version>
+		<javax.persistence.persistence-api.version>1.0.2</javax.persistence.persistence-api.version>
+
+		<junit.version>4.11</junit.version>
+		<org.easytesting.version>2.0M8</org.easytesting.version>
+
+		<com.google.guava.version>15.0</com.google.guava.version>
 	</properties>
-	
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -52,41 +54,45 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-	  </build>
+	</build>
 
 
 	<repositories>
-	    <repository>
-	        <id>spring-milestones</id>
-	        <name>Spring Milestones</name>
-	        <url>http://repo.spring.io/milestone</url>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-	    </repository>
-	    <repository>
-            <id>spring-snapshots</id>
-            <url>http://repo.spring.io/libs-snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
-	
+
 	<pluginRepositories>
-	    <pluginRepository>
-	        <id>spring-snapshots</id>
-	        <url>http://repo.spring.io/libs-snapshot</url>
-	        <snapshots><enabled>true</enabled></snapshots>
-	    </pluginRepository>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<dependencies>
 
 		<!-- modules -->
-		
+
 		<dependency>
 			<groupId>fr.simple.ged</groupId>
 			<artifactId>ged-contracts</artifactId>
@@ -98,25 +104,25 @@
 			<artifactId>ged-storage</artifactId>
 			<version>${ged.version}</version>
 		</dependency>
-				
-				
+
+
 		<!-- jaxax -->
 
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>${javax.inject.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>${javax.persistence.persistence-api.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${javax.persistence.persistence-api.version}</version>
+		</dependency>
 
 
-        <!-- logger -->
-	
+		<!-- logger -->
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -150,11 +156,11 @@
 
 		<!-- Spring -->
 
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${org.springframework.data.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${org.springframework.data.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -169,65 +175,65 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>org.springframework.data</groupId>
-		    <artifactId>spring-data-elasticsearch</artifactId>
-		    <version>${org.springframework.data.spring-data-elasticsearch.version}</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>${org.springframework.data.spring-data-elasticsearch.version}</version>
 		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons-core</artifactId>
-            <version>${org.springframework.data.spring-data-commons-core.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons-core</artifactId>
+			<version>${org.springframework.data.spring-data-commons-core.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${org.springframework.version}</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${org.springframework.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 
 
-        <!-- Jackson -->
-		
+		<!-- Jackson -->
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-            <version>${com.fasterxml.jackson.core.version}</version>
+			<version>${com.fasterxml.jackson.core.version}</version>
 		</dependency>
 
 
-        <!-- thymeleaf -->
+		<!-- thymeleaf -->
 
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring3</artifactId>
-            <version>${org.thymeleaf.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring3</artifactId>
+			<version>${org.thymeleaf.version}</version>
+		</dependency>
 
 
 		<!-- Elastic search -->
@@ -253,24 +259,32 @@
 
 		<!-- junit -->
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 
-        <!-- easytesting -->
-        
-        <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert-core</artifactId>
-            <version>${org.easytesting.version}</version>
-            <scope>test</scope>
-        </dependency>
-		
+		<!-- easytesting -->
 
-    </dependencies>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>${org.easytesting.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- google -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${com.google.guava.version}</version>
+		</dependency>
+
+	</dependencies>
 
 </project>

@@ -29,3 +29,8 @@ function MessageNewController($scope, $location, Message) {
         $location.path("/")
     };
 }
+
+function LibraryListController($scope, $location, Library) {
+    $scope.libraries = Library.query();
+}
+

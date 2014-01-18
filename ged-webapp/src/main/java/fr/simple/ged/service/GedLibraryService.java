@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import fr.simple.ged.common.dto.GedLibraryDto;
-import fr.simple.ged.converter.GedLibraryMapper;
+import fr.simple.ged.mapper.GedLibraryMapper;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.repository.GedLibraryRepository;
 
@@ -84,7 +84,12 @@ public class GedLibraryService {
     }
 	
 	public GedLibrary save(GedLibraryDto gedLibraryDto) {
-		return gedLibraryRepository.save(gedLibraryMapper.dtoToModel(gedLibraryDto));
+		// see https://github.com/spring-projects/spring-data-elasticsearch/issues/21 and https://github.com/spring-projects/spring-data-elasticsearch/pull/27
+		// unless it's fixed, I set my generated ID
+		if (gedLibraryDto.getId() == null || gedLibraryDto.getId().isEmpty()) {
+			gedLibraryDto.setId(String.valueOf(System.currentTimeMillis()));
+		}
+		return gedLibraryRepository.index(gedLibraryMapper.dtoToModel(gedLibraryDto));
 	}
 	
 }

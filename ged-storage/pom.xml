@@ -15,16 +15,20 @@
 	<properties>
 		<org.slf4j.version>1.7.2</org.slf4j.version>
 		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
-		
+
 		<org.elasticsearch.version>0.90.9</org.elasticsearch.version>
 		<org.elasticsearch.elasticsearch-mapper-attachments.version>1.9.0</org.elasticsearch.elasticsearch-mapper-attachments.version>
+
+		<commons-io.version>2.4</commons-io.version>
+		
+		<com.google.guava.version>15.0</com.google.guava.version>
 	</properties>
 
 
 	<dependencies>
 
 		<!-- logger -->
-	
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -68,6 +72,25 @@
 			<artifactId>elasticsearch-mapper-attachments</artifactId>
 			<version>${org.elasticsearch.elasticsearch-mapper-attachments.version}</version>
 		</dependency>
+
+
+		<!-- apache -->
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+
+
+		<!-- google -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${com.google.guava.version}</version>
+		</dependency>
+
 
 	</dependencies>
 

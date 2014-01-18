@@ -4,3 +4,10 @@ factory('Message', function ($resource) {
         //'save': {method:'POST'}
     });
 });
+
+angular.module('libraryService', ['ngResource']).
+factory('Library', function ($resource) {
+    return $resource('library/:id', {}, {
+    });
+});
+

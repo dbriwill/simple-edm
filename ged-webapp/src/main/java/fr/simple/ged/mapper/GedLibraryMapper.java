@@ -1,4 +1,4 @@
-package fr.simple.ged.converter;
+package fr.simple.ged.mapper;
 
 import javax.inject.Named;
 

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 
 import fr.simple.ged.service.GedLibraryService;
+import fr.simple.ged.storage.ElasticSearchLauncher;
 
 
 @EnableAutoConfiguration
@@ -82,7 +83,7 @@ public class Application {
             }
         }
 
-        logger.info("[BEFORE-SPRING-BEAN] Embedded storage engine : {}", embeddedStorage);
+        logger.info("[CONFIGURATION] Embedded storage engine : {}", embeddedStorage);
 
 		if (embeddedStorage) {
 			// we're in the full client mode, we have to initialize the storage engine

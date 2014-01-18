@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.service.GedLibraryService;
+import fr.simple.ged.storage.ElasticSearchLauncher;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -78,6 +79,7 @@ public class GedLibraryServiceTest {
 		
 		assertThat(librairies.size()).isEqualTo(1);
 		assertThat(librairies.get(0).getName()).isEqualTo(env.getProperty("default.library.name"));
+		assertThat(librairies.get(0).getId()).isNotNull();
 	}
 
 }

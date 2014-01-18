@@ -2,8 +2,7 @@
     "document" : {
         "properties" : {
             "id" : {
-                "type" : "string",
-                "store" : "no"
+                "type" : "string"
             },
             "name" : {
                 "type" : "string"
