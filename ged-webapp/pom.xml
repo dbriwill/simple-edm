@@ -40,6 +40,7 @@
 		<org.easytesting.version>2.0M8</org.easytesting.version>
 
 		<commons-io.version>2.4</commons-io.version>
+		<commons-beanutils.version>20030211.134440</commons-beanutils.version>
 
 		<com.google.guava.version>15.0</com.google.guava.version>
 	</properties>
@@ -271,14 +272,20 @@
 			<version>${org.easytesting.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-		
+
+
 		<!-- apache -->
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${commons-beanutils.version}</version>
 		</dependency>
 		
 

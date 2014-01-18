@@ -65,7 +65,7 @@ public class GedLibraryService {
 	public List<GedLibraryDto> getGedLibrariesDto() {
 		List<GedLibraryDto> gedLibrariesDto = new ArrayList<>();
 		for (GedLibrary l : gedLibraryRepository.findAll()) {
-			gedLibrariesDto.add(gedLibraryMapper.modelToDto(l));
+			gedLibrariesDto.add(gedLibraryMapper.boToDto(l));
 		}
 		return gedLibrariesDto;
 	}
@@ -89,7 +89,7 @@ public class GedLibraryService {
 		if (gedLibraryDto.getId() == null || gedLibraryDto.getId().isEmpty()) {
 			gedLibraryDto.setId(String.valueOf(System.currentTimeMillis()));
 		}
-		return gedLibraryRepository.index(gedLibraryMapper.dtoToModel(gedLibraryDto));
+		return gedLibraryRepository.index(gedLibraryMapper.dtoToBo(gedLibraryDto));
 	}
 	
 }
