@@ -11,8 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 
+import fr.simple.ged.embedded.EmbeddedElasticSearchLauncher;
 import fr.simple.ged.service.GedLibraryService;
-import fr.simple.ged.storage.ElasticSearchLauncher;
 
 
 @EnableAutoConfiguration
@@ -87,7 +87,9 @@ public class Application {
 
 		if (embeddedStorage) {
 			// we're in the full client mode, we have to initialize the storage engine
-			logger.info("ES is started with cluster name {}", ElasticSearchLauncher.getClusterName());
+			logger.info("Starting embedded Elastic search");
+			EmbeddedElasticSearchLauncher.start();
+			logger.info("ES is started with cluster name {}", EmbeddedElasticSearchLauncher.getClusterName());
 		}
 
         SpringApplication.run(Application.class, args);

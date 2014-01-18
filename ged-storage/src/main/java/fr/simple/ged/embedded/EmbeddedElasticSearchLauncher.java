@@ -1,4 +1,4 @@
-package fr.simple.ged.storage;
+package fr.simple.ged.embedded;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -27,14 +28,14 @@ import com.google.common.io.Resources;
  * @author xavier
  *
  */
-public class ElasticSearchLauncher {
+public class EmbeddedElasticSearchLauncher {
 
 	private static final String MAPPING_DIR = "./mapping";
 
     /**
      * My logger
      */
-    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchLauncher.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmbeddedElasticSearchLauncher.class);
     
 	
     private static Map<String, List<String>> indexesAndTypes;
@@ -45,11 +46,16 @@ public class ElasticSearchLauncher {
     	
 		try {
 			// at the top level, we've indexes
-			List<String> indexes = IOUtils.readLines(ElasticSearchLauncher.class.getClassLoader().getResourceAsStream(MAPPING_DIR), Charsets.UTF_8);
+			List<String> indexes = IOUtils.readLines(EmbeddedElasticSearchLauncher.class.getClassLoader().getResourceAsStream(MAPPING_DIR), Charsets.UTF_8);
 
 	    	for (String index : indexes) {
 	    		// at the second level, we've types
-	    		List<String> types = IOUtils.readLines(ElasticSearchLauncher.class.getClassLoader().getResourceAsStream(MAPPING_DIR + "/" + index), Charsets.UTF_8);
+	    		List<String> types = IOUtils.readLines(EmbeddedElasticSearchLauncher.class.getClassLoader().getResourceAsStream(MAPPING_DIR + "/" + index), Charsets.UTF_8);
+	    		
+	    		for (String type : types) { // lambda will be great !
+	    			type = type.replaceFirst(".json", "");
+	    		}
+	    		
 	    		indexesAndTypes.put(index, types);
 	    	}
 	    	
@@ -59,14 +65,19 @@ public class ElasticSearchLauncher {
     }
     
     
+    
     /**
      * Our ES node
      */
     private static Node node;
 
     
-    static {
-        // now we can start ES
+    public static void start() {
+    	if (node != null && ! node.isClosed()) {
+    		logger.warn("ES is already started, won't restart !");
+    		return;
+    	}
+    	
         node = NodeBuilder.nodeBuilder().node();
         node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
 
@@ -74,7 +85,7 @@ public class ElasticSearchLauncher {
     }
     
     
-    public static void closeES() {
+    public static void stop() {
     	logger.info("Closing ES");
     	node.close();
     }
@@ -106,7 +117,7 @@ public class ElasticSearchLauncher {
 	        // load custom mappings
 	        for (String type : types) {
 		        try {
-		        	URL url = Resources.getResource(MAPPING_DIR + "/" + index + "/" + type);
+		        	URL url = Resources.getResource(MAPPING_DIR + "/" + index + "/" + type + ".json");
 		        	String content = Resources.toString(url, Charsets.UTF_8);
 		        	
 		        	node.client().admin().indices().preparePutMapping(index).setType(type).setSource(content).execute().actionGet();
@@ -126,6 +137,9 @@ public class ElasticSearchLauncher {
     	return node.client().admin().cluster().prepareHealth().get().getClusterName();
     }
     
+    public static Client getNodeClient() {
+    	return node.client();
+    }
     
     
     /**

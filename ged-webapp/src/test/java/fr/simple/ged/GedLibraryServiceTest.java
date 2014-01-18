@@ -2,10 +2,8 @@ package fr.simple.ged;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-import org.elasticsearch.node.Node;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +17,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import fr.simple.ged.embedded.EmbeddedElasticSearchLauncher;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.service.GedLibraryService;
-import fr.simple.ged.storage.ElasticSearchLauncher;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -41,36 +39,14 @@ public class GedLibraryServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		ElasticSearchLauncher.removeAllIndexedData();
+		EmbeddedElasticSearchLauncher.start();
+		EmbeddedElasticSearchLauncher.removeAllIndexedData();
 	}
 
 	@After
 	public void tearDown() {
 	}
 	
-
-	@Test
-	public void nodeShouldBeStartedAndWorking() {
-		Field field = null;
-		try {
-			field = ElasticSearchLauncher.class.getDeclaredField("node");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		field.setAccessible(true);
-
-		Node node = null;
-		try {
-			node = (Node) field.get(new ElasticSearchLauncher());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		assertThat(node).isNotNull();
-		assertThat(node.isClosed()).isFalse();
-	}
-
 	
 	@Test
 	public void defaultLibraryIsCreatedAtStart() {

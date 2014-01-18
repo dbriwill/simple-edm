@@ -84,7 +84,7 @@ public class GedLibraryService {
     }
 	
 	public GedLibrary save(GedLibraryDto gedLibraryDto) {
-		// see https://github.com/spring-projects/spring-data-elasticsearch/issues/21 and https://github.com/spring-projects/spring-data-elasticsearch/pull/27
+		// TODO [improve me] ; see https://github.com/spring-projects/spring-data-elasticsearch/issues/21 and https://github.com/spring-projects/spring-data-elasticsearch/pull/27
 		// unless it's fixed, I set my generated ID
 		if (gedLibraryDto.getId() == null || gedLibraryDto.getId().isEmpty()) {
 			gedLibraryDto.setId(String.valueOf(System.currentTimeMillis()));
