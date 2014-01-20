@@ -29,7 +29,7 @@
 		<org.springframework.data.spring-data-commons-core.version>1.4.1.RELEASE</org.springframework.data.spring-data-commons-core.version>
 		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.BUILD-SNAPSHOT</org.springframework.data.spring-data-elasticsearch.version>
 
-		<com.fasterxml.jackson.core.version>2.2.2</com.fasterxml.jackson.core.version>
+		<com.fasterxml.jackson.core.version>2.2.3</com.fasterxml.jackson.core.version>
 
 		<org.thymeleaf.version>2.0.20</org.thymeleaf.version>
 

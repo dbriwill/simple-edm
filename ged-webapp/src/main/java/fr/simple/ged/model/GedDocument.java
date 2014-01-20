@@ -1,11 +1,14 @@
 package fr.simple.ged.model;
 
+import javax.persistence.DiscriminatorValue;
+
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import fr.simple.ged.common.GedNodeType;
 
 @Document(indexName = "documents", type = "document")
+@DiscriminatorValue("document")
 public class GedDocument extends GedNode {
 
 	@Version
