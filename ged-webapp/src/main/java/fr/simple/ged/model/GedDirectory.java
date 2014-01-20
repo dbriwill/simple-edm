@@ -5,10 +5,12 @@ import javax.persistence.DiscriminatorValue;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import fr.simple.ged.common.GedNodeType;
 
 @Document(indexName = "documents", type = "directory")
-@DiscriminatorValue("directory")
 public class GedDirectory extends GedNode {
 	
 	@Version

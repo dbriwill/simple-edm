@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import com.drew.lang.annotations.NotNull;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 import fr.simple.ged.common.GedNodeType;
 
@@ -16,8 +17,6 @@ import fr.simple.ged.common.GedNodeType;
  * @author xavier
  *
  */
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="GED_NODE_TYPE")
 @Document(indexName = "ged", type = "node")
 public class GedNode {
 

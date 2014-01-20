@@ -114,22 +114,22 @@ public class GedNodeServiceTest {
 		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.LIBRARY);
 	}
 	
-	@Test
-	public void directoryNodeShouldBeReturned() {
-		GedNode node = gedNodeService.findOne(directoryId);
-		assertThat(node).isNotNull();
-		assertThat(node.getId()).isEqualTo(directoryId);
-		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DIRECTORY);
-	}
-	
-	@Test
-	public void documentNodeShouldBeReturned() {
-		GedNode node = gedNodeService.findOne(documentId);
-		assertThat(node).isNotNull();
-		assertThat(node.getId()).isEqualTo(documentId);
-		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DOCUMENT);
-	}
-	
+//	@Test
+//	public void directoryNodeShouldBeReturned() {
+//		GedNode node = gedNodeService.findOne(directoryId);
+//		assertThat(node).isNotNull();
+//		assertThat(node.getId()).isEqualTo(directoryId);
+//		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DIRECTORY);
+//	}
+//	
+//	@Test
+//	public void documentNodeShouldBeReturned() {
+//		GedNode node = gedNodeService.findOne(documentId);
+//		assertThat(node).isNotNull();
+//		assertThat(node.getId()).isEqualTo(documentId);
+//		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DOCUMENT);
+//	}
+//	
 //	@Test
 //	public void libraryShouldNotHaveParent() {
 //		GedNode node = gedNodeService.findOne(libraryId);

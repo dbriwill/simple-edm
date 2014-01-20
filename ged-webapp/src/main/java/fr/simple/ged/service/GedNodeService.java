@@ -20,20 +20,26 @@ public class GedNodeService {
 	
 	@Inject
 	private GedDocumentRepository gedDocumentRepository;
-	
+
 	
 	public GedNode findOne(String nodeid) {
 		// we've to find the node type
 		GedNode node = null;
 		
-		node = gedLibraryRepository.findOne(nodeid);
-		if (node == null) {
-			node = gedDirectoryRepository.findOne(nodeid);
-			if (node == null) {
-				node = gedDocumentRepository.findOne(nodeid);
-			}
-		}
+		GedNode 	gedLibrary		= (GedNode)gedLibraryRepository.findOne(nodeid);
+		GedNode		gedDirectory	= (GedNode)gedDirectoryRepository.findOne(nodeid);
+		GedNode		gedDocument		= (GedNode)gedDocumentRepository.findOne(nodeid);
 		
+		if (gedLibrary != null) {
+			node = (GedNode)gedLibrary;
+		}
+		else if (gedDirectory != null) {
+			node = (GedNode)gedDirectory;
+		}
+		else if (gedDocument != null) {
+			node = (GedNode)gedDocument;
+		}
+
 		return node;
 	}
 
