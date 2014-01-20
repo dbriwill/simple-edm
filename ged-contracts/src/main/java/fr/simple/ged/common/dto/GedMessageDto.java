@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class GedMessageDto implements Serializable {
 
-    protected String id;
-
+	protected String id;
+	
     protected String date;
 
     protected String message;

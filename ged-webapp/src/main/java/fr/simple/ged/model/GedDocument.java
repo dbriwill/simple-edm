@@ -1,17 +1,13 @@
 package fr.simple.ged.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "documents", type = "document")
-public class GedDocument {
+import fr.simple.ged.common.GedNodeType;
 
-	private String parentId;
-	
-	@Id
-	private String id;
-	
+@Document(indexName = "documents", type = "document")
+public class GedDocument extends GedNode {
+
 	@Version
     private Long version;
 	
@@ -19,22 +15,11 @@ public class GedDocument {
 	
 	private String description;
 
-	public String getParentId() {
-		return parentId;
+	
+	public GedDocument() {
+		super(GedNodeType.DOCUMENT);
 	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	public Long getVersion() {
 		return version;
 	}

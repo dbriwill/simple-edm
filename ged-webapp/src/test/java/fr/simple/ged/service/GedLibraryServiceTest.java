@@ -1,4 +1,4 @@
-package fr.simple.ged;
+package fr.simple.ged.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -19,6 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import fr.simple.ged.Application;
+import fr.simple.ged.ElasticsearchConfig;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.service.GedLibraryService;
 
@@ -37,7 +39,7 @@ public class GedLibraryServiceTest {
 	private GedLibraryService gedLibraryService;
 
 	@Autowired
-    Environment env;
+    private Environment env;
 	
 	private static final String ES_INDEX = "documents";
 	

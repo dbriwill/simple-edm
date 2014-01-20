@@ -2,30 +2,17 @@ package fr.simple.ged.common.dto;
 
 import java.io.Serializable;
 
-public class GedDocumentDto implements Serializable {
+import fr.simple.ged.common.GedNodeType;
 
-	private String parentId;
-	
-	private String id;
-	
+public class GedDocumentDto extends GedNodeDto implements Serializable {
+
 	private String name;
 	
 	private String description;
 
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	
+	public GedDocumentDto() {
+		super(GedNodeType.DOCUMENT);
 	}
 
 	public String getName() {

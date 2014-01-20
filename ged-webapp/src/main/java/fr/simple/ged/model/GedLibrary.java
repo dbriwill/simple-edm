@@ -1,27 +1,21 @@
 package fr.simple.ged.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "documents", type = "library")
-public class GedLibrary {
+import fr.simple.ged.common.GedNodeType;
 
-	@Id
-	private String id;
+@Document(indexName = "documents", type = "library")
+public class GedLibrary extends GedNode {
 
 	private String name;
 
 	private String description;
 
 	
-	public String getId() {
-		return id;
+	public GedLibrary() {
+		super(GedNodeType.LIBRARY);
 	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	public String getName() {
 		return name;
 	}

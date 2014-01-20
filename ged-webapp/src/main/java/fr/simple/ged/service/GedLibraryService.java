@@ -28,31 +28,18 @@ public class GedLibraryService {
     private final Logger logger = LoggerFactory.getLogger(GedLibraryService.class);
     
     @Inject
-    Environment env;
+    private Environment env;
 
     @Inject
-	protected GedLibraryRepository gedLibraryRepository;
+    private GedLibraryRepository gedLibraryRepository;
 
     @Inject
-	protected GedLibraryMapper gedLibraryMapper;
+    private GedLibraryMapper gedLibraryMapper;
 
-
-    public GedLibraryMapper getGedLibraryMapper() {
-        return gedLibraryMapper;
+    
+    public GedLibraryDto findOne(String id) {
+    	return gedLibraryMapper.boToDto(gedLibraryRepository.findOne(id));
     }
-
-    public void setGedLibraryMapper(GedLibraryMapper gedLibraryMapper) {
-        this.gedLibraryMapper = gedLibraryMapper;
-    }
-
-    public GedLibraryRepository getGedLibraryRepository() {
-        return gedLibraryRepository;
-    }
-
-    public void setGedLibraryRepository(GedLibraryRepository gedLibraryRepository) {
-        this.gedLibraryRepository = gedLibraryRepository;
-    }
-
 
 	public List<GedLibrary> getGedLibraries() {
 		List<GedLibrary> gedLibraries = new ArrayList<>();
@@ -64,7 +51,7 @@ public class GedLibraryService {
 	
 	public List<GedLibraryDto> getGedLibrariesDto() {
 		List<GedLibraryDto> gedLibrariesDto = new ArrayList<>();
-		for (GedLibrary l : gedLibraryRepository.findAll()) {
+		for (GedLibrary l : getGedLibraries()) {
 			gedLibrariesDto.add(gedLibraryMapper.boToDto(l));
 		}
 		return gedLibrariesDto;
@@ -79,17 +66,17 @@ public class GedLibraryService {
             GedLibraryDto libraryDto = new GedLibraryDto();
             libraryDto.setName(env.getProperty("default.library.name"));
             libraryDto.setDescription(env.getProperty("default.library.description"));
-            save(libraryDto);
+            save(gedLibraryMapper.dtoToBo(libraryDto));
         }
     }
 	
-	public GedLibrary save(GedLibraryDto gedLibraryDto) {
+	public GedLibrary save(GedLibrary gedLibrary) {
 		// TODO [improve me] ; see https://github.com/spring-projects/spring-data-elasticsearch/issues/21 and https://github.com/spring-projects/spring-data-elasticsearch/pull/27
 		// unless it's fixed, I set my generated ID
-		if (gedLibraryDto.getId() == null || gedLibraryDto.getId().isEmpty()) {
-			gedLibraryDto.setId(String.valueOf(System.currentTimeMillis()));
+		if (gedLibrary.getId() == null || gedLibrary.getId().isEmpty()) {
+			gedLibrary.setId(String.valueOf(System.currentTimeMillis()));
 		}
-		return gedLibraryRepository.index(gedLibraryMapper.dtoToBo(gedLibraryDto));
+		return gedLibraryRepository.index(gedLibrary);
 	}
 	
 }
