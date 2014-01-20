@@ -32,6 +32,10 @@ public class GedNodeDto {
 		return gedNodeType;
 	}
 
+	public void setGedNodeType(GedNodeType gedNodeType) {
+		this.gedNodeType = gedNodeType;
+	}
+
 	public GedNodeDto getParent() {
 		return parent;
 	}

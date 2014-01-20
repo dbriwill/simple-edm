@@ -40,6 +40,10 @@ public class GedNode {
 		return gedNodeType;
 	}
 
+	public void setGedNodeType(GedNodeType gedNodeType) {
+		this.gedNodeType = gedNodeType;
+	}
+
 	public GedNode getParent() {
 		return parent;
 	}
