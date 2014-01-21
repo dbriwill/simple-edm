@@ -1,5 +1,6 @@
 package fr.simple.ged;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -23,15 +24,16 @@ public class ElasticsearchTestingHelper {
 	 * Will destroy and rebuild ES_INDEX
 	 */
 	public void destroyAndRebuildDocumentsIndex() throws Exception {
-//		Method getLocalClientMethod = ElasticsearchConfig.class.getDeclaredMethod("localClient");
-//		getLocalClientMethod.setAccessible(true);
-//		Client client = (Client) getLocalClientMethod.invoke(elasticsearchConfig);
-//		
-//		Method rebuildEsMappingMethod = ElasticsearchConfig.class.getDeclaredMethod("buildEsMapping");
-//		rebuildEsMappingMethod.setAccessible(true);
-//		
-//		client.admin().indices().delete(new DeleteIndexRequest(ES_INDEX_DOCUMENTS)).actionGet();
-//		rebuildEsMappingMethod.invoke(elasticsearchConfig);
+		Field clientField = ElasticsearchConfig.class.getDeclaredField("client");
+		clientField.setAccessible(true);
+
+		Client client = (Client) clientField.get(elasticsearchConfig);
+		
+		Method rebuildEsMappingMethod = ElasticsearchConfig.class.getDeclaredMethod("buildEsMapping");
+		rebuildEsMappingMethod.setAccessible(true);
+		
+		client.admin().indices().delete(new DeleteIndexRequest(ES_INDEX_DOCUMENTS)).actionGet();
+		rebuildEsMappingMethod.invoke(elasticsearchConfig);
 	}
 	
 }

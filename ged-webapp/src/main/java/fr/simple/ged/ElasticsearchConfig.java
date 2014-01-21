@@ -54,6 +54,7 @@ public class ElasticsearchConfig {
 
 	private Client client;
 
+	
     @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
     	

@@ -2,7 +2,7 @@ package fr.simple.ged;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
@@ -26,6 +26,8 @@ public class ElasticsearchClientTest {
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
+	@Autowired
+	public ElasticsearchConfig elasticsearchConfig;
 	
 	/**
 	 * Will destroy and rebuild ES_INDEX
@@ -38,12 +40,11 @@ public class ElasticsearchClientTest {
 	
 	@Test
 	public void localNodeShouldBeStartedAndWorking() throws Exception {
-		ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig();
-		
-		Method getLocalClientMethod = ElasticsearchConfig.class.getDeclaredMethod("localClient");
-		getLocalClientMethod.setAccessible(true);
-		Client client = (Client) getLocalClientMethod.invoke(elasticsearchConfig);
-		
+		Field clientField = ElasticsearchConfig.class.getDeclaredField("client");
+		clientField.setAccessible(true);
+
+		Client client = (Client) clientField.get(elasticsearchConfig);
+
 		assertThat(client).isNotNull();
 		
 		CountResponse response = client.prepareCount(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS).execute().actionGet();
