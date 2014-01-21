@@ -40,6 +40,7 @@
 		<org.easytesting.version>2.0M8</org.easytesting.version>
 
 		<commons-io.version>2.4</commons-io.version>
+		<org.apache.commons.commons-lang3.version>3.1</org.apache.commons.commons-lang3.version>
 
 		<com.google.guava.version>15.0</com.google.guava.version>
 	</properties>
@@ -279,6 +280,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${org.apache.commons.commons-lang3.version}</version>
 		</dependency>
 
 

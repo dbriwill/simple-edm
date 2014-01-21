@@ -22,8 +22,8 @@ public class GedDirectoryService {
     @Inject
     private GedDirectoryMapper gedDirectoryMapper;
 	
-    public GedDirectoryDto findOne(String id) {
-    	return gedDirectoryMapper.boToDto(gedDirectoryRepository.findOne(id));
+    public GedDirectory findOne(String id) {
+    	return gedDirectoryRepository.findOne(id);
     }
     
 	public GedDirectory save(GedDirectory gedDirectory) {

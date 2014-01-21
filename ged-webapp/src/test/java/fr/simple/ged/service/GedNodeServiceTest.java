@@ -98,15 +98,15 @@ public class GedNodeServiceTest {
 		assertThat(node.getId()).isEqualTo(libraryId);
 		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.LIBRARY);
 	}
-//	
-//	@Test
-//	public void directoryNodeShouldBeReturned() {
-//		GedNode node = gedNodeService.findOne(directoryId);
-//		assertThat(node).isNotNull();
-//		assertThat(node.getId()).isEqualTo(directoryId);
-//		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DIRECTORY);
-//	}
-//	
+	
+	@Test
+	public void directoryNodeShouldBeReturned() {
+		GedNode node = gedNodeService.findOne(directoryId);
+		assertThat(node).isNotNull();
+		assertThat(node.getId()).isEqualTo(directoryId);
+		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.DIRECTORY);
+	}
+	
 //	@Test
 //	public void documentNodeShouldBeReturned() {
 //		GedNode node = gedNodeService.findOne(documentId);

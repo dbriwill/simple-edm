@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import fr.simple.ged.common.GedNodeType;
 
-@Entity
 @Document(indexName = "documents", type = "document")
-@DiscriminatorValue("GedDocument")
 public class GedDocument extends GedNode {
 
 	@Version

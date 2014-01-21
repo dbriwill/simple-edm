@@ -22,8 +22,8 @@ public class GedDocumentService {
     @Inject
 	private GedDocumentMapper gedDocumentMapper;
 	
-    public GedDocumentDto findOne(String id) {
-    	return gedDocumentMapper.boToDto(gedDocumentRepository.findOne(id));
+    public GedDocument findOne(String id) {
+    	return gedDocumentRepository.findOne(id);
     }
     
 	public GedDocument save(GedDocument gedDocument) {

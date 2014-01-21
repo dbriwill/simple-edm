@@ -4,6 +4,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -18,10 +19,8 @@ import fr.simple.ged.common.GedNodeType;
  * @author xavier
  *
  */
-@Entity
 @Document(indexName = "ged", type = "node")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="GedNode")
+@MappedSuperclass
 public class GedNode {
 
 	@Id
