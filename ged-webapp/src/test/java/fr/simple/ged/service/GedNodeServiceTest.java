@@ -2,10 +2,6 @@ package fr.simple.ged.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.lang.reflect.Method;
-
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.client.Client;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import fr.simple.ged.Application;
-import fr.simple.ged.ElasticsearchConfig;
+import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.common.GedNodeType;
 import fr.simple.ged.model.GedDirectory;
 import fr.simple.ged.model.GedDocument;
@@ -42,8 +38,9 @@ public class GedNodeServiceTest {
 	@Autowired
 	private GedDirectoryService gedDirectoryService;
 	
+	@Autowired
+	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
-	private static final String ES_INDEX = "documents";
 	
 	// testing id's
 	private String libraryId;
@@ -56,19 +53,7 @@ public class GedNodeServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		ElasticsearchConfig elasticsearchConfig = new ElasticsearchConfig();
-		
-		Method getLocalClientMethod = ElasticsearchConfig.class.getDeclaredMethod("localClient");
-		getLocalClientMethod.setAccessible(true);
-		Client client = (Client) getLocalClientMethod.invoke(elasticsearchConfig);
-		
-		Class<?> rebuildEsMappingMethodParams[] = new Class[1];
-		rebuildEsMappingMethodParams[0] = Client.class;
-		Method rebuildEsMappingMethod = ElasticsearchConfig.class.getDeclaredMethod("buildEsMapping", rebuildEsMappingMethodParams);
-		rebuildEsMappingMethod.setAccessible(true);
-		
-		client.admin().indices().delete(new DeleteIndexRequest(ES_INDEX)).actionGet();
-		rebuildEsMappingMethod.invoke(elasticsearchConfig, client);
+		elasticsearchTestingHelper.destroyAndRebuildDocumentsIndex();
 		
 		// building a fake environment
 		GedLibrary gedLibrary = new GedLibrary();
@@ -113,7 +98,7 @@ public class GedNodeServiceTest {
 		assertThat(node.getId()).isEqualTo(libraryId);
 		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.LIBRARY);
 	}
-	
+//	
 //	@Test
 //	public void directoryNodeShouldBeReturned() {
 //		GedNode node = gedNodeService.findOne(directoryId);

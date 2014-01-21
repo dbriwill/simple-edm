@@ -26,15 +26,6 @@ public class Application {
 
     private static GedLibraryService gedLibraryService;
 
-    public GedLibraryService getGedLibraryService() {
-        return gedLibraryService;
-    }
-
-    public static Environment getEnv() {
-		return env;
-	}
-
-
 	private static Environment env;
     
 	

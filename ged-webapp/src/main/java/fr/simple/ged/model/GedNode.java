@@ -1,6 +1,7 @@
 package fr.simple.ged.model;
 
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -17,7 +18,10 @@ import fr.simple.ged.common.GedNodeType;
  * @author xavier
  *
  */
+@Entity
 @Document(indexName = "ged", type = "node")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="GedNode")
 public class GedNode {
 
 	@Id

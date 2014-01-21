@@ -1,6 +1,7 @@
 package fr.simple.ged.model;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -10,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import fr.simple.ged.common.GedNodeType;
 
+@Entity
 @Document(indexName = "documents", type = "directory")
+@DiscriminatorValue("GedDirectory")
 public class GedDirectory extends GedNode {
 	
 	@Version

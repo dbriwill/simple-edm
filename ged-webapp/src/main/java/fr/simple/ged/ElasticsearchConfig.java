@@ -52,22 +52,26 @@ public class ElasticsearchConfig {
 	@Inject
     Environment env;
 
+	private Client client;
 
     @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
+    	
+    	
     	// local case
     	if (env.getProperty("ged.embedded-storage").equalsIgnoreCase("true")) {
-    		Client client = localClient();
+    		client = localClient();
     		
     		// on a local environment, we wan't to be sure the mapping is applied
     		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-    		buildEsMapping(client);
+    		buildEsMapping();
     		
     		return new ElasticsearchTemplate(client);
     	}
     	
     	// remote case, don't care about mapping
-    	return new ElasticsearchTemplate(remoteClient());
+    	client = remoteClient();
+    	return new ElasticsearchTemplate(client);
     }
 
     
@@ -85,13 +89,16 @@ public class ElasticsearchConfig {
     	TransportClient client = new TransportClient();
     	for (String clusterNode : remoteNodes.split(",")) {
     		String hostAndPort[] = clusterNode.split(":");
-    		client.addTransportAddress(new InetSocketTransportAddress(hostAndPort[0], Integer.parseInt(hostAndPort[1])));
+    		String address = hostAndPort[0];
+    		Integer port = Integer.parseInt(hostAndPort[1]);
+    		logger.info("Add transport address {} , port {}", address, port);
+    		client.addTransportAddress(new InetSocketTransportAddress(address, port));
     	}
         return client;
     }
     
     
-    private void buildEsMapping(Client client) {
+    private void buildEsMapping() {
     	
     	logger.info("Trying to build ES mapping");
     	

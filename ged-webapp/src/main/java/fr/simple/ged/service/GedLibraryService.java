@@ -37,8 +37,8 @@ public class GedLibraryService {
     private GedLibraryMapper gedLibraryMapper;
 
     
-    public GedLibraryDto findOne(String id) {
-    	return gedLibraryMapper.boToDto(gedLibraryRepository.findOne(id));
+    public GedLibrary findOne(String id) {
+    	return gedLibraryRepository.findOne(id);
     }
 
 	public List<GedLibrary> getGedLibraries() {
