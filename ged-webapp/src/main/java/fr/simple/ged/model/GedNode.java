@@ -20,8 +20,7 @@ import fr.simple.ged.common.GedNodeType;
  *
  */
 @Document(indexName = "documents", type = "node")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="gedNodeType")
+@MappedSuperclass
 public class GedNode implements Serializable {
 
 	@Id

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import fr.simple.ged.common.dto.GedDirectoryDto;
 import fr.simple.ged.mapper.GedDirectoryMapper;
 import fr.simple.ged.model.GedDirectory;
 import fr.simple.ged.repository.GedDirectoryRepository;

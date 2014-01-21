@@ -1,17 +1,10 @@
 package fr.simple.ged.model;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-
 import org.springframework.data.elasticsearch.annotations.Document;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import fr.simple.ged.common.GedNodeType;
 
 @Document(indexName = "documents", type = "library")
-@DiscriminatorValue("library")
 public class GedLibrary extends GedNode {
 
 	private String name;
