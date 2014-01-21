@@ -57,8 +57,6 @@ public class ElasticsearchConfig {
 	
     @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
-    	
-    	
     	// local case
     	if (env.getProperty("ged.embedded-storage").equalsIgnoreCase("true")) {
     		client = localClient();

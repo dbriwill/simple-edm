@@ -21,7 +21,7 @@ public class ElasticsearchTestingHelper {
 	
 	
 	/**
-	 * Will destroy and rebuild ES_INDEX
+	 * Will destroy and rebuild ES_INDEX_DOCUMENTS
 	 */
 	public void destroyAndRebuildDocumentsIndex() throws Exception {
 		Field clientField = ElasticsearchConfig.class.getDeclaredField("client");

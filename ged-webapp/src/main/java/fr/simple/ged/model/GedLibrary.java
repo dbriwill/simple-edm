@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.simple.ged.common.GedNodeType;
 
 @Document(indexName = "documents", type = "library")
+@DiscriminatorValue("library")
 public class GedLibrary extends GedNode {
 
 	private String name;

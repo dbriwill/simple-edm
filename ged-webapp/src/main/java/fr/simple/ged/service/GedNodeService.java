@@ -18,8 +18,7 @@ public class GedNodeService {
 	
 	@Inject
 	private GedDirectoryService gedDirectoryService;
-	
-	
+
 	public GedNode findOne(String nodeid) {
 		return ObjectUtils.firstNonNull(
 				gedLibraryService.findOne(nodeid),
