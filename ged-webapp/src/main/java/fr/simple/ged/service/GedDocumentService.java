@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import fr.simple.ged.mapper.GedDocumentMapper;
 import fr.simple.ged.model.GedDocument;
 import fr.simple.ged.repository.GedDocumentRepository;
 
@@ -17,9 +16,6 @@ public class GedDocumentService {
 
     @Inject
 	private GedDocumentRepository gedDocumentRepository;
-
-    @Inject
-	private GedDocumentMapper gedDocumentMapper;
 	
     public GedDocument findOne(String id) {
     	return gedDocumentRepository.findOne(id);

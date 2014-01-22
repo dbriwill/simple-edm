@@ -12,8 +12,6 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import fr.simple.ged.common.dto.GedLibraryDto;
-import fr.simple.ged.mapper.GedLibraryMapper;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.repository.GedLibraryRepository;
 
@@ -32,10 +30,6 @@ public class GedLibraryService {
 
     @Inject
     private GedLibraryRepository gedLibraryRepository;
-
-    @Inject
-    private GedLibraryMapper gedLibraryMapper;
-
     
     public GedLibrary findOne(String id) {
     	return gedLibraryRepository.findOne(id);
@@ -49,24 +43,15 @@ public class GedLibraryService {
 		return gedLibraries;
 	}
 	
-	public List<GedLibraryDto> getGedLibrariesDto() {
-		List<GedLibraryDto> gedLibrariesDto = new ArrayList<>();
-		for (GedLibrary l : getGedLibraries()) {
-			gedLibrariesDto.add(gedLibraryMapper.boToDto(l));
-		}
-		return gedLibrariesDto;
-	}
-
-
     public void createDefaultLibraryIfNotExists() {
         logger.debug("Checking for at least one library found...");
         if (gedLibraryRepository.count() == 0) {
             logger.info("Creating default library");
             
-            GedLibraryDto libraryDto = new GedLibraryDto();
-            libraryDto.setName(env.getProperty("default.library.name"));
-            libraryDto.setDescription(env.getProperty("default.library.description"));
-            save(gedLibraryMapper.dtoToBo(libraryDto));
+            GedLibrary library = new GedLibrary();
+            library.setName(env.getProperty("default.library.name"));
+            library.setDescription(env.getProperty("default.library.description"));
+            save(library);
         }
     }
 	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.simple.ged.common.dto.GedLibraryDto;
+import fr.simple.ged.mapper.GedLibraryMapper;
 import fr.simple.ged.service.GedLibraryService;
 
 @RestController
@@ -19,9 +20,13 @@ public class GedLibraryController {
 	@Inject
 	private GedLibraryService gedLibraryService;
 	
+	@Inject
+	private GedLibraryMapper gedLibraryMapper;
+	
+	
     @RequestMapping(value = "/library", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<GedLibraryDto> list() {
-        return gedLibraryService.getGedLibrariesDto();
+        return gedLibraryMapper.boToDto(gedLibraryService.getGedLibraries());
     }
 	
 }

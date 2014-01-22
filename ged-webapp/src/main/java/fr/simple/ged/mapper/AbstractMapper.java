@@ -1,5 +1,9 @@
 package fr.simple.ged.mapper;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.springframework.beans.BeanUtils;
 
 public class AbstractMapper<T, S> {
@@ -34,4 +38,23 @@ public class AbstractMapper<T, S> {
 		return s;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<T> dtoToBo(List<S> dtos) {
+		return (List<T>) CollectionUtils.transformedCollection(dtos, new Transformer() {
+			@Override
+			public Object transform(Object arg0) {
+				return dtoToBo((S) arg0);
+			}
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<S> boToDto(List<T> bos) {
+		return (List<S>) CollectionUtils.transformedCollection(bos, new Transformer() {
+			@Override
+			public Object transform(Object arg0) {
+				return boToDto((T) arg0);
+			}
+		});
+	}
 }

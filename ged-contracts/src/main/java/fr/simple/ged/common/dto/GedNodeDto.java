@@ -1,5 +1,7 @@
 package fr.simple.ged.common.dto;
 
+import java.io.Serializable;
+
 import fr.simple.ged.common.GedNodeType;
 
 /**
@@ -7,7 +9,7 @@ import fr.simple.ged.common.GedNodeType;
  * @author xavier
  *
  */
-public class GedNodeDto {
+public class GedNodeDto implements Serializable {
 
 	private String id;
 
