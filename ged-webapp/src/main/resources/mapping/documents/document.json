@@ -15,7 +15,13 @@
                 "format" : "dateOptionalTime"
             },
             "files" : {
-                "type" : "attachment"
+                "type" : "attachment",
+                 "fields" : {
+                    "file" : {
+                    	"index" : "yes",
+                    	"store" : "no"
+                    }
+             	}
             }
         }
     }
