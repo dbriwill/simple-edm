@@ -14,8 +14,6 @@ public class GedDocument extends GedNode {
 	@Version
     private Long version;
 	
-	private String name;
-	
 	private String description;
 
 	private List<GedFile> files; 
@@ -32,15 +30,7 @@ public class GedDocument extends GedNode {
 	public void setVersion(Long version) {
 		this.version = version;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getDescription() {
 		return description;
 	}

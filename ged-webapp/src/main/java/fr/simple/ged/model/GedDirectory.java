@@ -8,32 +8,10 @@ import fr.simple.ged.common.GedNodeType;
 @Document(indexName = "documents", type = "directory")
 public class GedDirectory extends GedNode {
 	
-	@Version
-    private Long version;
-	
-	private String name;
-	
 	private String description;
 
-	
 	public GedDirectory() {
 		super(GedNodeType.DIRECTORY);
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getDescription() {

@@ -2,13 +2,9 @@ package fr.simple.ged.model;
 
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import com.drew.lang.annotations.NotNull;
 
@@ -29,6 +25,10 @@ public class GedNode implements Serializable {
 	private GedNodeType gedNodeType;
 	
 	private GedNode parent;
+	
+	@NotNull
+	private String name;
+	
 	
 	public GedNode(GedNodeType gedNodeType) {
 		this.gedNodeType = gedNodeType;
@@ -61,7 +61,14 @@ public class GedNode implements Serializable {
 		this.parent = parent;
 	}
 
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -83,7 +83,7 @@ public class GedNodeServiceTest {
 		documentId = gedDocument.getId();
 		
 		GedFile gedFile = new GedFile();
-		gedFile.setFileName("Super file !");
+		gedFile.setName("Super file !");
 		gedFile.setParent(gedDocument);
 		gedFile = gedFileService.save(gedFile);
 		

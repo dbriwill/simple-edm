@@ -78,6 +78,11 @@ public class ElasticsearchConfig {
     }
 
     
+    // should be used with caution, only if you really need it for manual query
+    public Client getClient() {
+    	return client;
+    }
+    
     
     private Client localClient() {
     	logger.info("ES is using a local node");
@@ -172,4 +177,5 @@ public class ElasticsearchConfig {
         logger.info("Building is over !");
     }
     
+	
 }

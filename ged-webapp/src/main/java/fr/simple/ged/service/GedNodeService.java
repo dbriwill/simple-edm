@@ -31,4 +31,13 @@ public class GedNodeService {
 		);
 	}
 
+	public String getPathOfNode(GedNode gedNode) {
+		String path = "";
+		while (gedNode.getParent() != null) {
+			GedNode parent = gedNode.getParent();
+			path = parent.getName() + "/" + path;
+		}
+		return path;
+	}
+	
 }

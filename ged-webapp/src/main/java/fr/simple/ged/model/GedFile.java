@@ -7,22 +7,13 @@ import fr.simple.ged.common.GedNodeType;
 @Document(indexName = "documents", type = "file")
 public class GedFile extends GedNode {
 
-	private String fileName;
-	
 	public GedFile() {
 		super(GedNodeType.FILE);
 	}
 	
 	public GedFile(String fileName) {
-		this.fileName = fileName;
+		super(GedNodeType.FILE);
+		super.setName(fileName);
 	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
+	
 }

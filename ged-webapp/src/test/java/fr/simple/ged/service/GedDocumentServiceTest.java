@@ -17,7 +17,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.simple.ged.Application;
 import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.model.GedDocument;
-import fr.simple.ged.model.GedFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

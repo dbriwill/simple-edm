@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import fr.simple.ged.ElasticsearchConfig;
 import fr.simple.ged.model.GedDocument;
 import fr.simple.ged.model.GedFile;
 import fr.simple.ged.repository.GedDocumentRepository;
@@ -30,8 +31,14 @@ public class GedDocumentService {
 	private final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
 
 	@Inject
+	private ElasticsearchConfig elasticsearchConfig;
+	
+	@Inject
 	private GedDocumentRepository gedDocumentRepository;
 
+	@Inject
+	private GedNodeService gedNodeService;
+	
 	
 	public GedDocument findOne(String id) {
 		return gedDocumentRepository.findOne(id);
@@ -73,14 +80,14 @@ public class GedDocumentService {
 //
 //				for (GedFile gedFile : gedDocument.getFiles()) {
 //
-//					logger.debug("Adding file '{}' for ES indexation",	gedFile.getFileName());
+//					logger.debug("Adding file '{}' for ES indexation",	gedNodeService.getPathOfNode(gedFile));
 //
 //					contentBuilder.startObject();
 //
-//					Path filePath = Paths.get(gedFile.getRelativeFilePath());
+//					Path filePath = Paths.get(gedNodeService.getPathOfNode(gedFile));
 //
 //					String contentType = Files.probeContentType(filePath);
-//					String name = gedFile.getFileName();
+//					String name = gedNodeService.getPathOfNode(gedFile);
 //					String content = Base64.encodeBytes(Files.readAllBytes(filePath));
 //
 //					contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
@@ -95,14 +102,18 @@ public class GedDocumentService {
 //			contentBuilder.endObject();
 //
 //			// TODO : dynamise index and type with GedDocument annotation !
-//			IndexResponse ir = node.client().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
+//			IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
 //
+//			gedDocument.setId(ir.getId());
+//			
 //			logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
 //		} catch (Exception e) {
 //			logger.error("Failed to index document", e);
 //		}
-
-		return gedDocumentRepository.index(gedDocument);
+//
+//		return gedDocument;
+		
+		return gedDocumentRepository.save(gedDocument);
 	}
 
 	
