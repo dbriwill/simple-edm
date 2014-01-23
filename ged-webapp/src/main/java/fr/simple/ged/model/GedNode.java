@@ -19,7 +19,6 @@ import fr.simple.ged.common.GedNodeType;
  * @author xavier
  *
  */
-@Document(indexName = "documents", type = "node")
 @MappedSuperclass
 public class GedNode implements Serializable {
 

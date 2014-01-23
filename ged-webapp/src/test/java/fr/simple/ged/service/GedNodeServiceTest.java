@@ -16,6 +16,7 @@ import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.common.GedNodeType;
 import fr.simple.ged.model.GedDirectory;
 import fr.simple.ged.model.GedDocument;
+import fr.simple.ged.model.GedFile;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.model.GedNode;
 
@@ -39,6 +40,10 @@ public class GedNodeServiceTest {
 	private GedDirectoryService gedDirectoryService;
 	
 	@Autowired
+	private GedFileService gedFileService;
+	
+	
+	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
 	
@@ -46,6 +51,7 @@ public class GedNodeServiceTest {
 	private String libraryId;
 	private String directoryId;
 	private String documentId;
+	private String fileId;
 	
 	private String directoryWithDirectoryParentId;
 	private String documentWithLibraryParentId;
@@ -53,7 +59,7 @@ public class GedNodeServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		elasticsearchTestingHelper.destroyAndRebuildDocumentsIndex();
+		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		
 		// building a fake environment
 		GedLibrary gedLibrary = new GedLibrary();
@@ -75,6 +81,13 @@ public class GedNodeServiceTest {
 		gedDocument = gedDocumentService.save(gedDocument);
 		
 		documentId = gedDocument.getId();
+		
+		GedFile gedFile = new GedFile();
+		gedFile.setFileName("Super file !");
+		gedFile.setParent(gedDocument);
+		gedFile = gedFileService.save(gedFile);
+		
+		fileId = gedFile.getId();
 		
 		GedDirectory anotherGedDirectory = new GedDirectory();
 		anotherGedDirectory.setName("Another ged directory");
@@ -116,6 +129,14 @@ public class GedNodeServiceTest {
 	}
 	
 	@Test
+	public void fileNodeShouldBeReturned() {
+		GedNode node = gedNodeService.findOne(fileId);
+		assertThat(node).isNotNull();
+		assertThat(node.getId()).isEqualTo(fileId);
+		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.FILE);
+	}
+	
+	@Test
 	public void libraryShouldNotHaveParent() {
 		GedNode node = gedNodeService.findOne(libraryId);
 		assertThat(node.getParent()).isNull();
@@ -143,5 +164,11 @@ public class GedNodeServiceTest {
 	public void documentCanHaveDirectoryForParent() {
 		GedNode node = gedNodeService.findOne(documentId);
 		assertThat(node.getParent().getId()).isEqualTo(directoryId);
+	}
+	
+	@Test
+	public void fileMustHaveDocumentForParent() {
+		GedNode node = gedNodeService.findOne(fileId);
+		assertThat(node.getParent().getId()).isEqualTo(documentId);
 	}
 }

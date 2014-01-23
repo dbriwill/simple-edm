@@ -20,10 +20,13 @@ public class ElasticsearchTestingHelper {
 	public ElasticsearchConfig elasticsearchConfig;
 	
 	
+	private Method flushIndexMethod;
+	
+	
 	/**
 	 * Will destroy and rebuild ES_INDEX_DOCUMENTS
 	 */
-	public void destroyAndRebuildDocumentsIndex() throws Exception {
+	public void destroyAndRebuildIndex(String index) throws Exception {
 		Field clientField = ElasticsearchConfig.class.getDeclaredField("client");
 		clientField.setAccessible(true);
 
@@ -31,9 +34,17 @@ public class ElasticsearchTestingHelper {
 		
 		Method rebuildEsMappingMethod = ElasticsearchConfig.class.getDeclaredMethod("buildEsMapping");
 		rebuildEsMappingMethod.setAccessible(true);
+
+		flushIndexMethod = ElasticsearchConfig.class.getDeclaredMethod("flushIndex", String.class);
+		flushIndexMethod.setAccessible(true);
 		
 		client.admin().indices().delete(new DeleteIndexRequest(ES_INDEX_DOCUMENTS)).actionGet();
 		rebuildEsMappingMethod.invoke(elasticsearchConfig);
+	}
+	
+	
+	public void flushIndex(String index) throws Exception  {
+		flushIndexMethod.invoke(elasticsearchConfig, index);
 	}
 	
 }

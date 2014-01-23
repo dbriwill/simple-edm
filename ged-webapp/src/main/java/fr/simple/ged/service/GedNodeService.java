@@ -18,12 +18,16 @@ public class GedNodeService {
 	
 	@Inject
 	private GedDirectoryService gedDirectoryService;
+	
+	@Inject
+	private GedFileService gedFileService;
 
 	public GedNode findOne(String nodeid) {
 		return ObjectUtils.firstNonNull(
 				gedLibraryService.findOne(nodeid),
 				gedDirectoryService.findOne(nodeid),
-				gedDocumentService.findOne(nodeid)
+				gedDocumentService.findOne(nodeid),
+				gedFileService.findOne(nodeid)
 		);
 	}
 

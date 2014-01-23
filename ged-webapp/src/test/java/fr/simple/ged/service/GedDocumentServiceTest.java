@@ -43,7 +43,7 @@ public class GedDocumentServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		elasticsearchTestingHelper.destroyAndRebuildDocumentsIndex();
+		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		
         docBac = new GedDocument();
         docBac.setName("Diplome du bac");
@@ -66,6 +66,8 @@ public class GedDocumentServiceTest {
         gedDocumentService.save(docBrevet);
         gedDocumentService.save(docBacNotes);
         gedDocumentService.save(docLatex);
+        
+        elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
 	
     /**

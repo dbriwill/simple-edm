@@ -4,6 +4,7 @@ public enum GedNodeType {
 
 	LIBRARY,
 	DIRECTORY,
-	DOCUMENT
+	DOCUMENT,
+	FILE
 	
 }

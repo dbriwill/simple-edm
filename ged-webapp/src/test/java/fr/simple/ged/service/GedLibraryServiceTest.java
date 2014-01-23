@@ -46,7 +46,8 @@ public class GedLibraryServiceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		elasticsearchTestingHelper.destroyAndRebuildDocumentsIndex();
+		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
+		elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
 
 	

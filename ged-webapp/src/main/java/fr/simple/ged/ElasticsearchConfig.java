@@ -1,17 +1,21 @@
 package fr.simple.ged;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.node.NodeBuilder;
@@ -26,6 +30,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.io.Resources;
 
 
@@ -97,21 +103,47 @@ public class ElasticsearchConfig {
     }
     
     
-    private void buildEsMapping() {
+    private void flushIndex(String index) {
+    	client.admin().indices().refresh(new RefreshRequest(index)).actionGet();
+    }
+    
+    
+	private void buildEsMapping() {
     	
     	logger.info("Trying to build ES mapping");
     	
 		try {
 			// at the top level, we've indexes
 			List<String> indexes = IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream(MAPPING_DIR), Charsets.UTF_8);
-
-			for (String index : indexes) {
 			
+			// exclude files to keep only directories
+			indexes = Lists.newArrayList(Collections2.filter(indexes, new Predicate<String>() {
+				@Override
+				public boolean apply(String index) {
+					URL url = Resources.getResource(MAPPING_DIR + "/" + index);
+					try {
+						if (url.getProtocol().equals("file")) {
+							return (new File(url.getFile())).isDirectory();
+						}
+					} catch (Exception e) {
+					}
+					return false;
+				}
+			}));
+			
+			for (String index : indexes) {
+				
 		        try {
-		        	client.admin().indices().prepareCreate(index).execute().actionGet();
+		        	URL url = Resources.getResource(MAPPING_DIR + "/" + index + ".json");
+		        	String content = Resources.toString(url, Charsets.UTF_8);
+		        	
+		        	client.admin().indices().prepareCreate(index).setSource(content).execute().actionGet();
 		        }
 		        catch (IndexAlreadyExistsException e) {
 		            logger.info("Index {} already exists", index);
+		        }
+		        catch (IOException e) {
+		        	logger.warn("Index {} already exists hasn't json descriptor in {}", index, MAPPING_DIR);
 		        }
 		        catch (Exception e) {
 		            logger.error("Failed to rebuild index {}", index, e);
@@ -133,7 +165,7 @@ public class ElasticsearchConfig {
 			        }
 	    		}
 	    		
-	    		client.admin().indices().refresh(new RefreshRequest(index)).actionGet();
+	    		flushIndex(index);
 			}
 		} catch (IOException e) {
 			logger.error("Failed to create ES mappings !", e);

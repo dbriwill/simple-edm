@@ -34,7 +34,7 @@ public class ElasticsearchClientTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		elasticsearchTestingHelper.destroyAndRebuildDocumentsIndex();
+		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
 	
 	
