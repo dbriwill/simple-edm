@@ -4,12 +4,10 @@ package fr.simple.ged;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
