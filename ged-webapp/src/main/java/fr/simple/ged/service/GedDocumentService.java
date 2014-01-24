@@ -112,7 +112,6 @@ public class GedDocumentService {
 //		}
 //
 //		return gedDocument;
-		
 		return gedDocumentRepository.save(gedDocument);
 	}
 

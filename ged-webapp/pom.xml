@@ -13,6 +13,8 @@
 	<version>${ged.version}</version>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	
 		<ged.version>5.0</ged.version>
 		<start-class>fr.simple.ged.Application</start-class>
 

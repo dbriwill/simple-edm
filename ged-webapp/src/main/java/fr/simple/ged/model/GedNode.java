@@ -3,10 +3,14 @@ package fr.simple.ged.model;
 import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Parent;
 
 import com.drew.lang.annotations.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fr.simple.ged.common.GedNodeType;
 
@@ -24,7 +28,7 @@ public class GedNode implements Serializable {
 	@NotNull
 	private GedNodeType gedNodeType;
 	
-	private GedNode parent;
+	private String parentId = null;
 	
 	@NotNull
 	private String name;
@@ -53,12 +57,12 @@ public class GedNode implements Serializable {
 		this.gedNodeType = gedNodeType;
 	}
 
-	public GedNode getParent() {
-		return parent;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParent(GedNode parent) {
-		this.parent = parent;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getName() {

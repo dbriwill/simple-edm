@@ -70,35 +70,35 @@ public class GedNodeServiceTest {
 		
 		GedDirectory gedDirectory = new GedDirectory();
 		gedDirectory.setName("directory");
-		gedDirectory.setParent(gedLibrary);
+		gedDirectory.setParentId(gedLibrary.getId());
 		gedDirectory = gedDirectoryService.save(gedDirectory);
 		
 		directoryId = gedDirectory.getId();
 		
 		GedDocument gedDocument = new GedDocument();
 		gedDocument.setName("document");
-		gedDocument.setParent(gedDirectory);
+		gedDocument.setParentId(gedDirectory.getId());
 		gedDocument = gedDocumentService.save(gedDocument);
 		
 		documentId = gedDocument.getId();
 		
 		GedFile gedFile = new GedFile();
 		gedFile.setName("file");
-		gedFile.setParent(gedDocument);
+		gedFile.setParentId(gedDocument.getId());
 		gedFile = gedFileService.save(gedFile);
 		
 		fileId = gedFile.getId();
 		
 		GedDirectory anotherGedDirectory = new GedDirectory();
 		anotherGedDirectory.setName("Another ged directory");
-		anotherGedDirectory.setParent(gedDirectory);
+		anotherGedDirectory.setParentId(gedDirectory.getId());
 		anotherGedDirectory = gedDirectoryService.save(anotherGedDirectory);
 		
 		directoryWithDirectoryParentId = anotherGedDirectory.getId();
 		
 		GedDocument documentUnderLibrary = new GedDocument();
 		documentUnderLibrary.setName("document under library");
-		documentUnderLibrary.setParent(gedLibrary);
+		documentUnderLibrary.setParentId(gedLibrary.getId());
 		documentUnderLibrary = gedDocumentService.save(documentUnderLibrary);
 		
 		documentWithLibraryParentId = documentUnderLibrary.getId();
@@ -139,37 +139,37 @@ public class GedNodeServiceTest {
 	@Test
 	public void libraryShouldNotHaveParent() {
 		GedNode node = gedNodeService.findOne(libraryId);
-		assertThat(node.getParent()).isNull();
+		assertThat(node.getParentId()).isNull();
 	}
 	
 	@Test
 	public void directoryCanHaveLibrayForParent() {
 		GedNode node = gedNodeService.findOne(directoryId);
-		assertThat(node.getParent().getId()).isEqualTo(libraryId);
+		assertThat(node.getParentId()).isEqualTo(libraryId);
 	}
 	
 	@Test
 	public void directoryCanHaveDirectoryForParent() {
 		GedNode node = gedNodeService.findOne(directoryWithDirectoryParentId);
-		assertThat(node.getParent().getId()).isEqualTo(directoryId);
+		assertThat(node.getParentId()).isEqualTo(directoryId);
 	}
 	
 	@Test
 	public void documentCanHaveLibraryForParent() {
 		GedNode node = gedNodeService.findOne(documentWithLibraryParentId);
-		assertThat(node.getParent().getId()).isEqualTo(libraryId);
+		assertThat(node.getParentId()).isEqualTo(libraryId);
 	}
 	
 	@Test
 	public void documentCanHaveDirectoryForParent() {
 		GedNode node = gedNodeService.findOne(documentId);
-		assertThat(node.getParent().getId()).isEqualTo(directoryId);
+		assertThat(node.getParentId()).isEqualTo(directoryId);
 	}
 	
 	@Test
 	public void fileMustHaveDocumentForParent() {
 		GedNode node = gedNodeService.findOne(fileId);
-		assertThat(node.getParent().getId()).isEqualTo(documentId);
+		assertThat(node.getParentId()).isEqualTo(documentId);
 	}
 	
 	@Test

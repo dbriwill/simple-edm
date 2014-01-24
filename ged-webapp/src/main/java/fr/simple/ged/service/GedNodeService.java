@@ -22,6 +22,7 @@ public class GedNodeService {
 	@Inject
 	private GedFileService gedFileService;
 
+	
 	public GedNode findOne(String nodeid) {
 		return ObjectUtils.firstNonNull(
 				gedLibraryService.findOne(nodeid),
@@ -33,8 +34,8 @@ public class GedNodeService {
 
 	public String getPathOfNode(GedNode gedNode) {
 		String path = gedNode.getName();
-		while (gedNode.getParent() != null) {
-			gedNode = gedNode.getParent();
+		while (gedNode.getParentId() != null) {
+			gedNode = findOne(gedNode.getParentId());
 			path = gedNode.getName() + "/" + path;
 		}
 		return path;

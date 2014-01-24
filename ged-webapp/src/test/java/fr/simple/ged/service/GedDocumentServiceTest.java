@@ -17,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.simple.ged.Application;
 import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.model.GedDocument;
+import fr.simple.ged.model.GedFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -59,7 +60,7 @@ public class GedDocumentServiceTest {
         docLatex = new GedDocument();
         docLatex.setName("Un template de document...");
         docLatex.setDescription("...réalisé dans un format binaire");
-        //docLatex.addFile(new GedFile("demo_pdf.pdf"));
+        docLatex.addFile(new GedFile("demo_pdf.pdf"));
         
         gedDocumentService.save(docBac);
         gedDocumentService.save(docBrevet);
@@ -73,7 +74,7 @@ public class GedDocumentServiceTest {
      * Search on doc name, very basic
      */
     @Test
-    public void searchOnDocName() throws Exception {
+    public void documentWhichContainsWordShouldBeReturned() throws Exception {
         List<GedDocument> docs = gedDocumentService.search("brevet");
 
         List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
@@ -89,8 +90,25 @@ public class GedDocumentServiceTest {
      * Search test with accented word
      */
     @Test
-    public void searchDocumentWithAccentTest() throws Exception {
-        List<GedDocument> docs = gedDocumentService.search("diplôme");
+    public void documentWithAccentShouldBeReturned() throws Exception {
+        List<GedDocument> docs = gedDocumentService.search("brevets");
+
+        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
+                docBrevet
+        });
+
+        assertThat(docs).isNotNull();
+        assertThat(docs.size()).isEqualTo(attemptedResult.size());
+        assertThat(docs).containsAll(attemptedResult);
+    }
+
+
+    /**
+     * Search test with ending 's'
+     */
+    @Test
+    public void documentWithSShouldBeReturned() throws Exception {
+        List<GedDocument> docs = gedDocumentService.search("diplômes");
 
         List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
                 docBac, docBrevet
@@ -100,13 +118,13 @@ public class GedDocumentServiceTest {
         assertThat(docs.size()).isEqualTo(attemptedResult.size());
         assertThat(docs).containsAll(attemptedResult);
     }
-
+    
     /**
-     * Search test with ending 's'
+     * Search test with ending 's' and accent
      */
     @Test
-    public void searchDocumentWithSTest() throws Exception {
-        List<GedDocument> docs = gedDocumentService.search("diplômes");
+    public void documentWithAccetAndSShouldBeReturned() throws Exception {
+        List<GedDocument> docs = gedDocumentService.search("diplomes");
 
         List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
                 docBac, docBrevet
@@ -121,13 +139,13 @@ public class GedDocumentServiceTest {
      * Search on multi word
      */
     @Test
-    public void searchMultiWordDocumentTest() throws Exception {
+    public void documentWitchContainsAllWordsShouldBeReturned() throws Exception {
         List<GedDocument> docs = gedDocumentService.search("diplôme bac");
 
         List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
                 docBac
         });
-        
+
         assertThat(docs).isNotNull();
         assertThat(docs.size()).isEqualTo(attemptedResult.size());
         assertThat(docs).containsAll(attemptedResult);
