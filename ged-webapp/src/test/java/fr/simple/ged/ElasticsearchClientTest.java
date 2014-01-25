@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ComponentScan(basePackages = { "fr.simple.ged" })
 public class ElasticsearchClientTest {
 
-	
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
@@ -36,7 +36,6 @@ public class ElasticsearchClientTest {
 	public void setUp() throws Exception {
 		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
-	
 	
 	@Test
 	public void localNodeShouldBeStartedAndWorking() throws Exception {

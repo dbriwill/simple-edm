@@ -1,0 +1,15 @@
+{
+	"directory": {
+		"properties": {
+			"id": {
+				"type": "string"
+			},
+			"parentId": {
+				"type": "string"
+			},
+			"name": {
+				"type": "string"
+			}
+		}
+	}
+}

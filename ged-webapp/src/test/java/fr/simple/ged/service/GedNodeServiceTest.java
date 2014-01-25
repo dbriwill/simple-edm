@@ -42,7 +42,6 @@ public class GedNodeServiceTest {
 	@Autowired
 	private GedFileService gedFileService;
 	
-	
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	

@@ -17,7 +17,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.simple.ged.Application;
 import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.model.GedDocument;
-import fr.simple.ged.model.GedFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -60,7 +59,7 @@ public class GedDocumentServiceTest {
         docLatex = new GedDocument();
         docLatex.setName("Un template de document...");
         docLatex.setDescription("...réalisé dans un format binaire");
-        docLatex.addFile(new GedFile("demo_pdf.pdf"));
+        //docLatex.addFile(new GedFile("demo_pdf.pdf"));
         
         gedDocumentService.save(docBac);
         gedDocumentService.save(docBrevet);
@@ -69,6 +68,7 @@ public class GedDocumentServiceTest {
         
         elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
+
 	
     /**
      * Search on doc name, very basic

@@ -1,6 +1,5 @@
 package fr.simple.ged;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +12,6 @@ import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.node.NodeBuilder;
@@ -30,95 +28,85 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
-
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "fr.simple.ged.repository")
-@PropertySources(value = {
-		@PropertySource("classpath:/elasticsearch_configuration.properties")
-	}
-)
+@PropertySources(value = { @PropertySource("classpath:/elasticsearch_configuration.properties") })
 public class ElasticsearchConfig {
 
-    /**
-     * My logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger(ElasticsearchConfig.class);
-    
-    
+	/**
+	 * My logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(ElasticsearchConfig.class);
+
 	/**
 	 * Mapping files location
 	 */
 	private static final String MAPPING_DIR = "./mapping";
-	
-	
+
 	@Inject
-    Environment env;
+	Environment env;
 
 	private Client client;
 
-	
-    @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
-    	// local case
-    	if (env.getProperty("ged.embedded-storage").equalsIgnoreCase("true")) {
-    		client = localClient();
-    		
-    		// on a local environment, we wan't to be sure the mapping is applied
-    		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-    		buildEsMapping();
-    		
-    		return new ElasticsearchTemplate(client);
-    	}
-    	
-    	// remote case, don't care about mapping
-    	client = remoteClient();
-    	return new ElasticsearchTemplate(client);
-    }
+	@Bean
+	public ElasticsearchOperations elasticsearchTemplate() {
+		// local case
+		if (env.getProperty("ged.embedded-storage").equalsIgnoreCase("true")) {
+			client = localClient();
 
-    
-    // should be used with caution, only if you really need it for manual query
-    public Client getClient() {
-    	return client;
-    }
-    
-    
-    private Client localClient() {
-    	logger.info("ES is using a local node");
-    	return NodeBuilder.nodeBuilder().local(true).node().client();
-    }
- 
-    
-    private Client remoteClient() {
-    	String remoteNodes = env.getProperty("elasticsearch.cluster-nodes");
-    	logger.info("ES is using remote nodes : {}", remoteNodes);
-    	
-    	TransportClient client = new TransportClient();
-    	for (String clusterNode : remoteNodes.split(",")) {
-    		String hostAndPort[] = clusterNode.split(":");
-    		String address = hostAndPort[0];
-    		Integer port = Integer.parseInt(hostAndPort[1]);
-    		logger.info("Add transport address {} , port {}", address, port);
-    		client.addTransportAddress(new InetSocketTransportAddress(address, port));
-    	}
-        return client;
-    }
-    
-    
-    private void flushIndex(String index) {
-    	client.admin().indices().refresh(new RefreshRequest(index)).actionGet();
-    }
-    
-    
+			// on a local environment, we wan't to be sure the mapping is
+			// applied
+			client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
+			buildEsMapping();
+
+			return new ElasticsearchTemplate(client);
+		}
+
+		// remote case, don't care about mapping
+		client = remoteClient();
+		return new ElasticsearchTemplate(client);
+	}
+
+	// should be used with caution, only if you really need it for manual query
+	public Client getClient() {
+		return client;
+	}
+
+	private Client localClient() {
+		logger.info("ES is using a local node");
+		return NodeBuilder.nodeBuilder().local(true).node().client();
+	}
+
+	private Client remoteClient() {
+		String remoteNodes = env.getProperty("elasticsearch.cluster-nodes");
+		logger.info("ES is using remote nodes : {}", remoteNodes);
+
+		TransportClient client = new TransportClient();
+		for (String clusterNode : remoteNodes.split(",")) {
+			String hostAndPort[] = clusterNode.split(":");
+			String address = hostAndPort[0];
+			Integer port = Integer.parseInt(hostAndPort[1]);
+			logger.info("Add transport address {} , port {}", address, port);
+			client.addTransportAddress(new InetSocketTransportAddress(address, port));
+		}
+		return client;
+	}
+
+	private void flushIndex(String index) {
+		client.admin().indices().refresh(new RefreshRequest(index)).actionGet();
+	}
+
 	private void buildEsMapping() {
-    	
-    	logger.info("Trying to build ES mapping");
-    	
+
+		logger.info("Trying to build ES mapping");
+
 		try {
 			// at the top level, we've indexes
 			List<String> indexes = IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream(MAPPING_DIR), Charsets.UTF_8);
-			
+
 			// exclude files to keep only directories
 			indexes = Lists.newArrayList(Collections2.filter(indexes, new Predicate<String>() {
 				@Override
@@ -133,49 +121,40 @@ public class ElasticsearchConfig {
 					return false;
 				}
 			}));
-			
+
 			for (String index : indexes) {
-				
-		        try {
-		        	URL url = Resources.getResource(MAPPING_DIR + "/" + index + ".json");
-		        	String content = Resources.toString(url, Charsets.UTF_8);
-		        	
-		        	client.admin().indices().prepareCreate(index).setSource(content).execute().actionGet();
-		        }
-		        catch (IndexAlreadyExistsException e) {
-		            logger.info("Index {} already exists", index);
-		        }
-		        catch (IOException e) {
-		        	logger.warn("Index {} already exists hasn't json descriptor in {}", index, MAPPING_DIR);
-		        }
-		        catch (Exception e) {
-		            logger.error("Failed to rebuild index {}", index, e);
-		        }
-		        
-		        // at the second level, we've types
-	    		List<String> types = IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream(MAPPING_DIR + "/" + index), Charsets.UTF_8);
-	    		
-	    		for (String type : types) {
-	    			type = type.replaceFirst(".json", "");
-	    			
-			        try {
-			        	URL url = Resources.getResource(MAPPING_DIR + "/" + index + "/" + type + ".json");
-			        	String content = Resources.toString(url, Charsets.UTF_8);
-			        	
-			        	client.admin().indices().preparePutMapping(index).setType(type).setSource(content).execute().actionGet();
-			        } catch (IOException e) {
-			            logger.error("Failed to read mapping for ES", e);
-			        }
-	    		}
-	    		
-	    		flushIndex(index);
+
+				try {
+					client.admin().indices().prepareCreate(index).execute().actionGet();
+				} catch (IndexAlreadyExistsException e) {
+					logger.info("Index {} already exists", index);
+				} catch (Exception e) {
+					logger.error("Failed to rebuild index {}", index, e);
+				}
+
+				// at the second level, we've types
+				List<String> types = IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream(MAPPING_DIR + "/" + index), Charsets.UTF_8);
+
+				for (String type : types) {
+					type = type.replaceFirst(".json", "");
+
+					try {
+						URL url = Resources.getResource(MAPPING_DIR + "/" + index + "/" + type + ".json");
+						String content = Resources.toString(url, Charsets.UTF_8);
+
+						client.admin().indices().preparePutMapping(index).setType(type).setSource(content).execute().actionGet();
+					} catch (IOException e) {
+						logger.error("Failed to read mapping for ES", e);
+					}
+				}
+
+				flushIndex(index);
 			}
 		} catch (IOException e) {
 			logger.error("Failed to create ES mappings !", e);
 		}
 
-        logger.info("Building is over !");
-    }
-    
-	
+		logger.info("Building is over !");
+	}
+
 }

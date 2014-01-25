@@ -49,7 +49,6 @@ public class GedLibraryServiceTest {
 		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
-
 	
 	@Test
 	public void defaultLibraryIsCreatedAtStart() {
