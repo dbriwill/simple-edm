@@ -3,15 +3,11 @@ package fr.simple.ged.service;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.common.Base64;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -20,9 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.CaseFormat;
+
 import fr.simple.ged.ElasticsearchConfig;
 import fr.simple.ged.model.GedDocument;
-import fr.simple.ged.model.GedFile;
+import fr.simple.ged.model.GedNode;
 import fr.simple.ged.repository.GedDocumentRepository;
 
 @Service
@@ -51,29 +49,33 @@ public class GedDocumentService {
 			gedDocument.setId(String.valueOf(System.currentTimeMillis()));
 		}
 
-//		try {
-//
-//			// the document is build manualy to
-//			// have the possibility to add the binary file
-//			// content
-//
-//			XContentBuilder contentBuilder = jsonBuilder();
-//
-//			// add ged document attributes
-//			contentBuilder.startObject();
-//
-//			for (Method m : GedDocument.class.getDeclaredMethods()) {
-//				if (m.getName().startsWith("get")) {
-//					if (m.getName().equalsIgnoreCase("getFiles")) { // ignore this type
-//						continue;
-//					}
-//					Object oo = m.invoke(gedDocument);
-//					contentBuilder.field(m.getName().substring(3), oo);
-//				}
-//			}
-//
-//			// now add the binaries files
-//
+		try {
+
+			// the document is build manualy to
+			// have the possibility to add the binary file
+			// content
+
+			XContentBuilder contentBuilder = jsonBuilder();
+
+			// add ged document attributes
+			contentBuilder.startObject();
+
+			Class<?>[] classes = new Class[] {GedNode.class, GedDocument.class};
+			for (Class<?> clazz : classes) {
+				for (Method m : clazz.getDeclaredMethods()) {
+					if (m.getName().startsWith("get")) {
+						if (m.getName().equalsIgnoreCase("getFiles")) { // ignore this type
+							continue;
+						}
+						Object oo = m.invoke(gedDocument);
+						String fieldName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, m.getName().substring(3));
+						contentBuilder.field(fieldName, oo);
+					}
+				}
+			}
+
+			// now add the binaries files
+
 //			if (gedDocument.getFiles().size() > 0) {
 //
 //				contentBuilder.startArray("files");
@@ -97,22 +99,22 @@ public class GedDocumentService {
 //
 //				contentBuilder.endArray();
 //			}
-//
-//			// and that's all folks
-//			contentBuilder.endObject();
-//
-//			// TODO : dynamise index and type with GedDocument annotation !
-//			IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
-//
-//			gedDocument.setId(ir.getId());
-//			
-//			logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
-//		} catch (Exception e) {
-//			logger.error("Failed to index document", e);
-//		}
-//
-//		return gedDocument;
-		return gedDocumentRepository.save(gedDocument);
+
+			// and that's all folks
+			contentBuilder.endObject();
+
+			// TODO : dynamise index and type with GedDocument annotation !
+			IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
+
+			gedDocument.setId(ir.getId());
+			
+			logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
+		} catch (Exception e) {
+			logger.error("Failed to index document", e);
+		}
+
+		return gedDocument;
+//		return gedDocumentRepository.save(gedDocument);
 	}
 
 	
