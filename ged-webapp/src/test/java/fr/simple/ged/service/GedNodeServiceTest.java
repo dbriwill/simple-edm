@@ -38,10 +38,7 @@ public class GedNodeServiceTest {
 	
 	@Autowired
 	private GedDirectoryService gedDirectoryService;
-	
-	@Autowired
-	private GedFileService gedFileService;
-	
+
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
@@ -50,8 +47,7 @@ public class GedNodeServiceTest {
 	private String libraryId;
 	private String directoryId;
 	private String documentId;
-	private String fileId;
-	
+
 	private String directoryWithDirectoryParentId;
 	private String documentWithLibraryParentId;
 	
@@ -83,10 +79,6 @@ public class GedNodeServiceTest {
 		
 		GedFile gedFile = new GedFile();
 		gedFile.setName("file");
-		gedFile.setParentId(gedDocument.getId());
-		gedFile = gedFileService.save(gedFile);
-		
-		fileId = gedFile.getId();
 		
 		GedDirectory anotherGedDirectory = new GedDirectory();
 		anotherGedDirectory.setName("Another ged directory");
@@ -128,14 +120,6 @@ public class GedNodeServiceTest {
 	}
 	
 	@Test
-	public void fileNodeShouldBeReturned() {
-		GedNode node = gedNodeService.findOne(fileId);
-		assertThat(node).isNotNull();
-		assertThat(node.getId()).isEqualTo(fileId);
-		assertThat(node.getGedNodeType()).isEqualTo(GedNodeType.FILE);
-	}
-	
-	@Test
 	public void libraryShouldNotHaveParent() {
 		GedNode node = gedNodeService.findOne(libraryId);
 		assertThat(node.getParentId()).isNull();
@@ -166,12 +150,6 @@ public class GedNodeServiceTest {
 	}
 	
 	@Test
-	public void fileMustHaveDocumentForParent() {
-		GedNode node = gedNodeService.findOne(fileId);
-		assertThat(node.getParentId()).isEqualTo(documentId);
-	}
-	
-	@Test
 	public void libraryPathShouldBeLibraryName() {
 		GedNode node = gedNodeService.findOne(libraryId);
 		String nodePath = gedNodeService.getPathOfNode(node);
@@ -190,12 +168,5 @@ public class GedNodeServiceTest {
 		GedNode node = gedNodeService.findOne(documentId);
 		String nodePath = gedNodeService.getPathOfNode(node);
 		assertThat(nodePath).isEqualTo("library/directory/document");
-	}
-	
-	@Test
-	public void filePathShouldIncludeDocumentPath() {
-		GedNode node = gedNodeService.findOne(fileId);
-		String nodePath = gedNodeService.getPathOfNode(node);
-		assertThat(nodePath).isEqualTo("library/directory/document/file");
 	}
 }

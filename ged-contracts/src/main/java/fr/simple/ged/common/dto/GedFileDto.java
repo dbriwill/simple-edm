@@ -4,20 +4,15 @@ import java.io.Serializable;
 
 import fr.simple.ged.common.GedNodeType;
 
-public class GedFileDto extends GedNodeDto implements Serializable {
+public class GedFileDto implements Serializable {
 
-	private String fileName;
-	
-	public GedFileDto() {
-		super(GedNodeType.FILE);
+	private String name;
+
+	public String getName() {
+		return name;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 }

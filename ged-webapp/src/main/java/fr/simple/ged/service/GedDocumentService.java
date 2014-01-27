@@ -3,11 +3,13 @@ package fr.simple.ged.service;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.common.Base64;
 import org.elasticsearch.common.collect.Lists;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -20,6 +22,7 @@ import com.google.common.base.CaseFormat;
 
 import fr.simple.ged.ElasticsearchConfig;
 import fr.simple.ged.model.GedDocument;
+import fr.simple.ged.model.GedFile;
 import fr.simple.ged.model.GedNode;
 import fr.simple.ged.repository.GedDocumentRepository;
 
@@ -30,20 +33,22 @@ public class GedDocumentService {
 
 	@Inject
 	private ElasticsearchConfig elasticsearchConfig;
-	
+
 	@Inject
 	private GedDocumentRepository gedDocumentRepository;
 
 	@Inject
 	private GedNodeService gedNodeService;
-	
-	
+
 	public GedDocument findOne(String id) {
 		return gedDocumentRepository.findOne(id);
 	}
 
 	public GedDocument save(GedDocument gedDocument) {
-		// TODO [improve me] ; see https://github.com/spring-projects/spring-data-elasticsearch/issues/21 and https://github.com/spring-projects/spring-data-elasticsearch/pull/27
+		// TODO [improve me] ; see
+		// https://github.com/spring-projects/spring-data-elasticsearch/issues/21
+		// and
+		// https://github.com/spring-projects/spring-data-elasticsearch/pull/27
 		// unless it's fixed, I set my generated ID
 		if (gedDocument.getId() == null || gedDocument.getId().isEmpty()) {
 			gedDocument.setId(String.valueOf(System.currentTimeMillis()));
@@ -60,11 +65,13 @@ public class GedDocumentService {
 			// add ged document attributes
 			contentBuilder.startObject();
 
-			Class<?>[] classes = new Class[] {GedNode.class, GedDocument.class};
+			Class<?>[] classes = new Class[] { GedNode.class, GedDocument.class };
 			for (Class<?> clazz : classes) {
 				for (Method m : clazz.getDeclaredMethods()) {
 					if (m.getName().startsWith("get")) {
-						if (m.getName().equalsIgnoreCase("getFiles")) { // ignore this type
+						if (m.getName().equalsIgnoreCase("getFiles")) { // ignore
+																		// this
+																		// type
 							continue;
 						}
 						Object oo = m.invoke(gedDocument);
@@ -76,29 +83,29 @@ public class GedDocumentService {
 
 			// now add the binaries files
 
-//			if (gedDocument.getFiles().size() > 0) {
-//
-//				contentBuilder.startArray("files");
-//
-//				for (GedFile gedFile : gedDocument.getFiles()) {
-//
-//					logger.debug("Adding file '{}' for ES indexation",	gedNodeService.getPathOfNode(gedFile));
-//
-//					contentBuilder.startObject();
-//
-//					Path filePath = Paths.get(gedNodeService.getPathOfNode(gedFile));
-//
-//					String contentType = Files.probeContentType(filePath);
-//					String name = gedNodeService.getPathOfNode(gedFile);
-//					String content = Base64.encodeBytes(Files.readAllBytes(filePath));
-//
-//					contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
-//
-//					contentBuilder.endObject();
-//				}
-//
-//				contentBuilder.endArray();
-//			}
+			if (gedDocument.getFiles().size() > 0) {
+
+				contentBuilder.startArray("files");
+
+				for (GedFile gedFile : gedDocument.getFiles()) {
+
+					logger.debug("Adding file '{}' for ES indexation", gedFile.getName());
+
+					contentBuilder.startObject();
+
+					//Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedFile.getRelativeFilePath());
+
+					//String contentType = Files.probeContentType(filePath);
+					String name = gedFile.getName();
+					//String content = Base64.encodeBytes(Files.readAllBytes(filePath));
+
+					contentBuilder./*field("_content_type", contentType).*/field("_name", name);//.field("content", content);
+
+					contentBuilder.endObject();
+				}
+
+				contentBuilder.endArray();
+			}
 
 			// and that's all folks
 			contentBuilder.endObject();
@@ -107,17 +114,16 @@ public class GedDocumentService {
 			IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
 
 			gedDocument.setId(ir.getId());
-			
+
 			logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
 		} catch (Exception e) {
 			logger.error("Failed to index document", e);
 		}
 
 		return gedDocument;
-//		return gedDocumentRepository.save(gedDocument);
+		// return gedDocumentRepository.save(gedDocument);
 	}
 
-	
 	public List<GedDocument> search(String pattern) {
 		BoolQueryBuilder qb = QueryBuilders.boolQuery();
 

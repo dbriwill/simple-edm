@@ -1,19 +1,17 @@
 package fr.simple.ged.model;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 
-import fr.simple.ged.common.GedNodeType;
+public class GedFile {
 
-@Document(indexName = "documents", type = "file")
-public class GedFile extends GedNode {
-
-	public GedFile() {
-		super(GedNodeType.FILE);
-	}
+	private String name;
 	
-	public GedFile(String fileName) {
-		super(GedNodeType.FILE);
-		super.setName(fileName);
+
+	public String getName() {
+		return name;
 	}
-	
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }
