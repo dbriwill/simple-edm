@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

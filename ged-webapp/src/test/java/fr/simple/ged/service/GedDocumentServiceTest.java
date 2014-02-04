@@ -44,6 +44,8 @@ public class GedDocumentServiceTest {
 	public void setUp() throws Exception {
 		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		
+		String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-webapp") ? "" : "/ged-webapp") + "/target/";
+		
         docBac = new GedDocument();
         docBac.setName("Diplome du bac");
         docBac.setDescription("Bla");
@@ -59,7 +61,7 @@ public class GedDocumentServiceTest {
         docLatex = new GedDocument();
         docLatex.setName("Un template de document...");
         docLatex.setDescription("...réalisé dans un format binaire");
-        //docLatex.addFile(new GedFile("demo_pdf.pdf"));
+        docLatex.setFilename(targetDirAbsolutePath + "test-classes/demo_pdf.pdf");
         
         gedDocumentService.save(docBac);
         gedDocumentService.save(docBrevet);
@@ -152,36 +154,36 @@ public class GedDocumentServiceTest {
     }
 
 
-//    /**
-//     * Search in document binary content
-//     */
-//    @Test
-//    public void searchOnBinaryContent() throws Exception {
-//            List<GedDocument> docs = gedDocumentService.search("latex");
-//
-//        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
-//                docLatex
-//        });
-//
-//        assertThat(docs).isNotNull();
-//        assertThat(docs.size()).isEqualTo(attemptedResult.size());
-//        assertThat(docs).containsAll(attemptedResult);
-//    }
-//
-//    /**
-//     * Search in document binary metadata (author)
-//     */
-//    @Test
-//    public void searchOnBinaryMetadataContent() throws Exception {
-//        List<GedDocument> docs = gedDocumentService.search("xavier");
-//
-//        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
-//                docLatex
-//        });
-//
-//        assertThat(docs).isNotNull();
-//        assertThat(docs.size()).isEqualTo(attemptedResult.size());
-//        assertThat(docs).containsAll(attemptedResult);
-//    }
+    /**
+     * Search in document binary content
+     */
+    @Test
+    public void searchOnBinaryContent() throws Exception {
+            List<GedDocument> docs = gedDocumentService.search("latex");
+
+        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
+                docLatex
+        });
+
+        assertThat(docs).isNotNull();
+        assertThat(docs.size()).isEqualTo(attemptedResult.size());
+        assertThat(docs).containsAll(attemptedResult);
+    }
+
+    /**
+     * Search in document binary metadata (author)
+     */
+    @Test
+    public void searchOnBinaryMetadataContent() throws Exception {
+        List<GedDocument> docs = gedDocumentService.search("xavier");
+
+        List<GedDocument> attemptedResult = Arrays.asList(new GedDocument[]{
+                docLatex
+        });
+
+        assertThat(docs).isNotNull();
+        assertThat(docs.size()).isEqualTo(attemptedResult.size());
+        assertThat(docs).containsAll(attemptedResult);
+    }
 
 }
