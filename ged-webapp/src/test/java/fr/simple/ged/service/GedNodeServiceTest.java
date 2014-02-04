@@ -16,7 +16,6 @@ import fr.simple.ged.ElasticsearchTestingHelper;
 import fr.simple.ged.common.GedNodeType;
 import fr.simple.ged.model.GedDirectory;
 import fr.simple.ged.model.GedDocument;
-import fr.simple.ged.model.GedFile;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.model.GedNode;
 
@@ -76,9 +75,6 @@ public class GedNodeServiceTest {
 		gedDocument = gedDocumentService.save(gedDocument);
 		
 		documentId = gedDocument.getId();
-		
-		GedFile gedFile = new GedFile();
-		gedFile.setName("file");
 		
 		GedDirectory anotherGedDirectory = new GedDirectory();
 		anotherGedDirectory.setName("Another ged directory");

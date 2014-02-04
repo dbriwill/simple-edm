@@ -19,6 +19,9 @@
             "date" : {
                 "type" : "date",
                 "format" : "dateOptionalTime"
+            },
+            "file" : {
+                "type" : "attachment"
             }
         }
     }

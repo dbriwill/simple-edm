@@ -4,6 +4,8 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.lang.reflect.Method;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +24,6 @@ import com.google.common.base.CaseFormat;
 
 import fr.simple.ged.ElasticsearchConfig;
 import fr.simple.ged.model.GedDocument;
-import fr.simple.ged.model.GedFile;
 import fr.simple.ged.model.GedNode;
 import fr.simple.ged.repository.GedDocumentRepository;
 
@@ -45,15 +46,6 @@ public class GedDocumentService {
 	}
 
 	public GedDocument save(GedDocument gedDocument) {
-		// TODO [improve me] ; see
-		// https://github.com/spring-projects/spring-data-elasticsearch/issues/21
-		// and
-		// https://github.com/spring-projects/spring-data-elasticsearch/pull/27
-		// unless it's fixed, I set my generated ID
-		if (gedDocument.getId() == null || gedDocument.getId().isEmpty()) {
-			gedDocument.setId(String.valueOf(System.currentTimeMillis()));
-		}
-
 		try {
 
 			// the document is build manualy to
@@ -69,7 +61,7 @@ public class GedDocumentService {
 			for (Class<?> clazz : classes) {
 				for (Method m : clazz.getDeclaredMethods()) {
 					if (m.getName().startsWith("get")) {
-						if (m.getName().equalsIgnoreCase("getFiles")) { // ignore
+						if (m.getName().equalsIgnoreCase("getFilename")) { // ignore
 																		// this
 																		// type
 							continue;
@@ -81,30 +73,21 @@ public class GedDocumentService {
 				}
 			}
 
-			// now add the binaries files
-
-			if (gedDocument.getFiles().size() > 0) {
-
-				contentBuilder.startArray("files");
-
-				for (GedFile gedFile : gedDocument.getFiles()) {
-
-					logger.debug("Adding file '{}' for ES indexation", gedFile.getName());
-
-					contentBuilder.startObject();
-
-					//Path filePath = Paths.get(Profile.getInstance().getLibraryRoot() + gedFile.getRelativeFilePath());
-
-					//String contentType = Files.probeContentType(filePath);
-					String name = gedFile.getName();
-					//String content = Base64.encodeBytes(Files.readAllBytes(filePath));
-
-					contentBuilder./*field("_content_type", contentType).*/field("_name", name);//.field("content", content);
-
-					contentBuilder.endObject();
-				}
-
-				contentBuilder.endArray();
+			if (! gedDocument.getFilename().isEmpty()) {
+				// now add the binaries file
+				logger.debug("Adding file '{}' for ES indexation", gedDocument.getFilename());
+	
+				contentBuilder.startObject("file");
+	
+				Path filePath = Paths.get(gedDocument.getFilename());
+	
+				String contentType = Files.probeContentType(filePath);
+				String name = gedDocument.getFilename();
+				String content = Base64.encodeBytes(Files.readAllBytes(filePath));
+	
+				contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
+	
+				contentBuilder.endObject();
 			}
 
 			// and that's all folks

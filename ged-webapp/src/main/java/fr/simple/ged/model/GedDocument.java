@@ -16,11 +16,11 @@ public class GedDocument extends GedNode {
 	
 	private String description;
 
-	private List<GedFile> files; 
+	private String filename; 
 	
 	public GedDocument() {
 		super(GedNodeType.DOCUMENT);
-		files = new ArrayList<>();
+		filename = "";
 	}
 	
 	public Long getVersion() {
@@ -39,15 +39,11 @@ public class GedDocument extends GedNode {
 		this.description = description;
 	}
 
-	public List<GedFile> getFiles() {
-		return files;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setFiles(List<GedFile> files) {
-		this.files = files;
-	}
-
-	public void addFile(GedFile gedFile) {
-		files.add(gedFile);
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }
