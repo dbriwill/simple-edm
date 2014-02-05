@@ -3,14 +3,10 @@ package fr.simple.ged.model;
 import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Parent;
 
 import com.drew.lang.annotations.NotNull;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fr.simple.ged.common.GedNodeType;
 

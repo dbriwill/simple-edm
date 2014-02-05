@@ -1,8 +1,5 @@
 package fr.simple.ged.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 

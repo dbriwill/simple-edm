@@ -1,6 +1,5 @@
 package fr.simple.ged.model;
 
-import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import fr.simple.ged.common.GedNodeType;
