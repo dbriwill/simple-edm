@@ -34,3 +34,6 @@ function LibraryListController($scope, $location, Library) {
     $scope.libraries = Library.query();
 }
 
+function LibraryTreeviewController($scope, $routeParams, Library) {
+    $scope.library = Library.get({id:$routeParams.id});
+}

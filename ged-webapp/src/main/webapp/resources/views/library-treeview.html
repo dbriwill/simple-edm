@@ -1,0 +1,117 @@
+<div id="example" class="k-content">
+	<div class="demo-section">
+		<ul id="treeview">
+			<li data-expanded="true"><span class="k-sprite folder"></span>
+				My Web Site
+				<ul>
+					<li data-expanded="true"><span class="k-sprite folder"></span>images
+						<ul>
+							<li><span class="k-sprite image"></span>logo.png</li>
+							<li><span class="k-sprite image"></span>body-back.png</li>
+							<li><span class="k-sprite image"></span>my-photo.jpg</li>
+						</ul></li>
+					<li data-expanded="true"><span class="k-sprite folder"></span>resources
+						<ul>
+							<li data-expanded="true"><span class="k-sprite folder"></span>pdf
+								<ul>
+									<li><span class="k-sprite pdf"></span>brochure.pdf</li>
+									<li><span class="k-sprite pdf"></span>prices.pdf</li>
+								</ul></li>
+							<li><span class="k-sprite folder"></span>zip</li>
+						</ul></li>
+					<li><span class="k-sprite html"></span>about.html</li>
+					<li><span class="k-sprite html"></span>contacts.html</li>
+					<li><span class="k-sprite html"></span>index.html</li>
+					<li><span class="k-sprite html"></span>portfolio.html</li>
+				</ul></li>
+		</ul>
+	</div>
+
+	<script>
+	            $(document).ready(function() {
+	            	function onSelect(e) {
+                        console.log("Selecting: " + this.text(e.node));
+                    }
+
+                    function onChange(e) {
+                        console.log("Selection changed");
+                    }
+
+                    function onCollapse(e) {
+                        console.log("Collapsing " + this.text(e.node));
+                    }
+
+                    function onExpand(e) {
+                        console.log("Expanding " + this.text(e.node));
+                    }
+
+                    function onDragStart(e) {
+                        console.log("Started dragging " + this.text(e.sourceNode));
+                    }
+
+                    function onDrag(e) {
+                        console.log("Dragging " + this.text(e.sourceNode));
+                    }
+
+                    function onDrop(e) {
+                        console.log(
+                        "Dropped " + this.text(e.sourceNode) +
+                        " (" + (e.valid ? "valid" : "invalid") + ")"
+                        );
+                    }
+
+                    function onDragEnd(e) {
+                        console.log("Finished dragging " + this.text(e.sourceNode));
+                    }
+
+                    function onNavigate(e) {
+                        console.log("Navigate " + this.text(e.node));
+                    }
+                    
+		            $("#treeview").kendoTreeView({
+		            	select: onSelect,
+                        change: onChange,
+                        collapse: onCollapse,
+                        expand: onExpand,
+                        dragAndDrop: true,
+                        /* drag & drop events */
+                        dragstart: onDragStart,
+                        drag: onDrag,
+                        drop: onDrop,
+                        dragend: onDragEnd,
+                        navigate: onNavigate
+		            });
+	            });
+	        </script>
+
+
+	<style scoped="">
+.demo-section {
+	width: 200px;
+}
+
+#treeview .k-sprite {
+	background-image: url("/resources/img/coloricons-sprite.png");
+}
+
+.rootfolder {
+	background-position: 0 0;
+}
+
+.folder {
+	background-position: 0 -16px;
+}
+
+.pdf {
+	background-position: 0 -32px;
+}
+
+.html {
+	background-position: 0 -48px;
+}
+
+.image {
+	background-position: 0 -64px;
+}
+</style>
+</div>
