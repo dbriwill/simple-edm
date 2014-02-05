@@ -21,7 +21,8 @@
                 "format" : "dateOptionalTime"
             },
             "file" : {
-                "type" : "attachment"
+                "type" : "attachment",
+                "store" : "no"
             }
         }
     }
