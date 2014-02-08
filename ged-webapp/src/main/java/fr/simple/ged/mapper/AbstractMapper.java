@@ -1,5 +1,6 @@
 package fr.simple.ged.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -40,21 +41,21 @@ public class AbstractMapper<T, S> {
 
 	@SuppressWarnings("unchecked")
 	public List<T> dtoToBo(List<S> dtos) {
-		return (List<T>) CollectionUtils.transformedCollection(dtos, new Transformer() {
+		return new ArrayList<T>(CollectionUtils.transformedCollection(dtos, new Transformer() {
 			@Override
 			public Object transform(Object arg0) {
 				return dtoToBo((S) arg0);
 			}
-		});
+		}));
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<S> boToDto(List<T> bos) {
-		return (List<S>) CollectionUtils.transformedCollection(bos, new Transformer() {
+		return new ArrayList<S>(CollectionUtils.transformedCollection(bos, new Transformer() {
 			@Override
 			public Object transform(Object arg0) {
 				return boToDto((T) arg0);
 			}
-		});
+		}));
 	}
 }

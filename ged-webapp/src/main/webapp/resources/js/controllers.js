@@ -31,7 +31,7 @@ function MessageNewController($scope, $location, Message) {
 }
 
 function LibraryListController($scope, $location, Library) {
-    $scope.libraries = Library.query();
+    $scope.librairies = Library.query();
 }
 
 function LibraryTreeviewController($scope, $routeParams, Library) {

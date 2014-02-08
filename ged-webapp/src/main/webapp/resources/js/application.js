@@ -1,4 +1,4 @@
-angular.module('gedApp', ['messageService']).
+angular.module('gedApp', ['messageService', 'libraryService']).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
         	when('/library/list',	
@@ -7,10 +7,10 @@ angular.module('gedApp', ['messageService']).
         				controller:LibraryListController
         			}
         	).
-        	when('/library/:id',
+        	when('/doc/:id',
         			{
         				templateUrl:'resources/views/library-treeview.html',
-        				controller:LibraryListController
+        				controller:LibraryTreeviewController
         			}
         	).
             when('/message/list',
@@ -31,5 +31,9 @@ angular.module('gedApp', ['messageService']).
             			controller:MessageDetailController
             		}
             ).
-            otherwise({redirectTo:'/library/Documents'});
+            otherwise(
+            		{
+            			redirectTo:'/library/list'
+            		}
+            );
 }]);
