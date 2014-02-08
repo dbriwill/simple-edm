@@ -7,7 +7,7 @@ angular.module('gedApp', ['messageService', 'libraryService']).
         				controller:LibraryListController
         			}
         	).
-        	when('/doc/:id',
+        	when('/node/:id',
         			{
         				templateUrl:'resources/views/library-treeview.html',
         				controller:LibraryTreeviewController

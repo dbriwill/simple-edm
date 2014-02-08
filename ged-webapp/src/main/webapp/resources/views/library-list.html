@@ -4,7 +4,7 @@
  
 	<ul>
         <li ng-repeat="library in librairies">
-            <a href="#/doc/{{library.id}}"><span>{{library.name}}</span></a> :
+            <a href="#/node/{{library.id}}"><span>{{library.name}}</span></a> :
             <span>{{library.description | filter:ellipsis:20}}</span> &nbsp;
         </li>
     </ul>
