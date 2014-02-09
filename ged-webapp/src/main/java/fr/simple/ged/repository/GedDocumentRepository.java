@@ -10,5 +10,7 @@ import fr.simple.ged.model.GedDocument;
 public interface GedDocumentRepository extends ElasticsearchRepository<GedDocument, String> {
 
 	List<GedDocument> findByParentId(String parentId);
+
+	List<GedDocument> findByName(String name);
 	
 }

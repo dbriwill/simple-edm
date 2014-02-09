@@ -11,4 +11,6 @@ public interface GedDirectoryRepository extends ElasticsearchRepository<GedDirec
 
 	List<GedDirectory> findByParentId(String parentId);
 	
+	List<GedDirectory> findByName(String name);
+	
 }

@@ -31,4 +31,7 @@ public class GedDirectoryService {
 		return gedDirectoryRepository.findByParentId(parentId);
 	}
 
+	public List<GedDirectory> findByName(String name) {
+	    return gedDirectoryRepository.findByName(name);
+	}
 }

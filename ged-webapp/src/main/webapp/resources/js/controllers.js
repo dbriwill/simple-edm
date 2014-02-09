@@ -41,5 +41,7 @@ function LibraryListController($scope, $location, Library) {
 
 function LibraryTreeviewController($scope, $routeParams, Library) {
 	console.log($routeParams);
+	var documentPath = $routeParams.path.split('/');
+	var libraryName = documentPath[0];
     //$scope.library = Library.get({id:$routeParams.id});
 }

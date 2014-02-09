@@ -30,97 +30,100 @@ import fr.simple.ged.repository.GedDocumentRepository;
 @Service
 public class GedDocumentService {
 
-	private final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
+    private final Logger logger = LoggerFactory.getLogger(GedDocumentService.class);
 
-	@Inject
-	private ElasticsearchConfig elasticsearchConfig;
+    @Inject
+    private ElasticsearchConfig elasticsearchConfig;
 
-	@Inject
-	private GedDocumentRepository gedDocumentRepository;
+    @Inject
+    private GedDocumentRepository gedDocumentRepository;
 
-	@Inject
-	private GedNodeService gedNodeService;
+    @Inject
+    private GedNodeService gedNodeService;
 
-	public GedDocument findOne(String id) {
-		return gedDocumentRepository.findOne(id);
-	}
+    public GedDocument findOne(String id) {
+        return gedDocumentRepository.findOne(id);
+    }
 
-	public GedDocument save(GedDocument gedDocument) {
-		try {
+    public GedDocument save(GedDocument gedDocument) {
+        try {
 
-			// the document is build manualy to
-			// have the possibility to add the binary file
-			// content
+            // the document is build manualy to
+            // have the possibility to add the binary file
+            // content
 
-			XContentBuilder contentBuilder = jsonBuilder();
+            XContentBuilder contentBuilder = jsonBuilder();
 
-			// add ged document attributes
-			contentBuilder.startObject();
+            // add ged document attributes
+            contentBuilder.startObject();
 
-			Class<?>[] classes = new Class[] { GedNode.class, GedDocument.class };
-			for (Class<?> clazz : classes) {
-				for (Method m : clazz.getDeclaredMethods()) {
-					if (m.getName().startsWith("get")) {
-						if (m.getName().equalsIgnoreCase("getFilename")) { // ignore
-																		// this
-																		// type
-							continue;
-						}
-						Object oo = m.invoke(gedDocument);
-						String fieldName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, m.getName().substring(3));
-						contentBuilder.field(fieldName, oo);
-					}
-				}
-			}
+            Class<?>[] classes = new Class[] { GedNode.class, GedDocument.class };
+            for (Class<?> clazz : classes) {
+                for (Method m : clazz.getDeclaredMethods()) {
+                    if (m.getName().startsWith("get")) {
+                        if (m.getName().equalsIgnoreCase("getFilename")) { // ignore
+                                                                           // this
+                                                                           // type
+                            continue;
+                        }
+                        Object oo = m.invoke(gedDocument);
+                        String fieldName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, m.getName().substring(3));
+                        contentBuilder.field(fieldName, oo);
+                    }
+                }
+            }
 
-			if (! gedDocument.getFilename().isEmpty()) {
-				// now add the binaries file
-				logger.debug("Adding file '{}' for ES indexation", gedDocument.getFilename());
-	
-				contentBuilder.startObject("file");
-	
-				Path filePath = Paths.get(gedDocument.getFilename());
-	
-				String contentType = Files.probeContentType(filePath);
-				String name = gedDocument.getFilename();
-				String content = Base64.encodeBytes(Files.readAllBytes(filePath));
-	
-				contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
-	
-				contentBuilder.endObject();
-			}
+            if (!gedDocument.getFilename().isEmpty()) {
+                // now add the binaries file
+                logger.debug("Adding file '{}' for ES indexation", gedDocument.getFilename());
 
-			// and that's all folks
-			contentBuilder.endObject();
+                contentBuilder.startObject("file");
 
-			// TODO : dynamise index and type with GedDocument annotation !
-			IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
+                Path filePath = Paths.get(gedDocument.getFilename());
 
-			gedDocument.setId(ir.getId());
+                String contentType = Files.probeContentType(filePath);
+                String name = gedDocument.getFilename();
+                String content = Base64.encodeBytes(Files.readAllBytes(filePath));
 
-			logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
-		} catch (Exception e) {
-			logger.error("Failed to index document", e);
-		}
+                contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
 
-		return gedDocument;
-		// return gedDocumentRepository.save(gedDocument);
-	}
+                contentBuilder.endObject();
+            }
 
-	public List<GedDocument> search(String pattern) {
-		BoolQueryBuilder qb = QueryBuilders.boolQuery();
+            // and that's all folks
+            contentBuilder.endObject();
 
-		for (String word : pattern.trim().split(" ")) {
-			qb.must(QueryBuilders.fuzzyLikeThisQuery("_all").likeText(word));
-		}
+            // TODO : dynamise index and type with GedDocument annotation !
+            IndexResponse ir = elasticsearchConfig.getClient().prepareIndex("documents", "document", gedDocument.getId()).setSource(contentBuilder).execute().actionGet();
 
-		logger.debug("The search query for pattern '{}' is : {}", pattern, qb);
+            gedDocument.setId(ir.getId());
 
-		return Lists.newArrayList(gedDocumentRepository.search(qb));
-	}
+            logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
+        } catch (Exception e) {
+            logger.error("Failed to index document", e);
+        }
 
-	public List<GedDocument> findByParent(String parentId) {
-		return gedDocumentRepository.findByParentId(parentId);
-	}
-	
+        return gedDocument;
+        // return gedDocumentRepository.save(gedDocument);
+    }
+
+    public List<GedDocument> search(String pattern) {
+        BoolQueryBuilder qb = QueryBuilders.boolQuery();
+
+        for (String word : pattern.trim().split(" ")) {
+            qb.must(QueryBuilders.fuzzyLikeThisQuery("_all").likeText(word));
+        }
+
+        logger.debug("The search query for pattern '{}' is : {}", pattern, qb);
+
+        return Lists.newArrayList(gedDocumentRepository.search(qb));
+    }
+
+    public List<GedDocument> findByParent(String parentId) {
+        return gedDocumentRepository.findByParentId(parentId);
+    }
+
+    public List<GedDocument> findByName(String name) {
+        return gedDocumentRepository.findByName(name);
+    }
 }
