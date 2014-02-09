@@ -194,8 +194,6 @@ public class GedNodeServiceTest {
 	public void libraryHasExpectedChildren() {
         List<GedNode> nodes = gedNodeService.getChildren(libraryId);
 
-        System.out.println("Nodes size : " + nodes.size());
-        
         List<GedNode> attemptedResult = Arrays.asList(new GedNode[]{
         		gedDirectory, documentUnderLibrary
         });
