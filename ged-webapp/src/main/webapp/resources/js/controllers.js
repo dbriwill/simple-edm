@@ -32,13 +32,14 @@ function MessageNewController($scope, $location, Message) {
 
 function LibraryListController($scope, $location, Library) {
     $scope.librairies = Library.query(function(response) {
-    	// auto focus on main library if only one is avaliable
+    	// auto focus on main library if only one is available
     	if ($scope.librairies.length == 1) {
-    		$location.path("/node/" + $scope.librairies[0].id);
+    		$location.path("/node/" + $scope.librairies[0].name + "/");
     	}
     });
 }
 
 function LibraryTreeviewController($scope, $routeParams, Library) {
-    $scope.library = Library.get({id:$routeParams.id});
+	console.log($routeParams);
+    //$scope.library = Library.get({id:$routeParams.id});
 }

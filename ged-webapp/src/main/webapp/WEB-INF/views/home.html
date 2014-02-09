@@ -1,11 +1,11 @@
 ﻿<!-- http://spring.io/guides/tutorials/web/4/ -->
 <!-- http://demos.kendoui.com/web/treeview/mvvm.html | http://kendo-labs.github.io/angular-kendo/#/-->
-<html ng-app="gedApp">
+<html ng-app="edmApp">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title>Simple Ged</title>
+	<title th:text="${APPLICATION_NAME}">Simple Ged</title>
 	
 	<link rel="stylesheet" href="/resources/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/resources/css/kendo.common.min.css" />
@@ -14,6 +14,7 @@
 
     <script src="/resources/js/libs/jquery.min.js"></script>
     <script src="/resources/js/libs/angular.min.js"></script>
+    <script src="/resources/js/libs/angular-route.min.js"></script>
     <script src="/resources/js/libs/angular-resource.min.js"></script>
     <script src="/resources/js/libs/kendo.all.min.js"></script>
     <script src="/resources/js/libs/angular-kendo.js"></script>
