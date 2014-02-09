@@ -40,7 +40,6 @@ function LibraryListController($scope, $location, Library) {
 }
 
 function LibraryTreeviewController($scope, $routeParams, Node) {
-	console.log($routeParams);
 	var nodePath = $routeParams.path.split('/');
 	var libraryName = nodePath[0];
     $scope.library = Node.get({nodepath:libraryName});
