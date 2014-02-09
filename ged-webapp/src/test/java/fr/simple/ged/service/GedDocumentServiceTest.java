@@ -44,7 +44,7 @@ public class GedDocumentServiceTest {
 	public void setUp() throws Exception {
 		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		
-		String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-webapp") ? "" : "/ged-webapp") + "/target/test-classes/";
+		String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("ged-webapp") ? "" : "/ged-webapp") + "/src/test/resources/";
 		
         docBac = new GedDocument();
         docBac.setName("Diplome du bac");
