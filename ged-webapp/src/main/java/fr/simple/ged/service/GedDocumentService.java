@@ -110,7 +110,7 @@ public class GedDocumentService {
 	public List<GedDocument> search(String pattern) {
 		BoolQueryBuilder qb = QueryBuilders.boolQuery();
 
-		for (String word : pattern.split(" ")) {
+		for (String word : pattern.trim().split(" ")) {
 			qb.must(QueryBuilders.fuzzyLikeThisQuery("_all").likeText(word));
 		}
 
@@ -119,4 +119,8 @@ public class GedDocumentService {
 		return Lists.newArrayList(gedDocumentRepository.search(qb));
 	}
 
+	public List<GedDocument> findByParent(String parentId) {
+		return gedDocumentRepository.findByParentId(parentId);
+	}
+	
 }

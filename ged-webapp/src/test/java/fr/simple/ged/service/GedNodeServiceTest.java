@@ -2,6 +2,9 @@ package fr.simple.ged.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,52 +46,73 @@ public class GedNodeServiceTest {
 	
 	
 	// testing id's
+	private GedLibrary gedLibrary;
 	private String libraryId;
+	
+	private GedDirectory gedDirectory;
 	private String directoryId;
+	
+	private GedDocument gedDocument;
 	private String documentId;
 
+	private GedDirectory directoryWithDirectoryParent;
 	private String directoryWithDirectoryParentId;
-	private String documentWithLibraryParentId;
 	
+	private GedDocument documentUnderLibrary;
+	private String documentUnderLibraryId;
+	
+	
+	/*
+	 * Faked library
+	 * =============
+	 * 
+	 * % gedLibrary
+	 * 		+ gedDirectory
+	 * 				- gedDocument
+	 * 				+ directoryWithDirectoryParent
+	 * 		- documentUnderLibrary
+	 */
 	
 	@Before
 	public void setUp() throws Exception {
 		elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 		
 		// building a fake environment
-		GedLibrary gedLibrary = new GedLibrary();
+		gedLibrary = new GedLibrary();
 		gedLibrary.setName("library");
 		gedLibrary = gedLibraryService.save(gedLibrary);
 		
 		libraryId = gedLibrary.getId();
 		
-		GedDirectory gedDirectory = new GedDirectory();
+		gedDirectory = new GedDirectory();
 		gedDirectory.setName("directory");
 		gedDirectory.setParentId(gedLibrary.getId());
 		gedDirectory = gedDirectoryService.save(gedDirectory);
 		
 		directoryId = gedDirectory.getId();
 		
-		GedDocument gedDocument = new GedDocument();
+		gedDocument = new GedDocument();
 		gedDocument.setName("document");
 		gedDocument.setParentId(gedDirectory.getId());
 		gedDocument = gedDocumentService.save(gedDocument);
 		
 		documentId = gedDocument.getId();
 		
-		GedDirectory anotherGedDirectory = new GedDirectory();
-		anotherGedDirectory.setName("Another ged directory");
-		anotherGedDirectory.setParentId(gedDirectory.getId());
-		anotherGedDirectory = gedDirectoryService.save(anotherGedDirectory);
+		directoryWithDirectoryParent = new GedDirectory();
+		directoryWithDirectoryParent.setName("Another ged directory");
+		directoryWithDirectoryParent.setParentId(gedDirectory.getId());
+		directoryWithDirectoryParent = gedDirectoryService.save(directoryWithDirectoryParent);
 		
-		directoryWithDirectoryParentId = anotherGedDirectory.getId();
+		directoryWithDirectoryParentId = directoryWithDirectoryParent.getId();
 		
-		GedDocument documentUnderLibrary = new GedDocument();
+		documentUnderLibrary = new GedDocument();
 		documentUnderLibrary.setName("document under library");
 		documentUnderLibrary.setParentId(gedLibrary.getId());
 		documentUnderLibrary = gedDocumentService.save(documentUnderLibrary);
 		
-		documentWithLibraryParentId = documentUnderLibrary.getId();
+		documentUnderLibraryId = documentUnderLibrary.getId();
+		
+		elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
 	
 	@Test
@@ -135,7 +159,7 @@ public class GedNodeServiceTest {
 	
 	@Test
 	public void documentCanHaveLibraryForParent() {
-		GedNode node = gedNodeService.findOne(documentWithLibraryParentId);
+		GedNode node = gedNodeService.findOne(documentUnderLibraryId);
 		assertThat(node.getParentId()).isEqualTo(libraryId);
 	}
 	
@@ -164,5 +188,57 @@ public class GedNodeServiceTest {
 		GedNode node = gedNodeService.findOne(documentId);
 		String nodePath = gedNodeService.getPathOfNode(node);
 		assertThat(nodePath).isEqualTo("library/directory/document");
+	}
+	
+	@Test
+	public void libraryHasExpectedChildren() {
+        List<GedNode> nodes = gedNodeService.getChildren(libraryId);
+
+        System.out.println("Nodes size : " + nodes.size());
+        
+        List<GedNode> attemptedResult = Arrays.asList(new GedNode[]{
+        		gedDirectory, documentUnderLibrary
+        });
+        
+        assertThat(nodes).isNotNull();
+        assertThat(nodes.size()).isEqualTo(attemptedResult.size());
+        assertThat(nodes).containsAll(attemptedResult);
+	}
+	
+	@Test
+	public void directoryHasExpectedChildren() {
+        List<GedNode> nodes = gedNodeService.getChildren(directoryId);
+
+        List<GedNode> attemptedResult = Arrays.asList(new GedNode[]{
+        		directoryWithDirectoryParent, gedDocument
+        });
+        
+        assertThat(nodes).isNotNull();
+        assertThat(nodes.size()).isEqualTo(attemptedResult.size());
+        assertThat(nodes).containsAll(attemptedResult);
+	}
+	
+	@Test
+	public void anotherDirectoryHasExpectedChildren() {
+        List<GedNode> nodes = gedNodeService.getChildren(directoryWithDirectoryParentId);
+
+        List<GedNode> attemptedResult = Arrays.asList(new GedNode[]{
+        });
+        
+        assertThat(nodes).isNotNull();
+        assertThat(nodes.size()).isEqualTo(attemptedResult.size());
+        assertThat(nodes).containsAll(attemptedResult);
+	}
+	
+	@Test
+	public void documentShouldNotHaveChildren() {
+        List<GedNode> nodes = gedNodeService.getChildren(documentId);
+
+        List<GedNode> attemptedResult = Arrays.asList(new GedNode[]{
+        });
+        
+        assertThat(nodes).isNotNull();
+        assertThat(nodes.size()).isEqualTo(attemptedResult.size());
+        assertThat(nodes).containsAll(attemptedResult);
 	}
 }

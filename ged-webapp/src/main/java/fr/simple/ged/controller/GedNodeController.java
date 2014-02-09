@@ -1,5 +1,7 @@
 package fr.simple.ged.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.MediaType;
@@ -27,4 +29,11 @@ public class GedNodeController {
     public @ResponseBody GedNodeDto read(@PathVariable String nodeid) {
         return gedNodeMapper.boToDto(gedNodeService.findOne(nodeid));
     }
+	
+	// not really restfull
+	@RequestMapping(value = "/node/childs/{nodeid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<GedNodeDto> getChildNodes(@PathVariable String nodeid) {
+		return gedNodeMapper.boToDto(gedNodeService.getChildren(nodeid));
+	}
+	
 }

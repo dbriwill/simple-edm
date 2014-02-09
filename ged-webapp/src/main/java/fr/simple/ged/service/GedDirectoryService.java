@@ -1,5 +1,7 @@
 package fr.simple.ged.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -23,6 +25,10 @@ public class GedDirectoryService {
     
 	public GedDirectory save(GedDirectory gedDirectory) {
 		return gedDirectoryRepository.index(gedDirectory);
+	}
+	
+	public List<GedDirectory> findByParent(String parentId) {
+		return gedDirectoryRepository.findByParentId(parentId);
 	}
 
 }

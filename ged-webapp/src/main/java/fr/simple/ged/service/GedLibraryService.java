@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import fr.simple.ged.model.GedLibrary;
+import fr.simple.ged.model.GedNode;
 import fr.simple.ged.repository.GedLibraryRepository;
 
 
