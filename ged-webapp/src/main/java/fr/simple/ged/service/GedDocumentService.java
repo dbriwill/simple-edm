@@ -38,9 +38,7 @@ public class GedDocumentService {
     @Inject
     private GedDocumentRepository gedDocumentRepository;
 
-    @Inject
-    private GedNodeService gedNodeService;
-
+    
     public GedDocument findOne(String id) {
         return gedDocumentRepository.findOne(id);
     }

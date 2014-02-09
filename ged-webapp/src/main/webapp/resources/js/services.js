@@ -11,3 +11,9 @@ factory('Library', function ($resource) {
     });
 });
 
+angular.module('nodeService', ['ngResource']).
+factory('Node', function ($resource) {
+    return $resource('node/:nodepath', {}, {
+    });
+});
+

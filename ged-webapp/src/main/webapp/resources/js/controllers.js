@@ -39,9 +39,9 @@ function LibraryListController($scope, $location, Library) {
     });
 }
 
-function LibraryTreeviewController($scope, $routeParams, Library) {
+function LibraryTreeviewController($scope, $routeParams, Node) {
 	console.log($routeParams);
-	var documentPath = $routeParams.path.split('/');
-	var libraryName = documentPath[0];
-    //$scope.library = Library.get({id:$routeParams.id});
+	var nodePath = $routeParams.path.split('/');
+	var libraryName = nodePath[0];
+    $scope.library = Node.get({nodepath:libraryName});
 }

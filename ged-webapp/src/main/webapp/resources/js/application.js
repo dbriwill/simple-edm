@@ -1,4 +1,4 @@
-angular.module('edmApp', ['ngRoute', 'messageService', 'libraryService']).
+angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService']).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
         	when('/library/list',	
@@ -9,7 +9,7 @@ angular.module('edmApp', ['ngRoute', 'messageService', 'libraryService']).
         	).
         	when('/node/:path*\/',
         			{
-        				templateUrl:'resources/views/library-treeview.html',
+        				templateUrl:'resources/views/node-treeview.html',
         				controller:LibraryTreeviewController
         			}
         	).

@@ -17,6 +17,11 @@ public class GedNodeDto implements Serializable {
 	
 	private GedNodeDto parent;
 	
+	private String name;
+	
+	public GedNodeDto() {
+	    // please give me a node type... Or you'll do nothing with me !
+	}
 	
 	public GedNodeDto(GedNodeType gedNodeType) {
 		this.gedNodeType = gedNodeType;
@@ -45,5 +50,14 @@ public class GedNodeDto implements Serializable {
 	public void setParent(GedNodeDto parent) {
 		this.parent = parent;
 	}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+	
 }
 

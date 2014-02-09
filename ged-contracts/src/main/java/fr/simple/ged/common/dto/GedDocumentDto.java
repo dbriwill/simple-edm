@@ -6,21 +6,10 @@ import fr.simple.ged.common.GedNodeType;
 
 public class GedDocumentDto extends GedNodeDto implements Serializable {
 
-	private String name;
-	
 	private String description;
 
-	
 	public GedDocumentDto() {
 		super(GedNodeType.DOCUMENT);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getDescription() {
