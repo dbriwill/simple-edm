@@ -1,5 +1,9 @@
 package fr.simple.ged.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +35,10 @@ public class GedLibraryService {
 
     @Inject
     private GedDirectoryService gedDirectoryService;
-    
+
     @Inject
     private GedDocumentService gedDocumentService;
-    
-    
+
     public GedLibrary findOne(String id) {
         return gedLibraryRepository.findOne(id);
     }
@@ -57,15 +60,27 @@ public class GedLibraryService {
             library.setName(env.getProperty("default.library.name"));
             library.setDescription(env.getProperty("default.library.description"));
             library = save(library);
-            
+
             GedDirectory directory = new GedDirectory();
             directory.setName(env.getProperty("default.directory.name"));
             directory.setParentId(library.getId());
             directory = gedDirectoryService.save(directory);
-            
+
             GedDocument document = new GedDocument();
             document.setName(env.getProperty("default.document.name"));
             document.setParentId(directory.getId());
+            
+            File file = new File("./default-edm.pdf");
+            if (!file.exists()) {
+                InputStream link = (getClass().getResourceAsStream(env.getProperty("default.document.path")));
+                try {
+                    Files.copy(link, file.getAbsoluteFile().toPath());
+                } catch (IOException e) {
+                    logger.error("Failed to load default edm file", e);
+                }
+            }
+            
+            document.setFilename(file.getPath());
             document = gedDocumentService.save(document);
         }
     }

@@ -2,6 +2,7 @@ package fr.simple.ged.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +39,9 @@ public class GedDocumentService {
     @Inject
     private GedDocumentRepository gedDocumentRepository;
 
-    
+    @Inject
+    private GedNodeService gedNodeService;
+
     public GedDocument findOne(String id) {
         return gedDocumentRepository.findOne(id);
     }
@@ -72,6 +75,13 @@ public class GedDocumentService {
             }
 
             if (!gedDocument.getFilename().isEmpty()) {
+                String from = gedDocument.getFilename();
+                String extension = "." + com.google.common.io.Files.getFileExtension(from);
+                String to = gedNodeService.getAbsolutePathOfNode(gedDocument) + extension;
+                logger.debug("Copy {} to {}", new File(from), new File(to));
+                com.google.common.io.Files.createParentDirs(new File(to));
+                com.google.common.io.Files.copy(new File(from), new File(to));
+                
                 // now add the binaries file
                 logger.debug("Adding file '{}' for ES indexation", gedDocument.getFilename());
 
@@ -102,7 +112,6 @@ public class GedDocumentService {
         }
 
         return gedDocument;
-        // return gedDocumentRepository.save(gedDocument);
     }
 
     public List<GedDocument> search(String pattern) {
