@@ -30,31 +30,31 @@ import fr.simple.edm.service.EdmNodeService;
 @WebAppConfiguration
 @ContextConfiguration(classes = { Application.class })
 @ComponentScan(basePackages = { "fr.simple.edm" })
-public class GedNodeServiceTest {
+public class EdmNodeServiceTest {
 
     @Autowired
-    private EdmNodeService gedNodeService;
+    private EdmNodeService edmNodeService;
 
     @Autowired
-    private EdmLibraryService gedLibraryService;
+    private EdmLibraryService edmLibraryService;
 
     @Autowired
-    private EdmDocumentService gedDocumentService;
+    private EdmDocumentService edmDocumentService;
 
     @Autowired
-    private EdmDirectoryService gedDirectoryService;
+    private EdmDirectoryService edmDirectoryService;
 
     @Autowired
     private ElasticsearchTestingHelper elasticsearchTestingHelper;
 
     // testing id's
-    private EdmLibrary gedLibrary;
+    private EdmLibrary edmLibrary;
     private String libraryId;
 
-    private EdmDirectory gedDirectory;
+    private EdmDirectory edmDirectory;
     private String directoryId;
 
-    private EdmDocument gedDocument;
+    private EdmDocument edmDocument;
     private String documentId;
 
     private EdmDirectory directoryWithDirectoryParent;
@@ -75,37 +75,37 @@ public class GedNodeServiceTest {
         elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 
         // building a fake environment
-        gedLibrary = new EdmLibrary();
-        gedLibrary.setName("library");
-        gedLibrary = gedLibraryService.save(gedLibrary);
+        edmLibrary = new EdmLibrary();
+        edmLibrary.setName("library");
+        edmLibrary = edmLibraryService.save(edmLibrary);
 
-        libraryId = gedLibrary.getId();
+        libraryId = edmLibrary.getId();
 
-        gedDirectory = new EdmDirectory();
-        gedDirectory.setName("directory");
-        gedDirectory.setParentId(gedLibrary.getId());
-        gedDirectory = gedDirectoryService.save(gedDirectory);
+        edmDirectory = new EdmDirectory();
+        edmDirectory.setName("directory");
+        edmDirectory.setParentId(edmLibrary.getId());
+        edmDirectory = edmDirectoryService.save(edmDirectory);
 
-        directoryId = gedDirectory.getId();
+        directoryId = edmDirectory.getId();
 
-        gedDocument = new EdmDocument();
-        gedDocument.setName("document");
-        gedDocument.setParentId(gedDirectory.getId());
-        gedDocument = gedDocumentService.save(gedDocument);
+        edmDocument = new EdmDocument();
+        edmDocument.setName("document");
+        edmDocument.setParentId(edmDirectory.getId());
+        edmDocument = edmDocumentService.save(edmDocument);
 
-        documentId = gedDocument.getId();
+        documentId = edmDocument.getId();
 
         directoryWithDirectoryParent = new EdmDirectory();
         directoryWithDirectoryParent.setName("subdirectory");
-        directoryWithDirectoryParent.setParentId(gedDirectory.getId());
-        directoryWithDirectoryParent = gedDirectoryService.save(directoryWithDirectoryParent);
+        directoryWithDirectoryParent.setParentId(edmDirectory.getId());
+        directoryWithDirectoryParent = edmDirectoryService.save(directoryWithDirectoryParent);
 
         directoryWithDirectoryParentId = directoryWithDirectoryParent.getId();
 
         documentUnderLibrary = new EdmDocument();
         documentUnderLibrary.setName("document under library");
-        documentUnderLibrary.setParentId(gedLibrary.getId());
-        documentUnderLibrary = gedDocumentService.save(documentUnderLibrary);
+        documentUnderLibrary.setParentId(edmLibrary.getId());
+        documentUnderLibrary = edmDocumentService.save(documentUnderLibrary);
 
         documentUnderLibraryId = documentUnderLibrary.getId();
 
@@ -114,84 +114,84 @@ public class GedNodeServiceTest {
 
     @Test
     public void libraryNodeShouldBeReturned() {
-        EdmNode node = gedNodeService.findOne(libraryId);
+        EdmNode node = edmNodeService.findOne(libraryId);
         assertThat(node).isNotNull();
         assertThat(node.getId()).isEqualTo(libraryId);
-        assertThat(node.getGedNodeType()).isEqualTo(EdmNodeType.LIBRARY);
+        assertThat(node.getEdmNodeType()).isEqualTo(EdmNodeType.LIBRARY);
     }
 
     @Test
     public void directoryNodeShouldBeReturned() {
-        EdmNode node = gedNodeService.findOne(directoryId);
+        EdmNode node = edmNodeService.findOne(directoryId);
         assertThat(node).isNotNull();
         assertThat(node.getId()).isEqualTo(directoryId);
-        assertThat(node.getGedNodeType()).isEqualTo(EdmNodeType.DIRECTORY);
+        assertThat(node.getEdmNodeType()).isEqualTo(EdmNodeType.DIRECTORY);
     }
 
     @Test
     public void documentNodeShouldBeReturned() {
-        EdmNode node = gedNodeService.findOne(documentId);
+        EdmNode node = edmNodeService.findOne(documentId);
         assertThat(node).isNotNull();
         assertThat(node.getId()).isEqualTo(documentId);
-        assertThat(node.getGedNodeType()).isEqualTo(EdmNodeType.DOCUMENT);
+        assertThat(node.getEdmNodeType()).isEqualTo(EdmNodeType.DOCUMENT);
     }
 
     @Test
     public void libraryShouldNotHaveParent() {
-        EdmNode node = gedNodeService.findOne(libraryId);
+        EdmNode node = edmNodeService.findOne(libraryId);
         assertThat(node.getParentId()).isNull();
     }
 
     @Test
     public void directoryCanHaveLibrayForParent() {
-        EdmNode node = gedNodeService.findOne(directoryId);
+        EdmNode node = edmNodeService.findOne(directoryId);
         assertThat(node.getParentId()).isEqualTo(libraryId);
     }
 
     @Test
     public void directoryCanHaveDirectoryForParent() {
-        EdmNode node = gedNodeService.findOne(directoryWithDirectoryParentId);
+        EdmNode node = edmNodeService.findOne(directoryWithDirectoryParentId);
         assertThat(node.getParentId()).isEqualTo(directoryId);
     }
 
     @Test
     public void documentCanHaveLibraryForParent() {
-        EdmNode node = gedNodeService.findOne(documentUnderLibraryId);
+        EdmNode node = edmNodeService.findOne(documentUnderLibraryId);
         assertThat(node.getParentId()).isEqualTo(libraryId);
     }
 
     @Test
     public void documentCanHaveDirectoryForParent() {
-        EdmNode node = gedNodeService.findOne(documentId);
+        EdmNode node = edmNodeService.findOne(documentId);
         assertThat(node.getParentId()).isEqualTo(directoryId);
     }
 
     @Test
     public void libraryPathShouldBeLibraryName() {
-        EdmNode node = gedNodeService.findOne(libraryId);
-        String nodePath = gedNodeService.getPathOfNode(node);
+        EdmNode node = edmNodeService.findOne(libraryId);
+        String nodePath = edmNodeService.getPathOfNode(node);
         assertThat(nodePath).isEqualTo("library");
     }
 
     @Test
     public void directoryPathShouldIncludeLibraryPath() {
-        EdmNode node = gedNodeService.findOne(directoryId);
-        String nodePath = gedNodeService.getPathOfNode(node);
+        EdmNode node = edmNodeService.findOne(directoryId);
+        String nodePath = edmNodeService.getPathOfNode(node);
         assertThat(nodePath).isEqualTo("library/directory");
     }
 
     @Test
     public void documentPathShouldIncludeDirectoryPath() {
-        EdmNode node = gedNodeService.findOne(documentId);
-        String nodePath = gedNodeService.getPathOfNode(node);
+        EdmNode node = edmNodeService.findOne(documentId);
+        String nodePath = edmNodeService.getPathOfNode(node);
         assertThat(nodePath).isEqualTo("library/directory/document");
     }
 
     @Test
     public void libraryHasExpectedChildren() {
-        List<EdmNode> nodes = gedNodeService.getChildren(libraryId);
+        List<EdmNode> nodes = edmNodeService.getChildren(libraryId);
 
-        List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] { gedDirectory, documentUnderLibrary });
+        List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] { edmDirectory, documentUnderLibrary });
 
         assertThat(nodes).isNotNull();
         assertThat(nodes.size()).isEqualTo(attemptedResult.size());
@@ -200,9 +200,9 @@ public class GedNodeServiceTest {
 
     @Test
     public void directoryHasExpectedChildren() {
-        List<EdmNode> nodes = gedNodeService.getChildren(directoryId);
+        List<EdmNode> nodes = edmNodeService.getChildren(directoryId);
 
-        List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] { directoryWithDirectoryParent, gedDocument });
+        List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] { directoryWithDirectoryParent, edmDocument });
 
         assertThat(nodes).isNotNull();
         assertThat(nodes.size()).isEqualTo(attemptedResult.size());
@@ -211,7 +211,7 @@ public class GedNodeServiceTest {
 
     @Test
     public void anotherDirectoryHasExpectedChildren() {
-        List<EdmNode> nodes = gedNodeService.getChildren(directoryWithDirectoryParentId);
+        List<EdmNode> nodes = edmNodeService.getChildren(directoryWithDirectoryParentId);
 
         List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] {});
 
@@ -222,7 +222,7 @@ public class GedNodeServiceTest {
 
     @Test
     public void documentShouldNotHaveChildren() {
-        List<EdmNode> nodes = gedNodeService.getChildren(documentId);
+        List<EdmNode> nodes = edmNodeService.getChildren(documentId);
 
         List<EdmNode> attemptedResult = Arrays.asList(new EdmNode[] {});
 
@@ -233,31 +233,31 @@ public class GedNodeServiceTest {
 
     @Test
     public void libraryShouldBeFindByPath() {
-        EdmNode node = gedNodeService.findOneByPath("library");
+        EdmNode node = edmNodeService.findOneByPath("library");
         
         assertThat(node).isNotNull();
-        assertThat(node).isEqualTo(gedLibrary);
+        assertThat(node).isEqualTo(edmLibrary);
     }
     
     @Test
     public void directoryShouldBeFindByPath() {
-        EdmNode node = gedNodeService.findOneByPath("library/directory");
+        EdmNode node = edmNodeService.findOneByPath("library/directory");
         
         assertThat(node).isNotNull();
-        assertThat(node).isEqualTo(gedDirectory);
+        assertThat(node).isEqualTo(edmDirectory);
     }
     
     @Test
     public void documentShouldBeFindByPath() {
-        EdmNode node = gedNodeService.findOneByPath("library/directory/document");
+        EdmNode node = edmNodeService.findOneByPath("library/directory/document");
         
         assertThat(node).isNotNull();
-        assertThat(node).isEqualTo(gedDocument);
+        assertThat(node).isEqualTo(edmDocument);
     }
     
     @Test
     public void subdirectoryShouldBeFindByPath() {
-        EdmNode node = gedNodeService.findOneByPath("library/directory/subdirectory");
+        EdmNode node = edmNodeService.findOneByPath("library/directory/subdirectory");
         
         assertThat(node).isNotNull();
         assertThat(node).isEqualTo(directoryWithDirectoryParent);

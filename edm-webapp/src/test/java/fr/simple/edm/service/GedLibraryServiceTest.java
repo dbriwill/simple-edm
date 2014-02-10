@@ -33,7 +33,7 @@ import fr.simple.edm.service.EdmLibraryService;
 public class GedLibraryServiceTest {
 
 	@Autowired
-	private EdmLibraryService gedLibraryService;
+	private EdmLibraryService edmLibraryService;
 
 	@Autowired
     private Environment env;
@@ -53,8 +53,8 @@ public class GedLibraryServiceTest {
 	
 	@Test
 	public void defaultLibraryIsCreatedAtStart() {
-		gedLibraryService.createDefaultLibraryIfNotExists();
-		List<EdmLibrary> librairies = gedLibraryService.getEdmLibraries();
+		edmLibraryService.createDefaultLibraryIfNotExists();
+		List<EdmLibrary> librairies = edmLibraryService.getEdmLibraries();
 		
 		assertThat(librairies.size()).isEqualTo(1);
 		assertThat(librairies.get(0).getName()).isEqualTo(env.getProperty("default.library.name"));

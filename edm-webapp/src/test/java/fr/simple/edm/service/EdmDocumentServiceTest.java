@@ -23,13 +23,13 @@ import fr.simple.edm.service.EdmDocumentService;
 @WebAppConfiguration
 @ContextConfiguration(classes = { Application.class })
 @ComponentScan(basePackages = { "fr.simple.edm" })
-public class GedDocumentServiceTest {
+public class EdmDocumentServiceTest {
 
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
 	@Autowired
-	private EdmDocumentService gedDocumentService;
+	private EdmDocumentService edmDocumentService;
 	
 	
     private EdmDocument docBac;
@@ -64,10 +64,10 @@ public class GedDocumentServiceTest {
         docLatex.setDescription("...réalisé dans un format binaire");
         docLatex.setFilename(targetDirAbsolutePath + "demo_pdf.pdf");
         
-        gedDocumentService.save(docBac);
-        gedDocumentService.save(docBrevet);
-        gedDocumentService.save(docBacNotes);
-        gedDocumentService.save(docLatex);
+        edmDocumentService.save(docBac);
+        edmDocumentService.save(docBrevet);
+        edmDocumentService.save(docBacNotes);
+        edmDocumentService.save(docLatex);
         
         elasticsearchTestingHelper.flushIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 	}
@@ -78,7 +78,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void documentWhichContainsWordShouldBeReturned() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("brevet");
+        List<EdmDocument> docs = edmDocumentService.search("brevet");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
         		docBrevet
@@ -94,7 +94,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void documentWithAccentShouldBeReturned() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("brevets");
+        List<EdmDocument> docs = edmDocumentService.search("brevets");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docBrevet
@@ -111,7 +111,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void documentWithSShouldBeReturned() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("diplômes");
+        List<EdmDocument> docs = edmDocumentService.search("diplômes");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docBac, docBrevet
@@ -127,7 +127,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void documentWithAccetAndSShouldBeReturned() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("diplomes");
+        List<EdmDocument> docs = edmDocumentService.search("diplomes");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docBac, docBrevet
@@ -143,7 +143,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void documentWitchContainsAllWordsShouldBeReturned() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("diplôme bac");
+        List<EdmDocument> docs = edmDocumentService.search("diplôme bac");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docBac
@@ -160,7 +160,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void searchOnBinaryContent() throws Exception {
-            List<EdmDocument> docs = gedDocumentService.search("latex");
+            List<EdmDocument> docs = edmDocumentService.search("latex");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docLatex
@@ -176,7 +176,7 @@ public class GedDocumentServiceTest {
      */
     @Test
     public void searchOnBinaryMetadataContent() throws Exception {
-        List<EdmDocument> docs = gedDocumentService.search("xavier");
+        List<EdmDocument> docs = edmDocumentService.search("xavier");
 
         List<EdmDocument> attemptedResult = Arrays.asList(new EdmDocument[]{
                 docLatex

@@ -45,11 +45,11 @@ public class EdmNode implements Serializable {
 		this.id = id;
 	}
 
-	public EdmNodeType getGedNodeType() {
+	public EdmNodeType getEdmNodeType() {
 		return edmNodeType;
 	}
 
-	public void setGedNodeType(EdmNodeType edmNodeType) {
+	public void setEdmNodeType(EdmNodeType edmNodeType) {
 		this.edmNodeType = edmNodeType;
 	}
 
