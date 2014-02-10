@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.simple.edm.common.EdmNodeType;
 import fr.simple.edm.common.dto.EdmNodeDto;
 import fr.simple.edm.mapper.EdmNodeMapper;
 import fr.simple.edm.service.EdmNodeService;
