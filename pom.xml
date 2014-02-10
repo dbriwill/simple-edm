@@ -3,11 +3,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.simple.ged</groupId>
-	<artifactId>simple-ged</artifactId>
+	<groupId>fr.simple.edm</groupId>
+	<artifactId>simple-edm</artifactId>
 	<version>5.0</version>
-	<name>Simple Ged</name>
-	<description>A simple GED</description>
+	<name>Simple edm</name>
+	<description>A simple edm</description>
 	<packaging>pom</packaging>
 
 
@@ -29,9 +29,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
+		<edm.mainwindow.name>Simple edm</edm.mainwindow.name>
 
-		<ged.version>5.0</ged.version>
+		<edm.version>5.0</edm.version>
 	</properties>
 
 
@@ -65,8 +65,8 @@
 	</repositories>
 
 	<modules>
-		<module>ged-webapp</module>
-		<module>ged-contracts</module>
+		<module>edm-webapp</module>
+		<module>edm-contracts</module>
 	</modules>
 
 
