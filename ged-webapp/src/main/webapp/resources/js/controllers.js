@@ -61,8 +61,14 @@ function NodeTreeviewController($scope, $http, $routeParams, Node) {
 		appendNode.data('node-children-are-loaded', false);
 		appendNode.data('nodeid', node.id);
 
-		if (node.gedNodeType === 'LIBRARY' || node.gedNodeType === 'DIRECTORY') {
+		if (node.gedNodeType === 'LIBRARY') {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
+		}
+		else if (node.gedNodeType === 'DIRECTORY') {
 			appendNode.find('.k-bot').prepend('<span class="k-sprite folder"></span>');
+		}
+		else {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite image"></span>');
 		}
 	};
 
