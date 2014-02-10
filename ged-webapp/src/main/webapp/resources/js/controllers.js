@@ -41,11 +41,30 @@ function LibraryListController($scope, $location, Library) {
 }
 
 function NodeTreeviewController($scope, $http, $routeParams, Node) {
+	
 	var nodePath = $routeParams.path.split('/');
 	var libraryName = nodePath[0];
-	$scope.library = Node.get({
+	
+	$scope.rootNode = Node.get({
 		nodepath : libraryName
+	}, function(response){
+		$scope.addNode($scope.rootNode, null);
 	});
+
+	$scope.addNode = function(node, parentNode) {
+		console.debug("Append child : " + node.id);
+
+		var appendNode = $scope.treeview.append({
+			text : node.name
+		}, parentNode);
+
+		appendNode.data('node-children-are-loaded', false);
+		appendNode.data('nodeid', node.id);
+
+		if (node.gedNodeType === 'LIBRARY' || node.gedNodeType === 'DIRECTORY') {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite folder"></span>');
+		}
+	};
 
 	$scope.onNodeSelect = function(e) {
 		var node = $(e.node);
@@ -58,21 +77,10 @@ function NodeTreeviewController($scope, $http, $routeParams, Node) {
 
 			$http.get('/node/childs/' + nodeId).success(
 					function(data, status, headers, config) {
-
-						var treeview = $("#treeview").data("kendoTreeView");
-						var selectedNode = treeview.select();
+						var selectedNode = $scope.treeview.select();
 
 						for (var i = 0; i < data.length; i++) {
-							node = data[i];
-
-							console.debug("Append child : " + node.id);
-							
-							var appendNode = treeview.append({
-                                text: node.name
-                            }, selectedNode);
-							
-							appendNode.data('node-children-are-loaded', false);
-							appendNode.data('nodeid', node.id);
+							$scope.addNode(data[i], selectedNode);
 						}
 
 					}).error(function(data, status, headers, config) {
@@ -82,12 +90,15 @@ function NodeTreeviewController($scope, $http, $routeParams, Node) {
 
 			node.data('node-children-are-loaded', true);
 		}
+		
+//		$routeParams.path($routeParams.path() + "/" + scope.rootNode.name);
 	};
 
 	$scope.$on('$viewContentLoaded', function() {
 		$("#treeview").kendoTreeView({
-			loadOnDemand: false,
+			loadOnDemand : false,
 			select : $scope.onNodeSelect
 		});
+		$scope.treeview = $("#treeview").data("kendoTreeView");
 	});
 }
