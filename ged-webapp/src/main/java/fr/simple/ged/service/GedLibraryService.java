@@ -12,6 +12,8 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import fr.simple.ged.model.GedDirectory;
+import fr.simple.ged.model.GedDocument;
 import fr.simple.ged.model.GedLibrary;
 import fr.simple.ged.repository.GedLibraryRepository;
 
@@ -27,6 +29,13 @@ public class GedLibraryService {
     @Inject
     private GedLibraryRepository gedLibraryRepository;
 
+    @Inject
+    private GedDirectoryService gedDirectoryService;
+    
+    @Inject
+    private GedDocumentService gedDocumentService;
+    
+    
     public GedLibrary findOne(String id) {
         return gedLibraryRepository.findOne(id);
     }
@@ -47,7 +56,17 @@ public class GedLibraryService {
             GedLibrary library = new GedLibrary();
             library.setName(env.getProperty("default.library.name"));
             library.setDescription(env.getProperty("default.library.description"));
-            save(library);
+            library = save(library);
+            
+            GedDirectory directory = new GedDirectory();
+            directory.setName(env.getProperty("default.directory.name"));
+            directory.setParentId(library.getId());
+            directory = gedDirectoryService.save(directory);
+            
+            GedDocument document = new GedDocument();
+            document.setName(env.getProperty("default.document.name"));
+            document.setParentId(directory.getId());
+            document = gedDocumentService.save(document);
         }
     }
 

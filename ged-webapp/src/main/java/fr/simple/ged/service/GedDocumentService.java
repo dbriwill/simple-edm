@@ -96,7 +96,7 @@ public class GedDocumentService {
 
             gedDocument.setId(ir.getId());
 
-            logger.debug("Indexed ged document {} with id {}", gedDocument.getId(), ir.getId());
+            logger.debug("Indexed ged document {} with id {}", gedDocument.getName(), gedDocument.getId());
         } catch (Exception e) {
             logger.error("Failed to index document", e);
         }

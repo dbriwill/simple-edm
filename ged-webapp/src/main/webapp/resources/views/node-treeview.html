@@ -1,8 +1,8 @@
-<div id="example" class="k-content"  class="col-md-3">
+<div id="example" class="k-content" class="col-md-3">
 
 	<div class="edm-treeview">
 		<ul id="treeview">
-			<li data-expanded="false"><span class="k-sprite folder"></span>
+			<li data-expanded="false" data-nodeid="{{library.id}}" data-node-children-are-loaded="false"><span class="k-sprite folder"></span>
 				{{library.name}}
 			</li>
 		</ul>
@@ -38,13 +38,13 @@
 	</div>
 
 	<script>
+	/*
 	            $(document).ready(function() {
 	            	function onSelect(e) {
-                        console.log("Selecting: " + this.text(e.node));
+
                     }
 
                     function onChange(e) {
-                        console.log("Selection changed");
                     }
 
                     function onCollapse(e) {
@@ -79,12 +79,12 @@
                     }
                     
 		            $("#treeview").kendoTreeView({
-		            	select: onSelect,
+		            	select: nodeSelectedEvent,
                         change: onChange,
                         collapse: onCollapse,
                         expand: onExpand,
                         dragAndDrop: true,
-                        /* drag & drop events */
+                        // drag & drop events 
                         dragstart: onDragStart,
                         drag: onDrag,
                         drop: onDrop,
@@ -92,6 +92,7 @@
                         navigate: onNavigate
 		            });
 	            });
+	*/
 	        </script>
 
 

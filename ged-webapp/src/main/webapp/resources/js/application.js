@@ -7,10 +7,10 @@ angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'librarySe
         				controller:LibraryListController
         			}
         	).
-        	when('/node/:path*\/',
+        	when('/node/:path*',
         			{
         				templateUrl:'resources/views/node-treeview.html',
-        				controller:LibraryTreeviewController
+        				controller:NodeTreeviewController
         			}
         	).
             when('/message/list',
