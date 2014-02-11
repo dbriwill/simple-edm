@@ -41,28 +41,25 @@ function LibraryListController($scope, $location, Library) {
 }
 
 function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
-	
+
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
-		var appendNode = $scope.treeview.append({
+		var appendNode = $scope.kendoTreeview.append({
 			text : node.name
 		}, parentNode);
 
 		appendNode.data('node-children-are-loaded', false);
 		appendNode.data('nodeid', node.id);
-
-		if (node.edmNodeType === 'LIBRARY') {
-			appendNode.find('.k-bot').prepend(
-					'<span class="k-sprite rootfolder"></span>');
-		} else if (node.edmNodeType === 'DIRECTORY') {
-			appendNode.find('.k-bot').prepend(
-					'<span class="k-sprite folder"></span>');
-		} else {
-			appendNode.find('.k-bot').prepend(
-					'<span class="k-sprite image"></span>');
-		}
 		
+		if (node.edmNodeType === 'LIBRARY') {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
+		} else if (node.edmNodeType === 'DIRECTORY') {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite folder"></span>');
+		} else {
+			appendNode.find('.k-bot').prepend('<span class="k-sprite image"></span>');
+		}
+
 		return appendNode;
 	};
 
@@ -72,15 +69,17 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 			var nodeId = node.data('nodeid');
 
-			$http.get('/node/childs/' + nodeId).success(
-					function(data, status, headers, config) {
-						var selectedNode = $scope.treeview.select();
+			$http.get('/node/childs/' + nodeId).success(function(data, status, headers, config) {
+				var selectedNode = $scope.kendoTreeview.select();
+                if (selectedNode.length == 0) {
+                    selectedNode = null;
+                }
+				
+				for (var i = 0; i < data.length; i++) {
+					$scope.addNode(data[i], selectedNode);
+				}
 
-						for (var i = 0; i < data.length; i++) {
-							$scope.addNode(data[i], selectedNode);
-						}
-
-					}).error(function(data, status, headers, config) {
+			}).error(function(data, status, headers, config) {
 				console.error('Failed to retrieve child of node ' + nodeId);
 				// TODO : feedback for user
 			});
@@ -97,41 +96,70 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 		$scope.loadNodeChildrenAndExpand(node);
 
-		//$location.path($location.path() + "/" + scope.rootNode.name);
+		//		$location.path($location.path() + "/" + node.text());
 	};
 
-	
-	// loop to load all childs nodes
-	// i [int] is the current node index, max [int] the max count, parent the parent node
-	$scope.recursiveNodeLoader = function(i, max, parent) {
-		if (i == max) {
+	// loop to load all children nodes
+	// [int] 				i		 the current node index
+	// [int] 				max		 the max count
+	// [kendoui tree node]	parent	 the parent node
+	$scope.recursiveNodeLoader = function(currentIndex, max, parent) {
+		if (currentIndex == max) {
 			return;
 		}
-		
-		var currentNodePath = $scope.nodePathArray.slice(0, i+1).join('/');
-		
-        Node.get({
+
+		var currentNodePath = $scope.nodePathArray.slice(0, currentIndex + 1).join('/');
+
+		Node.get({
 			nodepath : currentNodePath
 		}, function(response) {
-			var appendNode = $scope.addNode(response, parent);
-			$scope.recursiveNodeLoader(i+1, max, appendNode);
-			$scope.treeview.select(appendNode);
+			
+			var items = $scope.treeview.find('li');
+			
+			// node is loaded ? Just wanna know if data-nodeid already exists...
+			var kendoAppendNode = null;
+			for (var i = 0; i < items.length; ++i) {
+				console.log('nodeid = ' + $.data(items[0], 'nodeid'));
+				var node = $scope.kendoTreeview.findByUid($.data(items[0], 'nodeid'));
+				console.log(node);
+//				console.log(kendoNode);
+//				if (kendoNode.data('nodeid') === response.id) {
+//					console.info('Find node');
+//					kendoAppendNode = kendoNode;
+//					break;
+//				}
+			}
+
+			if (kendoAppendNode == null) {
+				kendoAppendNode = $scope.addNode(response, parent);
+			}
+			
+			// always show children of the last selection
+			$scope.loadNodeChildrenAndExpand(kendoAppendNode);
+
+			// NEVER select the root node if alone, it'll lock the navigation...
+			if (currentIndex !== 0) {
+				$scope.kendoTreeview.select(kendoAppendNode);
+			}
+
+			$scope.recursiveNodeLoader(currentIndex + 1, max, kendoAppendNode);
 		});
 	};
-	
-	
+
 	// main
-	
+
 	$scope.$on('$viewContentLoaded', function() {
 		$("#treeview").kendoTreeView({
 			loadOnDemand : false,
 			select : $scope.onNodeSelect
 		});
-		$scope.treeview = $("#treeview").data("kendoTreeView");
-		
+
+		$scope.treeview = $("#treeview");
+		$scope.kendoTreeview = $scope.treeview.data("kendoTreeView");
+
 		$scope.nodePathArray = $routeParams.path.split('/');
 		console.debug($scope.nodePathArray);
 		$scope.recursiveNodeLoader(0, $scope.nodePathArray.length, null);
 	});
-	
+
 }
