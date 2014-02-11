@@ -40,17 +40,8 @@ function LibraryListController($scope, $location, Library) {
 	});
 }
 
-function NodeTreeviewController($scope, $http, $routeParams, Node) {
+function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 	
-	var nodePath = $routeParams.path.split('/');
-	var libraryName = nodePath[0];
-	
-	$scope.rootNode = Node.get({
-		nodepath : libraryName
-	}, function(response){
-		$scope.addNode($scope.rootNode, null);
-	});
-
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
@@ -62,24 +53,24 @@ function NodeTreeviewController($scope, $http, $routeParams, Node) {
 		appendNode.data('nodeid', node.id);
 
 		if (node.edmNodeType === 'LIBRARY') {
-			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
+			appendNode.find('.k-bot').prepend(
+					'<span class="k-sprite rootfolder"></span>');
+		} else if (node.edmNodeType === 'DIRECTORY') {
+			appendNode.find('.k-bot').prepend(
+					'<span class="k-sprite folder"></span>');
+		} else {
+			appendNode.find('.k-bot').prepend(
+					'<span class="k-sprite image"></span>');
 		}
-		else if (node.edmNodeType === 'DIRECTORY') {
-			appendNode.find('.k-bot').prepend('<span class="k-sprite folder"></span>');
-		}
-		else {
-			appendNode.find('.k-bot').prepend('<span class="k-sprite image"></span>');
-		}
+		
+		return appendNode;
 	};
 
-	$scope.onNodeSelect = function(e) {
-		var node = $(e.node);
-
-		var nodeId = node.data('nodeid');
-		console.debug("Selecting: " + nodeId);
-
+	$scope.loadNodeChildrenAndExpand = function(node) {
 		if (node.data('node-children-are-loaded') === false) {
 			console.debug('loading children...');
+
+			var nodeId = node.data('nodeid');
 
 			$http.get('/node/childs/' + nodeId).success(
 					function(data, status, headers, config) {
@@ -96,15 +87,51 @@ function NodeTreeviewController($scope, $http, $routeParams, Node) {
 
 			node.data('node-children-are-loaded', true);
 		}
-		
-//		$routeParams.path($routeParams.path() + "/" + scope.rootNode.name);
 	};
 
+	$scope.onNodeSelect = function(e) {
+		var node = $(e.node);
+
+		var nodeId = node.data('nodeid');
+		console.debug("Selecting: " + nodeId);
+
+		$scope.loadNodeChildrenAndExpand(node);
+
+		//$location.path($location.path() + "/" + scope.rootNode.name);
+	};
+
+	
+	// loop to load all childs nodes
+	// i [int] is the current node index, max [int] the max count, parent the parent node
+	$scope.recursiveNodeLoader = function(i, max, parent) {
+		if (i == max) {
+			return;
+		}
+		
+		var currentNodePath = $scope.nodePathArray.slice(0, i+1).join('/');
+		
+        Node.get({
+			nodepath : currentNodePath
+		}, function(response) {
+			var appendNode = $scope.addNode(response, parent);
+			$scope.recursiveNodeLoader(i+1, max, appendNode);
+			$scope.treeview.select(appendNode);
+		});
+	};
+	
+	
+	// main
+	
 	$scope.$on('$viewContentLoaded', function() {
 		$("#treeview").kendoTreeView({
 			loadOnDemand : false,
 			select : $scope.onNodeSelect
 		});
 		$scope.treeview = $("#treeview").data("kendoTreeView");
+		
+		$scope.nodePathArray = $routeParams.path.split('/');
+		console.debug($scope.nodePathArray);
+		$scope.recursiveNodeLoader(0, $scope.nodePathArray.length, null);
 	});
+	
 }

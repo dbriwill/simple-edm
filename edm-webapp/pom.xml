@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	
+
 		<edm.version>5.0</edm.version>
 		<start-class>fr.simple.edm.Application</start-class>
 
@@ -95,6 +95,14 @@
 	</pluginRepositories>
 
 	<dependencies>
+
+		<!-- Jetty -->
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		
 
 		<!-- modules -->
 
