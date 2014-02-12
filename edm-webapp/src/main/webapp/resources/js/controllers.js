@@ -34,14 +34,14 @@ function MessageNewController($scope, $location, Message) {
 function LibraryListController($scope, $location, Library) {
 	$scope.librairies = Library.query(function(response) {
 		// auto focus on main library if only one is available
-		if ($scope.librairies.length == 1) {
-			$location.path("/node/" + $scope.librairies[0].name);
-		}
+//		if ($scope.librairies.length == 1) {
+//			$location.path("/node/?path=" + $scope.librairies[0].name);
+//		}
 	});
 }
 
 function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
-
+	
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
@@ -101,11 +101,16 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		var nodeId = node.data('nodeid');
 		console.debug("Selecting: " + nodeId);
 		
+		$scope.$apply(function () {
+			$scope.currentNodeName = nodeId;
+		});
+		
 		$scope.loadNodeChildrenAndExpand(node);
 
 		var nodePath = $scope.getNodePath(node);
 		console.debug("/node/" + nodePath);
-		$location.path("/node/" + nodePath);
+		
+		$location.search('path', nodePath);
 	};
 
 	// loop to load all children nodes
@@ -113,7 +118,8 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 	// [int] 				max		 the max count
 	// [kendoui tree node]	parent	 the parent node
 	$scope.recursiveNodeLoader = function(currentIndex, max, parent) {
-		if (currentIndex == max) {
+		
+		if (currentIndex == max) { // break
 			// select the last node
 			$scope.kendoTreeview.select(parent);
 			return;
@@ -124,7 +130,12 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		Node.get({
 			nodepath : currentNodePath
 		}, function(response) {
-		
+			
+			if (response.id === null) { // break
+				$scope.kendoTreeview.select(parent);
+				return;
+			}
+			
 			// node is loaded ? Just wanna know if data-nodeid already exists...
 			var kendoAppendNode = $scope.treeview.find('[data-nodeid="' + response.id + '"]');
 			
@@ -176,5 +187,5 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		console.debug($scope.nodePathArray);
 		$scope.recursiveNodeLoader(0, $scope.nodePathArray.length, null);
 	});
-
+	
 }
