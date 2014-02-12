@@ -71,13 +71,9 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 			var nodeId = node.data('nodeid');
 
 			$http.get('/node/childs/' + nodeId).success(function(data, status, headers, config) {
-				var selectedNode = $scope.kendoTreeview.select();
-                if (selectedNode.length == 0) {
-                    selectedNode = null;
-                }
 				
 				for (var i = 0; i < data.length; i++) {
-					$scope.addNode(data[i], selectedNode);
+					$scope.addNode(data[i], node);
 				}
 
 			}).error(function(data, status, headers, config) {
@@ -89,15 +85,27 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		}
 	};
 
+	$scope.getNodePath = function(node) {
+        var kitems = $(node).add($(node).parentsUntil('.k-treeview', '.k-item'));
+
+        var texts = $.map(kitems, function(kitem) {
+            return $(kitem).find('>div span.k-in').text();
+        });
+		
+		return texts.join("/");
+	};
+	
 	$scope.onNodeSelect = function(e) {
 		var node = $(e.node);
 
 		var nodeId = node.data('nodeid');
 		console.debug("Selecting: " + nodeId);
-
+		
 		$scope.loadNodeChildrenAndExpand(node);
 
-		//		$location.path($location.path() + "/" + node.text());
+//		var nodePath = $scope.getNodePath(node);
+//		console.debug()
+//		$location.path("/#/node/" + nodePath);
 	};
 
 	// loop to load all children nodes
