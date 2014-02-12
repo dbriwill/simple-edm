@@ -103,9 +103,9 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		
 		$scope.loadNodeChildrenAndExpand(node);
 
-//		var nodePath = $scope.getNodePath(node);
-//		console.debug()
-//		$location.path("/#/node/" + nodePath);
+		var nodePath = $scope.getNodePath(node);
+		console.debug("/node/" + nodePath);
+		$location.path("/node/" + nodePath);
 	};
 
 	// loop to load all children nodes
@@ -114,6 +114,8 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 	// [kendoui tree node]	parent	 the parent node
 	$scope.recursiveNodeLoader = function(currentIndex, max, parent) {
 		if (currentIndex == max) {
+			// select the last node
+			$scope.kendoTreeview.select(parent);
 			return;
 		}
 
@@ -122,18 +124,13 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		Node.get({
 			nodepath : currentNodePath
 		}, function(response) {
-			
-			var items = $scope.treeview.find('li');
-			
+		
 			// node is loaded ? Just wanna know if data-nodeid already exists...
 			var kendoAppendNode = $scope.treeview.find('[data-nodeid="' + response.id + '"]');
 			
 			if (kendoAppendNode.length === 0) {
 				kendoAppendNode = $scope.addNode(response, parent);
 			}
-			
-			// select the append node
-			$scope.kendoTreeview.select(kendoAppendNode);
 			
 			// always show children of the last selection
 			$scope.loadNodeChildrenAndExpand(kendoAppendNode);
