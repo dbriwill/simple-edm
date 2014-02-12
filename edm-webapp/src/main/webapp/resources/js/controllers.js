@@ -140,12 +140,33 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		});
 	};
 
+	
+    $scope.onDragStart = function(e) {
+        console.log("Started dragging " + this.text(e.sourceNode));
+    }
+
+    $scope.onDrop = function(e) {
+        console.log(
+        "Dropped " + this.text(e.sourceNode) +
+        " (" + (e.valid ? "valid" : "invalid") + ")"
+        );
+    }
+
+    $scope.onDragEnd = function(e) {
+        console.log("Finished dragging " + this.text(e.sourceNode));
+    }
+	
 	// main
 
 	$scope.$on('$viewContentLoaded', function() {
 		$("#treeview").kendoTreeView({
 			loadOnDemand : false,
-			select : $scope.onNodeSelect
+			select : $scope.onNodeSelect,
+			dragAndDrop: false,
+            /* drag & drop events */
+            dragstart: $scope.onDragStart,
+            drop: $scope.onDrop,
+            dragend: $scope.onDragEnd
 		});
 
 		$scope.treeview = $("#treeview");

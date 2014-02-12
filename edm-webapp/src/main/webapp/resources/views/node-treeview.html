@@ -7,22 +7,6 @@
 
 	<script>
 	/*
-	            $(document).ready(function() {
-	            	function onSelect(e) {
-
-                    }
-
-                    function onChange(e) {
-                    }
-
-                    function onCollapse(e) {
-                        console.log("Collapsing " + this.text(e.node));
-                    }
-
-                    function onExpand(e) {
-                        console.log("Expanding " + this.text(e.node));
-                    }
-
                     function onDragStart(e) {
                         console.log("Started dragging " + this.text(e.sourceNode));
                     }
@@ -42,10 +26,6 @@
                         console.log("Finished dragging " + this.text(e.sourceNode));
                     }
 
-                    function onNavigate(e) {
-                        console.log("Navigate " + this.text(e.node));
-                    }
-                    
 		            $("#treeview").kendoTreeView({
 		            	select: nodeSelectedEvent,
                         change: onChange,
@@ -59,42 +39,14 @@
                         dragend: onDragEnd,
                         navigate: onNavigate
 		            });
-	            });
 	*/
-	        </script>
-
-
-	<style scoped="">
-#treeview .k-sprite {
-	vertical-align: middle;
-	background-image: url("/resources/img/coloricons-sprite.png");
-}
-
-.rootfolder {
-	background-position: 0 0;
-}
-
-.folder {
-	background-position: 0 -16px;
-}
-
-.pdf {
-	background-position: 0 -32px;
-}
-
-.html {
-	background-position: 0 -48px;
-}
-
-.image {
-	background-position: 0 -64px;
-}
-</style>
+	</script>
 </div>
 
 
 <div id="edm-details" class="col-md-9">
 	<div class="slide-animate-container">
+		<b>=> {{scope.nodePathArray}}</b>
 		<div class="slide-animate" ng-include="template.url"></div>
 	</div>
 </div>
