@@ -32,7 +32,7 @@ function MessageNewController($scope, $location, Message) {
 }
 
 function LibraryListController($scope, $location, Library) {
-	$scope.librairies = Library.query(function(response) { 
+	$scope.librairies = Library.query(function(response) {
 		// auto focus on main library if only one is available
 		if ($scope.librairies.length == 1) {
 			$location.path("/node/").search("path", $scope.librairies[0].name);
@@ -41,7 +41,7 @@ function LibraryListController($scope, $location, Library) {
 }
 
 function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
-	
+
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
@@ -49,10 +49,10 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 			text : node.name
 		}, parentNode);
 
-		appendNode.data('node-children-are-loaded', false);
-		appendNode.data('nodeid', node.id);
-		$(appendNode[0]).attr('data-nodeid', node.id);
-		
+		appendNode.data('node-children-are-loaded', false);	// did I already load my children ?
+		appendNode.data('nodedata', node); 					// store the DTO
+		$(appendNode[0]).attr('data-nodeid', node.id); 		// explicitly id showing
+
 		if (node.edmNodeType === 'LIBRARY') {
 			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
 		} else if (node.edmNodeType === 'DIRECTORY') {
@@ -68,10 +68,10 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		if (node.data('node-children-are-loaded') === false) {
 			console.debug('loading children...');
 
-			var nodeId = node.data('nodeid');
+			var nodeId = node.data('nodedata').id;
 
 			$http.get('/node/childs/' + nodeId).success(function(data, status, headers, config) {
-				
+
 				for (var i = 0; i < data.length; i++) {
 					$scope.addNode(data[i], node);
 				}
@@ -86,30 +86,30 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 	};
 
 	$scope.getNodePath = function(node) {
-        var kitems = $(node).add($(node).parentsUntil('.k-treeview', '.k-item'));
+		var kitems = $(node).add($(node).parentsUntil('.k-treeview', '.k-item'));
 
-        var texts = $.map(kitems, function(kitem) {
-            return $(kitem).find('>div span.k-in').text();
-        });
-		
+		var texts = $.map(kitems, function(kitem) {
+			return $(kitem).find('>div span.k-in').text();
+		});
+
 		return texts.join("/");
 	};
-	
+
 	$scope.onNodeSelect = function(e) {
 		var node = $(e.node);
 
-		var nodeId = node.data('nodeid');
+		var nodeId = node.data('nodedata').id;
 		console.debug("Selecting: " + nodeId);
-		
-		$scope.$apply(function () {
-			$scope.currentNodeName = nodeId;
+
+		$scope.$apply(function() {
+			$scope.currentNode = node.data('nodedata');
 		});
-		
+
 		$scope.loadNodeChildrenAndExpand(node);
 
 		var nodePath = $scope.getNodePath(node);
-		console.debug("/node/" + nodePath);
-		
+		console.debug("path = " + nodePath);
+
 		$location.search('path', nodePath);
 	};
 
@@ -118,7 +118,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 	// [int] 				max		 the max count
 	// [kendoui tree node]	parent	 the parent node
 	$scope.recursiveNodeLoader = function(currentIndex, max, parent) {
-		
+
 		if (currentIndex == max) { // break
 			// select the last node
 			$scope.kendoTreeview.select(parent);
@@ -130,19 +130,19 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		Node.get({
 			nodepath : currentNodePath
 		}, function(response) {
-			
+
 			if (response.id === null) { // break
 				$scope.kendoTreeview.select(parent);
 				return;
 			}
-			
+
 			// node is loaded ? Just wanna know if data-nodeid already exists...
 			var kendoAppendNode = $scope.treeview.find('[data-nodeid="' + response.id + '"]');
-			
+
 			if (kendoAppendNode.length === 0) {
 				kendoAppendNode = $scope.addNode(response, parent);
 			}
-			
+
 			// always show children of the last selection
 			$scope.loadNodeChildrenAndExpand(kendoAppendNode);
 
@@ -151,41 +151,38 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		});
 	};
 
-	
-    $scope.onDragStart = function(e) {
-        console.log("Started dragging " + this.text(e.sourceNode));
-    }
+	$scope.onDragStart = function(e) {
+		console.log("Started dragging " + this.text(e.sourceNode));
+	}
 
-    $scope.onDrop = function(e) {
-        console.log(
-        "Dropped " + this.text(e.sourceNode) +
-        " (" + (e.valid ? "valid" : "invalid") + ")"
-        );
-    }
+	$scope.onDrop = function(e) {
+		console.log("Dropped " + this.text(e.sourceNode) + " (" + (e.valid ? "valid" : "invalid") + ")");
+	}
 
-    $scope.onDragEnd = function(e) {
-        console.log("Finished dragging " + this.text(e.sourceNode));
-    }
-	
+	$scope.onDragEnd = function(e) {
+		console.log("Finished dragging " + this.text(e.sourceNode));
+	}
+
 	// main
 
 	$scope.$on('$viewContentLoaded', function() {
-		$("#treeview").kendoTreeView({
+		
+		$scope.treeview = $("#edm-treeview");
+		$scope.treeview .kendoTreeView({
 			loadOnDemand : false,
 			select : $scope.onNodeSelect,
-			dragAndDrop: false,
-            /* drag & drop events */
-            dragstart: $scope.onDragStart,
-            drop: $scope.onDrop,
-            dragend: $scope.onDragEnd
+			dragAndDrop : false,
+			/* drag & drop events */
+			dragstart : $scope.onDragStart,
+			drop : $scope.onDrop,
+			dragend : $scope.onDragEnd
 		});
 
-		$scope.treeview = $("#treeview");
 		$scope.kendoTreeview = $scope.treeview.data("kendoTreeView");
 
 		$scope.nodePathArray = $routeParams.path.split('/');
 		console.debug($scope.nodePathArray);
 		$scope.recursiveNodeLoader(0, $scope.nodePathArray.length, null);
 	});
-	
+
 }

@@ -1,52 +1,27 @@
+
 <div class="k-content col-md-3">
-
-	<div class="edm-treeview">
-		<ul id="treeview">
-		</ul>
-	</div>
-
-	<script>
-	/*
-                    function onDragStart(e) {
-                        console.log("Started dragging " + this.text(e.sourceNode));
-                    }
-
-                    function onDrag(e) {
-                        console.log("Dragging " + this.text(e.sourceNode));
-                    }
-
-                    function onDrop(e) {
-                        console.log(
-                        "Dropped " + this.text(e.sourceNode) +
-                        " (" + (e.valid ? "valid" : "invalid") + ")"
-                        );
-                    }
-
-                    function onDragEnd(e) {
-                        console.log("Finished dragging " + this.text(e.sourceNode));
-                    }
-
-		            $("#treeview").kendoTreeView({
-		            	select: nodeSelectedEvent,
-                        change: onChange,
-                        collapse: onCollapse,
-                        expand: onExpand,
-                        dragAndDrop: true,
-                        // drag & drop events 
-                        dragstart: onDragStart,
-                        drag: onDrag,
-                        drop: onDrop,
-                        dragend: onDragEnd,
-                        navigate: onNavigate
-		            });
-	*/
-	</script>
+	<ul id="edm-treeview">
+	</ul>
 </div>
 
 
 <div id="edm-details" class="col-md-9">
 	<div class="slide-animate-container">
-		<b>=> {{currentNodeName}}</b>
-		<div class="slide-animate" ng-include="template.url"></div>
+		<b>=> {{currentNode.id}}</b>
+		
+		<div ng-if="currentNode.edmNodeType === 'LIBRARY'">LIB
+			<div class="slide-animate" ng-include="resources/views/node-treeview.library.html">
+			</div>
+		</div>
+		
+		<div ng-if="currentNode.edmNodeType === 'DIRECTORY'">DIR
+			<div class="slide-animate" ng-include="resources/views/node-treeview.directory.html">
+			</div>
+		</div>
+		
+		<div ng-if="currentNode.edmNodeType === 'DOCUMENT'">DOC
+			<div class="slide-animate" ng-include="resources/views/node-treeview.document.html">
+			</div>
+		</div>
 	</div>
 </div>
