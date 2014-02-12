@@ -51,6 +51,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 		appendNode.data('node-children-are-loaded', false);
 		appendNode.data('nodeid', node.id);
+		$(appendNode[0]).attr('data-nodeid', node.id);
 		
 		if (node.edmNodeType === 'LIBRARY') {
 			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
@@ -117,31 +118,19 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 			var items = $scope.treeview.find('li');
 			
 			// node is loaded ? Just wanna know if data-nodeid already exists...
-			var kendoAppendNode = null;
-			for (var i = 0; i < items.length; ++i) {
-				console.log('nodeid = ' + $.data(items[0], 'nodeid'));
-				var node = $scope.kendoTreeview.findByUid($.data(items[0], 'nodeid'));
-				console.log(node);
-//				console.log(kendoNode);
-//				if (kendoNode.data('nodeid') === response.id) {
-//					console.info('Find node');
-//					kendoAppendNode = kendoNode;
-//					break;
-//				}
-			}
-
-			if (kendoAppendNode == null) {
+			var kendoAppendNode = $scope.treeview.find('[data-nodeid="' + response.id + '"]');
+			
+			if (kendoAppendNode.length === 0) {
 				kendoAppendNode = $scope.addNode(response, parent);
 			}
+			
+			// select the append node
+			$scope.kendoTreeview.select(kendoAppendNode);
 			
 			// always show children of the last selection
 			$scope.loadNodeChildrenAndExpand(kendoAppendNode);
 
-			// NEVER select the root node if alone, it'll lock the navigation...
-			if (currentIndex !== 0) {
-				$scope.kendoTreeview.select(kendoAppendNode);
-			}
-
+			// pass to the next children
 			$scope.recursiveNodeLoader(currentIndex + 1, max, kendoAppendNode);
 		});
 	};
