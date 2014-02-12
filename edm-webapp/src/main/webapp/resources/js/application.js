@@ -7,7 +7,7 @@ angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'librarySe
         				controller:LibraryListController
         			}
         	).
-        	when('/node/:path*',
+        	when('/node/', //  /node/?path=Document/Directory
         			{
         				templateUrl:'resources/views/node-treeview.html',
         				controller:NodeTreeviewController,
