@@ -6,18 +6,37 @@ import fr.simple.edm.common.EdmNodeType;
 
 public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
-	private String description;
+    private String description;
 
-	public EdmDocumentDto() {
-		super(EdmNodeType.DOCUMENT);
-	}
+    private String fileExtension;
 
-	public String getDescription() {
-		return description;
-	}
+    private String fileContentType;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public EdmDocumentDto() {
+        super(EdmNodeType.DOCUMENT);
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
+
+    public String getFileContentType() {
+        return fileContentType;
+    }
+
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
+    } 
 }

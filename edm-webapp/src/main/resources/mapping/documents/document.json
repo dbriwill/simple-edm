@@ -20,6 +20,12 @@
                 "type" : "date",
                 "format" : "dateOptionalTime"
             },
+            "fileExtension" : {
+            	"type" : "string"
+            },
+            "fileContentType" : {
+            	"type" : "string"
+            },
             "file" : {
                 "type" : "attachment",
                 "store" : "no"

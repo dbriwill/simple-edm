@@ -15,6 +15,11 @@ public class EdmDocument extends EdmNode {
 
 	private String filename; 
 	
+	private String fileExtension;
+	
+	private String fileContentType;
+	
+	
 	public EdmDocument() {
 		super(EdmNodeType.DOCUMENT);
 		filename = "";
@@ -43,4 +48,20 @@ public class EdmDocument extends EdmNode {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
+
+    public String getFileContentType() {
+        return fileContentType;
+    }
+
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
+    }
 }

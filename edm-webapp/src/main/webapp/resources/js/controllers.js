@@ -94,6 +94,11 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 		return texts.join("/");
 	};
+	
+	$scope.getDocumentNodeFilePath = function(node) {
+		var kendoAppendNode = $scope.treeview.find('[data-nodeid="' + node.id + '"]');
+		return "/" + $scope.getNodePath(kendoAppendNode) + "." + node.fileExtension;
+	}
 
 	$scope.onNodeSelect = function(e) {
 		var node = $(e.node);

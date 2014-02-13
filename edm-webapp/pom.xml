@@ -29,7 +29,7 @@
 		<org.springframework.data.spring-data-rest-webmvc.version>2.0.0.M1</org.springframework.data.spring-data-rest-webmvc.version>
 		<org.springframework.boot.version>0.5.0.M6</org.springframework.boot.version>
 		<org.springframework.data.spring-data-commons-core.version>1.4.1.RELEASE</org.springframework.data.spring-data-commons-core.version>
-		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.BUILD-SNAPSHOT</org.springframework.data.spring-data-elasticsearch.version>
+		<org.springframework.data.spring-data-elasticsearch.version>1.0.0.M1</org.springframework.data.spring-data-elasticsearch.version>
 
 		<com.fasterxml.jackson.core.version>2.2.3</com.fasterxml.jackson.core.version>
 
@@ -75,6 +75,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<!--
 		<repository>
 			<id>spring-snapshots</id>
 			<url>http://repo.spring.io/libs-snapshot</url>
@@ -82,6 +83,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		-->
 	</repositories>
 
 	<pluginRepositories>

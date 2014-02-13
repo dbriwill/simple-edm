@@ -88,7 +88,7 @@ public class EdmDocumentService {
                 contentBuilder.startObject("file");
 
                 Path filePath = Paths.get(edmDocument.getFilename());
-
+                
                 String contentType = Files.probeContentType(filePath);
                 String name = edmDocument.getFilename();
                 String content = Base64.encodeBytes(Files.readAllBytes(filePath));
@@ -96,6 +96,9 @@ public class EdmDocumentService {
                 contentBuilder.field("_content_type", contentType).field("_name", name).field("content", content);
 
                 contentBuilder.endObject();
+                
+                contentBuilder.field("fileExtension", com.google.common.io.Files.getFileExtension(edmDocument.getFilename()));
+                contentBuilder.field("fileContentType", contentType);
             }
 
             // and that's all folks
