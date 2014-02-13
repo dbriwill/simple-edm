@@ -7,21 +7,15 @@
 
 <div id="edm-details" class="col-md-9">
 	<div class="slide-animate-container">
-		<b>=> {{currentNode.id}}</b>
 		
-		<div ng-if="currentNode.edmNodeType === 'LIBRARY'">LIB
-			<div class="slide-animate" ng-include="resources/views/node-treeview.library.html">
-			</div>
+		<div ng-if="currentNode.edmNodeType === 'LIBRARY'" class="slide-animate" ng-include="'resources/views/node-treeview.library.html'">
 		</div>
 		
-		<div ng-if="currentNode.edmNodeType === 'DIRECTORY'">DIR
-			<div class="slide-animate" ng-include="resources/views/node-treeview.directory.html">
-			</div>
+		<div ng-if="currentNode.edmNodeType === 'DIRECTORY'" class="slide-animate" ng-include="'resources/views/node-treeview.directory.html'">
 		</div>
 		
-		<div ng-if="currentNode.edmNodeType === 'DOCUMENT'">DOC
-			<div class="slide-animate" ng-include="resources/views/node-treeview.document.html">
-			</div>
+		<div ng-if="currentNode.edmNodeType === 'DOCUMENT'" class="slide-animate" ng-include="'resources/views/node-treeview.document.html'">
 		</div>
+		
 	</div>
 </div>
