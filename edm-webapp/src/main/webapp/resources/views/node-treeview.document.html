@@ -2,9 +2,9 @@
 <h1>{{currentNode.name}}</h1>
 
 <div ng-init="currentNodePath = getDocumentNodeFilePath(currentNode)">
-	<object data="{{currentNodePath}}" type="{{currentNode.fileContentType}}" width="100%" height="500px">
+	<object data="/document/file/{{currentNodePath}}" type="{{currentNode.fileContentType}}" width="100%" height="800px">
 		<p>
-			<a href="{{currentNodePath}}">
+			<a href="/document/file/{{currentNodePath}}">
 				Télécharger
 			</a>
 		</p>

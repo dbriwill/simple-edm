@@ -66,8 +66,11 @@ public class EdmNodeServiceTest {
     /*
      * Faked library =============
      * 
-     * % gedLibrary + gedDirectory - gedDocument + directoryWithDirectoryParent
-     * - documentUnderLibrary
+     * % gedLibrary 
+     *      + gedDirectory 
+     *          - gedDocument 
+     *          + directoryWithDirectoryParent
+     *      - documentUnderLibrary
      */
 
     @Before

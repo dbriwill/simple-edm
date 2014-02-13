@@ -29,7 +29,13 @@ public class EdmDocumentServiceTest {
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
 	@Autowired
+	private EdmNodeService edmNodeService;
+	
+	@Autowired
 	private EdmDocumentService edmDocumentService;
+	
+	@Autowired
+	private EdmLibraryService edmLibraryService;
 	
 	
     private EdmDocument docBac;
@@ -47,6 +53,9 @@ public class EdmDocumentServiceTest {
 		
 		String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("edm-webapp") ? "" : "/edm-webapp") + "/target/test-classes/";
 		
+		edmLibraryService.createDefaultLibraryIfNotExists();
+		
+		
         docBac = new EdmDocument();
         docBac.setName("Diplome du bac");
         docBac.setDescription("Bla");
@@ -60,8 +69,8 @@ public class EdmDocumentServiceTest {
         docBacNotes.setDescription("Relevé de notes du bac");
 
         docLatex = new EdmDocument();
-        docLatex.setName("Un template de document...");
-        docLatex.setDescription("...réalisé dans un format binaire");
+        docLatex.setName("Un template de document");
+        docLatex.setDescription("réalisé dans un format binaire");
         docLatex.setFilename(targetDirAbsolutePath + "demo_pdf.pdf");
         
         edmDocumentService.save(docBac);
@@ -187,4 +196,26 @@ public class EdmDocumentServiceTest {
         assertThat(docs).containsAll(attemptedResult);
     }
 
+    @Test
+    public void fileShouldFindHisDocumentPath() {
+        String filePath = "Documents/Bienvenue/GED.pdf";
+        String nodePath = edmDocumentService.filePathToNodePath(filePath);
+        
+        assertThat(nodePath).isNotNull();
+        assertThat(nodePath).isNotEmpty();
+        assertThat(nodePath).isEqualTo("Documents/Bienvenue/GED");
+    }
+    
+    @Test
+    public void nodeShouldFindHisFilePath() {
+        String nodePath = "Documents/Bienvenue/GED";
+        
+        // Actually, I know it's a PDF
+        String filePath = edmDocumentService.nodePathToFilePath(nodePath);
+        
+        assertThat(filePath).isNotNull();
+        assertThat(filePath).isNotEmpty();
+        assertThat(filePath).isEqualTo("Documents/Bienvenue/GED.pdf");
+    }
+    
 }

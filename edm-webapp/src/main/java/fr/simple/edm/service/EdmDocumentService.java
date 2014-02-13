@@ -19,6 +19,9 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.CaseFormat;
@@ -29,10 +32,14 @@ import fr.simple.edm.model.EdmNode;
 import fr.simple.edm.repository.EdmDocumentRepository;
 
 @Service
+@PropertySources(value = { @PropertySource("classpath:/edm-configuration.properties") })
 public class EdmDocumentService {
 
     private final Logger logger = LoggerFactory.getLogger(EdmDocumentService.class);
 
+    @Inject
+    private Environment env;
+    
     @Inject
     private ElasticsearchConfig elasticsearchConfig;
 
@@ -42,6 +49,7 @@ public class EdmDocumentService {
     @Inject
     private EdmNodeService edmNodeService;
 
+    
     public EdmDocument findOne(String id) {
         return edmDocumentRepository.findOne(id);
     }
@@ -75,14 +83,19 @@ public class EdmDocumentService {
             }
 
             if (!edmDocument.getFilename().isEmpty()) {
+                
+                // computed values
+                String thisDocumentFileExtension = com.google.common.io.Files.getFileExtension(edmDocument.getFilename());
+                edmDocument.setFileExtension(thisDocumentFileExtension);
+                
+                // file copy
                 String from = edmDocument.getFilename();
-                String extension = "." + com.google.common.io.Files.getFileExtension(from);
-                String to = edmNodeService.getAbsolutePathOfNode(edmDocument) + extension;
+                String to = getServerFilePathOfDocument(edmDocument);
                 logger.debug("Copy {} to {}", new File(from), new File(to));
                 com.google.common.io.Files.createParentDirs(new File(to));
                 com.google.common.io.Files.copy(new File(from), new File(to));
                 
-                // now add the binaries file
+                // now add the file in ES
                 logger.debug("Adding file '{}' for ES indexation", edmDocument.getFilename());
 
                 contentBuilder.startObject("file");
@@ -97,7 +110,7 @@ public class EdmDocumentService {
 
                 contentBuilder.endObject();
                 
-                contentBuilder.field("fileExtension", com.google.common.io.Files.getFileExtension(edmDocument.getFilename()));
+                contentBuilder.field("fileExtension", thisDocumentFileExtension);
                 contentBuilder.field("fileContentType", contentType);
             }
 
@@ -109,7 +122,7 @@ public class EdmDocumentService {
 
             edmDocument.setId(ir.getId());
 
-            logger.debug("Indexed edm document {} with id {}", edmDocument.getName(), edmDocument.getId());
+            logger.debug("Indexed edm document '{}' with id '{}'", edmDocument.getName(), edmDocument.getId());
         } catch (Exception e) {
             logger.error("Failed to index document", e);
         }
@@ -135,5 +148,44 @@ public class EdmDocumentService {
 
     public List<EdmDocument> findByName(String name) {
         return edmDocumentRepository.findByName(name);
+    }
+
+    /**
+     * Convert the file path to a node path.
+     * 
+     * Actually, the idea is the file path has just document.fileExtension more than node path 
+     */
+    public String filePathToNodePath(String filePath) {
+        return new File(filePath).getParent().replace("\\", "/") + "/" + com.google.common.io.Files.getNameWithoutExtension(filePath);
+    }
+    
+    /**
+     * Convert node path to file path
+     * 
+     * Actually, the idea is the file path has just document.fileExtension more than node path 
+     */
+    public String nodePathToFilePath(String nodePath) {
+        EdmNode node = edmNodeService.findOneByPath(nodePath);
+        EdmDocument documentNode = findOne(node.getId());
+        return nodePath + "." + documentNode.getFileExtension();
+    }
+    
+    /**
+     * get the absolute path of the given node
+     *  
+     * @param edmNode
+     *             The node you wan't to know the path
+     * @return
+     *             Absolute path to this node
+     */
+    public String getServerFilePathOfDocument(EdmDocument edmDocument) {
+        return env.getProperty("edm.files_path.root") + "/" + edmNodeService.getPathOfNode(edmDocument) + "." + edmDocument.getFileExtension();
+    }
+    
+    public String getServerPathOfFile(String filePath) {
+        String nodePath = filePathToNodePath(filePath);
+        logger.debug("Get server file path for node path : '{}'", nodePath);
+        EdmDocument documentNode = (EdmDocument) edmNodeService.findOneByPath(nodePath);
+        return getServerFilePathOfDocument(documentNode);
     }
 }

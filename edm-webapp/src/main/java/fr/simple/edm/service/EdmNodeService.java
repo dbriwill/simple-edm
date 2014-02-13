@@ -83,17 +83,6 @@ public class EdmNodeService {
 		return path;
 	}
 	
-	/**
-     * get the absolute path of the given node
-     *  
-     * @param edmNode
-     *             The node you wan't to know the path
-     * @return
-     *             Absolute path to this node
-     */
-	public String getAbsolutePathOfNode(EdmNode edmNode) {
-	    return env.getProperty("edm.files_path.root") + "/" + getPathOfNode(edmNode);
-	}
 	
 	public List<EdmNode> getChildren(String nodeid) {
 		return ListUtils.union(edmDocumentService.findByParent(nodeid), edmDirectoryService.findByParent(nodeid));
