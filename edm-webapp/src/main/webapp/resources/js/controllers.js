@@ -100,15 +100,9 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		return $scope.getNodePath(kendoAppendNode) + "." + node.fileExtension;
 	}
 
-	$scope.onNodeSelect = function(e) {
-		var node = $(e.node);
-
+	$scope.selectNode = function(node) {
 		var nodeId = node.data('nodedata').id;
 		console.debug("Selecting: " + nodeId);
-
-		$scope.$apply(function() {
-			$scope.currentNode = node.data('nodedata');
-		});
 
 		$scope.loadNodeChildrenAndExpand(node);
 
@@ -116,6 +110,14 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		console.debug("path = " + nodePath);
 
 		$location.search('path', nodePath);
+
+		$scope.$apply(function() {
+			$scope.currentNode = node.data('nodedata');
+		});
+	}
+	
+	$scope.onNodeSelect = function(e) {
+		$scope.selectNode($(e.node));
 	};
 
 	// loop to load all children nodes
