@@ -56,12 +56,10 @@ public class AbstractMapper<T, S> {
 	}
 	
 	/**
-     * Try to map the DTO to BO, returns null if failed
+     * Try to map the BO to DTO, returns null if failed
      */
     @SuppressWarnings("unchecked")
     public <U> S boToDtoOrNull(U potentialBo) {
-        System.err.println("p " + potentialBo.getClass());
-        System.err.println("t " + tt.getClass());
         try {
             if (! potentialBo.getClass().equals(tt.newInstance().getClass())) {
                 return null;
