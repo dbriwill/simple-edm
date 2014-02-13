@@ -39,6 +39,40 @@ public class AbstractMapper<T, S> {
 		return s;
 	}
 
+	/**
+	 * Try to map the DTO to BO, returns null if failed
+	 */
+	@SuppressWarnings("unchecked")
+    public <U> T dtoToBoOrNull(U potentialDto) {
+	    try {
+    	    if (! potentialDto.getClass().equals(ss.newInstance().getClass())) {
+    	        return null;
+    	    }
+    	    return dtoToBo((S) potentialDto);
+	    }
+	    catch(Exception e) {
+	        return null;
+	    }
+	}
+	
+	/**
+     * Try to map the DTO to BO, returns null if failed
+     */
+    @SuppressWarnings("unchecked")
+    public <U> S boToDtoOrNull(U potentialBo) {
+        System.err.println("p " + potentialBo.getClass());
+        System.err.println("t " + tt.getClass());
+        try {
+            if (! potentialBo.getClass().equals(tt.newInstance().getClass())) {
+                return null;
+            }
+            return boToDto((T) potentialBo);
+        }
+        catch(Exception e) {
+            return null;
+        }
+    }
+	
 	@SuppressWarnings("unchecked")
 	public List<T> dtoToBo(List<S> dtos) {
 		return new ArrayList<T>(CollectionUtils.transformedCollection(dtos, new Transformer() {
