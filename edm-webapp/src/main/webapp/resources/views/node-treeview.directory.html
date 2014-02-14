@@ -1,1 +1,9 @@
-Directory
+
+<div ng-init="currentNodePath = getNodePath(currentNode)">
+	<a href="#/document/add?root={{currentNodePath}}">
+		<span class="btn btn-success fileinput-button">
+		    <i class="glyphicon glyphicon-plus"></i>
+		    <span>Ajouter un document</span>
+		</span>
+	</a>
+</div>

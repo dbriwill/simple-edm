@@ -1,10 +1,16 @@
-angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService']).
+angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService', 'documentService']).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
         	when('/library/list',	
         			{
         				templateUrl:'resources/views/library-list.html',   
         				controller:LibraryListController
+        			}
+        	).
+        	when('/document/add', //  /node/add?root=Document/Directory
+        			{
+        				templateUrl:'resources/views/document-new.html',
+        				controller:DocumentNewController
         			}
         	).
         	when('/node/', //  /node/?path=Document/Directory

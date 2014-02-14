@@ -17,3 +17,9 @@ factory('Node', function ($resource) {
     });
 });
 
+angular.module('documentService', ['ngResource']).
+factory('Document', function ($resource) {
+    return $resource('document/:nodepath', {}, {
+    });
+});
+
