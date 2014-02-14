@@ -206,16 +206,4 @@ public class EdmDocumentServiceTest {
         assertThat(nodePath).isEqualTo("Documents/Bienvenue/GED");
     }
     
-    @Test
-    public void nodeShouldFindHisFilePath() {
-        String nodePath = "Documents/Bienvenue/GED";
-        
-        // Actually, I know it's a PDF
-        String filePath = edmDocumentService.nodePathToFilePath(nodePath);
-        
-        assertThat(filePath).isNotNull();
-        assertThat(filePath).isNotEmpty();
-        assertThat(filePath).isEqualTo("Documents/Bienvenue/GED.pdf");
-    }
-    
 }

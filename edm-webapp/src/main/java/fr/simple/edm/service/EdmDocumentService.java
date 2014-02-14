@@ -160,17 +160,6 @@ public class EdmDocumentService {
     }
     
     /**
-     * Convert node path to file path
-     * 
-     * Actually, the idea is the file path has just document.fileExtension more than node path 
-     */
-    public String nodePathToFilePath(String nodePath) {
-        EdmNode node = edmNodeService.findOneByPath(nodePath);
-        EdmDocument documentNode = findOne(node.getId());
-        return nodePath + "." + documentNode.getFileExtension();
-    }
-    
-    /**
      * get the absolute path of the given node
      *  
      * @param edmNode
@@ -182,10 +171,13 @@ public class EdmDocumentService {
         return env.getProperty("edm.files_path.root") + "/" + edmNodeService.getPathOfNode(edmDocument) + "." + edmDocument.getFileExtension();
     }
     
-    public String getServerPathOfFile(String filePath) {
+    public EdmDocument findEdmDocumentByFilePath(String filePath) {
         String nodePath = filePathToNodePath(filePath);
         logger.debug("Get server file path for node path : '{}'", nodePath);
-        EdmDocument documentNode = (EdmDocument) edmNodeService.findOneByPath(nodePath);
-        return getServerFilePathOfDocument(documentNode);
+        return (EdmDocument) edmNodeService.findOneByPath(nodePath);
+    }
+    
+    public String getServerPathOfEdmDocument(EdmDocument document) {
+        return getServerFilePathOfDocument(document);
     }
 }

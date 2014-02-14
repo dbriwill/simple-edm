@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
 
+import fr.simple.edm.model.EdmDocument;
 import fr.simple.edm.service.EdmDocumentService;
 
 @RestController
@@ -32,7 +33,9 @@ public class EdmDocumentController {
         filePath = filePath.replaceFirst("/document/file/", "");
         logger.debug("get file for path : '{}'", filePath);
         
-        String serverFilePath = edmDocumentService.getServerPathOfFile(filePath);
+        EdmDocument document = edmDocumentService.findEdmDocumentByFilePath(filePath);
+        response.setContentType(document.getFileContentType());
+        String serverFilePath = edmDocumentService.getServerPathOfEdmDocument(document);
         
         try {
             // get your file as InputStream
