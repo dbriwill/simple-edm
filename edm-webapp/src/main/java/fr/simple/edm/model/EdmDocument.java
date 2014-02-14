@@ -1,5 +1,7 @@
 package fr.simple.edm.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -18,6 +20,8 @@ public class EdmDocument extends EdmNode {
 	private String fileExtension;
 	
 	private String fileContentType;
+	
+	private Date date;
 	
 	
 	public EdmDocument() {
@@ -64,4 +68,13 @@ public class EdmDocument extends EdmNode {
     public void setFileContentType(String fileContentType) {
         this.fileContentType = fileContentType;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
 }

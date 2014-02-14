@@ -12,46 +12,4 @@
 	<artifactId>edm-contracts</artifactId>
 	<name>simple edm contracts</name>
 
-	<properties>
-		<org.slf4j.version>1.7.2</org.slf4j.version>
-		<ch.qos.logback.version>1.0.7</ch.qos.logback.version>
-	</properties>
-
-
-	<dependencies>
-
-		<!-- logger -->
-	
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${ch.qos.logback.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${ch.qos.logback.version}</version>
-		</dependency>
-
-	</dependencies>
-
 </project>

@@ -1,6 +1,7 @@
 package fr.simple.edm.common.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import fr.simple.edm.common.EdmNodeType;
 
@@ -12,6 +13,8 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     private String fileContentType;
 
+    private Date date;
+    
     public EdmDocumentDto() {
         super(EdmNodeType.DOCUMENT);
     }
@@ -38,5 +41,13 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     public void setFileContentType(String fileContentType) {
         this.fileContentType = fileContentType;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     } 
 }
