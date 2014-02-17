@@ -22,7 +22,10 @@ import fr.simple.edm.model.EdmLibrary;
 import fr.simple.edm.repository.EdmLibraryRepository;
 
 @Service
-@PropertySources(value = { @PropertySource("classpath:/properties/default_values.fr_fr.properties") })
+@PropertySources(value = { 
+        @PropertySource("classpath:/properties/default_values.fr_fr.properties"),
+        @PropertySource("classpath:/edm-configuration.properties")
+})
 public class EdmLibraryService {
 
     private final Logger logger = LoggerFactory.getLogger(EdmLibraryService.class);
@@ -70,10 +73,12 @@ public class EdmLibraryService {
             document.setName(env.getProperty("default.document.name"));
             document.setParentId(directory.getId());
             
-            File file = new File("./default-edm.pdf");
+            File file = new File(env.getProperty("edm.tmpdir") + "default-edm.pdf");
+            
             if (!file.exists()) {
                 InputStream link = (getClass().getResourceAsStream(env.getProperty("default.document.path")));
                 try {
+                    com.google.common.io.Files.createParentDirs(file);
                     Files.copy(link, file.getAbsoluteFile().toPath());
                 } catch (IOException e) {
                     logger.error("Failed to load default edm file", e);
