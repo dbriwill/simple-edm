@@ -12,7 +12,7 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
     private String fileExtension;
 
     private String fileContentType;
-
+    
     private Date date;
     
     public EdmDocumentDto() {

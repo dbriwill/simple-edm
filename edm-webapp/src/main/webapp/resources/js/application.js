@@ -1,4 +1,4 @@
-angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService', 'documentService']).
+angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService', 'documentService', 'blueimp.fileupload']).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
         	when('/library/list',	
