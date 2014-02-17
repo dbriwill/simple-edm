@@ -76,6 +76,7 @@ public class EdmLibraryService {
             File file = new File(env.getProperty("edm.tmpdir") + "default-edm.pdf");
             
             if (!file.exists()) {
+                logger.info("Adding {} in library", env.getProperty("default.document.path"));
                 InputStream link = (getClass().getResourceAsStream(env.getProperty("default.document.path")));
                 try {
                     com.google.common.io.Files.createParentDirs(file);
