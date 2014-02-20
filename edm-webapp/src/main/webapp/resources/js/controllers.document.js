@@ -6,9 +6,7 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 	$scope.document = {};
 	
 	// get parent node id and save it
-	Node.get({
-		nodepath : $routeParams.root
-	}, function(response) {
+	$http.get('/node/path/' + $routeParams.root).success(function(response, status, headers, config) {
 		$scope.document.parentId = response.id;
 	});
 

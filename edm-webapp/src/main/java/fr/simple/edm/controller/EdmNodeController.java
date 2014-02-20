@@ -31,10 +31,10 @@ public class EdmNodeController {
 	private EdmNodeMapper edmNodeMapper;
 	
 	// not really restfull
-	@RequestMapping(value = "/node/**", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/node/path/**", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody EdmNodeDto read(HttpServletRequest request) {
 	    String nodepath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-	    nodepath = nodepath.replaceFirst("/node/", "");
+	    nodepath = nodepath.replaceFirst("/node/path/", "");
 	    logger.debug("get node for path : '{}'", nodepath);
         return edmNodeMapper.boToDto(edmNodeService.findOneByPath(nodepath));
     }

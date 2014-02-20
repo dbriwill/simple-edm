@@ -94,9 +94,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 		var currentNodePath = $scope.nodePathArray.slice(0, currentIndex + 1).join('/');
 
-		Node.get({
-			nodepath : currentNodePath
-		}, function(response) {
+		$http.get('/node/path/' + currentNodePath).success(function(response, status, headers, config) {
 
 			if (response.id === null) { // break
 				$scope.kendoTreeview.select(parent);
@@ -124,6 +122,11 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 
 	$scope.onDrop = function(e) {
 		console.log("Dropped " + this.text(e.sourceNode) + " (" + (e.valid ? "valid" : "invalid") + ")");
+		Node.get({
+			nodepath : $scope.getNodePath(e.sourceNode)
+		}, function(response) {
+			console.error(response);
+		});
 	}
 
 	$scope.onDragEnd = function(e) {
@@ -138,7 +141,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		$scope.treeview .kendoTreeView({
 			loadOnDemand : false,
 			select : $scope.onNodeSelect,
-			dragAndDrop : false,
+			dragAndDrop : true,
 			/* drag & drop events */
 			dragstart : $scope.onDragStart,
 			drop : $scope.onDrop,
