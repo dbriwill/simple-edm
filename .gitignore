@@ -41,10 +41,13 @@ directory_icons
 # temp dir for releases
 files-to-release
 
+# edm dir
+edm
+
 # logback
 logback.xml
 
 # do not release my data !
 *.pdf
-#*.jpg
+*.jpg
 
