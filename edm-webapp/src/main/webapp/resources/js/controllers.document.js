@@ -21,6 +21,7 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 		add: function (e, data) {
 			console.info("Upload is starting");
 			$scope.submitFormDisabled = true;
+			$scope.file = data.files[0];
 			$.blueimp.fileupload.prototype.options.add.call(this, e, data);
 	    },
 	    done: function(e, data) {
