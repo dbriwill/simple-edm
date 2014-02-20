@@ -12,6 +12,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		$(appendNode[0]).attr('data-nodeid', node.id); 		// explicitly id showing
 
 		if (node.edmNodeType === 'LIBRARY') {
+			$scope.currentLibrary = node;
 			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
 		} else if (node.edmNodeType === 'DIRECTORY') {
 			appendNode.find('.k-bot').prepend('<span class="k-sprite folder"></span>');
