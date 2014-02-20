@@ -37,13 +37,6 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 	$scope.submitForm = function() {
 		console.log("submit form");
 		
-		// TODO : form validation
-//		var formValid = newDocumentForm.$valid;
-//		if (! formValid) {
-//			console.log("Fom is not valid");
-//			return false;
-//		}
-
 		$scope.submitFormDisabled = true;
 		
 		Document.save($scope.document, function(document) {
