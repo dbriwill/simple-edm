@@ -38,7 +38,7 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 		console.log("submit form");
 		
 		// TODO : form validation
-//		var formValid = element(by.binding('newDocumentForm.$valid'));
+//		var formValid = newDocumentForm.$valid;
 //		if (! formValid) {
 //			console.log("Fom is not valid");
 //			return false;
