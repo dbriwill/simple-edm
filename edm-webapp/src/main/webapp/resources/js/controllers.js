@@ -22,6 +22,7 @@ function MessageDetailController($scope, $routeParams, Message) {
 
 function MessageNewController($scope, $location, Message) {
 	$scope.submit = function() {
+		console.log("Save message : " + $scope.message)
 		Message.save($scope.message, function(message) {
 			$location.path('/');
 		});

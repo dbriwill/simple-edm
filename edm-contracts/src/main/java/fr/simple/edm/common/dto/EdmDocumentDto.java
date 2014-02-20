@@ -13,6 +13,9 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     private String fileContentType;
     
+    // only used to make a bridge with uploaded file
+    private String temporaryFileToken;
+    
     private Date date;
     
     public EdmDocumentDto() {
@@ -49,5 +52,14 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getTemporaryFileToken() {
+        return temporaryFileToken;
+    }
+
+    public void setTemporaryFileToken(String temporaryFileToken) {
+        this.temporaryFileToken = temporaryFileToken;
     } 
+
 }

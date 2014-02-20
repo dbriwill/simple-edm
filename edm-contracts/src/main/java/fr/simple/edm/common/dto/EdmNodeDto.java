@@ -15,7 +15,7 @@ public class EdmNodeDto implements Serializable {
 
 	private EdmNodeType edmNodeType;
 	
-	private EdmNodeDto parent;
+	private String parentId;
 	
 	private String name;
 	
@@ -43,12 +43,12 @@ public class EdmNodeDto implements Serializable {
 		this.edmNodeType = edmNodeType;
 	}
 
-	public EdmNodeDto getParent() {
-		return parent;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParent(EdmNodeDto parent) {
-		this.parent = parent;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
     public String getName() {

@@ -13,6 +13,6 @@ angular.module('nodeService', [ 'ngResource' ]).factory('Node', function($resour
 });
 
 angular.module('documentService', [ 'ngResource' ]).factory('Document', function($resource) {
-	return $resource('document/:nodepath', {}, {});
+	return $resource('document/:id', {}, {});
 });
 

@@ -13,11 +13,11 @@ public class EdmDocumentUploadResponse implements Serializable {
 
     private String temporaryFileToken;
 
-    public String getTemporyFileToken() {
+    public String getTemporaryFileToken() {
         return temporaryFileToken;
     }
 
-    public void setTemporyFileToken(String temporaryFileToken) {
+    public void setTemporaryFileToken(String temporaryFileToken) {
         this.temporaryFileToken = temporaryFileToken;
     }
 }

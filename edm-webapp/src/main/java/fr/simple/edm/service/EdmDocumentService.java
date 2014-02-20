@@ -103,7 +103,6 @@ public class EdmDocumentService {
                 Path filePath = Paths.get(edmDocument.getFilename());
                 
                 String contentType = Files.probeContentType(filePath);
-                String name = edmDocument.getFilename();
                 String content = Base64.encodeBytes(Files.readAllBytes(filePath));
 
                 contentBuilder.field("content", content);

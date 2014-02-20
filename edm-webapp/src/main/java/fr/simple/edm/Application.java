@@ -1,5 +1,7 @@
 package fr.simple.edm;
 
+import java.net.URL;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -16,7 +18,9 @@ import fr.simple.edm.service.EdmLibraryService;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"fr.simple.edm"})
 @PropertySources(value = {
-		@PropertySource("classpath:/properties/constants.properties")
+		@PropertySource("classpath:/properties/constants.properties"),
+		@PropertySource("classpath:/edm-configuration.properties"),
+		@PropertySource("classpath:/application.properties")
 	}
 )
 public class Application {
@@ -42,7 +46,9 @@ public class Application {
 
 	public static void main(String[] args) {
 
-        SpringApplication.run(Application.class, args);
+	    SpringApplication app = new SpringApplication(Application.class);
+        app.setShowBanner(false);
+        app.run(args);
         
         // Run this logs AFTER spring bean injection !
         logger.info("==========================================================================");
@@ -69,5 +75,16 @@ public class Application {
         edmLibraryService.createDefaultLibraryIfNotExists();
         
         logger.info("Startup is finished ! Waiting for some user...");
+        
+        // full desktop mode, open browser
+        if ("true".equalsIgnoreCase(env.getProperty("edm.starter.web_browser"))) {
+            String location = "http://127.0.0.1:" + env.getProperty("server.port");
+            try {
+                java.awt.Desktop.getDesktop().browse(new URL(location).toURI());
+            }
+            catch (Exception e) {
+                logger.error("Failed to open browser for url : {}", location, e);
+            }
+        }
     }
 }
