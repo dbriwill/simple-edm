@@ -4,12 +4,16 @@ angular.module('messageService', [ 'ngResource' ]).factory('Message', function($
 	});
 });
 
+angular.module('nodeService', [ 'ngResource' ]).factory('Node', function($resource) {
+	return $resource('node/:id', {}, {});
+});
+
 angular.module('libraryService', [ 'ngResource' ]).factory('Library', function($resource) {
 	return $resource('library/:id', {}, {});
 });
 
-angular.module('nodeService', [ 'ngResource' ]).factory('Node', function($resource) {
-	return $resource('node/:nodepath', {}, {});
+angular.module('directoryService', [ 'ngResource' ]).factory('Directory', function($resource) {
+	return $resource('directory/:id', {}, {});
 });
 
 angular.module('documentService', [ 'ngResource' ]).factory('Document', function($resource) {

@@ -7,11 +7,15 @@ import javax.inject.Inject;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import fr.simple.edm.model.EdmDirectory;
+import fr.simple.edm.model.EdmDocument;
+import fr.simple.edm.model.EdmLibrary;
 import fr.simple.edm.model.EdmNode;
 
 @Service
@@ -29,7 +33,7 @@ public class EdmNodeService {
 	
 	@Inject
 	private EdmDirectoryService edmDirectoryService;
-
+	
 	
 	public EdmNode findOne(String nodeid) {
 		return ObjectUtils.firstNonNull(
@@ -86,6 +90,20 @@ public class EdmNodeService {
 	
 	public List<EdmNode> getChildren(String nodeid) {
 		return ListUtils.union(edmDocumentService.findByParent(nodeid), edmDirectoryService.findByParent(nodeid));
+	}
+	
+	public EdmNode save(EdmNode node) {
+	    EdmNode edmNode = findOne(node.getId());
+	    if (edmNode instanceof EdmDocument) {
+	        edmNode = edmDocumentService.save((EdmDocument) node);
+	    }
+	    else if (edmNode instanceof EdmDirectory) {
+	        edmNode = edmDirectoryService.save((EdmDirectory) node);
+	    }
+	    else if (edmNode instanceof EdmLibrary) {
+	        edmNode = edmLibraryService.save((EdmLibrary) node);
+	    }
+	    return edmNode;
 	}
 	
 }

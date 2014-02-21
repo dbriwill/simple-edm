@@ -89,9 +89,11 @@ public class EdmDocumentController {
     
     @RequestMapping(method=RequestMethod.POST, value="/document", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody EdmDocumentDto create(@RequestBody EdmDocumentDto edmDocument) {
-        String tmpFileLocation = env.getProperty("edm.tmpdir") + edmDocument.getTemporaryFileToken();
         EdmDocument document = edmDocumentMapper.dtoToBo(edmDocument);
-        document.setFilename(tmpFileLocation);
+        if (edmDocument.getTemporaryFileToken() != null) {
+            String tmpFileLocation = env.getProperty("edm.tmpdir") + edmDocument.getTemporaryFileToken();
+            document.setFilename(tmpFileLocation);
+        }
         return edmDocumentMapper.boToDto(edmDocumentService.save(document));
     }
     

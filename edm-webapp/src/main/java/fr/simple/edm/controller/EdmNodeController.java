@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,16 @@ public class EdmNodeController {
 	@Inject
 	private EdmNodeMapper edmNodeMapper;
 	
+    @RequestMapping(value = "/node/{nodeid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody EdmNodeDto read(@PathVariable String nodeid) {
+        return edmNodeMapper.boToDto(edmNodeService.findOne(nodeid));
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/node", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody EdmNodeDto create(@RequestBody EdmNodeDto edmNodeDto) {
+        return edmNodeMapper.boToDto(edmNodeService.save(edmNodeMapper.dtoToBo(edmNodeDto)));
+    }
+    
 	// not really restfull
 	@RequestMapping(value = "/node/path/**", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody EdmNodeDto read(HttpServletRequest request) {

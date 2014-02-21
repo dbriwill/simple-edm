@@ -1,9 +1,6 @@
 {
 	"library": {
 		"properties": {
-			"id": {
-				"type": "string"
-			},
 			"parentId": {
 				"type": "string"
 			},

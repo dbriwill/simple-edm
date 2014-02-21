@@ -1,4 +1,4 @@
-function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
+function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Library, Directory, Document) {
 
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
@@ -120,13 +120,34 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node) {
 		console.log("Started dragging " + this.text(e.sourceNode));
 	}
 
+	$scope.getServiceForNode = function(node) {
+		if (node.edmNodeType === 'LIBRARY') {
+			return Library;
+		} else if (node.edmNodeType === 'DIRECTORY') {
+			return Directory;
+		}
+		return Document;
+	}
+	
 	$scope.onDrop = function(e) {
 		console.log("Dropped " + this.text(e.sourceNode) + " (" + (e.valid ? "valid" : "invalid") + ")");
+		
+		if (e.sourceNode.dataset['nodeid'] === e.destinationNode.dataset['nodeid']) {
+			console.warn("Same source and target, aborted");
+			return;
+		}
+		
+		console.log("Dropped source id : " + e.sourceNode.dataset['nodeid']);
+		console.info('Moving node : "' + e.sourceNode.dataset['nodeid'] + '" to parent "' + e.destinationNode.dataset['nodeid'] + '"');
+		
 		Node.get({
-			nodepath : $scope.getNodePath(e.sourceNode)
+			id : e.sourceNode.dataset['nodeid']
 		}, function(response) {
-			console.error(response);
-		});
+			response.parentId = e.destinationNode.dataset['nodeid'];
+			$scope.getServiceForNode(response).save(response, function(node) {
+				// TODO notify save
+			});
+		});		
 	}
 
 	$scope.onDragEnd = function(e) {

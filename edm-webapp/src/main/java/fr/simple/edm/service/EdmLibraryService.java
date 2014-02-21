@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -72,11 +73,13 @@ public class EdmLibraryService {
             EdmDocument document = new EdmDocument();
             document.setName(env.getProperty("default.document.name"));
             document.setParentId(directory.getId());
+            document.setDescription(env.getProperty("default.document.description"));
+            document.setDate(new Date());
             
             File file = new File(env.getProperty("edm.tmpdir") + "default-edm.pdf");
             
             if (!file.exists()) {
-                logger.info("Adding {} in library", env.getProperty("default.document.path"));
+                logger.info("Adding '{}' in library", env.getProperty("default.document.path"));
                 InputStream link = (getClass().getResourceAsStream(env.getProperty("default.document.path")));
                 try {
                     com.google.common.io.Files.createParentDirs(file);

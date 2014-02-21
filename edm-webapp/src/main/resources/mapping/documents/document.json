@@ -1,15 +1,9 @@
 {
     "document" : {
         "properties" : {
-            "id" : {
-                "type" : "string"
-            },
          	"parentId": {
 				"type": "string"
 			},
-            "version" : {
-            	"type" : "string"
-            },
             "name" : {
                 "type" : "string"
             },

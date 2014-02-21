@@ -3,10 +3,12 @@ package fr.simple.edm.service;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,8 +55,22 @@ public class EdmDocumentService {
     public EdmDocument findOne(String id) {
         return edmDocumentRepository.findOne(id);
     }
-
+    
     public EdmDocument save(EdmDocument edmDocument) {
+        
+        if (edmDocument.getId() != null && ! edmDocument.getId().isEmpty() && edmDocumentRepository.exists(edmDocument.getId())) { // it's an edition, we may wan't to move the previous file location
+            EdmDocument originalDocument = edmDocumentRepository.findOne(edmDocument.getId());
+            String originalLocation = getServerFilePathOfDocument(originalDocument);
+            String newLocation      = getServerFilePathOfDocument(edmDocument);
+            if (! originalLocation.equals(newLocation)) { // location has changed, move file !
+                try {
+                    Files.move(Paths.get(originalLocation), Paths.get(newLocation), StandardCopyOption.ATOMIC_MOVE);
+                } catch (IOException e) {
+                    logger.error("Failed to move file frome '{}' to '{}'", originalDocument, newLocation, e);
+                }
+            }
+        }
+        
         try {
 
             // the document is build manualy to

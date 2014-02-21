@@ -13,11 +13,11 @@ public class EdmNodeDto implements Serializable {
 
 	private String id;
 
-	private EdmNodeType edmNodeType;
+	private EdmNodeType edmNodeType = null;
 	
-	private String parentId;
+	private String parentId = null;
 	
-	private String name;
+	private String name = null;
 	
 	public EdmNodeDto() {
 	    // please give me a node type... Or you'll do nothing with me !
