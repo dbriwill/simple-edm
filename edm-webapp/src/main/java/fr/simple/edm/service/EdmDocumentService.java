@@ -60,8 +60,8 @@ public class EdmDocumentService {
         
         if (edmDocument.getId() != null && ! edmDocument.getId().isEmpty() && edmDocumentRepository.exists(edmDocument.getId())) { // it's an edition, we may wan't to move the previous file location
             EdmDocument originalDocument = edmDocumentRepository.findOne(edmDocument.getId());
-            String originalLocation = getServerFilePathOfDocument(originalDocument);
-            String newLocation      = getServerFilePathOfDocument(edmDocument);
+            String originalLocation = edmNodeService.getServerFilePathOfDocument(originalDocument);
+            String newLocation      = edmNodeService.getServerFilePathOfDocument(edmDocument);
             if (! originalLocation.equals(newLocation)) { // location has changed, move file !
                 try {
                     Files.move(Paths.get(originalLocation), Paths.get(newLocation), StandardCopyOption.ATOMIC_MOVE);
@@ -106,7 +106,7 @@ public class EdmDocumentService {
                 
                 // file copy
                 String from = edmDocument.getFilename();
-                String to = getServerFilePathOfDocument(edmDocument);
+                String to = edmNodeService.getServerFilePathOfDocument(edmDocument);
                 logger.debug("Copy {} to {}", new File(from), new File(to));
                 com.google.common.io.Files.createParentDirs(new File(to));
                 com.google.common.io.Files.copy(new File(from), new File(to));
@@ -173,19 +173,7 @@ public class EdmDocumentService {
     public String filePathToNodePath(String filePath) {
         return new File(filePath).getParent().replace("\\", "/") + "/" + com.google.common.io.Files.getNameWithoutExtension(filePath);
     }
-    
-    /**
-     * get the absolute path of the given node
-     *  
-     * @param edmNode
-     *             The node you wan't to know the path
-     * @return
-     *             Absolute path to this node
-     */
-    public String getServerFilePathOfDocument(EdmDocument edmDocument) {
-        return env.getProperty("edm.files_path.root") + "/" + edmNodeService.getPathOfNode(edmDocument) + "." + edmDocument.getFileExtension();
-    }
-    
+        
     public EdmDocument findEdmDocumentByFilePath(String filePath) {
         String nodePath = filePathToNodePath(filePath);
         logger.debug("Get server file path for node path : '{}'", nodePath);
@@ -193,6 +181,6 @@ public class EdmDocumentService {
     }
     
     public String getServerPathOfEdmDocument(EdmDocument document) {
-        return getServerFilePathOfDocument(document);
+        return edmNodeService.getServerFilePathOfDocument(document);
     }
 }

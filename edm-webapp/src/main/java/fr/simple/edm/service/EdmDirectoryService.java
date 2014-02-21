@@ -1,5 +1,9 @@
 package fr.simple.edm.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import fr.simple.edm.model.EdmDirectory;
+import fr.simple.edm.model.EdmDocument;
 import fr.simple.edm.repository.EdmDirectoryRepository;
 
 @Service
@@ -19,11 +24,15 @@ public class EdmDirectoryService {
     @Inject
 	private EdmDirectoryRepository edmDirectoryRepository;
 	
+    @Inject
+    private EdmNodeService edmNodeService;
+    
     public EdmDirectory findOne(String id) {
     	return edmDirectoryRepository.findOne(id);
     }
     
 	public EdmDirectory save(EdmDirectory edmDirectory) {
+	    edmNodeService.moveNodeIfNecessary(edmDirectory);
 		return edmDirectoryRepository.index(edmDirectory);
 	}
 	
