@@ -1,5 +1,7 @@
 function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Library, Directory, Document) {
 
+	$scope.newDirectory = {};
+	
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
@@ -64,6 +66,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		var nodeId = node.data('nodedata').id;
 		console.debug("Selecting: " + nodeId);
 
+		$scope.currentKendoNode = node;
 		$scope.loadNodeChildrenAndExpand(node);
 
 		var nodePath = $scope.getNodePath(node.data('nodedata'));
@@ -154,6 +157,15 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		console.log("Finished dragging " + this.text(e.sourceNode));
 	}
 
+	$scope.addNewDirectoryOnCurrentNode = function() {
+		console.info("Saving new directory : " + $scope.newDirectory.name);
+		$scope.newDirectory.parentId = $scope.currentNode.id;
+		Directory.save($scope.newDirectory, function(directory) {
+			// TODO notify save
+			$scope.addNode(directory, $scope.currentKendoNode);
+		});
+	}
+	
 	// main
 
 	$scope.$on('$viewContentLoaded', function() {

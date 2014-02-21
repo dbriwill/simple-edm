@@ -19,4 +19,3 @@ angular.module('directoryService', [ 'ngResource' ]).factory('Directory', functi
 angular.module('documentService', [ 'ngResource' ]).factory('Document', function($resource) {
 	return $resource('document/:id', {}, {});
 });
-
