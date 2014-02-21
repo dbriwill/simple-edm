@@ -63,6 +63,10 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 	}
 
 	$scope.selectNode = function(node) {
+		
+		// reset selection
+		$scope.newDirectory = {};
+		
 		var nodeId = node.data('nodedata').id;
 		console.debug("Selecting: " + nodeId);
 
@@ -162,7 +166,8 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		$scope.newDirectory.parentId = $scope.currentNode.id;
 		Directory.save($scope.newDirectory, function(directory) {
 			// TODO notify save
-			$scope.addNode(directory, $scope.currentKendoNode);
+			var newNode = $scope.addNode(directory, $scope.currentKendoNode);
+			$scope.selectNode(newNode); 
 		});
 	}
 	
