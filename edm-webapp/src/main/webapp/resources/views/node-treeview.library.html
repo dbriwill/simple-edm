@@ -1,2 +1,8 @@
 
+<form name="newDirectoryForm" role="form">
+	<span class="col-sm-6"> <input type="text" class="form-control" ng-model="newDirectory.name" placeholder="Nom du nouveau dossier" ng-required="true" />
+	</span>
+	<button ng-click="addNewDirectoryOnCurrentNode()" class="btn btn-success" ng-disabled="newDirectoryForm.$invalid">Ajouter ce dossier !</button>
+</form>
+
 
