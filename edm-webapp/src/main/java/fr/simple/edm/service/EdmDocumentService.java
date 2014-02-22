@@ -64,6 +64,7 @@ public class EdmDocumentService {
             String newLocation      = edmNodeService.getServerFilePathOfDocument(edmDocument);
             if (! originalLocation.equals(newLocation)) { // location has changed, move file !
                 try {
+                    com.google.common.io.Files.createParentDirs(new File(newLocation));
                     Files.move(Paths.get(originalLocation), Paths.get(newLocation), StandardCopyOption.ATOMIC_MOVE);
                 } catch (IOException e) {
                     logger.error("Failed to move file frome '{}' to '{}'", originalDocument, newLocation, e);

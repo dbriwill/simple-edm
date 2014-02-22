@@ -60,9 +60,7 @@ public class EdmDocumentController {
         response.setContentType(document.getFileContentType());
         String serverFilePath = edmDocumentService.getServerPathOfEdmDocument(document);
         
-        try {
-            // get your file as InputStream
-            InputStream is = new FileInputStream(serverFilePath);
+        try (InputStream is = new FileInputStream(serverFilePath)) {
             // copy it to response's OutputStream
             IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();

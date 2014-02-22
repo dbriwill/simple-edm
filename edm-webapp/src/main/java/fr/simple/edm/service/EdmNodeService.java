@@ -126,7 +126,10 @@ public class EdmNodeService {
     }
     
     // other cases
-    public String getServerFilePathOfDocument(EdmNode edmNode) {
+    public String getServerFilePathOfNode(EdmNode edmNode) {
+        if (edmNode instanceof EdmDocument) {
+            return getServerFilePathOfDocument((EdmDocument) edmNode);
+        }
         return env.getProperty("edm.files_path.root") + "/" + getPathOfNode(edmNode);
     }
 	
@@ -137,8 +140,8 @@ public class EdmNodeService {
         if (node.getId() != null && ! node.getId().isEmpty()) { // it's an edition, we may wan't to move the previous file location
             
             EdmNode originalDocument    = findOne(node.getId());
-            String originalLocation     = getServerFilePathOfDocument(originalDocument);
-            String newLocation          = getServerFilePathOfDocument(node);
+            String originalLocation     = getServerFilePathOfNode(originalDocument);
+            String newLocation          = getServerFilePathOfNode(node);
             
             if (! Paths.get(originalLocation).toFile().exists()) {
                 logger.error("Won't move '{}' because it's not exits", originalLocation);
