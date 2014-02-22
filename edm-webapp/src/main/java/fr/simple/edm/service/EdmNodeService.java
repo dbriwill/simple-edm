@@ -1,5 +1,6 @@
 package fr.simple.edm.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -114,6 +115,18 @@ public class EdmNodeService {
 	}
 	
     /**
+     * get the absolute path of the given document
+     *  
+     * @param edmDocument
+     *             The document you wan't to know the path
+     * @return
+     *             Absolute path to this document
+     */
+    public String getServerFilePathOfDocument(EdmDocument edmDocument) {
+        return env.getProperty("edm.files_path.root") + "/" + getPathOfNode(edmDocument) + "." + edmDocument.getFileExtension();
+    }
+    
+    /**
      * get the absolute path of the given node
      *  
      * @param edmNode
@@ -121,11 +134,6 @@ public class EdmNodeService {
      * @return
      *             Absolute path to this node
      */
-    public String getServerFilePathOfDocument(EdmDocument edmDocument) {
-        return env.getProperty("edm.files_path.root") + "/" + getPathOfNode(edmDocument) + "." + edmDocument.getFileExtension();
-    }
-    
-    // other cases
     public String getServerFilePathOfNode(EdmNode edmNode) {
         if (edmNode instanceof EdmDocument) {
             return getServerFilePathOfDocument((EdmDocument) edmNode);
@@ -135,6 +143,8 @@ public class EdmNodeService {
 	
 	/**
 	 * Move the node if (it exists) AND (the hierarchy has changed)
+	 * 
+	 * It's the physical file move
 	 */
 	public void moveNodeIfNecessary(EdmNode node) {
         if (node.getId() != null && ! node.getId().isEmpty()) { // it's an edition, we may wan't to move the previous file location
@@ -150,6 +160,7 @@ public class EdmNodeService {
             
             if (! originalLocation.equals(newLocation)) { // location has changed, move file !
                 try {
+                    com.google.common.io.Files.createParentDirs(new File(newLocation));
                     Files.move(Paths.get(originalLocation), Paths.get(newLocation), StandardCopyOption.ATOMIC_MOVE);
                 } catch (IOException e) {
                     logger.error("Failed to move file frome '{}' to '{}'", originalDocument, newLocation, e);

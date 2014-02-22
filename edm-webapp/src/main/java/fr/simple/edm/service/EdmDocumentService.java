@@ -58,20 +58,8 @@ public class EdmDocumentService {
     
     public EdmDocument save(EdmDocument edmDocument) {
         
-        if (edmDocument.getId() != null && ! edmDocument.getId().isEmpty() && edmDocumentRepository.exists(edmDocument.getId())) { // it's an edition, we may wan't to move the previous file location
-            EdmDocument originalDocument = edmDocumentRepository.findOne(edmDocument.getId());
-            String originalLocation = edmNodeService.getServerFilePathOfDocument(originalDocument);
-            String newLocation      = edmNodeService.getServerFilePathOfDocument(edmDocument);
-            if (! originalLocation.equals(newLocation)) { // location has changed, move file !
-                try {
-                    com.google.common.io.Files.createParentDirs(new File(newLocation));
-                    Files.move(Paths.get(originalLocation), Paths.get(newLocation), StandardCopyOption.ATOMIC_MOVE);
-                } catch (IOException e) {
-                    logger.error("Failed to move file frome '{}' to '{}'", originalDocument, newLocation, e);
-                }
-            }
-        }
-        
+        edmNodeService.moveNodeIfNecessary(edmDocument);
+
         try {
 
             // the document is build manualy to

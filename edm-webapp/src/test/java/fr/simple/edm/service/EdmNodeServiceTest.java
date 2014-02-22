@@ -2,6 +2,7 @@ package fr.simple.edm.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,6 +76,9 @@ public class EdmNodeServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        
+        String targetDirAbsolutePath = System.getProperty("user.dir") + (System.getProperty("user.dir").contains("edm-webapp") ? "" : "/edm-webapp") + "/target/test-classes/";
+        
         elasticsearchTestingHelper.destroyAndRebuildIndex(ElasticsearchTestingHelper.ES_INDEX_DOCUMENTS);
 
         // building a fake environment
@@ -94,6 +98,7 @@ public class EdmNodeServiceTest {
         edmDocument = new EdmDocument();
         edmDocument.setName("document");
         edmDocument.setParentId(edmDirectory.getId());
+        edmDocument.setFilename(targetDirAbsolutePath + "demo_pdf.pdf");
         edmDocument = edmDocumentService.save(edmDocument);
 
         documentId = edmDocument.getId();
@@ -264,5 +269,56 @@ public class EdmNodeServiceTest {
         
         assertThat(node).isNotNull();
         assertThat(node).isEqualTo(directoryWithDirectoryParent);
+    }
+    
+    @Test
+    public void documentCanBeMovedUnderLibrary() {
+        File fileBefore = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        edmDocument.setParentId(libraryId);
+        edmDocumentService.save(edmDocument);
+        File fileAfter = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        
+        // the file should have a new location
+        assertThat(fileBefore.exists()).isFalse();
+        assertThat(fileAfter.exists()).isTrue();
+    }
+    
+    @Test
+    public void documentCanBeMovedUnderANewDirectory() {
+        EdmDirectory newDirectory = new EdmDirectory();
+        newDirectory.setName("new directory");
+        newDirectory.setParentId(libraryId);
+        newDirectory = edmDirectoryService.save(newDirectory);
+        
+        File fileBefore = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        edmDocument.setParentId(newDirectory.getId());
+        edmDocumentService.save(edmDocument);
+        File fileAfter = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        
+        // the file should have a new location
+        assertThat(fileBefore.exists()).isFalse();
+        assertThat(fileAfter.exists()).isTrue();
+    }
+    
+    @Test
+    public void documentCanBeMovedUnderANewDirectoryHierarchy() {
+        EdmDirectory newDirectory = new EdmDirectory();
+        newDirectory.setName("new directory");
+        newDirectory.setParentId(libraryId);
+        newDirectory = edmDirectoryService.save(newDirectory);
+        
+        EdmDirectory newSubDirectory = new EdmDirectory();
+        newSubDirectory.setName("new directory");
+        newSubDirectory.setParentId(libraryId);
+        newSubDirectory = edmDirectoryService.save(newSubDirectory);
+        
+        File fileBefore = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        edmDocument.setParentId(newSubDirectory.getId());
+        edmDocumentService.save(edmDocument);
+        File fileAfter = new File(edmNodeService.getServerFilePathOfNode(edmDocument));
+        
+        // the file should have a new location
+        assertThat(fileBefore.exists()).isFalse();
+        assertThat(fileAfter.exists()).isTrue();
     }
 }
