@@ -33,7 +33,9 @@ import com.google.common.io.Resources;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "fr.simple.edm.repository")
-@PropertySources(value = { @PropertySource("classpath:/elasticsearch-configuration.properties") })
+@PropertySources(value = { 
+        @PropertySource("classpath:/elasticsearch-configuration.properties")
+})
 public class ElasticsearchConfig {
 
 	/**

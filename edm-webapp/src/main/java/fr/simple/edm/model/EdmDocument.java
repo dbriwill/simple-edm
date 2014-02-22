@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import fr.simple.edm.common.EdmNodeType;
 
-@Document(indexName = "documents", type = "document")
+@Document(indexName = "documents", type = "document", shards = 1, replicas = 0)
 public class EdmDocument extends EdmNode {
 
 	@Version
