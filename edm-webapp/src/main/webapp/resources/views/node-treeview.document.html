@@ -1,15 +1,31 @@
+<div class="col-sm-8">
+	<h2>{{currentNode.name}} <small>{{currentNode.date | date : 'dd/MM/yyyy'}}</small></h2>
+	
+	<blockquote>
+		<p>{{currentNode.description}}</p>
+	</blockquote>
+</div>
+<div class="col-sm-1" ng-init="currentNodePath = getNodePath(currentNode)">
+	<a href="#/document/edit?path={{currentNodePath}}">
+		<span class="btn btn-primary">
+		    <i class="glyphicon glyphicon-edit"></i>
+		    <span>Modifier</span>
+		</span>
+	</a>
+	<br/><br/>
+	<a href="#myModal">
+		<span class="btn btn-danger">
+		    <i class="glyphicon glyphicon-remove"></i>
+		    <span>Supprimer</span>
+		</span>
+	</a>
+</div>
 
-<h2>{{currentNode.name}} <small>{{currentNode.date | date : 'dd/MM/yyyy'}}</small></h2>
+<div ng-init="currentNodeFilePath = getDocumentNodeFilePath(currentNode)" class="col-sm-9">
 
-<blockquote>
-	<p>{{currentNode.description}}</p>
-</blockquote>
-
-<div ng-init="currentNodePath = getDocumentNodeFilePath(currentNode)">
-
-	<object data="/document/file/{{currentNodePath}}" type="{{currentNode.fileContentType}}" max-width="100%" max-height="800px">
+	<object data="/document/file/{{currentNodeFilePath}}" type="{{currentNode.fileContentType}}" max-width="100%" max-height="800px">
 		<p>
-			<a href="/document/file/{{currentNodePath}}"> Télécharger </a>
+			<a href="/document/file/{{currentNodeFilePath}}"> Télécharger </a>
 		</p>
 	</object>
 </div>

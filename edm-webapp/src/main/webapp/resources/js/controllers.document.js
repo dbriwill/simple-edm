@@ -1,15 +1,4 @@
-
-function DocumentNewController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload) {
-
-	$scope.submitFormDisabled = true;
-	$scope.temporaryFileToken = null;
-	$scope.document = {};
-	
-	// get parent node id and save it
-	$http.get('/node/path/' + $routeParams.root).success(function(response, status, headers, config) {
-		$scope.document.parentId = response.id;
-	});
-
+function defineFileUploadOptionForScope($scope) {
 	// file upload options data-file-upload="options"
 	$scope.fileUploadOptions = {
 		url : '/document/upload',
@@ -28,6 +17,20 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 	    	$scope.submitFormDisabled = false;
 	    }
     };
+}
+
+function DocumentNewController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload) {
+
+	$scope.submitFormDisabled = true;
+	$scope.temporaryFileToken = null;
+	$scope.document = {};
+	
+	// get parent node id and save it
+	$http.get('/node/path/' + $routeParams.root).success(function(response, status, headers, config) {
+		$scope.document.parentId = response.id;
+	});
+
+	defineFileUploadOptionForScope($scope);
 
 	$scope.back = function() {
 		$window.history.back();
@@ -48,3 +51,37 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 		});
 	};
 }
+
+
+function DocumentEditController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload) {
+
+	$scope.submitFormDisabled = false; // it's not necessary to update file
+	$scope.temporaryFileToken = null;
+
+	// get parent node id and save it
+	$http.get('/node/path/' + $routeParams.path).success(function(response, status, headers, config) {
+		$scope.document = response;
+	});
+
+	defineFileUploadOptionForScope($scope);
+
+	$scope.back = function() {
+		$window.history.back();
+	}
+	
+	$scope.submitForm = function() {
+		console.log("submit form");
+		
+		$scope.submitFormDisabled = true;
+		
+		Document.save($scope.document, function(document) {
+			if (document.id) { // save success
+				$location.path('/node/').search('path', $routeParams.path);
+			}
+			else { // TODO : user failed feedback
+				
+			}
+		});
+	};
+}
+
