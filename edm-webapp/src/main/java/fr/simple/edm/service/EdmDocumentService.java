@@ -153,6 +153,10 @@ public class EdmDocumentService {
     public List<EdmDocument> findByName(String name) {
         return edmDocumentRepository.findByName(name);
     }
+    
+    public void delete(EdmDocument edmDocument) {
+        edmDocumentRepository.delete(edmDocument);
+    }
 
     /**
      * Convert the file path to a node path.

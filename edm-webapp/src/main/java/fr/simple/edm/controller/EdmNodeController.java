@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -39,6 +41,12 @@ public class EdmNodeController {
     @RequestMapping(method=RequestMethod.POST, value="/node", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody EdmNodeDto create(@RequestBody EdmNodeDto edmNodeDto) {
         return edmNodeMapper.boToDto(edmNodeService.save(edmNodeMapper.dtoToBo(edmNodeDto)));
+    }
+    
+    @RequestMapping(method=RequestMethod.DELETE, value="/node/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public @ResponseBody void delete(@PathVariable String id) {
+        edmNodeService.deleteRecursively(edmNodeService.findOne(id));
     }
     
 	// not really restfull

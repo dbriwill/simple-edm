@@ -171,6 +171,28 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		});
 	}
 	
+	$scope.askForDeleteCurrentNode = function() {
+		console.log("wanna delete current node !");
+		if ($('#modalPopover').length > 0) { // exists
+			$('#modalPopover').modal();
+		}
+		return false;
+	}
+	
+	$scope.deleteCurrentNode = function() {
+		$('#modalPopover').modal('hide');
+		Node.delete({
+			id : $scope.currentNode.id
+		}, function(response) {
+			response.parentId = e.destinationNode.dataset['nodeid'];
+			$scope.getServiceForNode(response).save(response, function(node) {
+				// TODO notify delete
+			});
+		});		
+		var parentNode = $scope.treeview.find('[data-nodeid="' + $scope.currentNode.parentId + '"]');
+		//TODO $scope.selectNode();
+	}
+	
 	// main
 
 	$scope.$on('$viewContentLoaded', function() {

@@ -43,4 +43,8 @@ public class EdmDirectoryService {
 	public List<EdmDirectory> findByName(String name) {
 	    return edmDirectoryRepository.findByName(name);
 	}
+	
+	public void delete(EdmDirectory edmDirectory) {
+	    edmDirectoryRepository.delete(edmDirectory);
+	}
 }

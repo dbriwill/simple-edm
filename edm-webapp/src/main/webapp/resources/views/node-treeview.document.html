@@ -1,23 +1,18 @@
 <div class="col-sm-8">
-	<h2>{{currentNode.name}} <small>{{currentNode.date | date : 'dd/MM/yyyy'}}</small></h2>
-	
+	<h2>
+		{{currentNode.name}} <small>{{currentNode.date | date : 'dd/MM/yyyy'}}</small>
+	</h2>
+
 	<blockquote>
 		<p>{{currentNode.description}}</p>
 	</blockquote>
 </div>
 <div class="col-sm-1" ng-init="currentNodePath = getNodePath(currentNode)">
-	<a href="#/document/edit?path={{currentNodePath}}">
-		<span class="btn btn-primary">
-		    <i class="glyphicon glyphicon-edit"></i>
-		    <span>Modifier</span>
-		</span>
-	</a>
-	<br/><br/>
-	<a href="#myModal">
-		<span class="btn btn-danger">
-		    <i class="glyphicon glyphicon-remove"></i>
-		    <span>Supprimer</span>
-		</span>
+	<a href="#/document/edit?path={{currentNodePath}}"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Modifier</span>
+	</span>
+	</a> <br />
+	<br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
+	</span>
 	</a>
 </div>
 
@@ -30,3 +25,23 @@
 	</object>
 </div>
 
+
+<div class="modal fade" id="modalPopover">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header btn-danger">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Suppression de {{currentNode.name}}</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					Vous êtes sur le point de faire disparaitre "{{currentNode.name}}", est-ce bien cela que vous voulez ?
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Non, je ne veux pas faire cela !</button>
+				<a class="btn btn-danger" ng-click="deleteCurrentNode()">Oui, je souhaite supprimer "{{currentNode.name}}"</a>
+			</div>
+		</div>
+	</div>
+</div>

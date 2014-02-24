@@ -101,4 +101,8 @@ public class EdmLibraryService {
     public List<EdmLibrary> findByName(String name) {
         return edmLibraryRepository.findByName(name);
     }
+    
+    public void delete(EdmLibrary edmLibrary) {
+        edmLibraryRepository.delete(edmLibrary);
+    }
 }
