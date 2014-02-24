@@ -79,7 +79,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		$location.search('path', nodePath);
 
 		$scope.$apply(function() {
-			$scope.currentNode = node.data('nodedata');
+			$scope.currentNode 		= node.data('nodedata');
 		});
 	}
 	
@@ -191,6 +191,13 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		});		
 		var parentNode = $scope.treeview.find('[data-nodeid="' + $scope.currentNode.parentId + '"]');
 		//TODO $scope.selectNode();
+	}
+	
+	$scope.updateCurrentNode = function() {
+		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
+			$scope.currentKendoNode.text(node.name); // TODO it's not really working...
+			// TODO notify save
+		});
 	}
 	
 	// main
