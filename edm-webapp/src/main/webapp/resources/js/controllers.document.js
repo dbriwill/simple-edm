@@ -19,7 +19,7 @@ function defineFileUploadOptionForScope($scope) {
     };
 }
 
-function DocumentNewController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload) {
+function DocumentNewController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload, notification) {
 
 	$scope.submitFormDisabled = true;
 	$scope.temporaryFileToken = null;
@@ -43,17 +43,18 @@ function DocumentNewController($scope, $http, $window, $location, $routeParams, 
 		
 		Document.save($scope.document, function(document) {
 			if (document.id) { // save success
+				notification.add('INFO', "Le document a bien été sauvegardé");
 				$location.path('/node/').search('path', $routeParams.root);
 			}
-			else { // TODO : user failed feedback
-				
+			else {
+				notification.add('ERROR', "Une erreur s'est produite lors de la sauvegarde du document");
 			}
 		});
 	};
 }
 
 
-function DocumentEditController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload) {
+function DocumentEditController($scope, $http, $window, $location, $routeParams, Node, Document, fileUpload, notification) {
 
 	$scope.submitFormDisabled = false; // it's not necessary to update file
 	$scope.temporaryFileToken = null;
@@ -76,10 +77,11 @@ function DocumentEditController($scope, $http, $window, $location, $routeParams,
 		
 		Document.save($scope.document, function(document) {
 			if (document.id) { // save success
+				notification.add('INFO', "Le document a bien été sauvegardé");
 				$location.path('/node/').search('path', $routeParams.path);
 			}
-			else { // TODO : user failed feedback
-				
+			else {
+				notification.add('ERROR', "Une erreur s'est produite lors de la sauvegarde du document");
 			}
 		});
 	};

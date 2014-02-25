@@ -1,4 +1,4 @@
-function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Library, Directory, Document) {
+function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Library, Directory, Document, notification) {
 
 	$scope.newDirectory = {};
 	
@@ -39,7 +39,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 
 			}).error(function(data, status, headers, config) {
 				console.error('Failed to retrieve child of node ' + nodeId);
-				// TODO : feedback for user
+				notification.add('ERROR', "La récupération des sous-documents a échouée... Réessayez plus tard !");
 			});
 
 			node.data('node-children-are-loaded', true);
@@ -152,7 +152,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		}, function(response) {
 			response.parentId = e.destinationNode.dataset['nodeid'];
 			$scope.getServiceForNode(response).save(response, function(node) {
-				// TODO notify save
+				notification.add('INFO', "Le document a bien été déplacé");
 			});
 		});		
 	}
@@ -165,7 +165,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		console.info("Saving new directory : " + $scope.newDirectory.name);
 		$scope.newDirectory.parentId = $scope.currentNode.id;
 		Directory.save($scope.newDirectory, function(directory) {
-			// TODO notify save
+			notification.add('INFO', "Le dossier a bien été ajouté");
 			var newNode = $scope.addNode(directory, $scope.currentKendoNode);
 			$scope.selectNode(newNode); 
 		});
@@ -186,7 +186,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		}, function(response) {
 			response.parentId = e.destinationNode.dataset['nodeid'];
 			$scope.getServiceForNode(response).save(response, function(node) {
-				// TODO notify delete
+				notification.add('INFO', "Le document a bien été supprimé");
 			});
 		});		
 		var parentNode = $scope.treeview.find('[data-nodeid="' + $scope.currentNode.parentId + '"]');
@@ -205,7 +205,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		$('#modalRenamePopover').modal('hide');
 		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
 			$scope.currentKendoNode.text(node.name); // TODO it's not really working...
-			// TODO notify save
+			notification.add('INFO', "Le nom a bien été mis à jour");
 		});
 	}
 	
