@@ -193,7 +193,16 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		//TODO $scope.selectNode();
 	}
 	
+	$scope.askForRenameCurrentNode = function() {
+		console.log("wanna rename current node !");
+		if ($('#modalRenamePopover').length > 0) { // exists
+			$('#modalRenamePopover').modal();
+		}
+		return false;
+	}
+	
 	$scope.updateCurrentNode = function() {
+		$('#modalRenamePopover').modal('hide');
 		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
 			$scope.currentKendoNode.text(node.name); // TODO it's not really working...
 			// TODO notify save
