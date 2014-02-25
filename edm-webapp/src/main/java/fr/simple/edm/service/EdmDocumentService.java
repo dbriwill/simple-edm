@@ -3,12 +3,10 @@ package fr.simple.edm.service;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,9 +19,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.CaseFormat;
@@ -34,14 +29,10 @@ import fr.simple.edm.model.EdmNode;
 import fr.simple.edm.repository.EdmDocumentRepository;
 
 @Service
-@PropertySources(value = { @PropertySource("classpath:/edm-configuration.properties") })
 public class EdmDocumentService {
 
     private final Logger logger = LoggerFactory.getLogger(EdmDocumentService.class);
 
-    @Inject
-    private Environment env;
-    
     @Inject
     private ElasticsearchConfig elasticsearchConfig;
 

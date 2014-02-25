@@ -9,9 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,25 +16,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.simple.edm.Application;
 import fr.simple.edm.ElasticsearchTestingHelper;
 import fr.simple.edm.model.EdmLibrary;
-import fr.simple.edm.service.EdmLibraryService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { Application.class })
 @ComponentScan(basePackages = { "fr.simple.edm" })
-@PropertySources(value = {
-		@PropertySource("classpath:/properties/default_values.fr_fr.properties")
-	}
-)
 public class GedLibraryServiceTest {
 
 	@Autowired
 	private EdmLibraryService edmLibraryService;
 
-	@Autowired
-    private Environment env;
-	
 	@Autowired
 	private ElasticsearchTestingHelper elasticsearchTestingHelper;
 	
@@ -57,7 +46,8 @@ public class GedLibraryServiceTest {
 		List<EdmLibrary> librairies = edmLibraryService.getEdmLibraries();
 		
 		assertThat(librairies.size()).isEqualTo(1);
-		assertThat(librairies.get(0).getName()).isEqualTo(env.getProperty("default.library.name"));
+		assertThat(librairies.get(0).getName()).isNotEmpty();                 // not empty
+		assertThat(librairies.get(0).getName()).isNotEqualTo("Library name"); // not equals to default value
 		assertThat(librairies.get(0).getId()).isNotNull();
 	}
 
