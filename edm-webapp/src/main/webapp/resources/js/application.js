@@ -19,6 +19,12 @@ angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'librarySe
         				controller:DocumentEditController
         			}
         	).
+        	when('/document/search', // /document/search?q=bazinga
+        			{
+						templateUrl:'resources/views/document-search-result.html',
+						controller:DocumentSearchController
+        			}
+        	).
         	when('/node/', //  /node/?path=Document/Directory
         			{
         				templateUrl:'resources/views/node-treeview.html',

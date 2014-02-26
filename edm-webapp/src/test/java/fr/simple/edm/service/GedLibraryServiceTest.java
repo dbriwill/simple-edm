@@ -46,8 +46,7 @@ public class GedLibraryServiceTest {
 		List<EdmLibrary> librairies = edmLibraryService.getEdmLibraries();
 		
 		assertThat(librairies.size()).isEqualTo(1);
-		assertThat(librairies.get(0).getName()).isNotEmpty();                 // not empty
-		assertThat(librairies.get(0).getName()).isNotEqualTo("Library name"); // not equals to default value
+		assertThat(librairies.get(0).getName()).isNotEmpty();
 		assertThat(librairies.get(0).getId()).isNotNull();
 	}
 

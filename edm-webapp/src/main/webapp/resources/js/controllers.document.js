@@ -87,3 +87,24 @@ function DocumentEditController($scope, $http, $window, $location, $routeParams,
 	};
 }
 
+function DocumentSearchController($scope, $http, $location, $routeParams) {
+	$scope.searchedPattern = $routeParams.q;
+	
+	$scope.getNodePath = function(node) {
+		$http.get('/node/getPath/' + node.id).success(function(response, status, headers, config) {
+			node.path = response;
+		});
+	}
+	
+	$scope.searchSubmit = function() {
+		console.debug("Search : " + $scope.searchedPattern);
+		$location.path('/document/search').search({
+			'q' : $scope.searchedPattern
+		});
+	}
+	
+	$http.get('/document?q=' + $scope.searchedPattern).success(function(response, status, headers, config) {
+		$scope.documents = response;
+	});
+}
+

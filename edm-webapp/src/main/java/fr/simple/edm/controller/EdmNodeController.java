@@ -37,6 +37,11 @@ public class EdmNodeController {
     public @ResponseBody EdmNodeDto read(@PathVariable String nodeid) {
         return edmNodeMapper.boToDto(edmNodeService.findOne(nodeid));
     }
+    
+    @RequestMapping(value = "/node/getPath/{nodeid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String getPathOfNode(@PathVariable String nodeid) {
+        return edmNodeService.getPathOfNode(edmNodeService.findOne(nodeid));
+    }
 
     @RequestMapping(method=RequestMethod.POST, value="/node", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody EdmNodeDto create(@RequestBody EdmNodeDto edmNodeDto) {

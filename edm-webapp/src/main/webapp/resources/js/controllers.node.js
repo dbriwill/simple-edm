@@ -190,7 +190,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 			});
 		});		
 		var parentNode = $scope.treeview.find('[data-nodeid="' + $scope.currentNode.parentId + '"]');
-		//TODO $scope.selectNode();
+		//TODO $scope.selectNode(parentNode);
 	}
 	
 	$scope.askForRenameCurrentNode = function() {
@@ -206,6 +206,13 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
 			$scope.currentKendoNode.text(node.name); // TODO it's not really working...
 			notification.add('INFO', "Le nom a bien été mis à jour");
+		});
+	}
+	
+	$scope.searchSubmit = function() {
+		console.debug("Search : " + $scope.searchedPattern);
+		$location.path('/document/search').search({
+			'q' : $scope.searchedPattern
 		});
 	}
 	
