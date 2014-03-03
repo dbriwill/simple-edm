@@ -2,7 +2,6 @@ package fr.simple.edm.model;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import fr.simple.edm.common.EdmNodeType;
@@ -10,9 +9,6 @@ import fr.simple.edm.common.EdmNodeType;
 @Document(indexName = "documents", type = "document", shards = 1, replicas = 0)
 public class EdmDocument extends EdmNode {
 
-	@Version
-    private Long version;
-	
 	private String description;
 
 	private String filename; 
@@ -27,14 +23,6 @@ public class EdmDocument extends EdmNode {
 	public EdmDocument() {
 		super(EdmNodeType.DOCUMENT);
 		filename = "";
-	}
-	
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
 	}
 	
 	public String getDescription() {

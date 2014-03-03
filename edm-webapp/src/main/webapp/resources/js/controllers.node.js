@@ -12,7 +12,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		appendNode.data('node-children-are-loaded', false);	// did I already load my children ?
 		appendNode.data('nodedata', node); 					// store the DTO
 		$(appendNode[0]).attr('data-nodeid', node.id); 		// explicitly id showing
-
+		
 		if (node.edmNodeType === 'LIBRARY') {
 			$scope.currentLibrary = node;
 			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
