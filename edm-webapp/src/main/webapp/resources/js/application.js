@@ -1,4 +1,4 @@
-angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'libraryService', 'directoryService', 'documentService', 'blueimp.fileupload', 'notificationService']).
+angular.module('edmApp', ['ngRoute', 'nodeService', 'libraryService', 'directoryService', 'documentService', 'blueimp.fileupload', 'notificationService']).
     config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
         	when('/library/list',	
@@ -32,24 +32,6 @@ angular.module('edmApp', ['ngRoute', 'nodeService', 'messageService', 'librarySe
         				reloadOnSearch: false
         			}
         	).
-            when('/message/list',
-            		{
-            			templateUrl:'resources/views/message-list.html',
-            			controller:MessageListController
-            		}
-            ).
-            when('/message/new',
-            		{
-            			templateUrl:'resources/views/message-new.html',
-            			controller:MessageNewController
-            		}
-            ).
-            when('/message/:id',
-            		{
-            			templateUrl:'resources/views/message-detail.html',
-            			controller:MessageDetailController
-            		}
-            ).
             otherwise(
             		{
             			redirectTo:'/library/list'
