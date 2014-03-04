@@ -188,12 +188,21 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		return false;
 	}
 	
-	$scope.updateCurrentNode = function() {
+	$scope.updateCurrentNode = function() {		
 		$('#modalRenamePopover').modal('hide');
+		
 		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
 			var currentKendoNode = $scope.getUINodeFromNode($scope.currentNode);
 			currentKendoNode.find('.k-in').first().text(node.name);
 			notification.add('INFO', "Le nom a bien été mis à jour");
+			
+			// update child nodes
+			$.each($scope.getUINodeFromNode($scope.currentNode).find('.k-item'), function(index, value) {
+				Node.get({id : $(value).attr('data-nodeid')}, function(response) {
+					console.debug("Update child : " + response.id);
+					$scope.nodeMap[response.id] = response;	
+				});
+			});
 		});
 	}
 	
