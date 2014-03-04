@@ -163,20 +163,21 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 	$scope.askForDeleteCurrentNode = function() {
 		console.log("wanna delete current node !");
 		if ($('#modalPopover').length > 0) { // exists
-			$('#modalPopover').modal();
+			$('#modalPopover').modal('show');
 		}
 		return false;
 	}
 	
 	$scope.deleteCurrentNode = function() { 
 		$('#modalPopover').modal('hide');
-		$scope.selectNode($scope.currentNode.parentId);
+		var parentId = $scope.currentNode.parentId;
 		$scope.getUINodeFromNode($scope.currentNode).remove();
 		Node.delete({
 			id : $scope.currentNode.id
 		}, function(response) {
 			notification.add('INFO', "Le document a bien été supprimé");
 		});
+		$scope.selectNode($scope.nodeMap[parentId]);
 	}
 	
 	$scope.askForRenameCurrentNode = function() {
