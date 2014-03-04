@@ -1,5 +1,5 @@
 <div class="col-sm-8">
-	<div ng-init="currentNodePath = getNodePath(currentNode)">
+	<div>
 
 		<form name="newDirectoryForm" role="form">
 			<span class="col-sm-6"> <input type="text" class="form-control" ng-model="newDirectory.name" placeholder="Nom du nouveau dossier" ng-required="true" />
@@ -7,17 +7,16 @@
 			<button ng-click="addNewDirectoryOnCurrentNode()" class="btn btn-success" ng-disabled="newDirectoryForm.$invalid">Ajouter ce dossier !</button>
 		</form>
 
-		<br /> <br /> <a href="#/document/add?root={{currentNodePath}}"> <span class="btn btn-success fileinput-button"> <i class="glyphicon glyphicon-plus"></i> <span>Ajouter un document</span>
+		<br /> <br /> <a href="#/document/add?root={{currentNode.nodePath}}"> <span class="btn btn-success fileinput-button"> <i class="glyphicon glyphicon-plus"></i> <span>Ajouter un document</span>
 		</span>
 		</a>
-
 	</div>
 </div>
-<div class="col-sm-1" ng-init="currentNodePath = getNodePath(currentNode)">
+
+<div class="col-sm-1">
 	<a ng-click="askForRenameCurrentNode()"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Renommer</span>
 	</span>
-	</a> <br />
-	<br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
+	</a> <br /> <br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
 	</span>
 	</a>
 </div>
