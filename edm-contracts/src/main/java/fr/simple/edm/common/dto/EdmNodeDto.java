@@ -19,6 +19,8 @@ public class EdmNodeDto implements Serializable {
 	
 	private String name = null;
 	
+	private String nodePath = null;
+	
 	public EdmNodeDto() {
 	    // please give me a node type... Or you'll do nothing with me !
 	}
@@ -57,6 +59,14 @@ public class EdmNodeDto implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNodePath() {
+        return nodePath;
+    }
+
+    public void setNodePath(String nodePath) {
+        this.nodePath = nodePath;
     }
 	
 }

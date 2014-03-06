@@ -1,9 +1,5 @@
 package fr.simple.edm.service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import fr.simple.edm.model.EdmDirectory;
-import fr.simple.edm.model.EdmDocument;
 import fr.simple.edm.repository.EdmDirectoryRepository;
 
 @Service

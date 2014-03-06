@@ -1,35 +1,50 @@
-[![Build Status](https://travis-ci.org/xaviermichel/simple-ged.png?branch=master)](https://travis-ci.org/xaviermichel/simple-ged)
-
-_Simple Ged est un logiciel de GED simplifié à destination des particuliers (comme moi :) ). Pour plus de détails, voir http://www.xaviermichel.info/tips/read/17/Simple-GED-logiciel-open-source-de-gestion-lectronique-de-documents_
-
-Téléchargements
-===============
-
-Logiciel
---------
-
-[Télécharger simple ged](http://sourceforge.net/projects/simpleged/files/latest/download). Voir le [wiki pour l'installation](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-simple-ged).
+[![Build Status](https://travis-ci.org/xaviermichel/simple-edm.png?branch=master)](https://travis-ci.org/xaviermichel/simple-edm)
 
 
-Plugins
--------
-
-_Une fois le plugin téléchargé, voir [comment installer un plugin](https://github.com/xaviermichel/simple-ged/wiki/Comment-installer-un-plugin)._
-
-Il exite des plugins pour les mobiles orange/sfr et pour la box de sfr, [voir la liste](https://sourceforge.net/projects/simpleged/files/plugins/).
-
-Notez qu'il est possible pour un développeur de [créer son plugin facilement](https://github.com/xaviermichel/simple-ged/wiki/D%C3%A9veloppement-de-plugins).
+Simple EDM
+==========
 
 
-Captures d'écran
-================
+**Summary**
 
-![Ecran d'accueil](https://raw.github.com/xaviermichel/simple-ged/master/screenshot/home.png)
+Simple EDM is a simple software of electronic document managment. It's thinked to be easy to use but scalable on more server. So you can use it for yourself, or extend it !
+For more details, you can see http://www.xaviermichel.info/tips/read/17/Simple-GED-logiciel-open-source-de-gestion-lectronique-de-documents [FR].
 
-![Parcours des documents](https://raw.github.com/xaviermichel/simple-ged/master/screenshot/browse_doc.png)
+**Features**
 
-![Recherche de documents](https://raw.github.com/xaviermichel/simple-ged/master/screenshot/quick_search.png)
+- easy to use (it's like a web application)
+- powerful search engine
+- scalability (Not tested yet, but thinked to be used on three-tier architecture)
+- exposed REST api
 
-![Ajout d'un document](https://raw.github.com/xaviermichel/simple-ged/master/screenshot/add_doc.png)
+Not supported yet (but you can help me if you wan't !) :
 
-![Configuration de plugins](https://raw.github.com/xaviermichel/simple-ged/master/screenshot/plugins.png)
+- right managment
+- documents versionning (documents informations are versionned by ES, but not documents themself)
+- comments on documents
+
+
+Solution stack
+--------------
+
+![Solution stack](https://docs.google.com/drawings/d/1TRDdSgP6r0zwp2dezgcPhncy-NdKfb9r6bKF52U0QUE/pub?w=939&amp;h=643)
+
+
+
+Downloads
+---------
+
+**Software**
+
+You can find the [lastest release here](https://github.com/xaviermichel/simple-edm/releases). You've just to download the zip file, extract-it and launch the jar file.
+For more explanations, you can take a look at [the installation wiki](https://github.com/xaviermichel/simple-edm/wiki/Comment-installer-simple-ged) [FR].
+
+
+
+**Plugins**
+
+You can also use some plugins with simple-edm. They used the explosed REST API to insert their documents in the core.
+
+
+You will find examples for plugins development here : https://github.com/xaviermichel/simple-edm-plugins
+

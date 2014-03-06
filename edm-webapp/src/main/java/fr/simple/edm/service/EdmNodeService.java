@@ -78,7 +78,7 @@ public class EdmNodeService {
      * Delete node (and files) recursively starting at the given node
      */
     public void deleteRecursively(EdmNode node) {
-        logger.info("Recurive delete for '{}'", getServerFilePathOfNode(node));
+        logger.info("Recursive delete for '{}'", getServerFilePathOfNode(node));
         // delete the file/directory...
         boolean cleaned = FileUtils.deleteQuietly(new File(getServerFilePathOfNode(node)));
         if (!cleaned) {

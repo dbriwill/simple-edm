@@ -18,6 +18,32 @@
 # node.name: "Simple EDM"
 
 
+#################################### Index ####################################
+
+# These settings directly affect the performance of index and search operations
+# in your cluster. Assuming you have enough machines to hold shards and
+# replicas, the rule of thumb is:
+#
+# 1. Having more *shards* enhances the _indexing_ performance and allows to
+#    _distribute_ a big index across machines.
+# 2. Having more *replicas* enhances the _search_ performance and improves the
+#    cluster _availability_.
+#
+# The "number_of_shards" is a one-time setting for an index.
+#
+# The "number_of_replicas" can be increased or decreased anytime,
+# by using the Index Update Settings API.
+#
+# Note, that for development on a local machine, with small indices, it usually
+# makes sense to "disable" the distributed features:
+
+# Set the number of shards (splits) of an index (5 by default):
+ index.number_of_shards: 1
+
+# Set the number of replicas (additional copies) of an index (1 by default)
+ index.number_of_replicas: 0
+
+
 #################################### Paths ####################################
 
 # Path to directory containing configuration (this file and logging.yml):
@@ -45,6 +71,29 @@
 # Path to where plugins are installed:
 #
  path.plugins: ./edm/es/plugins
+
+
+#################################### Plugin ###################################
+
+# If a plugin listed here is not installed for current node, the node will not start.
+#
+ plugin.mandatory: mapper-attachments
+
+
+############################## Network And HTTP ###############################
+
+# Elasticsearch, by default, binds itself to the 0.0.0.0 address, and listens
+# on port [9200-9300] for HTTP traffic and on port [9300-9400] for node-to-node
+# communication. (the range means that if the port is busy, it will automatically
+# try the next port).
+
+# Set a custom port for the node to node communication (9300 by default):
+#
+ transport.tcp.port: 9053
+
+# Set a custom port to listen for HTTP traffic (9200 by default):
+#
+ http.port: 9052
 
 
 ################################## Discovery ##################################

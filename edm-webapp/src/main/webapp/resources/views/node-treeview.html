@@ -1,24 +1,30 @@
 
 <h1>{{currentLibrary.description}}</h1>
 
+<div class="k-content col-md-12">
+	<form name="searchForm" class="navbar-form navbar-left" role="search">
+		<div class="form-group" style="width:250px;">
+			<input ng-model="searchedPattern" type="text" class="form-control" placeholder="Que voulez-vous chercher ?" ng-required="true" />
+		</div>
+		<button ng-click="searchSubmit()"  class="btn btn-default" ng-disabled="searchForm.$invalid">Rechercher !</button>
+	</form>
+</div>
+
+
 
 <div class="k-content col-md-3">
 	<ul id="edm-treeview">
 	</ul>
 </div>
 
-
 <div id="edm-details" class="col-md-9">
 	<div class="slide-animate-container">
-		
-		<div ng-if="currentNode.edmNodeType === 'LIBRARY'" class="slide-animate" ng-include="'resources/views/node-treeview.library.html'">
-		</div>
-		
-		<div ng-if="currentNode.edmNodeType === 'DIRECTORY'" class="slide-animate" ng-include="'resources/views/node-treeview.directory.html'">
-		</div>
-		
-		<div ng-if="currentNode.edmNodeType === 'DOCUMENT'" class="slide-animate" ng-include="'resources/views/node-treeview.document.html'">
-		</div>
-		
+
+		<div ng-if="currentNode.edmNodeType === 'LIBRARY'" class="slide-animate" ng-include="'resources/views/node-treeview.library.html'"></div>
+
+		<div ng-if="currentNode.edmNodeType === 'DIRECTORY'" class="slide-animate" ng-include="'resources/views/node-treeview.directory.html'"></div>
+
+		<div ng-if="currentNode.edmNodeType === 'DOCUMENT'" class="slide-animate" ng-include="'resources/views/node-treeview.document.html'"></div>
+
 	</div>
 </div>

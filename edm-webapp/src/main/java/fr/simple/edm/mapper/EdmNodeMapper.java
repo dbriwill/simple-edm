@@ -7,6 +7,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import fr.simple.edm.common.dto.EdmNodeDto;
 import fr.simple.edm.model.EdmNode;
+import fr.simple.edm.service.EdmNodeService;
 
 /**
  * Mapper is override because I wan't to keep all json properties (children customed properties), not only EdmProperty
@@ -23,6 +24,8 @@ public class EdmNodeMapper extends AbstractMapper<EdmNode, EdmNodeDto> {
     @Inject
     private EdmDocumentMapper edmDocumentMapper;
     
+    @Inject 
+    private EdmNodeService edmNodeService;
     
     public EdmNodeMapper() {
         super(EdmNode.class, EdmNodeDto.class);
@@ -40,11 +43,16 @@ public class EdmNodeMapper extends AbstractMapper<EdmNode, EdmNodeDto> {
 
     @Override
     public EdmNodeDto boToDto(EdmNode bo) {
-        return ObjectUtils.firstNonNull(
+        EdmNodeDto dto = ObjectUtils.firstNonNull(
                 edmLibraryMapper.boToDtoOrNull(bo),
                 edmDirectoryMapper.boToDtoOrNull(bo),
                 edmDocumentMapper.boToDtoOrNull(bo),
                 new EdmNodeDto()
         );
+        // additional fields
+        if (dto.getId() != null && ! dto.getId().isEmpty()) {
+            dto.setNodePath(edmNodeService.getPathOfNode(bo));
+        }
+        return dto;
     }
 }

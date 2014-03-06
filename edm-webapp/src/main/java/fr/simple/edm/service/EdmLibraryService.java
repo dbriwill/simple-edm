@@ -7,11 +7,13 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
@@ -24,13 +26,15 @@ import fr.simple.edm.repository.EdmLibraryRepository;
 
 @Service
 @PropertySources(value = { 
-        @PropertySource("classpath:/properties/default_values.fr_fr.properties"),
         @PropertySource("classpath:/edm-configuration.properties")
 })
 public class EdmLibraryService {
 
     private final Logger logger = LoggerFactory.getLogger(EdmLibraryService.class);
 
+    @Inject
+    private MessageSource messageSource;
+    
     @Inject
     private Environment env;
 
@@ -61,26 +65,26 @@ public class EdmLibraryService {
             logger.info("Creating default library");
 
             EdmLibrary library = new EdmLibrary();
-            library.setName(env.getProperty("default.library.name"));
-            library.setDescription(env.getProperty("default.library.description"));
+            library.setName(messageSource.getMessage("default.library.name", new Object[] {}, "Library name", Locale.getDefault()));
+            library.setDescription(messageSource.getMessage("default.library.description", new Object[] {}, "Library description", Locale.getDefault()));
             library = save(library);
 
             EdmDirectory directory = new EdmDirectory();
-            directory.setName(env.getProperty("default.directory.name"));
+            directory.setName(messageSource.getMessage("default.directory.name", new Object[] {}, "Directory name", Locale.getDefault()));
             directory.setParentId(library.getId());
             directory = edmDirectoryService.save(directory);
 
             EdmDocument document = new EdmDocument();
-            document.setName(env.getProperty("default.document.name"));
+            document.setName(messageSource.getMessage("default.document.name", new Object[] {}, "Document name", Locale.getDefault()));
             document.setParentId(directory.getId());
-            document.setDescription(env.getProperty("default.document.description"));
+            document.setDescription(messageSource.getMessage("default.document.description", new Object[] {}, "Document description", Locale.getDefault()));
             document.setDate(new Date());
             
             File file = new File(env.getProperty("edm.tmpdir") + "default-edm.pdf");
             
             if (!file.exists()) {
                 logger.info("Adding '{}' in library", env.getProperty("default.document.path"));
-                InputStream link = (getClass().getResourceAsStream(env.getProperty("default.document.path")));
+                InputStream link = (getClass().getResourceAsStream(messageSource.getMessage("default.document.path", new Object[] {}, "", Locale.getDefault())));
                 try {
                     com.google.common.io.Files.createParentDirs(file);
                     Files.copy(link, file.getAbsoluteFile().toPath());

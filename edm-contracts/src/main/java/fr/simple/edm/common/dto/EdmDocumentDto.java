@@ -13,6 +13,8 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     private String fileContentType;
     
+    private String serverDocumentFilePath;
+    
     // only used to make a bridge with uploaded file
     private String temporaryFileToken;
     
@@ -60,6 +62,13 @@ public class EdmDocumentDto extends EdmNodeDto implements Serializable {
 
     public void setTemporaryFileToken(String temporaryFileToken) {
         this.temporaryFileToken = temporaryFileToken;
-    } 
+    }
 
+    public String getServerDocumentFilePath() {
+        return serverDocumentFilePath;
+    }
+
+    public void setServerDocumentFilePath(String serverDocumentFilePath) {
+        this.serverDocumentFilePath = serverDocumentFilePath;
+    }
 }

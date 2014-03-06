@@ -7,8 +7,8 @@
 		<p>{{currentNode.description}}</p>
 	</blockquote>
 </div>
-<div class="col-sm-1" ng-init="currentNodePath = getNodePath(currentNode)">
-	<a href="#/document/edit?path={{currentNodePath}}"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Modifier</span>
+<div class="col-sm-1">
+	<a href="#/document/edit?path={{currentNode.nodePath}}"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Modifier</span>
 	</span>
 	</a> <br />
 	<br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
@@ -16,11 +16,10 @@
 	</a>
 </div>
 
-<div ng-init="currentNodeFilePath = getDocumentNodeFilePath(currentNode)" class="col-sm-9">
-
-	<object data="/document/file/{{currentNodeFilePath}}" type="{{currentNode.fileContentType}}" max-width="100%" max-height="800px">
+<div class="col-sm-9">
+	<object data="/document/file/{{currentNode.serverDocumentFilePath}}" type="{{currentNode.fileContentType}}" max-width="100%" max-height="800px">
 		<p>
-			<a href="/document/file/{{currentNodeFilePath}}"> Télécharger </a>
+			<a href="/document/file/{{currentNode.serverDocumentFilePath}}"> Télécharger </a>
 		</p>
 	</object>
 </div>

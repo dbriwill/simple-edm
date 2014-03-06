@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +68,12 @@ public class EdmDocumentController {
         } catch (IOException ex) {
             logger.error("Error writing file to output stream. server path was '{}'", serverFilePath);
         }
+    }
+    
+    @RequestMapping(value = "/document", method = RequestMethod.GET, params = {"q"})
+    public @ResponseBody List<EdmDocumentDto> search(@RequestParam(value = "q") String pattern) {
+        logger.debug("Searched pattern : '{}'", pattern);
+        return edmDocumentMapper.boToDto(edmDocumentService.search(pattern));
     }
     
     @RequestMapping(value="/document/upload", method=RequestMethod.POST , headers = "content-type=multipart/*")

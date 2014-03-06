@@ -1,9 +1,13 @@
 package fr.simple.edm;
 
+import java.nio.charset.Charset;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -34,6 +38,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
     }
+    
+    @Bean
+    public HttpMessageConverter<String> responseBodyConverter() {
+        return new StringHttpMessageConverter(Charset.forName("UTF-8"));
+    }
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -48,6 +57,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".html");
         // NB, selecting HTML5 as the template mode.
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setTemplateMode("HTML5");
         resolver.setCacheable(false);
         return resolver;
@@ -64,6 +74,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
+        viewResolver.setCharacterEncoding("UTF-8");
+        viewResolver.setContentType("text/html;charset=UTF-8");
         viewResolver.setViewNames(new String[] { "*" });
         viewResolver.setCache(false);
         return viewResolver;
@@ -72,7 +84,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:messages/messages", "classpath:messages/validation");
+        messageSource.setBasenames("classpath:/properties/messages");
         // if true, the key of the message will be displayed if the key is not
         // found, instead of throwing a NoSuchMessageException
         messageSource.setUseCodeAsDefaultMessage(true);

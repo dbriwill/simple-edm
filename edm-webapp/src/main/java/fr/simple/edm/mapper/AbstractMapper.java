@@ -3,8 +3,6 @@ package fr.simple.edm.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 import org.springframework.beans.BeanUtils;
 
 public class AbstractMapper<T, S> {
@@ -71,23 +69,19 @@ public class AbstractMapper<T, S> {
         }
     }
 	
-	@SuppressWarnings("unchecked")
 	public List<T> dtoToBo(List<S> dtos) {
-		return new ArrayList<T>(CollectionUtils.transformedCollection(dtos, new Transformer() {
-			@Override
-			public Object transform(Object arg0) {
-				return dtoToBo((S) arg0);
-			}
-		}));
+        List<T> bos = new ArrayList<>(dtos.size());
+        for (S dto : dtos) {
+            bos.add(dtoToBo(dto));
+        }
+        return bos;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<S> boToDto(List<T> bos) {
-		return new ArrayList<S>(CollectionUtils.transformedCollection(bos, new Transformer() {
-			@Override
-			public Object transform(Object arg0) {
-				return boToDto((T) arg0);
-			}
-		}));
+        List<S> dtos = new ArrayList<>(bos.size());
+        for (T bo : bos) {
+            dtos.add(boToDto(bo));
+        }
+        return dtos;
 	}
 }
