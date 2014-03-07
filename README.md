@@ -48,7 +48,7 @@ Example of deployment on my raspberry pi :
      xavier@raspberrypi:~/bin/simple-edm% unzip simple-edm-*.zip
      xavier@raspberrypi:~/bin/simple-edm% cd simple-edm
      xavier@raspberrypi:~/bin/simple-edm% java -jar edm-webapp-*.jar
-     
+
 And access it by network (for me, it means raspberrypi:8053) !
 
 
