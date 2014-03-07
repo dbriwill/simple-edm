@@ -47,9 +47,9 @@ cd ..
 # version check
 EDM_CONSTANT_VERSION=$(grep 'APPLICATION_VERSION' 'edm-webapp/src/main/resources/properties/constants.properties' | sed 's/^.*=\(.*\)$/\1/')
 
-EDM_PARENT_VERSION=$(grep '<edm.version>' 'pom.xml' | sed 's/^.*>\(.*\)<.*$/\1/')
-EDM_CONTRACT_VERSION=$(grep 'version' 'edm-contracts/pom.xml' | sed 's/^.*>\(.*\)<.*$/\1/')
-EDM_WEBAPP_VERSION=$(grep '<edm.version>' 'edm-webapp/pom.xml' | sed 's/^.*>\(.*\)<.*$/\1/')
+EDM_PARENT_VERSION=$(grep '<version>' 'pom.xml' | head -1 | sed 's/^.*>\(.*\)<.*$/\1/')
+EDM_CONTRACT_VERSION=$(grep 'version' 'edm-contracts/pom.xml' | head -1 | sed 's/^.*>\(.*\)<.*$/\1/')
+EDM_WEBAPP_VERSION=$(grep '<edm.version>' 'edm-webapp/pom.xml' | head -1 | sed 's/^.*>\(.*\)<.*$/\1/')
 
 echo "Parent version        : ${EDM_PARENT_VERSION}"
 echo "Contracts version     : ${EDM_CONTRACT_VERSION}"
