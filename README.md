@@ -30,6 +30,15 @@ Solution stack
 ![Solution stack](https://docs.google.com/drawings/d/1TRDdSgP6r0zwp2dezgcPhncy-NdKfb9r6bKF52U0QUE/pub?w=939&amp;h=643)
 
 
+Wanna compile and run it in two minutes ?
+
+     git clone https://github.com/xaviermichel/simple-edm.git
+     cd simple-edm
+     mvn install -Dmaven.test.skip=true
+     cd edm-webapp
+     mvn package -Dmaven.test.skip=true
+     java -jar target/edm-webapp-*.jar
+
 
 Downloads
 ---------
