@@ -40,6 +40,18 @@ Wanna compile and run it in two minutes ?
      java -jar target/edm-webapp-*.jar
 
 
+Example of deployment on my raspberry pi :
+
+     xavier@raspberrypi:~/bin% mkdir simple-edm
+     xavier@raspberrypi:~/bin% cd simple-edm
+     xavier@raspberrypi:~/bin/simple-edm% cp ~/work/simple-ged/scripts/simple-edm-5.0-RC1.zip .
+     xavier@raspberrypi:~/bin/simple-edm% unzip simple-edm-*.zip
+     xavier@raspberrypi:~/bin/simple-edm% cd simple-edm
+     xavier@raspberrypi:~/bin/simple-edm% java -jar edm-webapp-5.0-RC1.jar
+     
+And access it by network (for me, it means raspberrypi:8053) ! See also plugins (link below).
+
+
 Downloads
 ---------
 
