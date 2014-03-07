@@ -49,7 +49,7 @@ Example of deployment on my raspberry pi :
      xavier@raspberrypi:~/bin/simple-edm% cd simple-edm
      xavier@raspberrypi:~/bin/simple-edm% java -jar edm-webapp-5.0-RC1.jar
      
-And access it by network (for me, it means raspberrypi:8053) ! See also plugins (link below).
+And access it by network (for me, it means raspberrypi:8053) !
 
 
 Downloads
