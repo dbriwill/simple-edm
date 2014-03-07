@@ -95,7 +95,7 @@ cd ../scripts # back on root
 mkdir -p ${TMP_RELEASE_DIR}
 
 # main jar
-cp ../edm-webapp/target/*.jar ${TMP_RELEASE_DIR}
+cp ../edm-webapp/target/*.jar ${TMP_RELEASE_DIR}/simple-edm.jar
 
 # webapp resources
 mkdir -p ${TMP_RELEASE_DIR}/src/main/webapp
