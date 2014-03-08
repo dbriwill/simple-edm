@@ -89,11 +89,11 @@
 
 # Set a custom port for the node to node communication (9300 by default):
 #
- transport.tcp.port: 9053
+ transport.tcp.port: 9353
 
 # Set a custom port to listen for HTTP traffic (9200 by default):
 #
- http.port: 9052
+ http.port: 9252
 
 
 ################################## Discovery ##################################

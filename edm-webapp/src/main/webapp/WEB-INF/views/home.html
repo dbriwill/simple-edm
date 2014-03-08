@@ -2,9 +2,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+
 	<title th:text="${APPLICATION_NAME}">Simple Ged</title>
-	
+
 	<link rel="stylesheet" href="/resources/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/resources/css/kendo.common.min.css" />
     <link rel="stylesheet" href="/resources/css/kendo.default.min.css" />
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/resources/css/icons-sprite.css" />
     <link rel="stylesheet" href="/resources/css/jquery.fileupload.css" />
     <link rel="stylesheet" href="/resources/css/jquery.fileupload-ui.css" />
-    
+
     <script src="/resources/js/libs/jquery.min.js"></script>
     <script src="/resources/js/libs/angular.min.js"></script>
     <script src="/resources/js/libs/angular-route.min.js"></script>
@@ -21,7 +21,7 @@
     <script src="/resources/js/libs/kendo.all.min.js"></script>
     <script src="/resources/js/libs/angular-kendo.js"></script>
     <script src="/resources/js/libs/bootstrap.min.js"></script>
-    
+
 	<script src="/resources/js/libs/jquery.ui.widget.js"></script>
 	<script src="/resources/js/libs/load-image.min.js"></script>
 	<script src="/resources/js/libs/canvas-to-blob.min.js"></script>
@@ -33,9 +33,8 @@
 	<script src="/resources/js/libs/jquery.fileupload-video.js"></script>
 	<script src="/resources/js/libs/jquery.fileupload-validate.js"></script>
 	<script src="/resources/js/libs/jquery.fileupload-angular.js"></script>
-	
+
 	<script src="/resources/js/application.js"></script>
-	<script src="/resources/js/controllers.js"></script>
 	<script src="/resources/js/controllers.node.js"></script>
 	<script src="/resources/js/controllers.library.js"></script>
 	<script src="/resources/js/controllers.document.js"></script>
@@ -51,7 +50,7 @@
 <body>
 
 	<div class="container">
-	
+
 		<div class="header">
 			<ul class="nav nav-pills pull-right">
 				<li th:class="${section_document}? 'active'"><a href="/">Documents</a></li>
@@ -67,12 +66,12 @@
 		<div ng-view="library-treeview">
 		</div>
 
-		<!-- 
+		<!--
 		<div class="footer">
 			<p><a href="https://github.com/xaviermichel/simple-ged/">Repository</a></p>
 		</div>
 		 -->
-		
+
 	</div> <!-- /container -->
 
 </body>
