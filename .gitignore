@@ -41,8 +41,8 @@ directory_icons
 # temp dir for releases
 files-to-release
 
-# edm dir
-edm
+# edm dir ! Do not uncomment this because edm is also the package name
+#edm
 
 # logback
 logback.xml
