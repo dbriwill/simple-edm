@@ -83,13 +83,13 @@ public class EdmLibraryService {
             File file = new File(env.getProperty("edm.tmpdir") + "default-edm.pdf");
             
             if (!file.exists()) {
-                logger.info("Adding '{}' in library", env.getProperty("default.document.path"));
+                logger.info("Adding '{}' in '{}'", messageSource.getMessage("default.document.path", new Object[] {}, "", Locale.getDefault()), file.getAbsoluteFile());
                 InputStream link = (getClass().getResourceAsStream(messageSource.getMessage("default.document.path", new Object[] {}, "", Locale.getDefault())));
                 try {
                     com.google.common.io.Files.createParentDirs(file);
                     Files.copy(link, file.getAbsoluteFile().toPath());
-                } catch (IOException e) {
-                    logger.error("Failed to load default edm file", e);
+                } catch (Exception e) {
+                    logger.error("Failed to export default edm file", e);
                 }
             }
             
