@@ -3,6 +3,8 @@ package fr.simple.edm.service;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -98,7 +100,10 @@ public class EdmNodeServiceTest {
         edmDocument = new EdmDocument();
         edmDocument.setName("document");
         edmDocument.setParentId(edmDirectory.getId());
-        edmDocument.setFilename(targetDirAbsolutePath + "demo_pdf.pdf");
+        // make a copy because moving test file is not acceptable (someone may come after and require this file) ! 
+        Files.copy(Paths.get(targetDirAbsolutePath + "demo_pdf.pdf"), Paths.get(targetDirAbsolutePath + "demo_pdf_tmp.pdf"));
+        edmDocument.setFilename(targetDirAbsolutePath + "demo_pdf_tmp.pdf");
+        
         edmDocument = edmDocumentService.save(edmDocument);
 
         documentId = edmDocument.getId();

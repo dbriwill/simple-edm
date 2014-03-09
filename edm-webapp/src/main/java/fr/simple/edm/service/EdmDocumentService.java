@@ -93,6 +93,7 @@ public class EdmDocumentService {
                 
                 // now add the file in ES
                 logger.debug("Adding file '{}' for ES indexation", edmDocument.getFilename());
+                edmDocument.setFilename("");
 
                 contentBuilder.startObject("file");
 

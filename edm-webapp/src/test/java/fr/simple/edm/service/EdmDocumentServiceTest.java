@@ -2,6 +2,8 @@ package fr.simple.edm.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,7 +73,9 @@ public class EdmDocumentServiceTest {
         docLatex = new EdmDocument();
         docLatex.setName("Un template de document");
         docLatex.setDescription("réalisé dans un format binaire");
-        docLatex.setFilename(targetDirAbsolutePath + "demo_pdf.pdf");
+        // make a copy because moving test file is not acceptable (someone may come after and require this file) ! 
+        Files.copy(Paths.get(targetDirAbsolutePath + "demo_pdf.pdf"), Paths.get(targetDirAbsolutePath + "demo_pdf_tmp.pdf"));
+        docLatex.setFilename(targetDirAbsolutePath + "demo_pdf_tmp.pdf");
         
         edmDocumentService.save(docBac);
         edmDocumentService.save(docBrevet);
