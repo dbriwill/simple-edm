@@ -101,6 +101,9 @@ cp ../edm-webapp/target/*.jar ${TMP_RELEASE_DIR}/simple-edm.jar
 mkdir -p ${TMP_RELEASE_DIR}/src/main/webapp
 cp -r ../edm-webapp/src/main/webapp ${TMP_RELEASE_DIR}/src/main/
 
+# embedded scripts
+cp simple-edm-windows-starter.cmd ${TMP_RELEASE_DIR}
+
 # create release file
 zip -r ${RELEASE_FINAL_FILE} ${TMP_RELEASE_DIR}
 

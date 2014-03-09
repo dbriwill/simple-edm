@@ -178,7 +178,7 @@ public class EdmNodeService {
             String newLocation = getServerFilePathOfNode(node);
 
             if (!Paths.get(originalLocation).toFile().exists()) {
-                logger.error("Won't move '{}' because it's not exits", originalLocation);
+                logger.error("Won't move '{}' because it's not exists", originalLocation);
                 return;
             }
 
