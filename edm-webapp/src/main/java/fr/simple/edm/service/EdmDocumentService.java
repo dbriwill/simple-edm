@@ -84,19 +84,19 @@ public class EdmDocumentService {
                 String thisDocumentFileExtension = com.google.common.io.Files.getFileExtension(edmDocument.getFilename());
                 edmDocument.setFileExtension(thisDocumentFileExtension);
                 
-                // file copy
+                // file move
                 String from = edmDocument.getFilename();
                 String to = edmNodeService.getServerFilePathOfDocument(edmDocument);
-                logger.debug("Copy {} to {}", new File(from), new File(to));
+                logger.debug("Move {} to {}", new File(from), new File(to));
                 com.google.common.io.Files.createParentDirs(new File(to));
-                com.google.common.io.Files.copy(new File(from), new File(to));
+                com.google.common.io.Files.move(new File(from), new File(to));
                 
                 // now add the file in ES
                 logger.debug("Adding file '{}' for ES indexation", edmDocument.getFilename());
 
                 contentBuilder.startObject("file");
 
-                Path filePath = Paths.get(edmDocument.getFilename());
+                Path filePath = Paths.get(to);
                 
                 String contentType = Files.probeContentType(filePath);
                 String content = Base64.encodeBytes(Files.readAllBytes(filePath));

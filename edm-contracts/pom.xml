@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>simple-edm</artifactId>
 		<groupId>fr.simple.edm</groupId>
-		<version>5.0-RC1</version>
+		<version>5.0-RC2</version>
 		<relativePath>..</relativePath>
 	</parent>
 
