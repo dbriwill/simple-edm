@@ -40,14 +40,14 @@ Wanna compile and run it in two minutes ?
      java -jar target/edm-webapp-*.jar
 
 
-Example of deployment on my raspberry pi :
+Example of deployment on my server :
 
-     xavier@raspberrypi:~/bin% mkdir simple-edm
-     xavier@raspberrypi:~/bin% cd simple-edm
-     xavier@raspberrypi:~/bin/simple-edm% cp ~/work/simple-edm/scripts/simple-edm-*.zip .
-     xavier@raspberrypi:~/bin/simple-edm% unzip simple-edm-*.zip
-     xavier@raspberrypi:~/bin/simple-edm% cd simple-edm
-     xavier@raspberrypi:~/bin/simple-edm% java -jar simple-edm.jar
+     xavier@server:~/bin% mkdir simple-edm
+     xavier@server:~/bin% cd simple-edm
+     xavier@server:~/bin/simple-edm% cp ~/work/simple-edm/scripts/simple-edm-*.zip .
+     xavier@server:~/bin/simple-edm% unzip simple-edm-*.zip
+     xavier@server:~/bin/simple-edm% cd simple-edm
+     xavier@server:~/bin/simple-edm% java -jar simple-edm.jar
 
 And access it by network (for me, it means `raspberrypi:8053`) !
 
