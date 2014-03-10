@@ -3,10 +3,14 @@ package fr.simple.edm.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 public class AbstractMapper<T, S> {
 
+    private static final Logger logger = LoggerFactory.getLogger(AbstractMapper.class);
+    
 	private Class<T> tt;
 	private Class<S> ss;
 	
@@ -21,7 +25,7 @@ public class AbstractMapper<T, S> {
 			t = tt.newInstance();
 			BeanUtils.copyProperties(dto, t);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Failed to convert dto to bo", e);
 		}
 		return t;
 	}
@@ -32,7 +36,7 @@ public class AbstractMapper<T, S> {
 			s = ss.newInstance();
 			BeanUtils.copyProperties(bo, s);
 		} catch (Exception e) {
-			e.printStackTrace();
+		    logger.error("Failed to convert bo to dto", e);
 		}
 		return s;
 	}
