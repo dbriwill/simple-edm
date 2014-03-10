@@ -21,10 +21,10 @@
 	<a href="{{trustedDocumentUrl}}"> Télécharger le fichier </a>
 
 	<div ng-if="currentNode.fileContentType.indexOf('image') !== -1">
-		<img ng-src="{{trustedDocumentUrl}}" alt="" />
+		<img ng-src="{{getTrustedDocumentUrl(currentNode)}}" alt=""  width="100%" />
 	</div>
 
-	<div ng-if="currentNode.fileContentType = 'application/pdf'">
+	<div ng-if="currentNode.fileContentType == 'application/pdf'">
 		<iframe ng-src="{{trustedDocumentUrl}}" width="100%" height="800px"></iframe>
 	</div>
 
