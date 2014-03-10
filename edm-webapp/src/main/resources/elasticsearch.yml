@@ -93,7 +93,7 @@
 
 # Set a custom port to listen for HTTP traffic (9200 by default):
 #
- http.port: 9252
+ http.port: 9253
 
 
 ################################## Discovery ##################################

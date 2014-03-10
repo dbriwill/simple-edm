@@ -7,7 +7,7 @@ Simple EDM
 
 **Summary**
 
-Simple EDM is a simple software of electronic document managment. It's thinked to be easy to use but scalable on more server. So you can use it for yourself, or extend it !
+Simple EDM is a simple electronic document managment system. It's thinked to be easy to use but scalable on more server.
 For more details, you can see http://www.xaviermichel.info/tips/read/17/Simple-GED-logiciel-open-source-de-gestion-lectronique-de-documents [FR].
 
 **Features**

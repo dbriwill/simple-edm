@@ -1,11 +1,11 @@
-function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Library, Directory, Document, notification) {
+function NodeTreeviewController($scope, $http, $location, $routeParams, $sce, Node, Library, Directory, Document, notification) {
 
 	$scope.newDirectory = {};
-	
+
 	// Map<String, DTO> : nodeId, nodeDto
 	$scope.nodeMap = {};
 
-	
+
 	$scope.getServiceForNode = function(node) {
 		if (node.edmNodeType === 'LIBRARY') {
 			return Library;
@@ -22,7 +22,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		}
 		return $scope.treeview.find('[data-nodeid="' + node.id + '"]');
 	}
-	
+
 	$scope.addNode = function(node, parentNode) {
 		console.debug("Append child : " + node.id);
 
@@ -33,7 +33,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		$(appendNode[0]).attr('data-children-loaded', false);	// did I already load my children ?
 		$(appendNode[0]).attr('data-nodeid', node.id); 			// explicitly id showing
 		$scope.nodeMap[node.id] = node;							// store DTO value
-		
+
 		if (node.edmNodeType === 'LIBRARY') {
 			$scope.currentLibrary = node;
 			appendNode.find('.k-bot').prepend('<span class="k-sprite rootfolder"></span>');
@@ -62,15 +62,15 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 			$scope.getUINodeFromNode(node).attr('data-children-loaded', true);
 		}
 	};
-	
+
 	$scope.applyChanges = function() {
 		$scope.$apply();
 	}
-	
+
 	$scope.selectNode = function(node) {
 		// reset selection
 		$scope.newDirectory = {};
-		
+
 		console.debug("Selecting: " + node.id);
 		$scope.loadNodeChildrenAndExpand(node);
 
@@ -80,7 +80,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 
 		$scope.currentNode = node;
 	}
-	
+
 	$scope.onNodeSelect = function(e) { // e is a kendoNode
 		var node = $scope.nodeMap[$(e.node).attr('data-nodeid')];
 		$scope.selectNode(node);
@@ -129,17 +129,17 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 
 	$scope.onDrop = function(e) { // e is a kendoNode
 		console.log("Dropped " + this.text(e.sourceNode) + " (" + (e.valid ? "valid" : "invalid") + ")");
-		
-		var sourceNode		= $scope.nodeMap[$(e.sourceNode).attr('data-nodeid')]; 
+
+		var sourceNode		= $scope.nodeMap[$(e.sourceNode).attr('data-nodeid')];
 		var destinationNode = $scope.nodeMap[$(e.destinationNode).attr('data-nodeid')];
-		
+
 		if (sourceNode.id === destinationNode.id) {
 			console.warn("Same source and target, aborted");
 			return;
 		}
-		
+
 		console.info('Moving node : "' + sourceNode.id + '" to parent "' + destinationNode.id + '"');
-		
+
 		sourceNode.parentId = destinationNode.id;
 		$scope.getServiceForNode(sourceNode).save(sourceNode, function(node) {
 			notification.add('INFO', "Le document a bien été déplacé");
@@ -156,10 +156,10 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		Directory.save($scope.newDirectory, function(directory) {
 			notification.add('INFO', "Le dossier a bien été ajouté");
 			$scope.addNode(directory, $scope.currentNode);
-			$scope.selectNode(directory); 
+			$scope.selectNode(directory);
 		});
 	}
-	
+
 	$scope.askForDeleteCurrentNode = function() {
 		console.log("wanna delete current node !");
 		if ($('#modalPopover').length > 0) { // exists
@@ -167,8 +167,8 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		}
 		return false;
 	}
-	
-	$scope.deleteCurrentNode = function() { 
+
+	$scope.deleteCurrentNode = function() {
 		$('#modalPopover').modal('hide');
 		var parentId = $scope.currentNode.parentId;
 		$scope.getUINodeFromNode($scope.currentNode).remove();
@@ -179,7 +179,7 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		});
 		$scope.selectNode($scope.nodeMap[parentId]);
 	}
-	
+
 	$scope.askForRenameCurrentNode = function() {
 		console.log("wanna rename current node !");
 		if ($('#modalRenamePopover').length > 0) { // exists
@@ -187,36 +187,40 @@ function NodeTreeviewController($scope, $http, $location, $routeParams, Node, Li
 		}
 		return false;
 	}
-	
-	$scope.updateCurrentNode = function() {		
+
+	$scope.updateCurrentNode = function() {
 		$('#modalRenamePopover').modal('hide');
-		
+
 		$scope.getServiceForNode($scope.currentNode).save($scope.currentNode, function(node) {
 			var currentKendoNode = $scope.getUINodeFromNode($scope.currentNode);
 			currentKendoNode.find('.k-in').first().text(node.name);
 			notification.add('INFO', "Le nom a bien été mis à jour");
-			
+
 			// update child nodes
 			$.each($scope.getUINodeFromNode($scope.currentNode).find('.k-item'), function(index, value) {
 				Node.get({id : $(value).attr('data-nodeid')}, function(response) {
 					console.debug("Update child : " + response.id);
-					$scope.nodeMap[response.id] = response;	
+					$scope.nodeMap[response.id] = response;
 				});
 			});
 		});
 	}
-	
+
 	$scope.searchSubmit = function() {
 		console.debug("Search : " + $scope.searchedPattern);
 		$location.path('/document/search').search({
 			'q' : $scope.searchedPattern
 		});
 	}
-	
+
+	$scope.getTrustedDocumentUrl = function(node) {
+		return $sce.trustAsResourceUrl("/document/file/" + node.serverDocumentFilePath);
+	}
+
 	// main
 
 	$scope.$on('$viewContentLoaded', function() {
-		
+
 		$scope.treeview = $("#edm-treeview");
 		$scope.treeview .kendoTreeView({
 			loadOnDemand : false,

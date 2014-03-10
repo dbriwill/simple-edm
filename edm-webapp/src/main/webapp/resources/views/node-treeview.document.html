@@ -9,19 +9,26 @@
 </div>
 <div class="col-sm-1">
 	<a href="#/document/edit?path={{currentNode.nodePath}}"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Modifier</span>
-	</span>
+		</span>
 	</a> <br />
 	<br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
-	</span>
+		</span>
 	</a>
 </div>
 
-<div class="col-sm-8">
-	<object data="/document/file/{{currentNode.serverDocumentFilePath}}" type="{{currentNode.fileContentType}}" max-width="100%" max-height="800px">
-		<p>
-			<a href="/document/file/{{currentNode.serverDocumentFilePath}}"> Télécharger </a>
-		</p>
-	</object>
+<div class="col-sm-10" ng-init="trustedDocumentUrl = getTrustedDocumentUrl(currentNode);">
+
+	<a href="{{trustedDocumentUrl}}"> Télécharger le fichier </a>
+
+	<div ng-if="currentNode.fileContentType.indexOf('image') !== -1">
+		<img ng-src="{{trustedDocumentUrl}}" alt="" />
+	</div>
+
+	<div ng-if="currentNode.fileContentType = 'application/pdf'">
+		<iframe ng-src="{{trustedDocumentUrl}}" width="100%" height="800px"></iframe>
+	</div>
+
+	<!-- else no preview -->
 </div>
 
 
@@ -34,7 +41,7 @@
 			</div>
 			<div class="modal-body">
 				<p>
-					Vous êtes sur le point de faire disparaitre "{{currentNode.name}}", est-ce bien cela que vous voulez ?
+				Vous êtes sur le point de faire disparaitre "{{currentNode.name}}", est-ce bien cela que vous voulez ?
 				</p>
 			</div>
 			<div class="modal-footer">
