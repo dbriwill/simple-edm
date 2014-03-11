@@ -19,6 +19,9 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.CaseFormat;
@@ -139,7 +142,8 @@ public class EdmDocumentService {
     }
 
     public List<EdmDocument> findByParent(String parentId) {
-        return edmDocumentRepository.findByParentId(parentId);
+        Page<EdmDocument> page = edmDocumentRepository.findByParentId(parentId, new PageRequest(0, 99, new Sort(Sort.Direction.ASC, "name")));
+        return page.getContent();
     }
 
     public List<EdmDocument> findByName(String name) {
