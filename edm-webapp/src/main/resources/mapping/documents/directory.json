@@ -1,0 +1,12 @@
+{
+	"directory": {
+		"properties": {
+			"parentId": {
+				"type": "string"
+			},
+			"name": {
+				"type": "string"
+			}
+		}
+	}
+}

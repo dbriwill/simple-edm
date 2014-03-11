@@ -1,0 +1,65 @@
+<div class="col-sm-7">
+	<div>
+
+		<form name="newDirectoryForm" role="form">
+			<span class="col-sm-6"> <input type="text" class="form-control" ng-model="newDirectory.name" placeholder="Nom du nouveau dossier" ng-required="true" />
+			</span>
+			<button ng-click="addNewDirectoryOnCurrentNode()" class="btn btn-success" ng-disabled="newDirectoryForm.$invalid">Ajouter ce dossier !</button>
+		</form>
+
+		<br /> <br /> <a href="#/document/add?root={{currentNode.nodePath}}"> <span class="btn btn-success fileinput-button"> <i class="glyphicon glyphicon-plus"></i> <span>Ajouter un document</span>
+		</span>
+		</a>
+	</div>
+</div>
+
+<div class="col-sm-1">
+	<a ng-click="askForRenameCurrentNode()"> <span class="btn btn-primary"> <i class="glyphicon glyphicon-edit"></i> <span>Renommer</span>
+	</span>
+	</a> <br /> <br /> <a ng-click="askForDeleteCurrentNode()"> <span class="btn btn-danger"> <i class="glyphicon glyphicon-remove"></i> <span>Supprimer</span>
+	</span>
+	</a>
+</div>
+
+<div class="modal fade" id="modalPopover">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header btn-danger">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Suppression de {{currentNode.name}}</h4>
+			</div>
+			<div class="modal-body">
+				<p>Vous êtes sur le point de faire disparaitre "{{currentNode.name}}", est-ce bien cela que vous voulez ?</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Non, je ne veux pas faire cela !</button>
+				<a class="btn btn-danger" ng-click="deleteCurrentNode()">Oui, je souhaite supprimer "{{currentNode.name}}"</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalRenamePopover">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Renommage en {{currentNode.name}}</h4>
+			</div>
+			<div class="modal-body">
+				<form name="renameDirectoryForm" role="form">
+					<div class="form-group" ng-class="{'has-error': renameDirectoryForm.name.$invalid, 'has-success': !renameDirectoryForm.name.$invalid}">
+						<label for="document.name" class="col-sm-2 control-label">Nom</label>
+						<div class="col-sm-10">
+							<input type="text" name="name" class="form-control" id="currentNode.name" ng-model="currentNode.name" placeholder="Nom du dossier" ng-required="true" ng-pattern="/^[a-zA-Z0-9 éèêàù'çùôû.+=-]*$/" /> <span class="help-block error" ng-show="renameDirectoryForm.name.$dirty && renameDirectoryForm.name.$error.required"> Il faut donner un nom à votre dossier si vous voulez le retrouver ! </span> <span class="help-block error" ng-show="renameDirectoryForm.name.$dirty && renameDirectoryForm.name.$error.pattern"> Pas de chance ! Le nom du dossier que vous venez d'inscrire est bien trop complexe pour ce logiciel ! </span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+				<button ng-click="updateCurrentNode()" class="btn btn-primary" ng-disabled="renameDirectoryForm.$invalid">Renommer</button>
+			</div>
+		</div>
+	</div>
+</div>

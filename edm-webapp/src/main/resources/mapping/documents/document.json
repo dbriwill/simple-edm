@@ -1,0 +1,29 @@
+{
+    "document" : {
+        "properties" : {
+         	"parentId": {
+				"type": "string"
+			},
+            "name" : {
+                "type" : "string"
+            },
+            "description" : {
+                "type" : "string"
+            },
+            "date" : {
+                "type" : "date",
+                "format" : "dateOptionalTime"
+            },
+            "fileExtension" : {
+            	"type" : "string"
+            },
+            "fileContentType" : {
+            	"type" : "string"
+            },
+            "file" : {
+                "type" : "attachment",
+                "store" : "no"
+            }
+        }
+    }
+}

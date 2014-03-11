@@ -1,0 +1,12 @@
+<div id="messageList">
+ 
+    <h2>Mes bibliothèques</h2>
+ 
+	<ul>
+        <li ng-repeat="library in librairies">
+            <a href="#/node/?path={{library.name}}"><span>{{library.name}}</span></a> :
+            <span>{{library.description | filter:ellipsis:20}}</span> &nbsp;
+        </li>
+    </ul>
+ 
+</div>

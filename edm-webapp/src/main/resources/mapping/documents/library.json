@@ -1,0 +1,12 @@
+{
+	"library": {
+		"properties": {
+			"parentId": {
+				"type": "string"
+			},
+			"name": {
+				"type": "string"
+			}
+		}
+	}
+}

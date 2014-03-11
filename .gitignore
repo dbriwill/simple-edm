@@ -19,6 +19,8 @@ target
 
 # elastic search
 es
+*/data
+
 
 # from simple ged
 *.profile
@@ -39,9 +41,13 @@ directory_icons
 # temp dir for releases
 files-to-release
 
+# edm dir ! Do not uncomment this because edm is also the package name
+#edm
+
 # logback
 logback.xml
 
 # do not release my data !
 *.pdf
+*.jpg
 

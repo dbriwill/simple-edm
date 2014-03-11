@@ -1,0 +1,77 @@
+
+<form name="newDocumentForm" class="form-horizontal" role="form">
+
+	<legend>Nouveau document</legend>
+
+	<div class="form-group" ng-class="{'has-error': newDocumentForm.name.$invalid, 'has-success': !newDocumentForm.name.$invalid}">
+		<label for="document.name" class="col-sm-2 control-label">Nom</label>
+		<div class="col-sm-10">
+			<input type="text" name="name" class="form-control" id="document.name" ng-model="document.name" placeholder="Mon document" ng-required="true" ng-pattern="/^[a-zA-Z0-9 éèêàù'çùôû.+=-]*$/" />
+			<span class="help-block error" ng-show="newDocumentForm.name.$dirty && newDocumentForm.name.$error.required">
+				Il faut donner un nom à votre document si vous voulez le retrouver !
+			</span>
+			<span class="help-block error" ng-show="newDocumentForm.name.$dirty && newDocumentForm.name.$error.pattern">
+				Pas de chance ! Le nom du document que vous venez d'inscrire est bien trop complexe pour ce logiciel !
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group" ng-class="{'has-error': newDocumentForm.date.$invalid, 'has-success': !newDocumentForm.date.$invalid}">
+		<label for="document.date" class="col-sm-2 control-label">Date</label>
+		<div class="col-sm-10">
+			<input type="date" name="date" class="form-control" id="document.date" ng-model="document.date" placeholder="Date du document" ng-required="true" />
+			<span class="help-block error" ng-show="newDocumentForm.date.$dirty && newDocumentForm.date.$error.required">
+				Un bon document nécessite une bonne année !
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="document.description" class="col-sm-2 control-label">Description</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" rows="3" id="document.description" ng-model="document.description"></textarea>
+		</div>
+	</div>
+
+</form>
+
+<form id="fileupload" method="POST" enctype="multipart/form-data" class="form-horizontal" data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-file-upload="fileUploadOptions">
+
+	<div class="form-group">
+		<label for="document.description" class="col-sm-2 control-label">Fichier</label>
+		<div class="col-sm-10">
+			<div class="row fileupload-buttonbar">
+				<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+				<div class="row fileupload-buttonbar">
+					<div class="col-sm-10">
+						<!-- The fileinput-button span is used to style the file input field as button -->
+						<span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}"> <i class="glyphicon glyphicon-plus"></i> <span>Sélectionner fichier</span> <input type="file" name="files[]" ng-disabled="disabled" />
+						</span> <span> <span>{{file.name}}</span> <span class="size" ng-if="file.size">({{file.size | formatFileSize}})</span>
+						</span>
+
+						<!-- The global file processing state -->
+						<span class="fileupload-process"></span>
+					</div>
+					<!-- The global progress state -->
+					<div class="col-sm-10 fade" data-ng-class="{in: active()}">
+						<!-- The global progress bar -->
+						<div class="progress progress-striped active" data-file-upload-progress="progress()">
+							<div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+						</div>
+						<!-- The extended global progress state -->
+						<div class="progress-extended">&nbsp;</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+
+
+<div class="form-group">
+	<div class="col-sm-offset-2 col-sm-10">
+		<button ng-click="back()" class="btn">Annuler</button>
+		<button ng-click="submitForm()" class="btn btn-primary" ng-disabled="newDocumentForm.$invalid || submitFormDisabled">Enregistrer</button>
+	</div>
+</div>

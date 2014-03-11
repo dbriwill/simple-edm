@@ -2,11 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.simple.ged</groupId>
-	<artifactId>simple-ged</artifactId>
-	<version>1.0.0</version>
-	<name>Simple Ged</name>
-	<description>A simple GED</description>
+
+	<groupId>fr.simple.edm</groupId>
+	<artifactId>simple-edm</artifactId>
+	<version>5.0</version>
+	<name>Simple edm</name>
+	<description>A simple edm</description>
 	<packaging>pom</packaging>
 
 
@@ -28,10 +29,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<ged.core.version>4.5</ged.core.version>
-		<ged.updater.version>1.6</ged.updater.version>
-		<ged.connector.version>1.5.0</ged.connector.version>
-		<ged.mainwindow.name>Simple Ged</ged.mainwindow.name>
+		<edm.version>5.0</edm.version>
 	</properties>
 
 
@@ -64,28 +62,9 @@
 		</repository>
 	</repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
 	<modules>
-		<module>ged-core</module>
-		<module>ged-update</module>
-		<module>ged-connector</module>
-
-		<module>plugins/archetypes</module>
-		
-		<module>plugins/getters/demo-plugin</module>
-		<module>plugins/getters/orange-plugin</module>
-		<module>plugins/getters/sfr-mobile-plugin</module>
-		<module>plugins/getters/sfr-box-plugin</module>
-		
-		<module>plugins/workers/demo-plugin</module>
+		<module>edm-webapp</module>
+		<module>edm-contracts</module>
 	</modules>
 
 
