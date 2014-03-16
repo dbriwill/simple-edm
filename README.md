@@ -49,7 +49,7 @@ Example of deployment on my server :
      xavier@server:~/bin/simple-edm% cd simple-edm
      xavier@server:~/bin/simple-edm% java -jar simple-edm.jar
 
-And access it by network (for me, it means `raspberrypi:8053`) !
+And access it by network (for me, it means `server:8053`) !
 
 
 Downloads
@@ -57,8 +57,7 @@ Downloads
 
 **Software**
 
-You can find the [lastest release here](https://github.com/xaviermichel/simple-edm/releases). You've just to download the zip file, extract-it and launch the jar file.
-For more explanations, you can take a look at [the installation wiki](https://github.com/xaviermichel/simple-edm/wiki/Comment-installer-simple-ged) [FR].
+You can find the [lastest release here](https://github.com/xaviermichel/simple-edm/releases).
 
 
 
